@@ -47,6 +47,7 @@
     <Compile Include="ECS\ComponentManager.cs" />
     <Compile Include="ECS\ComponentManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
+    <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

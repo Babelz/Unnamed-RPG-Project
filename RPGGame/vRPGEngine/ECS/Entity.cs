@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.ECS
 {
-    public sealed class Entity
+    public sealed class Entity : IRegisterEntry
     {
+        #region Properties
+        public int Location
+        {
+            get;
+            set;
+        }
+        #endregion
+
+        public Entity()
+        {
+        }
+
+
     }
 }
