@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.ECS
 {
-    public class ComponentManager<T> : SystemManager<ComponentManager<T>> where T : Component, new()
+    public abstract class ComponentManager<T> : SystemManager<ComponentManager<T>> where T : class, IComponent, new()
     {
         #region Fields
         private readonly RegisterAllocator<T> allocator;
@@ -25,8 +25,8 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        public ComponentManager()
-            : base("component system")
+        protected ComponentManager(string name)
+            : base(name)
         {
             const int InitialCapacity = 128;
 

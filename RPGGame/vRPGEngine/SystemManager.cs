@@ -32,7 +32,7 @@ namespace vRPGEngine
         void Update(GameTime gameTime);
     }
 
-    public abstract class SystemManager<T> : Singleton<T> where T : class, new()
+    public abstract class SystemManager<T> : Singleton<T> where T : class
     {
         #region Fields
         private bool active;
