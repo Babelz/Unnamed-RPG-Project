@@ -45,7 +45,8 @@ namespace vRPGEngine
         {
             Debug.Assert(initialPoolSize != 0);
 
-            pool = AllocateArray(initialPoolSize);
+            released    = new Stack<T>();
+            pool        = AllocateArray(initialPoolSize);
         }
         public PoolAllocator(Func<T> objectAllocator)
             : this(8, objectAllocator)

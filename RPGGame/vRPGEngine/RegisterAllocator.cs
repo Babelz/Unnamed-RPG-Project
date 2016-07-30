@@ -33,7 +33,8 @@ namespace vRPGEngine
         {
             Debug.Assert(initialCapacity != 0);
 
-            pool = AllocateArray(initialCapacity);
+            released    = new Stack<int>();
+            pool        = AllocateArray(initialCapacity);
         }
         public RegisterAllocator(Func<T> objectAllocator)
             : this(8, objectAllocator)

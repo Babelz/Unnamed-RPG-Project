@@ -24,7 +24,7 @@ namespace vRPGEngine
             this.line       = line;
         }
         public vRPGEngineException([CallerLineNumber] int line = 0, [CallerMemberName] string caller = null)
-                : this(string.Empty, line, caller)
+                : this("exception was thrown!", line, caller)
         {
         }
     }

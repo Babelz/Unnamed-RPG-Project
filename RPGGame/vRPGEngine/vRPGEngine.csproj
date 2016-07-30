@@ -43,6 +43,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="ECS\Component.cs" />
+    <Compile Include="ECS\ComponentManagers.cs" />
+    <Compile Include="ECS\Entity.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
