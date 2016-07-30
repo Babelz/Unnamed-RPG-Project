@@ -12,10 +12,6 @@ namespace vRPGEngine
     public interface ISystemManager
     {
         #region Properties
-        string Name
-        {
-            get;
-        }
         int ID
         {
             get;
@@ -32,28 +28,20 @@ namespace vRPGEngine
         void Update(GameTime gameTime);
     }
 
-    public abstract class SystemManager<T> : Singleton<T> where T : class
+    public abstract class SystemManager<T> : Singleton<T> where T : class, new()
     {
         #region Fields
-        private bool active;
-
         /// <summary>
         /// Used to generate identifiers for the system managers.
         /// </summary>
         private static int idc;
 
-        private readonly string name;
         private readonly int id;
+
+        private bool active;
         #endregion
 
         #region Properties
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
         public int ID
         {
             get
@@ -75,13 +63,9 @@ namespace vRPGEngine
             idc = 0;
         }
 
-        protected SystemManager(string name) 
+        public SystemManager() 
             : base()
         {
-            Debug.Assert(!string.IsNullOrEmpty(name));
-
-            this.name = name;
-
             id = idc++;
         }
 

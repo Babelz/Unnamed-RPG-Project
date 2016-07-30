@@ -8,7 +8,7 @@ namespace vRPGEngine.ECS
 {
     public sealed class EntityBuilder : Singleton<EntityBuilder>
     {
-        private EntityBuilder()
+        public EntityBuilder()
             : base()
         {
         }

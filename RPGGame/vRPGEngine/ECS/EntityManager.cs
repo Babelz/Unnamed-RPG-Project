@@ -25,8 +25,8 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        private EntityManager()
-            : base("entity manager")
+        public EntityManager()
+            : base()
         {
             const int InitialCapacity = 1024;
 

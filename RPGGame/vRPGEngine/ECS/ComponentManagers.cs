@@ -24,7 +24,7 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        private ComponentManagers() 
+        public ComponentManagers() 
             : base()
         {
             managers = new List<ISystemManager>();

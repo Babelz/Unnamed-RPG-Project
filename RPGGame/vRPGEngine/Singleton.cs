@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine
 {
-    public abstract class Singleton<T> where T : class
+    public abstract class Singleton<T> where T : class, new()
     {
         #region Fields
         private static readonly T instance;
@@ -24,10 +24,10 @@ namespace vRPGEngine
 
         static Singleton()
         {
-            instance = Activator.CreateInstance(typeof(T), true) as T;
+            instance = new T();
         }
 
-        protected Singleton()
+        public Singleton()
         {
         }
     }

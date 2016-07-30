@@ -60,7 +60,7 @@ namespace vRPGEngine
             var newPool     = new T[oldLength * 2];
 
             // Copy old pool contents to new.
-            Array.Copy(pool, newPool, newPool.Length);
+            Array.Copy(pool, newPool, pool.Length);
             
             for (var i = oldLength; i < newPool.Length; i++) newPool[i] = AllocateSingle();
 
