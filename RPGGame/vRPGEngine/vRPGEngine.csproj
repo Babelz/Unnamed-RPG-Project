@@ -42,7 +42,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="SystemManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
