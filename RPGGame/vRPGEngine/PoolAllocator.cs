@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace vRPGEngine
 {
-    public sealed class PoolAllocator<T> where T : class
+    public sealed class PoolAllocator<T> : Allocator<T> where T : class
     {
         #region Fields
-        private readonly Func<T> alloc;
-
         private Stack<T> released;
         private T[] pool;
 
@@ -41,19 +40,15 @@ namespace vRPGEngine
         }
         #endregion
 
-        public PoolAllocator(int initialPoolSize, Func<T> alloc)
+        public PoolAllocator(int initialPoolSize, Func<T> objectAllocator)
+            : base(objectAllocator)
         {
             Debug.Assert(initialPoolSize != 0);
-            Debug.Assert(alloc != null);
 
-            this.alloc = alloc;
-
-            pool = new T[initialPoolSize];
-
-            for (var i = 0; i < pool.Length; i++) pool[i] = alloc();
+            pool = AllocateArray(initialPoolSize);
         }
-        public PoolAllocator(Func<T> alloc)
-            : this(8, alloc)
+        public PoolAllocator(Func<T> objectAllocator)
+            : this(8, objectAllocator)
         {
         }
 
@@ -65,12 +60,13 @@ namespace vRPGEngine
 
             // Copy old pool contents to new.
             Array.Copy(pool, newPool, newPool.Length);
-
-            for (var i = oldLength; i < newPool.Length; i++) newPool[i] = alloc();
+            
+            for (var i = oldLength; i < newPool.Length; i++) newPool[i] = AllocateSingle();
 
             pool = newPool;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Allocate()
         {
             // Allocate from released.
@@ -83,6 +79,7 @@ namespace vRPGEngine
 
             return pool[ptr++];
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Deallocate(T element)
         {
             Debug.Assert(pool.Contains(element));

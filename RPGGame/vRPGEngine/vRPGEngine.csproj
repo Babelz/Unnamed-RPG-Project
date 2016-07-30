@@ -42,8 +42,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Allocator.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterAllocator.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="SystemManager.cs" />
   </ItemGroup>
