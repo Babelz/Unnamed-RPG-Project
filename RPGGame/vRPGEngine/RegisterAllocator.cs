@@ -28,6 +28,16 @@ namespace vRPGEngine
         private int ptr;
         #endregion
 
+        #region Properties
+        public int Size
+        {
+            get
+            {
+                return pool.Length;
+            }
+        }
+        #endregion
+
         public RegisterAllocator(int initialCapacity, Func<T> objectAllocator)
             : base(objectAllocator)
         {
