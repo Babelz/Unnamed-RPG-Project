@@ -47,7 +47,7 @@ namespace vRPGEngine.Graphics
             }
         }
 
-        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, Vector2 viewSize, int maxRows, int maxColumns)
+        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, Vector2 viewSize, int maxColumns, int maxRows)
         {
             Debug.Assert(maxRows != 0);
             Debug.Assert(maxColumns != 0);
