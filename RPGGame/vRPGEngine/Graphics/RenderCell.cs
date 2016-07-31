@@ -21,6 +21,13 @@ namespace vRPGEngine.Graphics
         #endregion
 
         #region Properties
+        public int ElementsCount
+        {
+            get
+            {
+                return reservedIndices.Count;
+            }
+        }
         public IEnumerable<IRenderable> Elements
         {
             get
@@ -32,22 +39,23 @@ namespace vRPGEngine.Graphics
 
         public RenderCell(Vector2 position, Vector2 size)
         {
+            const int InitialCapacity = 128;
+
             this.position   = position;
             this.size       = size;
 
             reservedIndices = new List<int>();
             freeIndices     = new Stack<int>();
-            elements        = new IRenderable[128];
+            elements        = new IRenderable[InitialCapacity];
 
-            for (var i = 0; i < 128; i++) freeIndices.Push(i);
+            for (var i = 0; i < InitialCapacity; i++) freeIndices.Push(i);
         }
 
         private void ResizeStorage()
         {
             var newElements = new IRenderable[elements.Length * 2];
-
-            var start = elements.Length - 1;
-            var end = newElements.Length;
+            var start       = elements.Length - 1;
+            var end         = newElements.Length;
 
             // Gen new indices.
             for (var i = start; i < end; i++) freeIndices.Push(i);
@@ -86,7 +94,7 @@ namespace vRPGEngine.Graphics
 
             var index = renderable.Index;
 
-            if (elements[index] != null)
+            if (index >= elements.Length || elements[index] != null)
             {
                 Logger.Instance.LogFunctionWarning("cell access violation - element not found");
 
@@ -102,8 +110,10 @@ namespace vRPGEngine.Graphics
             reservedIndices.Remove(index);
         }
         
-        public bool Intersects(IRenderable renderable)
+        public bool Inside(IRenderable renderable)
         {
+            if (renderable.Index >= elements.Length || elements[renderable.Index] != null) return false;
+
             return VectorExtensions.Intersects(position,
                                                size,
                                                renderable.Position,
