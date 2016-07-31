@@ -16,6 +16,10 @@ namespace vRPGEngine
         {
             get;
         }
+        string Name
+        {
+            get;
+        }
         bool Active
         {
             get;
@@ -28,7 +32,7 @@ namespace vRPGEngine
         void Update(GameTime gameTime);
     }
 
-    public abstract class SystemManager<T> : Singleton<T> where T : class, new()
+    public class SystemManager<T> : Singleton<T>, ISystemManager where T : class
     {
         #region Fields
         /// <summary>
@@ -36,6 +40,7 @@ namespace vRPGEngine
         /// </summary>
         private static int idc;
 
+        private readonly string name;
         private readonly int id;
 
         private bool active;
@@ -47,6 +52,13 @@ namespace vRPGEngine
             get
             {
                 return id;
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return name;
             }
         }
         public bool Active
@@ -63,9 +75,11 @@ namespace vRPGEngine
             idc = 0;
         }
 
-        public SystemManager() 
+        protected SystemManager(string name) 
             : base()
         {
+            this.name = name;
+
             id = idc++;
         }
 
@@ -81,8 +95,8 @@ namespace vRPGEngine
         protected virtual void OnUpdate(GameTime gameTime)
         {
         }
-        
-        void Activate()
+
+        public void Activate()
         {
             if (Active) return;
 
@@ -90,7 +104,7 @@ namespace vRPGEngine
 
             active = true; 
         }
-        void Suspend()
+        public void Suspend()
         {
             if (!Active) return;
 

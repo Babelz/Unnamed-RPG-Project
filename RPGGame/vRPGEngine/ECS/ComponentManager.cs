@@ -25,13 +25,22 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        public ComponentManager()
-            : base()
+        protected ComponentManager()
+            : base("component manager: " + typeof(T).Name)
         {
             const int InitialCapacity = 128;
 
             allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];
+        }
+
+        protected override void OnActivate()
+        {
+            ComponentManagers.Instance.Register(this);
+        }
+        protected override void OnSuspend()
+        {
+            ComponentManagers.Instance.Unregister(this);
         }
 
         public T Create()

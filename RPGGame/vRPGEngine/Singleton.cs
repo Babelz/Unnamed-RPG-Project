@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine
 {
-    public abstract class Singleton<T> where T : class, new()
+    /// <summary>
+    /// Singleton base class. To use this inherit from this class
+    /// and set the T as the base class type. Set the default
+    /// constructor private when using this base class.
+    /// </summary>
+    /// <typeparam name="T">type of the singleton instance</typeparam>
+    public class Singleton<T> where T : class
     {
         #region Fields
         private static readonly T instance;
@@ -24,10 +30,10 @@ namespace vRPGEngine
 
         static Singleton()
         {
-            instance = new T();
+            instance = Activator.CreateInstance(typeof(T), true) as T;
         }
 
-        public Singleton()
+        protected Singleton()
         {
         }
     }

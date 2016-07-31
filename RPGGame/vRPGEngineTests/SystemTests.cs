@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using vRPGEngine;
 using vRPGEngine.ECS;
+using System.Diagnostics;
 
 namespace vRPGEngineTests
 {
@@ -34,6 +35,9 @@ namespace vRPGEngineTests
         {
             var a = EntityManager.Instance;
             var b = TestComponentManager.Instance;
+
+            Debug.Print(a.GetType().Name);
+            Debug.Print(a.GetType().Name);
 
             Assert.IsFalse(ReferenceEquals(a, b));
         }
