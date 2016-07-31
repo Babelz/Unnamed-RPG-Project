@@ -50,6 +50,7 @@
     <Compile Include="ECS\EntityBuilder.cs" />
     <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Map\TileEngine.cs" />
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="Graphics\IRenderable.cs" />
     <Compile Include="Graphics\Layer.cs" />
