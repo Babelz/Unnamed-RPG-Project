@@ -50,11 +50,13 @@
     <Compile Include="ECS\EntityBuilder.cs" />
     <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterAllocator.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="SystemManager.cs" />
+    <Compile Include="vRPGEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
