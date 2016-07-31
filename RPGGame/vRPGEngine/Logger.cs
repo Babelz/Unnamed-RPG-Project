@@ -72,7 +72,7 @@ namespace vRPGEngine
     public sealed class FileLogger : ILogger
     {
         #region Path
-        private static readonly string LogPath = "\\log.txt";
+        private static readonly string LogPath = "log.txt";
         #endregion
 
         #region Fields

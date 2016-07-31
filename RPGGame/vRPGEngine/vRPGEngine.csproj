@@ -51,6 +51,7 @@
     <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Map\TileEngine.cs" />
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="Graphics\IRenderable.cs" />

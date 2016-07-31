@@ -13,7 +13,13 @@ namespace RPGGame
         [STAThread]
         static void Main()
         {
-            using (var game = new RPGGame()) game.Run();
+            var engine = vRPGEngine.vRPGEngine.Instance;
+
+            using (var game = new RPGGame())
+            {
+                engine.InsertGame(game);
+                engine.Start();
+            }
         }
     }
 }

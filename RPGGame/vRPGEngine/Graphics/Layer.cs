@@ -71,5 +71,12 @@ namespace vRPGEngine.Graphics
                 }   
             }
         }
+
+        internal void Invalidate(IRenderable element)
+        {
+            Debug.Assert(element != null);
+
+            grid.Invalidate(element);
+        }
     }
 }

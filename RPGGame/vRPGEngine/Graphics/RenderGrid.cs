@@ -92,9 +92,8 @@ namespace vRPGEngine.Graphics
         {
             Debug.Assert(renderable != null);
 
-            // Alway use center when invalidating or updating position.
-            var column  = (int)(renderable.Center.X / cellSize.X);
-            var row     = (int)(renderable.Center.Y / cellSize.Y);
+            var column  = (int)(renderable.Position.X / cellSize.X);
+            var row     = (int)(renderable.Position.Y / cellSize.Y);
 
             grid[row][column].Add(renderable);
 

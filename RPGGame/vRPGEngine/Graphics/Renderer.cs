@@ -81,7 +81,9 @@ namespace vRPGEngine.Graphics
             {
                 var layer = layers[reservedIndices[i]];
 
-                spriteBatch.Begin(SpriteSortMode.Deferred,
+                if (!layer.Visible) continue;
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront,
                                   BlendState.AlphaBlend,
                                   SamplerState.PointClamp,
                                   null,
@@ -178,12 +180,25 @@ namespace vRPGEngine.Graphics
 
             return index;
         }
-        public void DestroyLayer(int id)
+        public void DestroyLayer(int layer)
         {
-            if (layers[id] == null || id >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");
+            if (layers[layer] == null || layer >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");
 
-            freeIndices.Push(id);
-            layers[id] = null;
+            freeIndices.Push(layer);
+            layers[layer] = null;
+        }
+
+        public void ShowLayer(int layer)
+        {
+            if (layers[layer] == null || layer >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");
+
+            layers[layer].Visible = true;
+        }
+        public void HideLayer(int layer)
+        {
+            if (layers[layer] == null || layer >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");
+
+            layers[layer].Visible = false;
         }
 
         public void ClearLayers()
@@ -206,6 +221,19 @@ namespace vRPGEngine.Graphics
             Debug.Assert(view != null);
 
             views.Remove(view);
+        }
+        public IEnumerable<View> Views()
+        {
+            for (var i = 0; i < views.Count; i++) yield return views[i];
+        }
+
+        public void Invalidate(IRenderable element)
+        {
+            Debug.Assert(element != null);
+            Debug.Assert(element.Layer < layers.Length);
+            Debug.Assert(layers[element.Layer] != null);
+
+            layers[element.Layer].Invalidate(element);
         }
 
         public void Present()

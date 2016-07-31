@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.ECS;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine
 {
@@ -103,6 +105,15 @@ namespace vRPGEngine
             }
             
             game.Run();
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            ComponentManagers.Instance.Update(gameTime);
+        }
+        public void Present(GameTime gameTime)
+        {
+            Renderer.Instance.Present();
         }
 
         public void Exit()

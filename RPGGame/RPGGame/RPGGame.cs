@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using vRPGEngine.Graphics;
 
 namespace RPGGame
 {
@@ -9,8 +10,12 @@ namespace RPGGame
     /// </summary>
     public class RPGGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        #region Fields
+        private readonly GraphicsDeviceManager graphics;
+
+        private View view;
+        private Sprite sprite;
+        #endregion
 
         public RPGGame()
         {
@@ -37,10 +42,18 @@ namespace RPGGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
+            sprite = new Sprite(Content.Load<Texture2D>("sprite"));
+            view = new View(GraphicsDevice.Viewport);
+            
+            var renderer = Renderer.Instance;
+            renderer.SetPresentationParameters(1280, 720, 32, 32, 3, 3);
+
+            var layer = renderer.CreateLayer();
+            renderer.ShowLayer(layer);
+            renderer.Add(sprite, layer);
+
+            renderer.RegisterView(view);
         }
 
         /// <summary>
@@ -62,10 +75,12 @@ namespace RPGGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            vRPGEngine.vRPGEngine.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
+
+        SpriteBatch sb;
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -73,9 +88,18 @@ namespace RPGGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
+            vRPGEngine.vRPGEngine.Instance.Present(gameTime);
+
+            //sprite.Position = sprite.Position + new Vector2(1.0f);
+            //Renderer.Instance.Invalidate(sprite);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //if (sb == null) sb = new SpriteBatch(GraphicsDevice);
+
+            //sb.Begin();
+            //sb.Draw(Content.Load<Texture2D>("sprite"), new Rectangle(0, 0, 32, 32), Color.White);
+            //sb.End();
 
             base.Draw(gameTime);
         }
