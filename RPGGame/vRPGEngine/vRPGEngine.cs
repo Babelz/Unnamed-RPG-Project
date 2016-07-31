@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +13,8 @@ namespace vRPGEngine
     public sealed class vRPGEngine : Singleton<vRPGEngine>
     {
         #region Fields
+        private SpriteBatch spriteBatch;
+
         private Game game;
         #endregion
 
@@ -22,13 +26,34 @@ namespace vRPGEngine
                 return game.IsActive;
             }
         }
+        public ContentManager Content
+        {
+            get
+            {
+                return game.Content;
+            }
+        }
+        public GraphicsDevice GraphicsDevice
+        {
+            get
+            {
+                return game.GraphicsDevice;
+            }
+        }
+        public GameWindow GameWindow
+        {
+            get
+            {
+                return game.Window;
+            }
+        }
         #endregion
 
         private vRPGEngine() 
             : base()
         {
         }
-
+        
         private void ActivateECS()
         {
             Logger.Instance.LogFunctionMessage("activating ECS...");
@@ -40,6 +65,10 @@ namespace vRPGEngine
         private void ActivateDataSystem()
         {
             Logger.Instance.LogFunctionMessage("activating data systems...");
+        }
+        private void ActivateRenderer()
+        {
+            Logger.Instance.LogFunctionMessage("activating renderer system...");
         }
 
         public void InsertGame(Game game)
