@@ -50,6 +50,12 @@
     <Compile Include="ECS\EntityBuilder.cs" />
     <Compile Include="ECS\EntityManager.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="VectorExtensions.cs" />
+    <Compile Include="Graphics\IRenderable.cs" />
+    <Compile Include="Graphics\Layer.cs" />
+    <Compile Include="Graphics\RenderCell.cs" />
+    <Compile Include="Graphics\RenderGrid.cs" />
+    <Compile Include="Graphics\View.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
