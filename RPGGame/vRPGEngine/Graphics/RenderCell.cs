@@ -110,7 +110,7 @@ namespace vRPGEngine.Graphics
             reservedIndices.Remove(index);
         }
         
-        public bool Inside(IRenderable renderable)
+        public bool Contains(IRenderable renderable)
         {
             if (renderable.Index >= elements.Length || elements[renderable.Index] != null) return false;
 

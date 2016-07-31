@@ -14,6 +14,10 @@ namespace vRPGEngine.Graphics
         {
             get;
         }
+        Vector2 Center
+        {
+            get;
+        }
         Vector2 Scale
         {
             get;
