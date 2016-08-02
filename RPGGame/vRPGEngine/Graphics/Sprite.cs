@@ -9,53 +9,9 @@ using System.Diagnostics;
 
 namespace vRPGEngine.Graphics
 {
-    public sealed class Sprite : IRenderable
+    public sealed class Sprite : Renderable
     {
         #region Properties
-        public Point Cell
-        {
-            get;
-            set;
-        }
-        public Vector2 Center
-        {
-            get
-            {
-                return Position + Size / 2.0f;
-            }
-        }
-        public int Index
-        {
-            get;
-            set;
-        }
-        public int Layer
-        {
-            get;
-            set;
-        }
-        public Vector2 Position
-        {
-            get;
-            set;
-        }
-        public Vector2 Scale
-        {
-            get;
-            set;
-        }
-        public Vector2 Size
-        {
-            get
-            {
-                return new Vector2(Texture.Width * Scale.X, Texture.Height * Scale.Y);
-            }
-        }
-        public bool Visible
-        {
-            get;
-            set;
-        }
         public Texture2D Texture
         {
             get;
@@ -84,14 +40,12 @@ namespace vRPGEngine.Graphics
 
             Texture     = texture;
             Source      = new Rectangle(0, 0, texture.Width, texture.Height);
-            Scale       = new Vector2(1.0f);
             Position    = Vector2.Zero;
             Color       = Color.White;
-            Visible     = true;
             Rotation    = 0.0f;
         }
 
-        public void Present(SpriteBatch spriteBatch)
+        public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
         {
             //spriteBatch.Draw(Texture,
             //                 Position,

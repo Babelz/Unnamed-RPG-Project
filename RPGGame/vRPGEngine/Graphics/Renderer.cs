@@ -71,7 +71,7 @@ namespace vRPGEngine.Graphics
             ClearColor      = Color.CornflowerBlue;
         }
         
-        private void Present()
+        private void Present(GameTime gameTime)
         {
             visibleElements = 0;
 
@@ -103,7 +103,7 @@ namespace vRPGEngine.Graphics
 
                     foreach (var element in layer.VisibleElements(viewPosition, viewSize, maxColumns, maxRows))
                     {
-                        element.Present(spriteBatch);
+                        element.Present(spriteBatch, gameTime);
 
                         visibleElements++;
                     }
@@ -115,7 +115,7 @@ namespace vRPGEngine.Graphics
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            Present();
+            Present(gameTime);
         }
 
         public void SetPresentationParameters(int layerWidth, int layerHeight, int cellWidth, int cellHeight, int maxColumns = 3, int maxRows = 3)
