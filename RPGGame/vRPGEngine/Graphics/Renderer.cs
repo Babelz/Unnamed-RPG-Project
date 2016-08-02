@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.Graphics
 {
-    public sealed class Renderer : Singleton<Renderer>
+    public sealed class Renderer : SystemManager<Renderer>
     {
         #region Constants
         private const int InitialLayersCount    = 4;
@@ -61,7 +61,7 @@ namespace vRPGEngine.Graphics
         #endregion
 
         private Renderer()
-            : base()
+            : base("renderer")
         {
             spriteBatch     = new SpriteBatch(vRPGEngine.Instance.GraphicsDevice);
             views           = new List<View>();
@@ -71,35 +71,51 @@ namespace vRPGEngine.Graphics
             ClearColor      = Color.CornflowerBlue;
         }
         
-        private void InternalPresent(View view)
+        private void Present()
         {
-            var viewSize        = new Vector2(view.Viewport.Width * view.Zoom, view.Viewport.Height * view.Zoom);
-            var viewTransform   = view.Transform();
-            var viewPosition    = view.Position;
+            visibleElements = 0;
 
-            for (var i = 0; i < reservedIndices.Count; i++)
+            var device = vRPGEngine.Instance.GraphicsDevice;
+
+            device.Clear(ClearColor);
+
+            foreach (var view in views)
             {
-                var layer = layers[reservedIndices[i]];
+                device.Viewport = view.Viewport;
 
-                if (!layer.Visible) continue;
+                var viewSize        = new Vector2(view.Viewport.Width * view.Zoom, view.Viewport.Height * view.Zoom);
+                var viewTransform   = view.Transform();
+                var viewPosition    = view.Position;
 
-                spriteBatch.Begin(SpriteSortMode.BackToFront,
-                                  BlendState.AlphaBlend,
-                                  SamplerState.PointClamp,
-                                  null,
-                                  null,
-                                  layer.Effect,
-                                  view.Transform());
-
-                foreach (var element in layer.VisibleElements(viewPosition, viewSize, maxColumns, maxRows))
+                for (var i = 0; i < reservedIndices.Count; i++)
                 {
-                    element.Present(spriteBatch);
+                    var layer = layers[reservedIndices[i]];
 
-                    visibleElements++;
+                    if (!layer.Visible) continue;
+
+                    spriteBatch.Begin(SpriteSortMode.BackToFront,
+                                      BlendState.AlphaBlend,
+                                      SamplerState.PointClamp,
+                                      null,
+                                      null,
+                                      layer.Effect,
+                                      view.Transform());
+
+                    foreach (var element in layer.VisibleElements(viewPosition, viewSize, maxColumns, maxRows))
+                    {
+                        element.Present(spriteBatch);
+
+                        visibleElements++;
+                    }
+
+                    spriteBatch.End();
                 }
-
-                spriteBatch.End();
             }
+        }
+
+        protected override void OnUpdate(GameTime gameTime)
+        {
+            Present();
         }
 
         public void SetPresentationParameters(int layerWidth, int layerHeight, int cellWidth, int cellHeight, int maxColumns = 3, int maxRows = 3)
@@ -234,22 +250,6 @@ namespace vRPGEngine.Graphics
             Debug.Assert(layers[element.Layer] != null);
 
             layers[element.Layer].Invalidate(element);
-        }
-
-        public void Present()
-        {
-            visibleElements = 0;
-
-            var device = vRPGEngine.Instance.GraphicsDevice;
-
-            device.Clear(ClearColor);
-            
-            foreach (var view in views)
-            {
-                device.Viewport = view.Viewport;
-
-                InternalPresent(view);
-            }
         }
     }
 }

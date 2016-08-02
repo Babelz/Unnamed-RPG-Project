@@ -1,4 +1,5 @@
-﻿using OpenTK.Input;
+﻿using Microsoft.Xna.Framework.Input;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace vRPGEngine.Input
 {
     public sealed class KeyboardBinding
     {
-        #region Constants
-        public const float TimeFromReleasedToPressed = 25.0f;
+        #region Properties
+        public const float TriggerDelta = 100.0f / 60.0f;
         #endregion
 
         #region Properties
@@ -19,21 +20,22 @@ namespace vRPGEngine.Input
             get;
             private set;
         }
-        public float Elapsed
-        {
-            get;
-            set;
-        }
 
         public KeyTrigger Trigger
         {
             get;
             private set;
         }
-        public Key Keys
+        public Keys Keys
         {
             get;
             private set;
+        }
+
+        public KeyState LastState
+        {
+            get;
+            set;
         }
 
         public Action Callback
@@ -43,12 +45,13 @@ namespace vRPGEngine.Input
         }
         #endregion
 
-        public KeyboardBinding(string name, KeyTrigger trigger, Key keys, Action callback)
+        public KeyboardBinding(string name, Keys keys, KeyTrigger trigger, Action callback)
         {
             Name        = name;
-            Trigger     = trigger;
             Keys        = keys;
+            Trigger     = trigger;
             Callback    = callback;
+            LastState   = KeyState.Up;
         }
     }
 }

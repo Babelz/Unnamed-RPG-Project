@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace vRPGEngine
 {
@@ -48,6 +49,12 @@ namespace vRPGEngine
 
         public LogFormatter()
         {
+            formatters = new Func<string, string>[]
+            {
+                FormatMessage,
+                FormatWarning,
+                FormatError
+            };
         }
 
         private string FormatMessage(string message)
@@ -196,14 +203,14 @@ namespace vRPGEngine
         }
     }
 
-    public sealed class Logger : Singleton<Logger>
+    public sealed class Logger : SystemManager<Logger>
     {
         #region Fields
         private readonly ILogger[] loggers;
         #endregion
 
         private Logger()
-            : base()
+            : base("logger")
         {
             loggers = new ILogger[]
             {
@@ -211,7 +218,12 @@ namespace vRPGEngine
                 new ConsoleLogger() { InUse = true }
             };
         }
-        
+
+        protected override void OnUpdate(GameTime gameTime)
+        {
+            foreach (var logger in loggers.Where(l => !l.HasMessages)) logger.Flush();
+        }
+
         public void LogFunctionMessage(string messge, [CallerLineNumber] int line = 0, [CallerMemberName] string fnc = null)
         {
             foreach (var logger in loggers.Where(l => l.InUse)) logger.Log(string.Format("{0}@{1} - {2}", fnc, line, messge), LogLevel.Message);
@@ -236,11 +248,6 @@ namespace vRPGEngine
         public void LogError(string message)
         {
             foreach (var logger in loggers.Where(l => l.InUse)) logger.Log(message, LogLevel.Error);
-        }
-
-        public void Flush()
-        {
-            foreach (var logger in loggers.Where(l => !l.HasMessages)) logger.Flush();
         }
     }
 }

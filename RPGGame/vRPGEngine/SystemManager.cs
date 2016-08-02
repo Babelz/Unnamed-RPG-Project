@@ -86,10 +86,12 @@ namespace vRPGEngine
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnActivate()
         {
+            SystemManagers.Instance.Register(this);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnSuspend()
         {
+            SystemManagers.Instance.Unregister(this);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnUpdate(GameTime gameTime)

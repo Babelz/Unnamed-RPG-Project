@@ -45,7 +45,7 @@
     <Compile Include="Allocator.cs" />
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\ComponentManager.cs" />
-    <Compile Include="ECS\ComponentManagers.cs" />
+    <Compile Include="SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />
     <Compile Include="ECS\EntityManager.cs" />

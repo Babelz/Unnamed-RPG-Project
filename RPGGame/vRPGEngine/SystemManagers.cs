@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.ECS
+namespace vRPGEngine
 {
-    public sealed class ComponentManagers : Singleton<ComponentManagers>
+    public sealed class SystemManagers : Singleton<SystemManagers>
     {
         #region Fields
         private List<ISystemManager> managers;
@@ -24,7 +24,7 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        private ComponentManagers() 
+        private SystemManagers() 
             : base()
         {
             managers = new List<ISystemManager>();

@@ -9,14 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.ECS;
 using vRPGEngine.Graphics;
+using vRPGEngine.Input;
 
 namespace vRPGEngine
 {
     public sealed class vRPGEngine : Singleton<vRPGEngine>
     {
         #region Fields
-        private SpriteBatch spriteBatch;
-
         private Game game;
         #endregion
 
@@ -56,21 +55,27 @@ namespace vRPGEngine
         {
         }
         
-        private void ActivateECS()
+        public bool Initialize()
         {
-            Logger.Instance.LogFunctionMessage("activating ECS...");
-        }
-        private void ActivateRenderingSystem()
-        {
-            Logger.Instance.LogFunctionMessage("activating render system...");
-        }
-        private void ActivateDataSystem()
-        {
-            Logger.Instance.LogFunctionMessage("activating data systems...");
-        }
-        private void ActivateRenderer()
-        {
-            Logger.Instance.LogFunctionMessage("activating renderer system...");
+            try
+            {
+                InputManager.Instance.Activate();
+                EntityManager.Instance.Activate();
+                Renderer.Instance.Activate();
+                Logger.Instance.Activate();
+
+                Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.LogError("could not initialize all systems!");
+                Logger.Instance.LogError("and exceptin was thrown");
+                Logger.Instance.LogError("exception message: " + e.Message);
+
+                return false;
+            }
         }
 
         public void InsertGame(Game game)
@@ -86,34 +91,13 @@ namespace vRPGEngine
             Debug.Assert(!game.IsActive);
 
             Logger.Instance.LogFunctionMessage("activating engine systems...");
-
-            try
-            {
-                ActivateECS();
-                ActivateRenderingSystem();
-                ActivateDataSystem();
-                
-                Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.LogError("could not initialize all systems!");
-                Logger.Instance.LogError("and exceptin was thrown");
-                Logger.Instance.LogError("exception message: " + e.Message);
-
-                return;
-            }
             
             game.Run();
         }
 
         public void Update(GameTime gameTime)
         {
-            ComponentManagers.Instance.Update(gameTime);
-        }
-        public void Present(GameTime gameTime)
-        {
-            Renderer.Instance.Present();
+            SystemManagers.Instance.Update(gameTime);
         }
 
         public void Exit()

@@ -36,11 +36,11 @@ namespace vRPGEngine.ECS
 
         protected override void OnActivate()
         {
-            ComponentManagers.Instance.Register(this);
+            SystemManagers.Instance.Register(this);
         }
         protected override void OnSuspend()
         {
-            ComponentManagers.Instance.Unregister(this);
+            SystemManagers.Instance.Unregister(this);
         }
 
         public T Create()
