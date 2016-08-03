@@ -14,10 +14,6 @@ namespace vRPGEngine.Data
     [Serializable()]
     public class Item
     {
-        #region Fields
-        private int itemLevel;
-        #endregion
-
         #region Properties
         public int ID
         {
@@ -38,17 +34,6 @@ namespace vRPGEngine.Data
         {
             get;
             set;
-        }
-        public virtual int ItemLevel
-        {
-            get
-            {
-                return itemLevel;
-            }
-            set
-            {
-                itemLevel = value;
-            }
         }
         public int VendorValue
         {
@@ -72,7 +57,6 @@ namespace vRPGEngine.Data
         public Item()
         {
             VendorValue     = 1;
-            ItemLevel       = 1;
             Name            = string.Empty;
             Description     = string.Empty;
             TextureSetName  = string.Empty;
