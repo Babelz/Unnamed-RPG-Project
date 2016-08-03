@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\vRPGContentExtensions\bin\Debug\vRPGContentExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -24,4 +25,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprite.jpg
+
+#begin test map.tmx
+/importer:TmxImporter
+/processor:TmxProcessor
+/build:test map.tmx
 

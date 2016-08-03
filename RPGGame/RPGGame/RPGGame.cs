@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TiledSharp;
 using vRPGEngine;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
@@ -20,9 +21,10 @@ namespace RPGGame
         #endregion
 
         public RPGGame()
+            : base()
         {
             graphics = new GraphicsDeviceManager(this);
-
+            
             Content.RootDirectory = "Content";
         }
 
@@ -42,6 +44,8 @@ namespace RPGGame
             renderer.Add(sprite, layer);
 
             renderer.RegisterView(view);
+
+            TmxMap map = Content.Load<TmxMap>("test map");
         }
 
         protected override void Update(GameTime gameTime)

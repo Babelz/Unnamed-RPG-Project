@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.Map
+namespace vRPGEngine.Maps
 {
     public static class TileEngine
     {

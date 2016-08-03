@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TiledSharp;
 using vRPGEngine.ECS;
 
-namespace vRPGEngine.Map
+namespace vRPGEngine.Maps
 {
     public sealed class TileMapManager : Singleton<TileMapManager>
     {
