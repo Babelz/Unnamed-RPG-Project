@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Enums
 {
     public enum Quality : int
     {

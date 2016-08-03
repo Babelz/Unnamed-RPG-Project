@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Data.Enums;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Items
 {
     [Serializable()]
-    public sealed class Consumable : Item
+    public sealed class Material : Item
     {
         #region Properties
-        public string EffectName
+        public Categories Category
         {
             get;
             set;
         }
         #endregion
 
-        public Consumable()
+        public Material()
             : base()
         {
-            Type        = ItemType.Consumable;
-            EffectName  = string.Empty;
+            Type = ItemType.Material;
         }
     }
 }

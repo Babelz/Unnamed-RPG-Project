@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Data.Enums;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Items
 {
     [Serializable()]
-    public sealed class Armor : Equipment
+    public sealed class Consumable : Item
     {
         #region Properties
-        public EquipmentSlot Slot
+        public string EffectName
         {
             get;
             set;
         }
         #endregion
 
-        public Armor()
+        public Consumable()
             : base()
         {
-            Type = ItemType.Armor;
+            Type        = ItemType.Consumable;
+            EffectName  = string.Empty;
         }
     }
 }

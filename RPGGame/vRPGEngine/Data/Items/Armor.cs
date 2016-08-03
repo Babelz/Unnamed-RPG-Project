@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Data.Enums;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Items
 {
     [Serializable()]
-    public sealed class Material : Item
+    public sealed class Armor : Equipment
     {
         #region Properties
-        public Categories Category
+        public EquipmentSlot Slot
         {
             get;
             set;
         }
         #endregion
 
-        public Material()
+        public Armor()
             : base()
         {
-            Type = ItemType.Material;
+            Type = ItemType.Armor;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Items
 {
     [Serializable()]
     public abstract class Equipment : Item

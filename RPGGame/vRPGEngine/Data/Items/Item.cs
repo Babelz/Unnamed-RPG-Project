@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using vRPGEngine.Data.Enums;
 
-namespace vRPGEngine.Data
+namespace vRPGEngine.Data.Items
 {
     /// <summary>
     /// Base class for all the items. Can be 

@@ -43,20 +43,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
-    <Compile Include="Data\Armor.cs" />
-    <Compile Include="Data\Categories.cs" />
-    <Compile Include="Data\Consumable.cs" />
-    <Compile Include="Data\DefaultEffectNames.cs" />
-    <Compile Include="Data\Elements.cs" />
-    <Compile Include="Data\Equipment.cs" />
-    <Compile Include="Data\Item.cs" />
-    <Compile Include="Data\ItemType.cs" />
-    <Compile Include="Data\Material.cs" />
-    <Compile Include="Data\Quality.cs" />
-    <Compile Include="Data\QuestItem.cs" />
-    <Compile Include="Data\EquipmentSlot.cs" />
-    <Compile Include="Data\Weapon.cs" />
-    <Compile Include="Data\WeaponType.cs" />
+    <Compile Include="Data\Items\Armor.cs" />
+    <Compile Include="Data\Items\Enums\Categories.cs" />
+    <Compile Include="Data\Items\Consumable.cs" />
+    <Compile Include="Data\Items\DefaultEffectNames.cs" />
+    <Compile Include="Data\Items\Enums\Elements.cs" />
+    <Compile Include="Data\Items\Equipment.cs" />
+    <Compile Include="Data\Items\Item.cs" />
+    <Compile Include="Data\Items\Enums\ItemType.cs" />
+    <Compile Include="Data\Items\Material.cs" />
+    <Compile Include="Data\Items\Enums\Quality.cs" />
+    <Compile Include="Data\Items\QuestItem.cs" />
+    <Compile Include="Data\Items\Enums\EquipmentSlot.cs" />
+    <Compile Include="Data\Items\Weapon.cs" />
+    <Compile Include="Data\Items\Enums\WeaponType.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\BehaviourManager.cs" />
     <Compile Include="ECS\Component.cs" />
