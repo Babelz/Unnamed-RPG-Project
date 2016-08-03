@@ -58,6 +58,17 @@ namespace vRPGEngine.Graphics
             Rotation    = 0.0f;
         }
 
+        public void NextFrame()
+        {
+            frameIndex++;
+        }
+
+        public void Reset()
+        {
+            frameIndex = 0;
+            elasped = 0;
+        }
+
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
         {
             elasped += gameTime.ElapsedGameTime.Milliseconds;

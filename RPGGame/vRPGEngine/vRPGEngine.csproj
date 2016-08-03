@@ -47,6 +47,9 @@
     <Compile Include="ECS\ComponentManager.cs" />
     <Compile Include="Graphics\Renderable.cs" />
     <Compile Include="Graphics\SpriteAnimation.cs" />
+    <Compile Include="Input\BindingCollections.cs" />
+    <Compile Include="Input\MouseBinding.cs" />
+    <Compile Include="Input\MouseInputProvider.cs" />
     <Compile Include="SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />

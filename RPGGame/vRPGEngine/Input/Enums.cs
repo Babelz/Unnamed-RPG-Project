@@ -13,4 +13,22 @@ namespace vRPGEngine.Input
         Pressed,        // Called when button is pressed.
         Down            // Called when button is being held down.
     }
+
+    public enum MouseTrigger : int
+    {
+        Up = 0,
+        Relesed,
+        Pressed,
+        Down
+    }
+
+    [Flags()]
+    public enum MouseButton : int 
+    {
+        LeftButton = 0,
+        RightButton,
+        MiddleButton,
+        XButton1,
+        XButton2
+    }
 }

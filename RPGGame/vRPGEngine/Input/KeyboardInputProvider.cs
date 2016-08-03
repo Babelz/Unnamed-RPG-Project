@@ -9,11 +9,6 @@ using System.Diagnostics;
 
 namespace vRPGEngine.Input
 {
-    public interface IBindingCollection
-    {
-        IEnumerable<KeyboardBinding> Bindings();
-    }
-
     public sealed class KeyboardInputProvider : IInputProvider
     {
         #region Fields
@@ -25,13 +20,13 @@ namespace vRPGEngine.Input
             bindings = new List<KeyboardBinding>();
         }
         
-        private void UpdateUpTrigger(GameTime gameTime, KeyboardBinding binding, KeyboardState state)
+        private void UpdateUpTrigger(KeyboardBinding binding, KeyboardState state)
         {
             var keys = state.GetPressedKeys().ToArray();
 
             if (!keys.Contains(binding.Keys)) binding.Callback();
         }
-        private void UpdateReleasedTrigger(GameTime gameTime, KeyboardBinding binding, KeyboardState state)
+        private void UpdateReleasedTrigger(KeyboardBinding binding, KeyboardState state)
         {
             var keys = state.GetPressedKeys().ToArray();
 
@@ -41,7 +36,7 @@ namespace vRPGEngine.Input
 
             binding.LastState = down ? KeyState.Down : KeyState.Up;
         }
-        private void UpdatePressedTrigger(GameTime gameTime, KeyboardBinding binding, KeyboardState state)
+        private void UpdatePressedTrigger(KeyboardBinding binding, KeyboardState state)
         {
             var keys = state.GetPressedKeys().ToArray();
 
@@ -51,7 +46,7 @@ namespace vRPGEngine.Input
             
             binding.LastState = down ? KeyState.Down : KeyState.Up;
         }
-        private void UpdateDownTrigger(GameTime gameTime, KeyboardBinding binding, KeyboardState state)
+        private void UpdateDownTrigger(KeyboardBinding binding, KeyboardState state)
         {
             var keys = state.GetPressedKeys().ToArray();
 
@@ -68,10 +63,10 @@ namespace vRPGEngine.Input
             {
                 switch (binding.Trigger)
                 {
-                    case KeyTrigger.Up:         UpdateUpTrigger(gameTime, binding, state);                 break;
-                    case KeyTrigger.Released:   UpdateReleasedTrigger(gameTime, binding, state);           break;
-                    case KeyTrigger.Pressed:    UpdatePressedTrigger(gameTime, binding, state);            break;
-                    case KeyTrigger.Down:       UpdateDownTrigger(gameTime, binding, state);               break;
+                    case KeyTrigger.Up:         UpdateUpTrigger(binding, state);                 break;
+                    case KeyTrigger.Released:   UpdateReleasedTrigger(binding, state);           break;
+                    case KeyTrigger.Pressed:    UpdatePressedTrigger(binding, state);            break;
+                    case KeyTrigger.Down:       UpdateDownTrigger(binding, state);               break;
                 }
             }
         }
@@ -92,7 +87,7 @@ namespace vRPGEngine.Input
             return bindings.Remove(bindings.Find(b => b.Name == name));
         }
 
-        public void Bind(IBindingCollection bindings)
+        public void Bind(IKeyboardBindingCollection bindings)
         {
             Debug.Assert(bindings != null);
 
@@ -104,7 +99,7 @@ namespace vRPGEngine.Input
                 this.bindings.Add(binding);
             }
         }
-        public int Unbind(IBindingCollection bindings)
+        public int Unbind(IKeyboardBindingCollection bindings)
         {
             Debug.Assert(bindings != null);
 

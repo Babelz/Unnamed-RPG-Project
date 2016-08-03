@@ -1,14 +1,15 @@
-﻿using Microsoft.Xna.Framework.Input;
-using OpenTK.Input;
+﻿using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using MouseState    = Microsoft.Xna.Framework.Input.MouseState;
+
 namespace vRPGEngine.Input
 {
-    public sealed class KeyboardBinding
+    public sealed class MouseBinding
     {
         #region Properties
         public string Name
@@ -17,37 +18,36 @@ namespace vRPGEngine.Input
             private set;
         }
 
-        public KeyTrigger Trigger
+        public MouseTrigger Trigger
         {
             get;
             private set;
         }
-        public Keys Keys
+        public MouseButton Buttons
         {
             get;
             private set;
         }
 
-        public KeyState LastState
+        public ButtonState LastState
         {
             get;
             set;
         }
 
-        public Action Callback
+        public Action<MouseState> Callback
         {
             get;
             private set;
         }
         #endregion
 
-        public KeyboardBinding(string name, Keys keys, KeyTrigger trigger, Action callback)
+        public MouseBinding(string name, MouseTrigger triggers, MouseButton buttons, Action<MouseState> callback)
         {
             Name        = name;
-            Keys        = keys;
-            Trigger     = trigger;
+            Trigger     = triggers;
+            Buttons     = buttons;
             Callback    = callback;
-            LastState   = KeyState.Up;
         }
     }
 }
