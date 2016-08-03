@@ -44,15 +44,22 @@ namespace vRPGEngine.Graphics
             get;
             set;
         }
+        public SpriteEffects Effects
+        {
+            get;
+            set;
+        }
         #endregion
 
-        public Sprite(Texture2D texture)
+        public Sprite(Texture2D texture = null)
         {
             Texture     = texture;
             Source      = new Rectangle(0, 0, Texture.Width, Texture.Height);
+            Size        = new Vector2(Source.Width, Source.Height);
             Position    = Vector2.Zero;
             Color       = Color.White;
             Rotation    = 0.0f;
+            Effects     = SpriteEffects.None;
         }
 
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
@@ -68,7 +75,7 @@ namespace vRPGEngine.Graphics
             //                 SpriteEffects.None,
             //                 0.0f);
 
-            spriteBatch.Draw(Texture, Position, Source, Color, Rotation, Vector2.Zero, Scale, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Texture, Position, Source, Color, Rotation, Origin, Scale, Effects, 0.0f);
         }
     }
 }

@@ -44,10 +44,9 @@ namespace vRPGEngine.ECS.Components
         public SpriteRenderer()
             : base()
         {
-            sprite = new Sprite(DefaultValues.MissingTexture);
-
-            PositionOffset = Vector2.Zero;
-            Anchored       = true;
+            sprite          = new Sprite();
+            PositionOffset  = Vector2.Zero;
+            Anchored        = true;
         }
 
         protected override void Initialize()

@@ -52,7 +52,7 @@ namespace vRPGEngine.Graphics
         }
         #endregion
 
-        public SpriteAnimation(Texture2D texture, int frameTime, Rectangle[] frames)
+        public SpriteAnimation(Texture2D texture = null, int frameTime, Rectangle[] frames)
         {
             Debug.Assert(frames != null);
             Debug.Assert(frameTime > 0.0f);

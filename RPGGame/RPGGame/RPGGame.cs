@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using vRPGEngine;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
 
@@ -29,8 +30,9 @@ namespace RPGGame
         {
             vRPGEngine.vRPGEngine.Instance.Initialize();
 
-            sprite  = new Sprite(Content.Load<Texture2D>("sprite"));
-            view    = new View(GraphicsDevice.Viewport);
+            sprite = new Sprite(DefaultValues.MissingTexture);
+            
+            view = new View(GraphicsDevice.Viewport);
 
             var renderer = Renderer.Instance;
             renderer.SetPresentationParameters(1280, 720, 32, 32, 3, 3);
@@ -40,30 +42,6 @@ namespace RPGGame
             renderer.Add(sprite, layer);
 
             renderer.RegisterView(view);
-            
-            var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
-
-            kb.Bind("up", Keys.W, KeyTrigger.Up, Up);
-            kb.Bind("released", Keys.A, KeyTrigger.Released, Released);
-            kb.Bind("down", Keys.S, KeyTrigger.Down, Down);
-            kb.Bind("pressed", Keys.D, KeyTrigger.Pressed, Pressed);
-        }
-
-        private static void Up()
-        {
-            System.Console.WriteLine("up");
-        }
-        private static void Released()
-        {
-            System.Console.WriteLine("released");
-        }
-        private static void Down()
-        {
-            System.Console.WriteLine("down");
-        }
-        private static void Pressed()
-        {
-            System.Console.WriteLine("pressed");
         }
 
         protected override void Update(GameTime gameTime)

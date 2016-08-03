@@ -44,11 +44,13 @@
   <ItemGroup>
     <Compile Include="Allocator.cs" />
     <Compile Include="DefaultValues.cs" />
+    <Compile Include="ECS\BehaviourManager.cs" />
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\ComponentManager.cs" />
+    <Compile Include="ECS\Components\Behaviour.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
-    <Compile Include="ECS\SpriteComponentManager.cs" />
+    <Compile Include="ECS\SpriteManager.cs" />
     <Compile Include="Graphics\Renderable.cs" />
     <Compile Include="Graphics\SpriteAnimation.cs" />
     <Compile Include="Input\BindingCollections.cs" />

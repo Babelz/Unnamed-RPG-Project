@@ -8,9 +8,9 @@ using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.ECS
 {
-    public sealed class SpriteComponentManager : ComponentManager<SpriteRenderer>
+    public sealed class SpriteManager : ComponentManager<SpriteRenderer>
     {
-        private SpriteComponentManager()
+        private SpriteManager()
             : base()
         {
         }
@@ -19,11 +19,13 @@ namespace vRPGEngine.ECS
         {
             foreach (var renderer in Components)
             {
+                if (!renderer.Anchored) continue;
+
                 var transform = renderer.Owner.FirstComponentOfType<Transform>();
 
-                if (transform != null)
-                {
-                }
+                if (transform == null) continue;
+
+                renderer.Sprite.Position = renderer.Sprite.Position + transform.Position;
             }
         }
     }
