@@ -28,7 +28,7 @@ namespace vRPGEngine.ECS
         private EntityManager()
             : base("entity manager")
         {
-            const int InitialCapacity = 1024;
+            const int InitialCapacity = 32768;
 
             allocator = new RegisterAllocator<Entity>(InitialCapacity, () => { return new Entity(); });
             entitites = new Entity[InitialCapacity];

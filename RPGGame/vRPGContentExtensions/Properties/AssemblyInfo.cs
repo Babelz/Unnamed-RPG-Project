@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("vRPGEngineContentExtensions")]
-[assembly: AssemblyProduct("vRPGEngineContentExtensions")]
+[assembly: AssemblyTitle("vRPGContentExtensions")]
+[assembly: AssemblyProduct("vRPGContentExtensions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("eb3c23b2-f309-405f-a34b-d61c4d8d60cf")]
+[assembly: Guid("01d4b797-4ba7-4f9c-83c3-12ff9e17cdfc")]
 
 // Version information for an assembly consists of the following four values:
 //
