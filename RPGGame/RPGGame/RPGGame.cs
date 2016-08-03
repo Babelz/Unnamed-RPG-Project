@@ -44,8 +44,6 @@ namespace RPGGame
             renderer.Add(sprite, layer);
 
             renderer.RegisterView(view);
-
-            TmxMap map = Content.Load<TmxMap>("test map");
         }
 
         protected override void Update(GameTime gameTime)

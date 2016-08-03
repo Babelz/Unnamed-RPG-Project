@@ -28,13 +28,26 @@ namespace vRPGEngine.Maps
 
         public void Load(string name)
         {
-            data = new TmxMap(name);
+            data = vRPGEngine.Instance.Content.Load<TmxMap>(name);
 
+            // Load map.
 
+            // Load entitites.
+
+            // Load state from saved game.
+
+            // Done.
         }
 
         public void Unload()
         {
+            // Unload map.
+
+            // Save state to saved game.
+
+            // Unload entitites.
+
+            // Done.
         }
     }
 }
