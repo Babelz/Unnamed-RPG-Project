@@ -14,6 +14,8 @@ namespace vRPGEngine.Graphics
         #region Fields
         private readonly Rectangle[] frames;
         private readonly int frameTime;
+        
+        private Texture2D texture;
 
         private int frameIndex;
         private int elasped;
@@ -22,8 +24,16 @@ namespace vRPGEngine.Graphics
         #region Properties
         public Texture2D Texture
         {
-            get;
-            set;
+            get
+            {
+                return texture;
+            }
+            set
+            {
+                texture = value;
+
+                if (texture == null) texture = DefaultValues.MissingTexture;
+            }
         }
         public Rectangle Source
         {
@@ -44,7 +54,6 @@ namespace vRPGEngine.Graphics
 
         public SpriteAnimation(Texture2D texture, int frameTime, Rectangle[] frames)
         {
-            Debug.Assert(texture != null);
             Debug.Assert(frames != null);
             Debug.Assert(frameTime > 0.0f);
 
@@ -52,7 +61,7 @@ namespace vRPGEngine.Graphics
             this.frames = frames;
 
             Texture     = texture;
-            Source      = new Rectangle(0, 0, texture.Width, texture.Height);
+            Source      = new Rectangle(0, 0, Texture.Width, Texture.Height);
             Position    = Vector2.Zero;
             Color       = Color.White;
             Rotation    = 0.0f;

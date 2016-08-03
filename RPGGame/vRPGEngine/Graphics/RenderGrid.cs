@@ -91,6 +91,7 @@ namespace vRPGEngine.Graphics
         public void Add(IRenderable renderable)
         {
             Debug.Assert(renderable != null);
+            Debug.Assert(!renderable.Active);
 
             var column  = (int)(renderable.Position.X / cellSize.X);
             var row     = (int)(renderable.Position.Y / cellSize.Y);
@@ -98,6 +99,7 @@ namespace vRPGEngine.Graphics
             grid[row][column].Add(renderable);
 
             renderable.Cell = new Point(column, row);
+            renderable.Active = true;
         }
         public void Add(IEnumerable<IRenderable> elements)
         {
@@ -107,10 +109,13 @@ namespace vRPGEngine.Graphics
         public void Remove(IRenderable renderable)
         {
             Debug.Assert(renderable != null);
+            Debug.Assert(renderable.Active);
 
             var location = renderable.Cell;
 
             grid[location.Y][location.X].Remove(renderable);
+
+            renderable.Active = false;
         }
         public void Remove(IEnumerable<IRenderable> elements)
         {

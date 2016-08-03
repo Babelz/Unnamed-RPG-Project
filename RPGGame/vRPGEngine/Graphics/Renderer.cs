@@ -249,6 +249,8 @@ namespace vRPGEngine.Graphics
             Debug.Assert(element.Layer < layers.Length);
             Debug.Assert(layers[element.Layer] != null);
 
+            if (!element.Active) return;
+
             layers[element.Layer].Invalidate(element);
         }
     }

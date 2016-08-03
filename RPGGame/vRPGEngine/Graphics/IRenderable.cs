@@ -48,6 +48,11 @@ namespace vRPGEngine.Graphics
         {
             get;
         }
+        bool Active
+        {
+            get;
+            set;
+        }
         #endregion
 
         void Present(SpriteBatch spriteBatch, GameTime gameTime);

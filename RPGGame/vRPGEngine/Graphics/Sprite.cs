@@ -11,11 +11,23 @@ namespace vRPGEngine.Graphics
 {
     public sealed class Sprite : Renderable
     {
+        #region Fields
+        private Texture2D texture;
+        #endregion
+
         #region Properties
         public Texture2D Texture
         {
-            get;
-            set;
+            get
+            {
+                return texture;
+            }
+            set
+            {
+                texture = value;
+
+                if (texture == null) texture = DefaultValues.MissingTexture;
+            }
         }
         public Rectangle Source
         {
@@ -36,10 +48,8 @@ namespace vRPGEngine.Graphics
 
         public Sprite(Texture2D texture)
         {
-            Debug.Assert(texture != null);
-
             Texture     = texture;
-            Source      = new Rectangle(0, 0, texture.Width, texture.Height);
+            Source      = new Rectangle(0, 0, Texture.Width, Texture.Height);
             Position    = Vector2.Zero;
             Color       = Color.White;
             Rotation    = 0.0f;

@@ -79,8 +79,18 @@ namespace vRPGEngine.Graphics
                 Renderer.Instance.Invalidate(this);
             }
         }
+        public Vector2 Origin
+        {
+            get;
+            set;
+        }
 
         public bool Visible
+        {
+            get;
+            set;
+        }
+        public bool Active
         {
             get;
             set;
@@ -90,6 +100,7 @@ namespace vRPGEngine.Graphics
         public Renderable()
         {
             Scale       = new Vector2(1.0f);
+            Origin      = Vector2.Zero;
             Visible     = true;
         }
 
