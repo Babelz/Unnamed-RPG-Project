@@ -43,6 +43,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Data\Categories.cs" />
+    <Compile Include="Data\Consumable.cs" />
+    <Compile Include="Data\DefaultEffectNames.cs" />
+    <Compile Include="Data\Equipment.cs" />
+    <Compile Include="Data\Item.cs" />
+    <Compile Include="Data\ItemType.cs" />
+    <Compile Include="Data\Material.cs" />
+    <Compile Include="Data\Quality.cs" />
+    <Compile Include="Data\QuestItem.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\BehaviourManager.cs" />
     <Compile Include="ECS\Component.cs" />
