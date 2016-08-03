@@ -57,7 +57,7 @@ namespace vRPGEngine.ECS.Components
         }
         protected override void Deinitialize()
         {
-            base.Deinitialize();
+            base.Deinitialize();    
 
             Renderer.Instance.Remove(sprite);
         }

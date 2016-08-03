@@ -11,6 +11,8 @@ namespace vRPGEngine.ECS
     {
         #region Fields
         private List<IComponent> components;
+        
+        private List<Entity> childern;
         #endregion
 
         #region Properties
@@ -24,11 +26,20 @@ namespace vRPGEngine.ECS
             get;
             set;
         }
+        public IEnumerable<Entity> Childern
+        {
+            get
+            {
+                return childern;
+            }
+        }
         #endregion
 
         internal Entity()
         {
             components = new List<IComponent>();
+
+            childern = new List<Entity>();
         }
 
         public T AddComponent<T>() where T : Component<T>, new()
@@ -73,6 +84,10 @@ namespace vRPGEngine.ECS
             foreach (var component in components) component.Destroy();
 
             EntityManager.Instance.Destroy(this);
+
+            foreach (var child in childern) child.Destroy();
+
+            childern.Clear();
         }
     }
 }

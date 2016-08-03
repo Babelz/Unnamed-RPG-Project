@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TiledSharp;
 using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.Maps
 {
@@ -18,7 +21,30 @@ namespace vRPGEngine.Maps
 
         private TileMapManager()
             : base()
-        { 
+        {
+        }
+
+        private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible)
+        {
+            var layer               = EntityBuilder.Instance.Create("empty");
+            layer.Tags              = name;
+
+            var renderer            = layer.AddComponent<SpriteRenderer>();
+            renderer.Sprite.Texture = vRPGEngine.Instance.Content.Load<Texture2D>(image);
+            renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
+            renderer.Sprite.Visible = visible;
+
+            var transform           = layer.FirstComponentOfType<Transform>();
+            transform.Position      = new Vector2(x, y);
+            
+            return layer;
+        }
+
+        private Entity TileLayer(string name, float opacity, bool visible)
+        {
+            var layer   = Entity.Create();
+
+            layer.Tags  = name;
         }
 
         public IEnumerable<Entity> Entitites()
@@ -30,15 +56,35 @@ namespace vRPGEngine.Maps
         {
             data = vRPGEngine.Instance.Content.Load<TmxMap>(name);
 
+            // Set tile-engine params.
+            var tileWidth = data.TileWidth;
+            var tileHeight = data.TileHeight;
+            var mapWidth = data.Width;
+            var mapHeight = data.Height;
+
+            TileEngine.ChangeProperties(tileWidth, tileHeight, mapWidth, mapHeight);
+
             // Load map.
+            foreach (var layer in data.ImageLayers)
+                entitites.Add(ImageLayer(layer.Name, 
+                                         layer.Image?.Source, 
+                                         (float)layer.OffsetX,
+                                         (float)layer.OffsetY,
+                                         (float)layer.Opacity, 
+                                         layer.Visible));
+
+            foreach (var layer in data.Layers)
+            {
+                var layer = TileLayer(layer.Name, layer.Opacity, lyaer.Visible);
+            }
 
             // Load entitites.
 
             // Load state from saved game.
-
+            
             // Done.
         }
-
+        
         public void Unload()
         {
             // Unload map.

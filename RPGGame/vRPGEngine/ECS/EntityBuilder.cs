@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.ECS
 {
@@ -16,7 +17,19 @@ namespace vRPGEngine.ECS
         private EntityBuilder()
             : base()
         {
-            prefabs = new Dictionary<string, Func<Entity>>();
+            prefabs = new Dictionary<string, Func<Entity>>()
+            {
+                { "empty", EmptyEntity }
+            };
+        }
+
+        private Entity EmptyEntity()
+        {
+            var entity = Entity.Create();
+
+            entity.AddComponent<Transform>();
+
+            return entity;
         }
 
         public Entity Create(string name)

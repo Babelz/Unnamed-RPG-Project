@@ -62,8 +62,10 @@
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\ComponentManager.cs" />
     <Compile Include="ECS\Components\Behaviour.cs" />
+    <Compile Include="ECS\Components\DataDictionary.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
+    <Compile Include="ECS\DataDictionaryManager.cs" />
     <Compile Include="ECS\SpriteManager.cs" />
     <Compile Include="Graphics\Renderable.cs" />
     <Compile Include="Graphics\SpriteAnimation.cs" />
