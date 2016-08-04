@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics;
+using System.Diagnostics;
 
 namespace vRPGEngine
 {
@@ -46,8 +47,14 @@ namespace vRPGEngine
             body.Friction       = 0.2f;
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Dynamic;
-
+            
             return body;
+        }
+        public void DestroyBody(Body body)
+        {
+            Debug.Assert(body != null);
+
+            world.RemoveBody(body);
         }
     }
 }

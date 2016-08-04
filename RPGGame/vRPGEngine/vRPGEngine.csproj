@@ -66,10 +66,12 @@
     <Compile Include="ECS\Components\DataDictionary.cs" />
     <Compile Include="ECS\Components\IComponent.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
+    <Compile Include="ECS\Components\StatusComponent.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
     <Compile Include="ECS\Handlers\BehaviourHandler.cs" />
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
+    <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="RPGWorld.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Graphics\DebugRenderer.cs" />
