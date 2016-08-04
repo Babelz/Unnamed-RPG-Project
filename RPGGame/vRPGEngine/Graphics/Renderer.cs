@@ -90,8 +90,7 @@ namespace vRPGEngine.Graphics
             {
                 device.Viewport = view.Viewport;
 
-                var viewSize        = new Vector2(view.Viewport.Width * view.Zoom, view.Viewport.Height * view.Zoom);
-                var viewTransform   = view.Transform();
+                var viewSize        = new Vector2(view.Viewport.Width, view.Viewport.Height); // view.VisibleArea;
                 var viewPosition    = view.Position;
 
                 for (var i = 0; i < reservedIndices.Count; i++)
@@ -106,7 +105,7 @@ namespace vRPGEngine.Graphics
                                       null,
                                       null,
                                       layer.Effect,
-                                      view.Transform());
+                                      view.Transform);
 
                     foreach (var element in layer.VisibleElements(viewPosition, viewSize, ColumnsPadding, RowsPadding))
                     {

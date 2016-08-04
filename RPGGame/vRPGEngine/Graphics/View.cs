@@ -11,6 +11,16 @@ namespace vRPGEngine.Graphics
 {
     public sealed class View
     {
+        #region Fields
+        private Vector2 position;
+        private Vector2 origin;
+
+        private Viewport viewport;
+
+        private float zoom;
+        private float rotation;
+        #endregion
+
         #region Properties
         public string Name
         {
@@ -19,28 +29,96 @@ namespace vRPGEngine.Graphics
         }
         public Vector2 Position
         {
-            get;
-            set;
+            get
+            {
+                return position;
+            }
+            set
+            {
+                position = value;
+
+                ComputeTransform();
+            }
         }
         public Vector2 Origin
         {
-            get;
-            set;
+            get
+            {
+                return origin;
+            }
+            set
+            {
+                origin = value;
+
+                ComputeTransform();
+            }
         }
         public float Zoom
         {
-            get;
-            set;
+            get
+            {
+                return zoom;
+            }
+            set
+            {
+                zoom = value;
+
+                ComputeTransform();
+            }
         }
         public float Rotation
         {
-            get;
-            set;
+            get
+            {
+                return rotation;
+            }
+            set
+            {
+                rotation = value;
+
+                ComputeTransform();
+            }
         }
         public Viewport Viewport
         {
+            get
+            {
+                return viewport;
+            }
+            set
+            {
+                viewport = value;
+
+                ComputeTransform();
+            }
+        }
+        public Matrix Transform
+        {
             get;
             set;
+        }
+
+        public Vector2 VisibleArea
+        {
+            get
+            {
+                var inverseViewMatrix = Matrix.Invert(Transform);
+
+                var tl = Vector2.Transform(Vector2.Zero, inverseViewMatrix);
+                var tr = Vector2.Transform(new Vector2(Viewport.Width, 0), inverseViewMatrix);
+                var bl = Vector2.Transform(new Vector2(0, Viewport.Height), inverseViewMatrix);
+                var br = Vector2.Transform(Position, inverseViewMatrix);
+
+                var min = new Vector2(
+                    MathHelper.Min(tl.X, MathHelper.Min(tr.X, MathHelper.Min(bl.X, br.X))),
+                    MathHelper.Min(tl.Y, MathHelper.Min(tr.Y, MathHelper.Min(bl.Y, br.Y))));
+
+                var max = new Vector2(
+                    MathHelper.Max(tl.X, MathHelper.Max(tr.X, MathHelper.Max(bl.X, br.X))),
+                    MathHelper.Max(tl.Y, MathHelper.Max(tr.Y, MathHelper.Max(bl.Y, br.Y))));
+
+                return new Vector2(max.X - min.X, max.Y - min.Y);
+            }
         }
         #endregion
 
@@ -68,12 +146,17 @@ namespace vRPGEngine.Graphics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Matrix Transform()
+        public void ComputeTransform()
         {
-            return Matrix.CreateTranslation(new Vector3(-(Position.X + Origin.X), -(Position.Y + Origin.Y), 0.0f)) *
-                   Matrix.CreateRotationZ(Rotation) *
-                   Matrix.CreateScale(new Vector3(Zoom, Zoom, 1.0f)) *
-                   Matrix.CreateTranslation(new Vector3(Viewport.Width * 0.5f, Viewport.Height * 0.5f, 0.0f));
+            Transform = Matrix.CreateTranslation(new Vector3(-(Position.X + Origin.X), -(Position.Y + Origin.Y), 0.0f)) *
+                        Matrix.CreateRotationZ(Rotation) *
+                        Matrix.CreateScale(new Vector3(Zoom, Zoom, 1.0f)) *
+                        Matrix.CreateTranslation(new Vector3(Viewport.Width * 0.5f, Viewport.Height * 0.5f, 0.0f));
+        }
+
+        public Vector2 ScreenToView(Vector2 screenPosition)
+        {
+            return Vector2.Transform(screenPosition, Matrix.Invert(Transform));
         }
     }
 }

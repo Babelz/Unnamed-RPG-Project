@@ -52,6 +52,9 @@ namespace vRPGEngine.Graphics
             var startColumn     = (int)(viewPosition.X / cellSize.X);
             var startRow        = (int)(viewPosition.Y / cellSize.Y);
 
+            startColumn         = startColumn < 0 ? 0 : startColumn;
+            startRow            = startRow < 0 ? 0 : startRow;
+
             var endColumn       = startColumn + columnsPadding;
             var endRow          = startRow + rowsPadding;
 
