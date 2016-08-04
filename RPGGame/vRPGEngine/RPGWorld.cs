@@ -42,10 +42,9 @@ namespace vRPGEngine
                                                    10.0f,
                                                    userData);
             body.IsStatic       = false;
-            body.IsKinematic    = true;
             body.Mass           = 80.0f;
             body.Friction       = 0.2f;
-            body.Awake          = true;
+            body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Dynamic;
 
             return body;

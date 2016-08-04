@@ -72,12 +72,12 @@ namespace RPGGame
             kb.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += camZoom);
             kb.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= camZoom);
 
-            var force = 0.01f;
+            var force = 2.5f;
 
-            kb.Bind("player_up", Keys.Up, KeyTrigger.Down, () => body.ApplyLinearImpulse(new Vector2(0.0f, -force)));
-            kb.Bind("player_down", Keys.Down, KeyTrigger.Down, () => body.ApplyLinearImpulse(new Vector2(0.0f, force)));
-            kb.Bind("player_left", Keys.Left, KeyTrigger.Down, () => body.ApplyLinearImpulse(new Vector2(-force, 0.0f)));
-            kb.Bind("player_right", Keys.Right, KeyTrigger.Down, () => body.ApplyLinearImpulse(new Vector2(force, 0.0f)));
+            kb.Bind("player_up", Keys.Up, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(body.LinearVelocity.X, -force));
+            kb.Bind("player_down", Keys.Down, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(body.LinearVelocity.X, force));
+            kb.Bind("player_left", Keys.Left, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(-force, body.LinearVelocity.Y));
+            kb.Bind("player_right", Keys.Right, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(force, body.LinearVelocity.Y));
 
             body = RPGWorld.Instance.CreateEntityCollider(renderer, 32.0f, 32.0f);
             RPGWorld.Instance.Activate();
@@ -88,6 +88,8 @@ namespace RPGGame
             vRPGEngine.vRPGEngine.Instance.Update(gameTime);
 
             sprite.Position = ConvertUnits.ToDisplayUnits(body.Position);
+
+            body.LinearVelocity = Vector2.Zero;
         }
     }
 }
