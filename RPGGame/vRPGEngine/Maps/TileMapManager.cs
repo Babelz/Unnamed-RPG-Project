@@ -40,7 +40,7 @@ namespace vRPGEngine.Maps
             return layer;
         }
 
-        private Entity TileLayer(string name)
+        private Entity Layer(string name)
         {
             var layer   = Entity.Create();
             layer.Tags  = name;
@@ -50,21 +50,16 @@ namespace vRPGEngine.Maps
 
         private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible)
         {
-            var tile                = EntityBuilder.Instance.Create("empty");
+            var tile                 = Entity.Create();
 
-            var renderer            = tile.AddComponent<SpriteRenderer>();
-            renderer.Sprite.Texture = tex;
-
+            var renderer             = tile.AddComponent<SpriteRenderer>();
+            renderer.Sprite.Texture  = tex;
             renderer.Sprite.Position = new Vector2(x, y);
-
-            renderer.Sprite.Size    = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
-            renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
-            renderer.Sprite.Visible = visible;
-            renderer.Sprite.Source  = src;
-
-            var transform           = tile.FirstComponentOfType<Transform>();
-            transform.Position      = new Vector2(x, y);
-
+            renderer.Sprite.Size     = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
+            renderer.Sprite.Color    = new Color(renderer.Sprite.Color, opacity);
+            renderer.Sprite.Visible  = visible;
+            renderer.Sprite.Source   = src;
+            
             return tile;
         }
 
@@ -99,7 +94,7 @@ namespace vRPGEngine.Maps
                 var opacity     = layer.Opacity;
                 var visible     = layer.Visible;
 
-                var tileLayer   = TileLayer(layer.Name);
+                var tileLayer   = Layer(layer.Name);
                 
                 var tilesCount  = 0;
 
@@ -118,7 +113,7 @@ namespace vRPGEngine.Maps
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
                     var x           = (float)tile.X * tileWidth;
                     var y           = (float)tile.Y * tileHeight;
-
+                    
                     tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible));
 
                     tilesCount++;
@@ -126,6 +121,25 @@ namespace vRPGEngine.Maps
             }
 
             // Load entitites.
+            foreach (var layer in data.ObjectGroups)
+            {
+                var opacity     = layer.Opacity;
+                var visible     = layer.Visible;
+
+                var objectLayer = Layer(layer.Name);
+
+                foreach (var entity in layer.Objects)
+                {
+                    var type        = entity.Type;
+                    var x           = entity.X;
+                    var y           = entity.Y;
+                    var width       = entity.Width;
+                    var height      = entity.Height;
+                    var rotation    = entity.Rotation;
+
+                    // TODO: spawn.
+                }
+            }
 
             // Load state from saved game.
             

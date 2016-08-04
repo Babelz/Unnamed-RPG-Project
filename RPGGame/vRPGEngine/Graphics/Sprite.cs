@@ -60,6 +60,7 @@ namespace vRPGEngine.Graphics
             Color       = Color.White;
             Rotation    = 0.0f;
             Effects     = SpriteEffects.None;
+            Depth       = 1.0f; 
         }
 
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
@@ -75,7 +76,7 @@ namespace vRPGEngine.Graphics
             //                 SpriteEffects.None,
             //                 0.0f);
 
-            spriteBatch.Draw(Texture, Position, Source, Color, Rotation, Origin, Scale, Effects, 0.0f);
+            spriteBatch.Draw(Texture, Position, Source, Color, Rotation, Origin, Scale, Effects, Depth);
         }
     }
 }

@@ -95,6 +95,11 @@ namespace vRPGEngine.Graphics
             get;
             set;
         }
+        public float Depth
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Renderable()
