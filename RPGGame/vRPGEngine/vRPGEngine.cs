@@ -78,8 +78,17 @@ namespace vRPGEngine
         {
             try
             {
+                // TODO: wrap.
+                // Init systems.
                 InputManager.Instance.Activate();
+                EntityManager.Instance.Activate();
+                Renderer.Instance.Activate();
+                Logger.Instance.Activate();
+                
+                ActivateDebugRenderer();
 
+                // TODO: wrap.
+                // Init managers.
                 ComponentManager<DataDictionary>.Instance.Activate();
 
                 ComponentManager<SpriteRenderer>.Instance.Activate();
@@ -87,22 +96,18 @@ namespace vRPGEngine
 
                 ComponentManager<Behaviour>.Instance.Activate();
                 ComponentManager<Behaviour>.Instance.SetUpdateHandler(new BehaviourHandler());
-
-                EntityManager.Instance.Activate(); ;
-                Renderer.Instance.Activate();
-                Logger.Instance.Activate();
-
-                ActivateDebugRenderer();
-
+                
                 Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
 
                 return true;
             }
             catch (Exception e)
             {
-                Logger.Instance.LogError("could not initialize all systems!");
-                Logger.Instance.LogError("and exceptin was thrown");
-                Logger.Instance.LogError("exception message: " + e.Message);
+                Logger.Instance.LogFunctionError("could not initialize all systems!");
+                Logger.Instance.LogFunctionError("and exceptin was thrown");
+                Logger.Instance.LogFunctionError("exception message: " + e.Message);
+
+                Logger.Instance.Update(null);
 
                 return false;
             }

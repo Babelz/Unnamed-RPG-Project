@@ -9,17 +9,31 @@ namespace vRPGEngine
 {
     public sealed class FrameCounter
     {
-        #region Fields
-        public const int MAXIMUM_SAMPLES = 100;
+        #region Constants
+        public const int MaxSamples = 100;
+        #endregion
 
+        #region Fields
         private Queue<float> samples = new Queue<float>();
         #endregion
 
         #region Properties
-        public long TotalFrames { get; private set; }
-        public float TotalSeconds { get; private set; }
-        public float AverageFramesPerSecond { get; private set; }
-        public float CurrentFramesPerSecond { get; private set; }
+        public long TotalFrames
+        {
+            get; private set;
+        }
+        public float TotalSeconds
+        {
+            get; private set;
+        }
+        public float AverageFramesPerSecond
+        {
+            get; private set;
+        }
+        public float CurrentFramesPerSecond
+        {
+            get; private set;
+        }
         #endregion
 
         public FrameCounter()
@@ -34,7 +48,7 @@ namespace vRPGEngine
 
             samples.Enqueue(CurrentFramesPerSecond);
 
-            if (samples.Count > MAXIMUM_SAMPLES)
+            if (samples.Count > MaxSamples)
             {
                 samples.Dequeue();
                 AverageFramesPerSecond = samples.Average(i => i);

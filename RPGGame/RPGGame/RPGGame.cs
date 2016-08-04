@@ -24,8 +24,13 @@ namespace RPGGame
         public RPGGame()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
-            
+            graphics                            = new GraphicsDeviceManager(this);
+            graphics.PreferMultiSampling        = true;
+            graphics.PreferredBackBufferWidth   = 1280;
+            graphics.PreferredBackBufferHeight  = 720;
+
+            graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
         }
 
@@ -50,10 +55,16 @@ namespace RPGGame
 
             var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
 
-            kb.Bind("up", Keys.W, KeyTrigger.Down, () => { view.Position += new Vector2(0.0f, -2.5f); });
-            kb.Bind("down", Keys.S, KeyTrigger.Down, () => { view.Position += new Vector2(0.0f, 2.5f); });
-            kb.Bind("left", Keys.A, KeyTrigger.Down, () => { view.Position += new Vector2(-2.5f, 0.0f); });
-            kb.Bind("right", Keys.D, KeyTrigger.Down, () => { view.Position += new Vector2(2.5f, 0.0f); });
+            var camSpeed = 4.0f;
+            var camZoom = 0.1f;
+
+            kb.Bind("up", Keys.W, KeyTrigger.Down, () => view.Position += new Vector2(0.0f, -camSpeed));
+            kb.Bind("down", Keys.S, KeyTrigger.Down, () => view.Position += new Vector2(0.0f, camSpeed));
+            kb.Bind("left", Keys.A, KeyTrigger.Down, () => view.Position += new Vector2(-camSpeed, 0.0f));
+            kb.Bind("right", Keys.D, KeyTrigger.Down, () => view.Position += new Vector2(camSpeed, 0.0f));
+
+            kb.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += camZoom);
+            kb.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= camZoom);
         }
 
         protected override void Update(GameTime gameTime)

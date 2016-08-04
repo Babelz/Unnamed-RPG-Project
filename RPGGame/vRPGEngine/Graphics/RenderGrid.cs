@@ -47,16 +47,13 @@ namespace vRPGEngine.Graphics
             }
         }
 
-        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, Vector2 viewSize, int maxColumns, int maxRows)
+        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, Vector2 viewSize, int columnsPadding, int rowsPadding)
         {
-            Debug.Assert(maxRows != 0);
-            Debug.Assert(maxColumns != 0);
-
             var startColumn     = (int)(viewPosition.X / cellSize.X);
             var startRow        = (int)(viewPosition.Y / cellSize.Y);
 
-            var endColumn       = startColumn + maxColumns;
-            var endRow          = startRow + maxRows;
+            var endColumn       = startColumn + columnsPadding;
+            var endRow          = startRow + rowsPadding;
 
             endColumn           = endColumn > gridSize.X ? gridSize.X : endColumn;
             endRow              = endRow > gridSize.Y ? gridSize.Y : endRow;

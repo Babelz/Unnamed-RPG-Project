@@ -31,9 +31,6 @@ namespace vRPGEngine.Graphics
         private int cellWidth;
         private int cellHeight;
 
-        private int maxColumns;
-        private int maxRows;
-
         private int totalElements;
         private int visibleElements;
         #endregion
@@ -57,6 +54,16 @@ namespace vRPGEngine.Graphics
             {
                 return visibleElements;
             }
+        }
+        public int ColumnsPadding
+        {
+            get;
+            set;
+        }
+        public int RowsPadding
+        {
+            get;
+            set;
         }
         #endregion
 
@@ -95,13 +102,13 @@ namespace vRPGEngine.Graphics
 
                     spriteBatch.Begin(SpriteSortMode.BackToFront,
                                       BlendState.AlphaBlend,
-                                      SamplerState.PointClamp,
+                                      null,
                                       null,
                                       null,
                                       layer.Effect,
                                       view.Transform());
 
-                    foreach (var element in layer.VisibleElements(viewPosition, viewSize, maxColumns, maxRows))
+                    foreach (var element in layer.VisibleElements(viewPosition, viewSize, ColumnsPadding, RowsPadding))
                     {
                         element.Present(spriteBatch, gameTime);
 
@@ -118,7 +125,7 @@ namespace vRPGEngine.Graphics
             Present(gameTime);
         }
 
-        public void SetPresentationParameters(int layerWidth, int layerHeight, int cellWidth, int cellHeight, int maxColumns = 3, int maxRows = 3)
+        public void SetPresentationParameters(int layerWidth, int layerHeight, int cellWidth, int cellHeight, int columnsPadding = 3, int rowsPadding = 3)
         {
             this.layerWidth     = layerWidth;
             this.layerHeight    = layerHeight;
@@ -126,8 +133,8 @@ namespace vRPGEngine.Graphics
             this.cellWidth      = cellWidth;
             this.cellHeight     = cellHeight;
 
-            this.maxColumns     = maxColumns;
-            this.maxRows        = maxRows;
+            ColumnsPadding      = columnsPadding;
+            RowsPadding         = rowsPadding;
         }
 
         public void Add(IRenderable element, int layer)
