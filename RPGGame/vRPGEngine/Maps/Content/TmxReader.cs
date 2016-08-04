@@ -12,8 +12,8 @@ namespace vRPGEngine.Maps.Content
     {
         protected override TmxMap Read(ContentReader input, TmxMap existingInstance)
         {
-            var length = input.ReadInt32();
-            var bytes = input.ReadBytes(length);
+            var length  = input.ReadInt32();
+            var bytes   = input.ReadBytes(length);
 
             return vRPGSerializer.GetObject(bytes) as TmxMap;
         }

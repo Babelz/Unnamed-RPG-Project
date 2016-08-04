@@ -9,10 +9,10 @@ namespace vRPGEngine.Data.Enums
     [Flags()]
     public enum Categories : int
     {
-        Tailoring = 0,
-        LeatherWorking,
-        Blacksmithing,
-        Alchemy,
-        Farming
+        Tailoring       = 1,
+        LeatherWorking  = 2,
+        Blacksmithing   = 4,
+        Alchemy         = 8,
+        Farming         = 16
     }
 }

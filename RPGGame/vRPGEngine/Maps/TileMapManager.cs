@@ -40,11 +40,12 @@ namespace vRPGEngine.Maps
             return layer;
         }
 
-        private Entity TileLayer(string name, float opacity, bool visible)
+        private Entity TileLayer(string name)
         {
             var layer   = Entity.Create();
-
             layer.Tags  = name;
+
+            return layer;
         }
 
         public IEnumerable<Entity> Entitites()
@@ -63,7 +64,7 @@ namespace vRPGEngine.Maps
             var mapHeight = data.Height;
 
             TileEngine.ChangeProperties(tileWidth, tileHeight, mapWidth, mapHeight);
-
+            
             // Load map.
             foreach (var layer in data.ImageLayers)
                 entitites.Add(ImageLayer(layer.Name, 
@@ -75,7 +76,24 @@ namespace vRPGEngine.Maps
 
             foreach (var layer in data.Layers)
             {
-                var layer = TileLayer(layer.Name, layer.Opacity, lyaer.Visible);
+                var opacity = layer.Opacity;
+                var visible = layer.Visible;
+
+                var entity = TileLayer(layer.Name);
+
+                foreach (var tile in layer.Tiles)
+                {
+                    var gid = tile.Gid;
+
+                    if (gid == 0) continue;
+
+                    var tileFrame = gid - 1;
+                    var column = 0;
+                    var row = 0;
+
+                    var src = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
+                        
+                }
             }
 
             // Load entitites.
