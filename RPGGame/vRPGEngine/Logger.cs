@@ -210,7 +210,7 @@ namespace vRPGEngine
         #endregion
 
         private Logger()
-            : base("logger")
+            : base()
         {
             loggers = new ILogger[]
             {
@@ -221,7 +221,7 @@ namespace vRPGEngine
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            foreach (var logger in loggers.Where(l => !l.HasMessages)) logger.Flush();
+            foreach (var logger in loggers.Where(l => l.InUse && l.HasMessages)) logger.Flush();
         }
 
         public void LogFunctionMessage(string messge, [CallerLineNumber] int line = 0, [CallerMemberName] string fnc = null)

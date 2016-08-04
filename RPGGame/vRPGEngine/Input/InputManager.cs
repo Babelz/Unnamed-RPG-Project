@@ -14,7 +14,7 @@ namespace vRPGEngine.Input
         #endregion
 
         private InputManager()
-            : base("input manager")
+            : base()
         {
             providers = new IInputProvider[]
             {

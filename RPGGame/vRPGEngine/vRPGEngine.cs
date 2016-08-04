@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
+using vRPGEngine.ECS.Handlers;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
 
@@ -77,9 +79,16 @@ namespace vRPGEngine
             try
             {
                 InputManager.Instance.Activate();
-                BehaviourManager.Instance.Activate();
-                EntityManager.Instance.Activate();
-                SpriteManager.Instance.Activate();
+
+                ComponentManager<DataDictionary>.Instance.Activate();
+
+                ComponentManager<SpriteRenderer>.Instance.Activate();
+                ComponentManager<SpriteRenderer>.Instance.SetUpdateHandler(new SpriteHandler());
+
+                ComponentManager<Behaviour>.Instance.Activate();
+                ComponentManager<Behaviour>.Instance.SetUpdateHandler(new BehaviourHandler());
+
+                EntityManager.Instance.Activate(); ;
                 Renderer.Instance.Activate();
                 Logger.Instance.Activate();
 

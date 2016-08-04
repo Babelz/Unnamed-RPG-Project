@@ -96,6 +96,20 @@ namespace vRPGEngine.Graphics
             var column  = (int)(renderable.Position.X / cellSize.X);
             var row     = (int)(renderable.Position.Y / cellSize.Y);
 
+#if DEBUG
+            if (column >= gridSize.X)
+            {
+                Logger.Instance.LogFunctionWarning("grid column overlap, auto fixing to max");
+                column = gridSize.X - 1;
+            }
+
+            if (row >= gridSize.Y)
+            {
+                Logger.Instance.LogFunctionWarning("grid row overlap, auto fixing to max");
+                row = gridSize.Y - 1;
+            }
+#endif
+
             grid[row][column].Add(renderable);
 
             renderable.Cell     = new Point(column, row);

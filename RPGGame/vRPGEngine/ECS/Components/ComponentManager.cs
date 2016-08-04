@@ -6,19 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using System.Runtime.CompilerServices;
+using vRPGEngine.ECS.Handlers;
 
-namespace vRPGEngine.ECS
+namespace vRPGEngine.ECS.Components
 {
     public class ComponentManager<T> : SystemManager<ComponentManager<T>> where T : class, IComponent, new()
     {
         #region Fields
         private readonly RegisterAllocator<T> allocator;
 
+        private IComponentUpdateHanlder<T> handler;
+
         private T[] components;
         #endregion
 
         #region Properties
-        protected IEnumerable<T> Components
+        public IEnumerable<T> Components
         {
             get
             {
@@ -28,12 +31,27 @@ namespace vRPGEngine.ECS
         #endregion
 
         protected ComponentManager()
-            : base("component manager: " + typeof(T).Name)
+            : base()
         {
             const int InitialCapacity = 128;
 
             allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void OnUpdate(GameTime gameTime)
+        {
+            handler?.Update(this, Components, gameTime);
+        }
+
+        public void SetUpdateHandler(IComponentUpdateHanlder<T> handler)
+        {
+            this.handler = handler;
+        }
+        public void ClearHandler()
+        {
+            handler = null;
         }
 
         public T Create()

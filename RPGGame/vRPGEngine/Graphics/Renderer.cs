@@ -61,7 +61,7 @@ namespace vRPGEngine.Graphics
         #endregion
 
         private Renderer()
-            : base("renderer")
+            : base()
         {
             spriteBatch     = new SpriteBatch(vRPGEngine.Instance.GraphicsDevice);
             views           = new List<View>();

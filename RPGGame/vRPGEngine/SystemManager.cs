@@ -12,11 +12,7 @@ namespace vRPGEngine
     public interface ISystemManager
     {
         #region Properties
-        int ID
-        {
-            get;
-        }
-        string Name
+        Guid ID
         {
             get;
         }
@@ -32,55 +28,25 @@ namespace vRPGEngine
         void Update(GameTime gameTime);
     }
 
-    public class SystemManager<T> : Singleton<T>, ISystemManager where T : class
+    public abstract class SystemManager<T> : Singleton<T>, ISystemManager where T : class
     {
-        #region Fields
-        /// <summary>
-        /// Used to generate identifiers for the system managers.
-        /// </summary>
-        private static int idc;
-
-        private readonly string name;
-        private readonly int id;
-
-        private bool active;
-        #endregion
-
         #region Properties
-        public int ID
+        public Guid ID
         {
-            get
-            {
-                return id;
-            }
-        }
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
+            get;
+            private set;
         }
         public bool Active
         {
-            get
-            {
-                return active;
-            }
+            get;
+            private set;
         }
         #endregion
-
-        static SystemManager()
-        {
-            idc = 0;
-        }
-
-        protected SystemManager(string name) 
+        
+        protected SystemManager() 
             : base()
         {
-            this.name = name;
-
-            id = idc++;
+            ID = Guid.NewGuid();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -104,7 +70,7 @@ namespace vRPGEngine
 
             OnActivate();
 
-            active = true; 
+            Active = true; 
         }
         public void Suspend()
         {
@@ -112,7 +78,7 @@ namespace vRPGEngine
 
             OnSuspend();
 
-            active = false;
+            Active = false;
         }
 
         public void Update(GameTime gameTime)

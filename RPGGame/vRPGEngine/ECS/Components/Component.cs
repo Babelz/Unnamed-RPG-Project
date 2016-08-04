@@ -6,20 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.ECS
+namespace vRPGEngine.ECS.Components
 {
-    public interface IComponent : IRegisterEntry
-    {
-        #region Properties
-        Entity Owner
-        {
-            get;
-        }
-        #endregion
-
-        void Destroy();
-    }
-
     public class Component<T> : IComponent where T : Component<T>, new()
     {
         #region Properties

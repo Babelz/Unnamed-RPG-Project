@@ -6,18 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGEngine.ECS.Components;
 
-namespace vRPGEngine.ECS
+namespace vRPGEngine.ECS.Handlers
 {
-    public sealed class SpriteManager : ComponentManager<SpriteRenderer>
+    public sealed class SpriteHandler : IComponentUpdateHanlder<SpriteRenderer>
     {
-        public SpriteManager()
-            : base()
+        public void Update(ComponentManager<SpriteRenderer> manager, IEnumerable<SpriteRenderer> components, GameTime gameTime)
         {
-        }
-        
-        private new void Update(GameTime gameTime)
-        {
-            foreach (var renderer in Components)
+            foreach (var renderer in components)
             {
                 if (!renderer.Anchored) continue;
 
@@ -25,7 +20,7 @@ namespace vRPGEngine.ECS
 
                 if (transform == null) continue;
 
-                renderer.Sprite.Position = renderer.Sprite.Position + transform.Position;
+                renderer.Sprite.Position = transform.Position + renderer.PositionOffset;
             }
         }
     }
