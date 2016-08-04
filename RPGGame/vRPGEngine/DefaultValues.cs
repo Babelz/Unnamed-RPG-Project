@@ -12,6 +12,7 @@ namespace vRPGEngine
     {
         #region Fields
         public static readonly Texture2D MissingTexture;
+        public static readonly SpriteFont DefaultFont;
         #endregion
 
         static DefaultValues()
@@ -94,6 +95,9 @@ namespace vRPGEngine
             {
                 MissingTexture = Texture2D.FromStream(vRPGEngine.Instance.GraphicsDevice, ms);
             }
+
+            // Default font init.
+            DefaultFont = vRPGEngine.Instance.Content.Load<SpriteFont>("default font");
         }
     }
 }

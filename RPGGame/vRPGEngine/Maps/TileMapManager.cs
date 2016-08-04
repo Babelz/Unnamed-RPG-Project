@@ -55,7 +55,7 @@ namespace vRPGEngine.Maps
             var renderer            = tile.AddComponent<SpriteRenderer>();
             renderer.Sprite.Texture = tex;
 
-            renderer.Sprite.Position = new Vector2(x * TileEngine.TileWidth, y * TileEngine.TileHeight);
+            renderer.Sprite.Position = new Vector2(x, y);
 
             renderer.Sprite.Size    = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
             renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
@@ -63,7 +63,7 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Source  = src;
 
             var transform           = tile.FirstComponentOfType<Transform>();
-            transform.Position      = new Vector2(x * TileEngine.TileWidth, y * TileEngine.TileHeight);
+            transform.Position      = new Vector2(x, y);
 
             return tile;
         }
@@ -93,13 +93,15 @@ namespace vRPGEngine.Maps
                                          (float)layer.OffsetY,
                                          (float)layer.Opacity, 
                                          layer.Visible));
-
+            
             foreach (var layer in data.Layers)
             {
-                var opacity = layer.Opacity;
-                var visible = layer.Visible;
+                var opacity     = layer.Opacity;
+                var visible     = layer.Visible;
 
-                var tileLayer = TileLayer(layer.Name);
+                var tileLayer   = TileLayer(layer.Name);
+                
+                var tilesCount  = 0;
 
                 foreach (var tile in layer.Tiles)
                 {
@@ -114,8 +116,12 @@ namespace vRPGEngine.Maps
                     var row         = (int)Math.Floor((double)tileFrame / (double)(tex.Width / tileWidth));
                     var column      = tileFrame % (tex.Width / tileWidth);
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
-                    
-                    tileLayer.AddChildren(Tile((float)tile.X, (float)tile.Y, src, tex, (float)opacity, visible));
+                    var x           = (float)tile.X * tileWidth;
+                    var y           = (float)tile.Y * tileHeight;
+
+                    tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible));
+
+                    tilesCount++;
                 }
             }
 

@@ -61,5 +61,10 @@ namespace vRPGEngine.ECS.Components
 
             Renderer.Instance.Remove(sprite);
         }
+
+        public void Invalidate()
+        {
+            Renderer.Instance.Invalidate(sprite);
+        }
     }
 }

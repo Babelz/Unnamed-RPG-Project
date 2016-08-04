@@ -48,3 +48,9 @@
 /processor:TmxProcessor
 /build:hello.tmx
 
+#begin default font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:default font.spritefont
+

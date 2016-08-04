@@ -54,6 +54,23 @@ namespace vRPGEngine
             : base()
         {
         }
+
+        private void ActivateDebugRenderer()
+        {
+            // Delta.
+            DebugRenderer.Instance.AddString((gt) => string.Format("Delta time: {0}ms", gt.ElapsedGameTime.Milliseconds));
+
+            // Render info.
+            DebugRenderer.Instance.AddString((gt) => string.Format("Elements renderer: {0}/{1}", Renderer.Instance.VisibleElements, Renderer.Instance.TotalElements));
+
+            // FPS.
+            var fps = new FrameCounter();
+            DebugRenderer.Instance.AddString((gt) => { fps.Update(gt); return string.Format("Current FPS: {0}", Math.Round(fps.CurrentFramesPerSecond, 2)); });
+            DebugRenderer.Instance.AddString((gt) => { fps.Update(gt); return string.Format("Average FPS: {0}", Math.Round(fps.AverageFramesPerSecond, 2)); });
+
+            // Memory.
+            DebugRenderer.Instance.AddString((gt) => string.Format("Memory used: {0}kb", GC.GetTotalMemory(false) / 1024));
+        }
         
         public bool Initialize()
         {
@@ -65,6 +82,8 @@ namespace vRPGEngine
                 SpriteManager.Instance.Activate();
                 Renderer.Instance.Activate();
                 Logger.Instance.Activate();
+
+                ActivateDebugRenderer();
 
                 Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
 
@@ -100,6 +119,8 @@ namespace vRPGEngine
         public void Update(GameTime gameTime)
         {
             SystemManagers.Instance.Update(gameTime);
+
+            DebugRenderer.Instance.Present(gameTime);
         }
 
         public void Exit()

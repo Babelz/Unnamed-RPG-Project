@@ -94,7 +94,7 @@ namespace vRPGEngine.Graphics
 
             var index = renderable.Index;
 
-            if (index >= elements.Length || elements[index] != null)
+            if (index >= elements.Length || elements[index] == null)
             {
                 Logger.Instance.LogFunctionWarning("cell access violation - element not found");
 

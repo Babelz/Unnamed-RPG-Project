@@ -47,7 +47,13 @@ namespace RPGGame
             renderer.RegisterView(view);
 
             TileMapManager.Instance.Load("hello");
-                
+
+            var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
+
+            kb.Bind("up", Keys.W, KeyTrigger.Down, () => { view.Position += new Vector2(0.0f, -2.5f); });
+            kb.Bind("down", Keys.S, KeyTrigger.Down, () => { view.Position += new Vector2(0.0f, 2.5f); });
+            kb.Bind("left", Keys.A, KeyTrigger.Down, () => { view.Position += new Vector2(-2.5f, 0.0f); });
+            kb.Bind("right", Keys.D, KeyTrigger.Down, () => { view.Position += new Vector2(2.5f, 0.0f); });
         }
 
         protected override void Update(GameTime gameTime)
