@@ -96,7 +96,10 @@ namespace vRPGEngine
 
                 ComponentManager<Behaviour>.Instance.Activate();
                 ComponentManager<Behaviour>.Instance.SetUpdateHandler(new BehaviourHandler());
-                
+
+                ComponentManager<Transform>.Instance.Activate();
+                ComponentManager<Transform>.Instance.SetUpdateHandler(new TransformHandler());
+
                 Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
 
                 return true;

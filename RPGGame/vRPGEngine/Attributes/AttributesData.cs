@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.ECS.Components
+namespace vRPGEngine.Attributes
 {
     /// <summary>
-    /// Contains all the base stats for all entities in the world.
+    /// Runtime specific attributes of some entity.
     /// </summary>
-    public sealed class StatusComponent : Component<StatusComponent>
+    public sealed class AttributesData 
     {
         #region Properties
+        public int Armor
+        {
+            get;
+            set;
+        }
         public int Stamina
         {
             get;
@@ -89,8 +94,7 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public StatusComponent()
-            : base()
+        public AttributesData()
         {
         }
     }

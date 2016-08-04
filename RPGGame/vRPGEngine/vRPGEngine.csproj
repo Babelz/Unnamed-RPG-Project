@@ -43,6 +43,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Attributes\EntityAttributes.cs" />
+    <Compile Include="Attributes\Enums\BuffType.cs" />
+    <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Data\Databases\Database.cs" />
     <Compile Include="Data\Items\Armor.cs" />
     <Compile Include="Data\Items\Enums\Categories.cs" />
@@ -66,7 +69,7 @@
     <Compile Include="ECS\Components\DataDictionary.cs" />
     <Compile Include="ECS\Components\IComponent.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
-    <Compile Include="ECS\Components\StatusComponent.cs" />
+    <Compile Include="Attributes\AttributesData.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
     <Compile Include="ECS\Handlers\BehaviourHandler.cs" />
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Input\MouseInputProvider.cs" />
     <Compile Include="Maps\Content\TmxReader.cs" />
     <Compile Include="Maps\TileMapManager.cs" />
+    <Compile Include="Attributes\ISpecialiaztion.cs" />
     <Compile Include="SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />

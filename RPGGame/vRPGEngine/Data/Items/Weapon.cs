@@ -46,6 +46,11 @@ namespace vRPGEngine.Data.Items
             get;
             set;
         }
+        public WeaponType WeaponType
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Weapon()
