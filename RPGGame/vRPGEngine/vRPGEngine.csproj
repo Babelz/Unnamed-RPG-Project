@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Data\Databases\Database.cs" />
     <Compile Include="Data\Items\Armor.cs" />
     <Compile Include="Data\Items\Enums\Categories.cs" />
     <Compile Include="Data\Items\Consumable.cs" />
