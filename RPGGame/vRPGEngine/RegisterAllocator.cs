@@ -54,7 +54,7 @@ namespace vRPGEngine
         private void ReallocatePool()
         {
             var oldLength   = pool.Length;
-            var newPool     = new T[oldLength];
+            var newPool     = new T[oldLength * 2];
 
             // Copy old pool contents to new.
             Array.Copy(pool, newPool, pool.Length);
@@ -66,7 +66,7 @@ namespace vRPGEngine
                 element.Location    = i;
 
                 // Store reference.
-                pool[i] = element;
+                newPool[i] = element;
             }
 
             pool = newPool;

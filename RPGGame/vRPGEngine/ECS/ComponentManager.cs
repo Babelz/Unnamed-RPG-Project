@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using System.Runtime.CompilerServices;
 
 namespace vRPGEngine.ECS
 {
@@ -32,15 +34,6 @@ namespace vRPGEngine.ECS
 
             allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];
-        }
-
-        protected override void OnActivate()
-        {
-            SystemManagers.Instance.Register(this);
-        }
-        protected override void OnSuspend()
-        {
-            SystemManagers.Instance.Unregister(this);
         }
 
         public T Create()

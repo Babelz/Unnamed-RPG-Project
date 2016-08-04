@@ -60,7 +60,9 @@ namespace vRPGEngine
             try
             {
                 InputManager.Instance.Activate();
+                BehaviourManager.Instance.Activate();
                 EntityManager.Instance.Activate();
+                SpriteManager.Instance.Activate();
                 Renderer.Instance.Activate();
                 Logger.Instance.Activate();
 

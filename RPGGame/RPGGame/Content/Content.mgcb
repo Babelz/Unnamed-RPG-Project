@@ -31,3 +31,20 @@
 /processor:TmxProcessor
 /build:test map.tmx
 
+#begin tile_set_sheet_by_danaharris.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tile_set_sheet_by_danaharris.png
+
+#begin hello.tmx
+/importer:TmxImporter
+/processor:TmxProcessor
+/build:hello.tmx
+

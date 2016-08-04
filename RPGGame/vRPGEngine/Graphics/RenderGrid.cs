@@ -98,8 +98,8 @@ namespace vRPGEngine.Graphics
 
             grid[row][column].Add(renderable);
 
-            renderable.Cell = new Point(column, row);
-            renderable.Active = true;
+            renderable.Cell     = new Point(column, row);
+            renderable.Active   = true;
         }
         public void Add(IEnumerable<IRenderable> elements)
         {

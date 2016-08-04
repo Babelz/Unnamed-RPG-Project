@@ -11,7 +11,7 @@ namespace vRPGEngine.ECS
 {
     public sealed class BehaviourManager : ComponentManager<Behaviour>
     {
-        public BehaviourManager()
+        private BehaviourManager()
             : base()
         {
         }

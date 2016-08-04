@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -12,7 +13,7 @@ namespace vRPGEngine.ECS
         #region Fields
         private List<IComponent> components;
         
-        private List<Entity> childern;
+        private List<Entity> children;
         #endregion
 
         #region Properties
@@ -26,11 +27,11 @@ namespace vRPGEngine.ECS
             get;
             set;
         }
-        public IEnumerable<Entity> Childern
+        public IEnumerable<Entity> Children
         {
             get
             {
-                return childern;
+                return children;
             }
         }
         #endregion
@@ -39,7 +40,20 @@ namespace vRPGEngine.ECS
         {
             components = new List<IComponent>();
 
-            childern = new List<Entity>();
+            children = new List<Entity>();
+        }
+
+        public void AddChildren(Entity child)
+        {
+            Debug.Assert(child != null);
+
+            if (children.Contains(child)) return;
+
+            children.Add(child);
+        }
+        public bool RemoveChildren(Entity child)
+        {
+            return children.Remove(child);
         }
 
         public T AddComponent<T>() where T : Component<T>, new()
@@ -85,9 +99,9 @@ namespace vRPGEngine.ECS
 
             EntityManager.Instance.Destroy(this);
 
-            foreach (var child in childern) child.Destroy();
+            foreach (var child in children) child.Destroy();
 
-            childern.Clear();
+            children.Clear();
         }
     }
 }

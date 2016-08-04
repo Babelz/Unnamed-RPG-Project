@@ -10,12 +10,12 @@ namespace vRPGEngine.ECS
 {
     public sealed class SpriteManager : ComponentManager<SpriteRenderer>
     {
-        private SpriteManager()
+        public SpriteManager()
             : base()
         {
         }
         
-        protected override void OnUpdate(GameTime gameTime)
+        private new void Update(GameTime gameTime)
         {
             foreach (var renderer in Components)
             {

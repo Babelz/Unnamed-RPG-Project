@@ -12,7 +12,7 @@ namespace vRPGEngine
     /// constructor private when using this base class.
     /// </summary>
     /// <typeparam name="T">type of the singleton instance</typeparam>
-    public class Singleton<T> where T : class
+    public abstract class Singleton<T> where T : class
     {
         #region Fields
         private static readonly T instance;

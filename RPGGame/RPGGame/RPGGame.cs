@@ -5,6 +5,7 @@ using TiledSharp;
 using vRPGEngine;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
+using vRPGEngine.Maps;
 
 namespace RPGGame
 {
@@ -35,15 +36,18 @@ namespace RPGGame
             sprite = new Sprite(DefaultValues.MissingTexture);
             
             view = new View(GraphicsDevice.Viewport);
-
+            
             var renderer = Renderer.Instance;
-            renderer.SetPresentationParameters(1280, 720, 32, 32, 3, 3);
+            renderer.SetPresentationParameters(3200, 3200, 320, 320, 3, 3);
 
             var layer = renderer.CreateLayer();
             renderer.ShowLayer(layer);
             renderer.Add(sprite, layer);
 
             renderer.RegisterView(view);
+
+            TileMapManager.Instance.Load("hello");
+                
         }
 
         protected override void Update(GameTime gameTime)

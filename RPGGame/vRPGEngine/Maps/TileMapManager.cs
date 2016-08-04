@@ -48,6 +48,26 @@ namespace vRPGEngine.Maps
             return layer;
         }
 
+        private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible)
+        {
+            var tile                = EntityBuilder.Instance.Create("empty");
+
+            var renderer            = tile.AddComponent<SpriteRenderer>();
+            renderer.Sprite.Texture = tex;
+
+            renderer.Sprite.Position = new Vector2(x * TileEngine.TileWidth, y * TileEngine.TileHeight);
+
+            renderer.Sprite.Size    = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
+            renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
+            renderer.Sprite.Visible = visible;
+            renderer.Sprite.Source  = src;
+
+            var transform           = tile.FirstComponentOfType<Transform>();
+            transform.Position      = new Vector2(x * TileEngine.TileWidth, y * TileEngine.TileHeight);
+
+            return tile;
+        }
+
         public IEnumerable<Entity> Entitites()
         {
             return entitites;
@@ -79,7 +99,7 @@ namespace vRPGEngine.Maps
                 var opacity = layer.Opacity;
                 var visible = layer.Visible;
 
-                var entity = TileLayer(layer.Name);
+                var tileLayer = TileLayer(layer.Name);
 
                 foreach (var tile in layer.Tiles)
                 {
@@ -87,12 +107,15 @@ namespace vRPGEngine.Maps
 
                     if (gid == 0) continue;
 
-                    var tileFrame = gid - 1;
-                    var column = 0;
-                    var row = 0;
-
-                    var src = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
-                        
+                    var tileFrame   = gid - 1;
+                    var tileset     = data.Tilesets.FirstOrDefault(t => t.FirstGid <= gid);
+                    var texname     = tileset.Image.Source.Substring(0, tileset.Image.Source.LastIndexOf("."));
+                    var tex         = vRPGEngine.Instance.Content.Load<Texture2D>(texname);
+                    var row         = (int)Math.Floor((double)tileFrame / (double)(tex.Width / tileWidth));
+                    var column      = tileFrame % (tex.Width / tileWidth);
+                    var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
+                    
+                    tileLayer.AddChildren(Tile((float)tile.X, (float)tile.Y, src, tex, (float)opacity, visible));
                 }
             }
 
@@ -102,7 +125,7 @@ namespace vRPGEngine.Maps
             
             // Done.
         }
-        
+
         public void Unload()
         {
             // Unload map.
