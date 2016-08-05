@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Data.Enums;
 using vRPGEngine.Data.Items;
 
 namespace vRPGEngine.Attributes
@@ -107,7 +108,7 @@ namespace vRPGEngine.Attributes
             get
             {
                 return MainHand != null && OffHand == null &&
-                       MainHand.WeaponType == WeaponType.2H;
+                       (int)(MainHand.WeaponType & WeaponType.Weapon2H) == 1;
             }
         }
 

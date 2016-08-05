@@ -61,6 +61,7 @@
     <Compile Include="Data\Items\Enums\EquipmentSlot.cs" />
     <Compile Include="Data\Items\Weapon.cs" />
     <Compile Include="Data\Items\Enums\WeaponType.cs" />
+    <Compile Include="Data\Spells\Spell.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
     <Compile Include="ECS\Components\Component.cs" />

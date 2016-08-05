@@ -16,6 +16,7 @@ namespace vRPGEngine.Data.Enums
         Frost,
         Water,
         Nature,
+        Magical,
         Void
     }
 }
