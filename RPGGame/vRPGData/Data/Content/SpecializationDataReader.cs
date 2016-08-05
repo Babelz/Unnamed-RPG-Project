@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using vRPGData.Data.Attributes;
 
 namespace vRPGData.Data.Content
 {
-    class SpecializationDataReader : ContentTypeReader<SpecializationData[]>
+    public sealed class SpecializationDataReader : ContentTypeReader<SpecializationData[]>
     {
         protected override SpecializationData[] Read(ContentReader input, SpecializationData[] existingInstance)
         {

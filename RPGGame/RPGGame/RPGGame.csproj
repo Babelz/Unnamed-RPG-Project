@@ -77,13 +77,13 @@
       <Project>{0aad36e3-51a5-4a07-ab60-5c8a66bd38b7}</Project>
       <Name>Farseer Physics MonoGame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TiledSharp\TiledSharp.csproj">
-      <Project>{e4130f8d-d301-4e0c-916d-489c4a23c9b1}</Project>
-      <Name>TiledSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\vRPGContentExtensions\vRPGContentExtensions.csproj">
       <Project>{3bbb4859-20e9-4220-8b2d-c288131e48e3}</Project>
       <Name>vRPGContentExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vRPGData\vRPGData.csproj">
+      <Project>{c59a1ebf-8c00-4fc0-9a70-009f1fffe5bb}</Project>
+      <Name>vRPGData</Name>
     </ProjectReference>
     <ProjectReference Include="..\vRPGEngine\vRPGEngine.csproj">
       <Project>{98524fb3-f8a1-40bf-9201-b6c2c9ab7b7b}</Project>

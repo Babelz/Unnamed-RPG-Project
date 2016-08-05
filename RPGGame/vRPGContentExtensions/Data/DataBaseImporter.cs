@@ -7,12 +7,12 @@ using System.Text;
 
 namespace vRPGContentExtensions.Data
 {
-    [ContentImporter(".json", DefaultProcessor = "DefaultDatabaseProcessor", DisplayName = "RPG Database Importer")]
-    public sealed class DatabaseImporter : ContentImporter<string>
-    {
-        public override string Import(string filename, ContentImporterContext context)
-        {
-            return filename;
-        }
-    }
+    //[ContentImporter(".json", DefaultProcessor = "DefaultDatabaseProcessor", DisplayName = "RPG Database Importer")]
+    //public sealed class DatabaseImporter : ContentImporter<string>
+    //{
+    //    public override string Import(string filename, ContentImporterContext context)
+    //    {
+    //        return filename;
+    //    }
+    //}
 }
