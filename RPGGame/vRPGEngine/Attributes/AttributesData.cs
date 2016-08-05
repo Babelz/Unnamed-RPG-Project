@@ -47,7 +47,7 @@ namespace vRPGEngine.Attributes
             get;
             set;
         }
-        public int Ep5
+        public int Fp5
         {
             get;
             set;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.Data.Enums
+namespace vRPGData.Data.Enums
 {
     [Flags()]
     public enum WeaponType : int

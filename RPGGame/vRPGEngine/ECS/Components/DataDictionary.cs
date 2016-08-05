@@ -16,6 +16,7 @@ namespace vRPGEngine.ECS.Components
         public DataDictionary()
             : base()
         {
+            dict = new Dictionary<string, object>();
         }
 
         public void Add(string key, object value)

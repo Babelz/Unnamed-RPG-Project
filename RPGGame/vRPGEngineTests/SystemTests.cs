@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using vRPGEngine;
 using vRPGEngine.ECS;
 using System.Diagnostics;
+using vRPGEngine.ECS.Components;
 
 namespace vRPGEngineTests
 {

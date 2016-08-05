@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine;
 
-namespace vRPGEngine.Data.Databases
+namespace vRPGData.Databases
 {
     public abstract class Database<T> : Singleton<Database<T>> where T : class
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGEngine.Data.Enums;
+using vRPGData.Data.Enums;
 
-namespace vRPGEngine.Data.Items
+namespace vRPGData.Data.Items
 {
     /// <summary>
     /// Items that are associated with some quest.

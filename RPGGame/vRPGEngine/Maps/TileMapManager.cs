@@ -22,6 +22,7 @@ namespace vRPGEngine.Maps
         private TileMapManager()
             : base()
         {
+            entitites = new List<Entity>();
         }
 
         private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible)

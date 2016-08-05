@@ -58,7 +58,7 @@ namespace vRPGEngine.Input
 
             if (currentScrollValue != lastScrollValue)
             {
-                currentScrollValue = lastScrollValue;
+                lastScrollValue = currentScrollValue;
 
                 Scroll?.Invoke(state);
             }

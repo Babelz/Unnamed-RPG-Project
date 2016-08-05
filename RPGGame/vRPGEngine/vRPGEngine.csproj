@@ -46,22 +46,8 @@
     <Compile Include="Attributes\EntityAttributes.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
-    <Compile Include="Data\Databases\Database.cs" />
-    <Compile Include="Data\Items\Armor.cs" />
-    <Compile Include="Data\Items\Enums\Categories.cs" />
-    <Compile Include="Data\Items\Consumable.cs" />
-    <Compile Include="Data\Items\DefaultEffectNames.cs" />
-    <Compile Include="Data\Items\Enums\Elements.cs" />
-    <Compile Include="Data\Items\Equipment.cs" />
-    <Compile Include="Data\Items\Item.cs" />
-    <Compile Include="Data\Items\Enums\ItemType.cs" />
-    <Compile Include="Data\Items\Material.cs" />
-    <Compile Include="Data\Items\Enums\Quality.cs" />
-    <Compile Include="Data\Items\QuestItem.cs" />
-    <Compile Include="Data\Items\Enums\EquipmentSlot.cs" />
-    <Compile Include="Data\Items\Weapon.cs" />
-    <Compile Include="Data\Items\Enums\WeaponType.cs" />
-    <Compile Include="Data\Spells\Spell.cs" />
+    <Compile Include="Attributes\Specializations\Warrior.cs" />
+    <Compile Include="Databases\Database.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
     <Compile Include="ECS\Components\Component.cs" />
@@ -86,7 +72,7 @@
     <Compile Include="Input\MouseInputProvider.cs" />
     <Compile Include="Maps\Content\TmxReader.cs" />
     <Compile Include="Maps\TileMapManager.cs" />
-    <Compile Include="Attributes\ISpecialiaztion.cs" />
+    <Compile Include="Attributes\Specializations\Specialization.cs" />
     <Compile Include="SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />
@@ -140,6 +126,10 @@
     <ProjectReference Include="..\TiledSharp\TiledSharp.csproj">
       <Project>{e4130f8d-d301-4e0c-916d-489c4a23c9b1}</Project>
       <Name>TiledSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vRPGData\vRPGData.csproj">
+      <Project>{c59a1ebf-8c00-4fc0-9a70-009f1fffe5bb}</Project>
+      <Name>vRPGData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
