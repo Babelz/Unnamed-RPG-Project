@@ -1,11 +1,73 @@
 {
 	"data" :
 	[
+		// Warrior buffs.
 		{
-			"ID": 0,
-			"Name": "",
-			"Description":"",
-			"TextureName":""
+			"ID": 			0,
+			"Name": 		"Combat training",
+			"Description":	"Strength gives 2 melee power per point",
+			"IconName":		""
+		},
+		{
+			"ID": 			1,
+			"Name": 		"Iron will",
+			"Description":	"Stamina gives 20% more health per point",
+			"IconName":		""
+		},
+		{
+			"ID": 			2,
+			"Name": 		"Armor proficiency: plate",
+			"Description":	"While wearing full plate set, increases stamina by 10%, defence rating by 5% 
+							 and armor value of items by 20%",
+			"IconName":		""
+		},
+		{
+			"ID": 			3,
+			"Name": 		"Armor proficiency: mail",
+			"Description":	"While wearing full mail set, increases damage dealth by 10%, critical strike
+							 chance by 5% and strength by 10%",
+			"IconName":		""
+		},
+		{
+			"ID": 			4,
+			"Name": 		"Rage",
+			"Description":	"Combat focus regeneration reduced by 75% from all sources, but the warrior 
+							 generates focus from all melee attacks",
+			"IconName":		""
+		},
+		{
+			"ID": 			5,
+			"Name": 		"Combat focus limit",
+			"Description":	"Combat focus has a max cap of 200",
+			"IconName":		""
+		},
+
+		// Mage buffs.
+		{
+			"ID": 			6,
+			"Name": 		"Focused mind",
+			"Description":	"Intellect gives 1 spell power per 10 points",
+			"IconName":		""
+		},
+		{
+			"ID": 			7,
+			"Name": 		"Critical thinking",
+			"Description":	"Intellect increases critical strike chance by level",
+			"IconName":		""
+		},
+		{
+			"ID": 			8,
+			"Name": 		"Armor proficiency: cloth",
+			"Description":	"While wearing full cloth set, increases spell power by 10%, Intellect by 10% 
+							 and movement speed by 5%",
+			"IconName":		""
+		},
+		{
+			"ID": 			9,
+			"Name": 		"Armor proficiency: leather",
+			"Description":	"While wearing full leather set, increases stamina by 10%, Intellect by 5% and 
+							 gives health per 5 seconds equal to your level",
+			"IconName":		""
 		},
 	]
 }

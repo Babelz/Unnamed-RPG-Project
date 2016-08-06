@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGContent.Data.Enums;
 
 namespace vRPGContent.Data.Spells
 {
@@ -30,6 +31,35 @@ namespace vRPGContent.Data.Spells
             get;
             set;
         }
+        public Elements Element
+        {
+            get;
+            set;
+        }
+        public string HandlerName
+        {
+            get;
+            set;
+        }
+        public int Cost
+        {
+            get;
+            set;
+        }
+        public int Cooldown
+        {
+            get;
+            set;
+        }
+        public int CastTime
+        {
+            get;
+            set;
+        }
         #endregion
+
+        public Spell()
+        {
+        }
     }
 }

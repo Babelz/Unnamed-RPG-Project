@@ -94,7 +94,9 @@
     <Compile Include="Data\SpecializationProcessor.cs" />
     <Compile Include="Data\DatabaseWriter.cs" />
     <Compile Include="Data\SpecPassiveBuffProcessor.cs" />
+    <Compile Include="Data\Spells\Currencies.cs" />
     <Compile Include="Data\Spells\Spell.cs" />
+    <Compile Include="Data\Spells\SpellCostType.cs" />
     <Compile Include="vJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tmx\TmxImporter.cs" />

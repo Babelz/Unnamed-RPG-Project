@@ -1,0 +1,126 @@
+{
+	"data" : 
+	[
+		// Currencies:
+		// - None 	= 0,
+		// - Mana 	= 1,
+		// - Focus 	= 2,
+		// - Both 	= 3
+
+		// Cost types:
+		// - None 			= 0,
+		// - BasePercent 	= 1,
+		// - TotalPercent 	= 2,
+		// - Static 		= 4
+
+		// Elements:
+        // - None    = 0, 
+        // - Holy    = 1,
+        // - Dark    = 2,
+        // - Eath    = 4,
+        // - Fire    = 8,
+        // - Wind    = 16,
+        // - Frost   = 32,
+        // - Water   = 64,
+        // - Nature  = 128,
+        // - Magical = 256,
+        // - Void    = 512
+
+		// Warrior spec spells.
+		{
+			"ID": 			0,
+			"Name": 		"Battle shout",
+			"Description": 	"Increases melee attack power by 5% and health by 5%, lasts 30s",
+			"Element": 		0,
+			"HandlerName": 	"BattleShout",
+			"IconName": 	"",
+			"Cost":			10,
+			"CostType":		4,
+			"Consumes":		2,
+			"Cooldown":		0
+		},
+		{
+			"ID": 			1,
+			"Name": 		"Taste for blood",
+			"Description": 	"Next 3 melee attacks regenerate 3% of your total health and deal 75% of your 
+							 weapon damage + 10% of your total melee power",
+			"Element": 		0,
+			"HandlerName": 	"TasteForBlood",
+			"IconName": 	"",
+			"Cost":			30,
+			"CostType":		4,
+			"Consumes":		2,
+			"Cooldown":		45
+		},
+		{
+			"ID": 			2,
+			"Name": 		"Shield slam",
+			"Description": 	"Deals damage equal to 10% of your shields armor value + 25% of your
+							 melee power, has 50% chance to stun the target for 3s",
+			"Element": 		0,
+			"HandlerName": 	"ShieldSlam",
+			"IconName": 	"",
+			"Cost":			10,
+			"CostType":		4,
+			"Consumes":		2,
+			"Cooldown":		10
+		},
+		
+
+		// Mage spec spells.
+		{
+			"ID": 			3,
+			"Name": 		"Pyro blast",
+			"Description": 	"Deals 125% of your spell power as fire damage, causes the target 
+						     to burn for 10% of the damage over 3s",
+			"Element": 		8,
+			"HandlerName": 	"PyroBlast",
+			"IconName": 	"",
+			"Cost":			5,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		500
+		},
+		{
+			"ID": 			4,
+			"Name": 		"Frost blast",
+			"Description": 	"deals 50% of your spell power as frost damage, causes the target
+							 to slow down by 50% for 3s",
+			"Element": 		,
+			"HandlerName": 	"",
+			"IconName": 	"",
+			"Cost":			10,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		300
+		},
+		{
+			"ID": 			5,
+			"Name": 		"",
+			"Description": 	"",
+			"Element": 		0,
+			"HandlerName": 	"",
+			"IconName": 	"",
+			"Cost":			10,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		300
+		},
+		{
+			"ID": 			6,
+			"Name": 		"",
+			"Description": 	"",
+			"Element": 		0,
+			"HandlerName": 	"",
+			"IconName": 	"",
+			"Cost":			10,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		300
+		}
+	]
+}
