@@ -12,14 +12,14 @@ namespace vRPGContent
         
         public static string[] RemoveComments(string[] lines)
         {
-            return lines.Where(l => l.Trim().StartsWith(Comment)).ToArray();
+            return lines.Where(l => !l.Trim().StartsWith(Comment)).ToArray();
         }
 
         public static string Join(string[] lines)
         {
             var sb = new StringBuilder();
 
-            for (var i = 0; i <lines.Length; i++) sb.Append(lines[i] + "\n");
+            for (var i = 0; i <lines.Length; i++) sb.Append(lines[i]);
 
             return sb.ToString();
         }

@@ -56,6 +56,11 @@ namespace vRPGContent.Data.Spells
             get;
             set;
         }
+        public float Range
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Spell()

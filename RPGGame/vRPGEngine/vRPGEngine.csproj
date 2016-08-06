@@ -73,6 +73,7 @@
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
+    <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
     <Compile Include="Readers\SpecPassiveBuffReader.cs" />

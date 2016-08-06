@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,6 @@ namespace vRPGContent.Data
 
             var lines       = File.ReadAllLines(input);
             lines           = vJson.RemoveComments(lines);
-
             var contents    = vJson.Join(lines);
             var results     = JsonConvert.DeserializeObject<DataCollection<T>>(contents);
 

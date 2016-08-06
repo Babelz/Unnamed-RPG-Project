@@ -14,7 +14,7 @@ namespace vRPGEngine
     public sealed class RPGWorld : SystemManager<RPGWorld>
     {
         #region Constants
-        public const float UnitToPixel = 100.0f;
+        public const float UnitToPixel = 32.0f;
         public const float PixelToUnit = 1.0f / UnitToPixel;
         #endregion
 

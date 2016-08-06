@@ -71,7 +71,20 @@ namespace vRPGEngine
             DebugRenderer.Instance.AddString((gt) => { fps.Update(gt); return string.Format("Average FPS: {0}", Math.Round(fps.AverageFramesPerSecond, 2)); });
 
             // Memory.
-            DebugRenderer.Instance.AddString((gt) => string.Format("Memory used: {0}kb", GC.GetTotalMemory(false) / 1024));
+            var last    = string.Empty;
+            var elapsed = 0;
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                elapsed += gt.ElapsedGameTime.Milliseconds;
+
+                if (elapsed > 160)
+                {
+                    last    = string.Format("Memory used: {0}kb", GC.GetTotalMemory(false) / 1024);
+                    elapsed = 0;
+                }
+
+                return last;
+            });
         }
         
         public bool Initialize()

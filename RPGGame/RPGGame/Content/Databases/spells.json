@@ -37,7 +37,8 @@
 			"Cost":			10,
 			"CostType":		4,
 			"Consumes":		2,
-			"Cooldown":		0
+			"Cooldown":		0,
+			"Range":		0.5
 		},
 		{
 			"ID": 			1,
@@ -85,10 +86,10 @@
 		{
 			"ID": 			4,
 			"Name": 		"Frost blast",
-			"Description": 	"deals 50% of your spell power as frost damage, causes the target
+			"Description": 	"Deals 50% of your spell power as frost damage, causes the target
 							 to slow down by 50% for 3s",
-			"Element": 		,
-			"HandlerName": 	"",
+			"Element": 		32,
+			"HandlerName": 	"FrostBlast",
 			"IconName": 	"",
 			"Cost":			10,
 			"CostType":		1,
@@ -98,29 +99,60 @@
 		},
 		{
 			"ID": 			5,
-			"Name": 		"",
-			"Description": 	"",
+			"Name": 		"Blink",
+			"Description": 	"Teleport 3 meters to wanted direction",
 			"Element": 		0,
-			"HandlerName": 	"",
+			"HandlerName": 	"Blink",
 			"IconName": 	"",
-			"Cost":			10,
+			"Cost":			3,
 			"CostType":		1,
 			"Consumes":		1,
-			"Cooldown":		0,
-			"CastTime":		300
+			"Cooldown":		800,
+			"CastTime":		0
 		},
 		{
 			"ID": 			6,
-			"Name": 		"",
-			"Description": 	"",
-			"Element": 		0,
+			"Name": 		"Mana blast",
+			"Description": 	"Deals 40% of your spell power as magical damage, grants mana blast
+							 debuff that increases the total cost of the spell by 3% and increases the
+							 damage dealt by mana blast or your next spell by 100%, stacks up to
+							 5 times, lasts 4s",
+			"Element": 		256,
+			"HandlerName": 	"ManaBlast",
+			"IconName": 	"",
+			"Cost":			3,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		200
+		},
+		{
+			"ID": 			7,
+			"Name": 		"Magic missile",
+			"Description": 	"Shoot a magical missile towards your target, deals 30% of your spell power
+							 as magical damage",
+			"Element": 		256,
+			"HandlerName": 	"",
+			"IconName": 	"",
+			"Cost":			5,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		300,
+			"CastTime":		0
+		},
+		{
+			"ID": 			8,
+			"Name": 		"Frost nova",
+			"Description": 	"Root all enemies in 3 meter radius for 5 seconds, deals 10% of your spell
+							 power as frost damage",
+			"Element": 		32,
 			"HandlerName": 	"",
 			"IconName": 	"",
 			"Cost":			10,
 			"CostType":		1,
 			"Consumes":		1,
-			"Cooldown":		0,
-			"CastTime":		300
+			"Cooldown":		1000,
+			"CastTime":		0
 		}
 	]
 }

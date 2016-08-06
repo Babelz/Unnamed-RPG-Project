@@ -84,6 +84,8 @@ namespace RPGGame
             RPGWorld.Instance.Activate();
 
             var specializations = SpecializationDatabase.Instance;
+            var spells = SpellDatabase.Instance;
+            var buffs = PassiveSpecializationBuffDatabase.Instance;
         }
 
         protected override void Update(GameTime gameTime)
