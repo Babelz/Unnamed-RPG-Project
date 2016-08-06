@@ -56,7 +56,9 @@
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Databases\Database.cs" />
+    <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
     <Compile Include="Databases\SpecializationDatabase.cs" />
+    <Compile Include="Databases\SpellDatabase.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
     <Compile Include="ECS\Components\Component.cs" />
@@ -71,7 +73,10 @@
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
+    <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
+    <Compile Include="Readers\SpecPassiveBuffReader.cs" />
+    <Compile Include="Readers\SpellReader.cs" />
     <Compile Include="RPGWorld.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Graphics\DebugRenderer.cs" />

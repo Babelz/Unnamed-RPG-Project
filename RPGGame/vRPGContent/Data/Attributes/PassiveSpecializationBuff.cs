@@ -10,6 +10,11 @@ namespace vRPGContent.Data.Attributes
     public sealed class PassiveSpecializationBuff
     {
         #region Properties
+        public int ID
+        {
+            get;
+            set;
+        }
         public string Name
         {
             get;
@@ -20,7 +25,7 @@ namespace vRPGContent.Data.Attributes
             get;
             set;
         }
-        public string TextureName
+        public string IconName
         {
             get;
             set;

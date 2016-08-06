@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
-using vRPGData.Databases;
 
 namespace vRPGEngine.Databases
 {

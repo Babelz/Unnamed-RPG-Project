@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
+using vRPGEngine.Databases;
 using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.Specializations
@@ -43,7 +44,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return null;
+                return SpellDatabase.Instance.Elements().Where(e => data.Spells.Contains(e.ID));
             }
         }
         /// <summary>
@@ -53,7 +54,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return null;
+                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => data.Buffs.Contains(e.ID));
             }
         }
         #endregion

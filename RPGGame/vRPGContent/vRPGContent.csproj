@@ -76,6 +76,7 @@
     <Compile Include="Data\DatabaseImporter.cs" />
     <Compile Include="Data\DataCollection.cs" />
     <Compile Include="Data\DefaultDatabaseProcessor.cs" />
+    <Compile Include="Data\GenericElementProcessor.cs" />
     <Compile Include="Data\Items\Armor.cs" />
     <Compile Include="Data\Items\Consumable.cs" />
     <Compile Include="Data\Items\DefaultEffectNames.cs" />
@@ -92,7 +93,9 @@
     <Compile Include="Data\Items\Weapon.cs" />
     <Compile Include="Data\SpecializationProcessor.cs" />
     <Compile Include="Data\DatabaseWriter.cs" />
+    <Compile Include="Data\SpecPassiveBuffProcessor.cs" />
     <Compile Include="Data\Spells\Spell.cs" />
+    <Compile Include="vJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tmx\TmxImporter.cs" />
     <Compile Include="Tmx\TmxProcessor.cs" />

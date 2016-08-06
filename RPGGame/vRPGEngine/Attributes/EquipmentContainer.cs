@@ -112,7 +112,7 @@ namespace vRPGEngine.Attributes
             }
         }
 
-        public IEnumerable<Armor> Armor
+        public IEnumerable<Armor> Armors
         {
             get
             {
@@ -149,5 +149,9 @@ namespace vRPGEngine.Attributes
             }
         }
         #endregion
+
+        public EquipmentContainer()
+        {
+        }
     }
 }

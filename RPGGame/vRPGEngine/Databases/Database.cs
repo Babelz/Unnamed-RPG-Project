@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine;
 
-namespace vRPGData.Databases
+namespace vRPGEngine.Databases
 {
     public abstract class Database<TElements, TDatabase> : Singleton<TDatabase> where TDatabase : Database<TElements, TDatabase> where TElements : class
     {
@@ -33,11 +33,9 @@ namespace vRPGData.Databases
         {
         }
 
-        public TElements Query(Predicate<TElements> pred)
+        public IEnumerable<TElements> Elements()
         {
-            foreach (var element in elements) if (pred(element)) return element;
-
-            return null;
+            return elements;
         }
 
         public void Sync()
