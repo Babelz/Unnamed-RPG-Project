@@ -8,6 +8,8 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics;
 using System.Diagnostics;
+using vRPGEngine.ECS;
+using FarseerPhysics.Collision;
 
 namespace vRPGEngine
 {
@@ -35,13 +37,13 @@ namespace vRPGEngine
             world.Step(TimeStep);
         }
 
-        public Body CreateEntityCollider(object userData, float width, float height)
+        public Body CreateEntityCollider(Entity owner, float width, float height)
         {
             var body = BodyFactory.CreateRectangle(world,
                                                    ConvertUnits.ToSimUnits(width),
                                                    ConvertUnits.ToSimUnits(height),
                                                    10.0f,
-                                                   userData);
+                                                   owner);
             body.IsStatic       = false;
             body.Mass           = 80.0f;
             body.Friction       = 0.2f;
@@ -50,11 +52,27 @@ namespace vRPGEngine
             
             return body;
         }
+        public Body CreateSensor(Entity owner, float width, float height)
+        {
+            var body = CreateEntityCollider(owner, width, height);
+
+            body.IsSensor = true;
+
+            return body;
+        }
+
         public void DestroyBody(Body body)
         {
             Debug.Assert(body != null);
 
             world.RemoveBody(body);
+        }
+
+        public IEnumerable<Body> QueryArea(Vector2 simPosition, float simRadius)
+        {
+            var aabb = new AABB(simPosition, simRadius, simRadius);
+
+            return world.QueryAABB(ref aabb).Select(f => f.Body);
         }
     }
 }
