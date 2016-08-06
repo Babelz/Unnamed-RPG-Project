@@ -41,6 +41,14 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
     <Compile Include="Attributes\EntityAttributes.cs" />
@@ -48,6 +56,7 @@
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Databases\Database.cs" />
+    <Compile Include="Databases\SpecializationDatabase.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
     <Compile Include="ECS\Components\Component.cs" />
@@ -62,6 +71,7 @@
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
+    <Compile Include="Readers\SpecializationDataReader.cs" />
     <Compile Include="RPGWorld.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Graphics\DebugRenderer.cs" />
@@ -70,7 +80,7 @@
     <Compile Include="Input\BindingCollections.cs" />
     <Compile Include="Input\MouseBinding.cs" />
     <Compile Include="Input\MouseInputProvider.cs" />
-    <Compile Include="Maps\Content\TmxReader.cs" />
+    <Compile Include="Readers\TmxReader.cs" />
     <Compile Include="Maps\TileMapManager.cs" />
     <Compile Include="Attributes\Specializations\Specialization.cs" />
     <Compile Include="SystemManagers.cs" />
@@ -127,9 +137,9 @@
       <Project>{e4130f8d-d301-4e0c-916d-489c4a23c9b1}</Project>
       <Name>TiledSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\vRPGData\vRPGData.csproj">
-      <Project>{c59a1ebf-8c00-4fc0-9a70-009f1fffe5bb}</Project>
-      <Name>vRPGData</Name>
+    <ProjectReference Include="..\vRPGContent\vRPGContent.csproj">
+      <Project>{3bbb4859-20e9-4220-8b2d-c288131e48e3}</Project>
+      <Name>vRPGContent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

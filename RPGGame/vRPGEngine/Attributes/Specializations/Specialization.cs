@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGData.Data.Attributes;
-using vRPGData.Data.Spells;
+using vRPGContent.Data.Attributes;
+using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
 using vRPGEngine.ECS.Components;
 

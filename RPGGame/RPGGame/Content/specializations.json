@@ -1,0 +1,12 @@
+{
+	"data" : 
+	[
+		{		 	
+			"Name":			"Warrior",
+		 	"Description":	"Balanced melee specialization",
+		 	"TextureName":	"",
+			"Spells": 		[ 0 ],
+			"Buffs": 		[ 0 ]
+		}
+	]
+}

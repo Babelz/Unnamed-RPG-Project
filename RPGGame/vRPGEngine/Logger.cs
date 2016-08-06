@@ -109,7 +109,7 @@ namespace vRPGEngine
 
             formatter = new LogFormatter();
 
-            if (!File.Exists(LogPath)) File.Create(LogPath);
+            File.Create(LogPath).Close();
         }
 
         public void Flush()
@@ -120,11 +120,15 @@ namespace vRPGEngine
             {
                 var formatted = formatter.Format(message.contents, message.level);
 
-                sb.Append(formatter);
+                sb.Append(formatted);
                 sb.Append("\r\n");
             }
 
-            File.WriteAllText(LogPath, sb.ToString());
+            buffer.Clear();
+
+            var output = sb.ToString();
+
+            File.AppendAllText(LogPath, output);
         }
 
         public void Log(string message, LogLevel level)

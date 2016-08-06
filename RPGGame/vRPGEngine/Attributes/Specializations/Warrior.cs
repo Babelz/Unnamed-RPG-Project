@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGData.Data.Attributes;
+using vRPGContent.Data.Attributes;
 using vRPGEngine.Specializations;
 
 namespace vRPGEngine.Attributes.Specializations

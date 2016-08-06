@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TiledSharp;
 using vRPGEngine;
+using vRPGEngine.Databases;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
 using vRPGEngine.Maps;
@@ -81,6 +82,8 @@ namespace RPGGame
 
             body = RPGWorld.Instance.CreateEntityCollider(renderer, 32.0f, 32.0f);
             RPGWorld.Instance.Activate();
+
+            var specializations = SpecializationDatabase.Instance;
         }
 
         protected override void Update(GameTime gameTime)

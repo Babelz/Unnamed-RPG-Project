@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\vRPGContentExtensions\bin\Debug\vRPGContentExtensions.dll
+/reference:..\..\vRPGContent\bin\Debug\vRPGContent.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -26,11 +26,6 @@
 /processorParam:TextureFormat=Color
 /build:sprite.jpg
 
-#begin test map.tmx
-/importer:TmxImporter
-/processor:TmxProcessor
-/build:test map.tmx
-
 #begin tile_set_sheet_by_danaharris.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -43,14 +38,19 @@
 /processorParam:TextureFormat=Color
 /build:tile_set_sheet_by_danaharris.png
 
-#begin hello.tmx
-/importer:TmxImporter
-/processor:TmxProcessor
-/build:hello.tmx
-
 #begin default font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:default font.spritefont
+
+#begin hello.tmx
+/importer:TmxImporter
+/processor:TmxProcessor
+/build:hello.tmx
+
+#begin specializations.json
+/importer:DatabaseImporter
+/processor:SpecializationProcessor
+/build:specializations.json
 

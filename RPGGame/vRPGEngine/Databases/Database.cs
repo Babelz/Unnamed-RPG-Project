@@ -7,10 +7,10 @@ using vRPGEngine;
 
 namespace vRPGData.Databases
 {
-    public abstract class Database<T> : Singleton<Database<T>> where T : class
+    public abstract class Database<TElements, TDatabase> : Singleton<TDatabase> where TDatabase : Database<TElements, TDatabase> where TElements : class
     {
         #region Fields
-        private readonly List<T> elements;
+        private readonly List<TElements> elements;
         #endregion
 
         #region Properties
@@ -27,13 +27,13 @@ namespace vRPGData.Databases
             elements = LoadData();
         }
 
-        protected abstract List<T> LoadData();
+        protected abstract List<TElements> LoadData();
 
         protected virtual void SaveData()
         {
         }
 
-        public T Query(Predicate<T> pred)
+        public TElements Query(Predicate<TElements> pred)
         {
             foreach (var element in elements) if (pred(element)) return element;
 

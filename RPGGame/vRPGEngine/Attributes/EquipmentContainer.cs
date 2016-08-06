@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGData.Data.Enums;
-using vRPGData.Data.Items;
+using vRPGContent.Data.Enums;
+using vRPGContent.Data.Items;
 
 namespace vRPGEngine.Attributes
 {
