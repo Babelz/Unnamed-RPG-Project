@@ -1,0 +1,14 @@
+{
+	"data" : 
+	[
+		{		 	
+			"Name":			"Warrior",
+		 	"Description":	"Balanced melee specialization"
+		},
+
+		{
+			"Name":			"Mage",
+			"Description":	"Powerful but vulnerable spell caster"
+		}
+	]
+}

@@ -49,8 +49,8 @@
 /processor:TmxProcessor
 /build:hello.tmx
 
-#begin specializations.json
+#begin Databases/specializations.json
 /importer:DatabaseImporter
 /processor:SpecializationProcessor
-/build:specializations.json
+/build:Databases/specializations.json
 

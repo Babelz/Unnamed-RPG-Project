@@ -22,7 +22,7 @@ namespace vRPGEngine.Databases
             {
                 Logger.Instance.LogFunctionMessage("loading specializations database...");
 
-                var data = vRPGEngine.Instance.Content.Load<SpecializationData[]>("specializations");
+                var data = vRPGEngine.Instance.Content.Load<SpecializationData[]>("Databases\\specializations");
 
                 Logger.Instance.LogFunctionMessage("load ok!");
 
