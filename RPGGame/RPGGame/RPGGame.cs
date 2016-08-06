@@ -80,7 +80,7 @@ namespace RPGGame
             kb.Bind("player_left", Keys.Left, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(-force, body.LinearVelocity.Y));
             kb.Bind("player_right", Keys.Right, KeyTrigger.Down, () => body.LinearVelocity = new Vector2(force, body.LinearVelocity.Y));
 
-            body = RPGWorld.Instance.CreateEntityCollider(renderer, 32.0f, 32.0f);
+            body = RPGWorld.Instance.CreateEntityCollider(null, 32.0f, 32.0f);
             RPGWorld.Instance.Activate();
 
             var specializations = SpecializationDatabase.Instance;

@@ -40,6 +40,10 @@ namespace vRPGEngine.ECS.Components
 
             return null;
         }
+        public bool Contains(string key)
+        {
+            return dict.ContainsKey(key);
+        }
 
         public object Read(string key)
         {

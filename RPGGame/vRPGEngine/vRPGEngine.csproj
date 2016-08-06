@@ -51,16 +51,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\EntityAttributes.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
+    <Compile Include="Attributes\Spells\Buff.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
     <Compile Include="Databases\SpecializationDatabase.cs" />
     <Compile Include="Databases\SpellDatabase.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
+    <Compile Include="ECS\Components\CharacterController.cs" />
     <Compile Include="ECS\Components\Component.cs" />
     <Compile Include="ECS\Components\ComponentManager.cs" />
     <Compile Include="ECS\Components\Behaviour.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
+    <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
     <Compile Include="Readers\SpecPassiveBuffReader.cs" />

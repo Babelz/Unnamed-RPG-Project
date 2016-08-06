@@ -11,12 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.ECS;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine.Handlers.Spells
 {
     public abstract class SpellHandler
     {
-        #region Fields
+        #region Properties
         public string Name
         {
             get;
@@ -59,7 +60,7 @@ namespace vRPGEngine.Handlers.Spells
         public virtual void Update(GameTime gameTime)
         {
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Present(SpriteBatch spriteBatch, GameTime gameTime)
         {
         }
     }
@@ -265,6 +266,79 @@ namespace vRPGEngine.Handlers.Spells
 
                 if (colliders.Count() != 0) Tick(colliders);
             }
+        }
+    }
+
+    public abstract class SelfBuffSpellHandler : SpellHandler
+    {
+        #region Fields
+        private readonly IRenderable renderable;
+        #endregion
+
+        #region Properties
+        public int DecayTime
+        {
+            get;
+            private set;
+        }
+
+        public int Elapsed
+        {
+            get;
+            protected set;
+        }
+
+        public Entity Owner
+        {
+            get;
+            protected set;
+        }
+        public IRenderable Renderable
+        {
+            get;
+            protected set;
+        }
+        #endregion
+
+        protected SelfBuffSpellHandler(string name, Spell spell, int decayTime, IRenderable renderable)
+                : base(name, spell)
+        {
+            DecayTime  = decayTime;
+            Renderable = renderable;
+        }
+
+        public override void Use(Entity owner)
+        {
+            Owner           = owner;
+            Working         = true;
+            Elapsed         = 0;
+            CooldownElapsed = 0;
+
+            if (Spell.Cooldown != 0) InCooldown = true;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (InCooldown)
+            {
+                CooldownElapsed += gameTime.ElapsedGameTime.Milliseconds;
+
+                if (CooldownElapsed >= Spell.Cooldown)
+                {
+                    InCooldown      = false;
+                    CooldownElapsed = 0;
+                }
+            }
+
+            Elapsed += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (Elapsed > DecayTime) Working = false;
+        }
+        public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (renderable == null) return;
+
+            renderable.Present(spriteBatch, gameTime);
         }
     }
 }
