@@ -121,6 +121,7 @@
     <Compile Include="Singleton.cs" />
     <Compile Include="SystemManager.cs" />
     <Compile Include="vRPGEngine.cs" />
+    <Compile Include="vRPGRandom.cs" />
     <Compile Include="vRPGSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
