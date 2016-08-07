@@ -15,7 +15,7 @@ namespace vRPGEngine.Specializations
     /// <summary>
     /// Runtime specific computations regarding the attributes.
     /// </summary>
-    public abstract class Specialization
+    public class Specialization
     {
         #region Fields
         private readonly SpecializationData data;
@@ -59,7 +59,7 @@ namespace vRPGEngine.Specializations
         }
         #endregion
 
-        public Specialization(SpecializationData data)
+        protected Specialization(SpecializationData data)
         {
             Debug.Assert(data != null);
 
@@ -90,37 +90,42 @@ namespace vRPGEngine.Specializations
         {
             return data.DodgeRatingPercent;
         }
+
         public virtual int TotalEndurance(AttributesData data)
         {
             return data.Endurance;
         }
+
         public virtual int TotalFp5(AttributesData data)
         {
             return data.Fp5;
-        }
-        public virtual int TotalHaste(AttributesData data)
-        {
-            return data.Haste;
         }
         public virtual int TotalHp5(AttributesData data)
         {
             return data.Hp5;
         }
-        public virtual int TotalIntellect(AttributesData data)
-        {
-            return data.Intellect;
-        }
-        public virtual float TotalMovementSpeedPercent(AttributesData data)
-        {
-            return data.MovementSpeedPercent;
-        }
         public virtual int TotalMp5(AttributesData data)
         {
             return data.Mp5;
         }
+
+        public virtual float TotalMovementSpeedPercent(AttributesData data)
+        {
+            return data.MovementSpeedPercent;
+        }
+        public virtual int TotalHaste(AttributesData data)
+        {
+            return data.Haste;
+        }
+
         public virtual float TotalParryRatingPercent(AttributesData data)
         {
             return data.ParryRatingPercent;
+        }
+
+        public virtual int TotalIntellect(AttributesData data)
+        {
+            return data.Intellect;
         }
         public virtual int TotalStamina(AttributesData data)
         {
@@ -129,6 +134,19 @@ namespace vRPGEngine.Specializations
         public virtual int TotalStrength(AttributesData data)
         {
             return data.Strength;
+        }
+
+        public virtual int TotalMeleePower(AttributesData data)
+        {
+            return data.PureMeleePower;
+        }
+        public virtual int TotalSpellPower(AttributesData data)
+        {
+            return data.PureSpellPower;
+        }
+        public virtual int TotalFocus(AttributesData data)
+        {
+            return data.Endurance;
         }
     }
 }

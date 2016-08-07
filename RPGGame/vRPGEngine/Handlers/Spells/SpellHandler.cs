@@ -15,7 +15,7 @@ using vRPGEngine.Graphics;
 
 namespace vRPGEngine.Handlers.Spells
 {
-    public abstract class SpellHandler
+    public abstract class SpellHandler : ICloneable
     {
         #region Properties
         public string Name
@@ -62,6 +62,11 @@ namespace vRPGEngine.Handlers.Spells
         }
         public virtual void Present(SpriteBatch spriteBatch, GameTime gameTime)
         {
+        }
+
+        public virtual object Clone()
+        {
+            return null;
         }
     }
 

@@ -55,6 +55,7 @@
     <Compile Include="Attributes\EntityAttributes.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
+    <Compile Include="Attributes\MeleeDamageController.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Attributes\Spells\Buff.cs" />
     <Compile Include="Databases\Database.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
+    <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

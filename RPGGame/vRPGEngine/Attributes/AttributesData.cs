@@ -92,6 +92,16 @@ namespace vRPGEngine.Attributes
             get;
             set;
         }
+        public int PureMeleePower
+        {
+            get;
+            set;
+        }
+        public int PureSpellPower
+        {
+            get;
+            set;
+        }
         #endregion
 
         public AttributesData()

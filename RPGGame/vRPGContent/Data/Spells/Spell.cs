@@ -66,5 +66,14 @@ namespace vRPGContent.Data.Spells
         public Spell()
         {
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}", Name, HandlerName);
+        }
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }
