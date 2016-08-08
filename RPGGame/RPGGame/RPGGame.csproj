@@ -49,6 +49,8 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Layers.cs" />
+    <Compile Include="Prefabs.cs" />
     <Compile Include="RPGGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

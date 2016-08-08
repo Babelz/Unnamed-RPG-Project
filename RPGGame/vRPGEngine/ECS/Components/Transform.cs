@@ -30,6 +30,7 @@ namespace vRPGEngine.ECS.Components
         public Transform()
             : base()
         {
+            Scale = new Vector2(1.0f);
         }
     }
 }

@@ -119,5 +119,10 @@ namespace vRPGEngine.Graphics
                                                renderable.Position,
                                                renderable.Size);
         }
+
+        public void Clear()
+        {
+            for (int i = 0; i < elements.Length; i++) Remove(elements[i]);
+        }
     }
 }

@@ -45,6 +45,8 @@ namespace vRPGEngine
 
             released    = new Stack<int>();
             pool        = AllocateArray(initialCapacity);
+
+            for (var i = 0; i < pool.Length; i++) pool[i].Location = i;
         }
         public RegisterAllocator(Func<T> objectAllocator)
             : this(8, objectAllocator)

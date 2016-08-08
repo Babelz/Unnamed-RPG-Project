@@ -55,14 +55,14 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return attributes.Name;
+                return specialization.Name;
             }
         }
         public string Description
         {
             get
             {
-                return attributes.Description;
+                return specialization.Description;
             }
         }
 
@@ -73,7 +73,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return SpellDatabase.Instance.Elements().Where(e => attributes.Spells.Contains(e.ID));
+                return SpellDatabase.Instance.Elements().Where(e => specialization.Spells.Contains(e.ID));
             }
         }
         /// <summary>
@@ -83,7 +83,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => attributes.Buffs.Contains(e.ID));
+                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => specialization.Buffs.Contains(e.ID));
             }
         }
         #endregion

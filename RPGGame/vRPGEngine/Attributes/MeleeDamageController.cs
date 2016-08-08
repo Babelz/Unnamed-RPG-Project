@@ -5,8 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGContent.Data.Enums;
 using vRPGContent.Data.Items;
+using vRPGContent.Data.Items.Enums;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes.Spells;
 using vRPGEngine.Specializations;
@@ -139,8 +139,7 @@ namespace vRPGEngine.Attributes
             if (!InCombat) return;
 
             InCombat = false;
-
-            weapons.Clear();
+            count    = 0;
         }
 
         public delegate void MeleeSwingEventHandler(ref MeleeSwingResults swing);

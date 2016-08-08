@@ -13,6 +13,11 @@ namespace vRPGEngine.ECS.Components
         public bool Behaving
         {
             get;
+            private set;
+        }
+        public Action<GameTime> Behave
+        {
+            get;
             set;
         }
         #endregion
@@ -22,16 +27,12 @@ namespace vRPGEngine.ECS.Components
         {
             Behaving = true;
         }
-        
-        protected virtual void Behave(GameTime gameTime)
-        {
-        }
-
+      
         public void Update(GameTime gameTime)
         {
             if (!Behaving) return;
 
-            Behave(gameTime);
+            Behave?.Invoke(gameTime);
         }
     }
 }

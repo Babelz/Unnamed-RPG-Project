@@ -71,6 +71,7 @@ namespace vRPGEngine.Graphics
                 }
             }
         }
+
         public IEnumerable<RenderCell> InvisibleCells(IEnumerable<RenderCell> visibleCells)
         {
             Debug.Assert(visibleCells != null);
@@ -96,7 +97,6 @@ namespace vRPGEngine.Graphics
             var column  = (int)(renderable.Position.X / cellSize.X);
             var row     = (int)(renderable.Position.Y / cellSize.Y);
 
-#if DEBUG
             if (column >= gridSize.X || column < 0)
             {
                 Logger.Instance.LogFunctionWarning("grid column overlap, auto fixing to max");
@@ -108,7 +108,6 @@ namespace vRPGEngine.Graphics
                 Logger.Instance.LogFunctionWarning("grid row overlap, auto fixing to max");
                 row = gridSize.Y - 1;
             }
-#endif
 
             grid[row][column].Add(renderable);
 
@@ -150,6 +149,13 @@ namespace vRPGEngine.Graphics
             // "invalidate", change the containing cell.
             Remove(renderable);
             Add(renderable);
+        }
+
+        public void Clear()
+        {
+            for (int i = 0; i < gridSize.Y; i++)
+                for (int j = 0; j < gridSize.X; j++)
+                    grid[i][j].Clear();
         }
     }
 }

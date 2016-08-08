@@ -48,6 +48,7 @@ namespace vRPGEngine.Graphics
                 return totalElements;
             }
         }
+
         public int VisibleElements
         {
             get
@@ -223,11 +224,20 @@ namespace vRPGEngine.Graphics
             layers[layer].Visible = false;
         }
 
+        public void ClearLayer(int layer)
+        {
+            if (layers[layer] == null || layer >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");
+
+            layers[layer].Clear();
+        }
+
         public void ClearLayers()
         {
             freeIndices.Clear();
 
             layers = new Layer[InitialLayersCount];
+
+            ptr = 0;
         }
 
         public void RegisterView(View view)
@@ -252,8 +262,13 @@ namespace vRPGEngine.Graphics
         public void Invalidate(IRenderable element)
         {
             if (!element.Active) return;
-
+            
             layers[element.Layer].Invalidate(element);
+        }
+
+        public bool HasLayers()
+        {
+            return layers.FirstOrDefault(l => l != null) != null;
         }
     }
 }

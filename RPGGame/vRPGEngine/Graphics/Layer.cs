@@ -78,5 +78,10 @@ namespace vRPGEngine.Graphics
 
             grid.Invalidate(element);
         }
+
+        public void Clear()
+        {
+            grid.Clear();
+        }
     }
 }

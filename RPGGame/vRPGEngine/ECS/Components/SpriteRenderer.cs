@@ -23,11 +23,6 @@ namespace vRPGEngine.ECS.Components
                 return sprite;
             }
         }
-        public int Layer
-        {
-            get;
-            set;
-        }
 
         public bool Anchored
         {
@@ -53,7 +48,7 @@ namespace vRPGEngine.ECS.Components
         {
             base.Initialize();
 
-            Renderer.Instance.Add(sprite, Layer);
+            Renderer.Instance.Add(sprite, sprite.Layer);
         }
         protected override void Deinitialize()
         {

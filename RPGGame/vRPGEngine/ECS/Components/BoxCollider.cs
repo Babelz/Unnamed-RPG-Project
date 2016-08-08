@@ -99,7 +99,7 @@ namespace vRPGEngine.ECS.Components
             body = null;
         }
         
-        public void Construct(float width, float height)
+        public void Initialize(float width, float height)
         {
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 

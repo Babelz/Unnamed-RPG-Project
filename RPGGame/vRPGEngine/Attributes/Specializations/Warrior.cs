@@ -16,7 +16,7 @@ namespace vRPGEngine.Attributes.Specializations
         #endregion
 
         public Warrior(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
-            : base(specialization, attributes, equipments)
+            : base(specialization, attributes, equipments, statuses)
         {
             this.damageController = damageController;
 
@@ -26,6 +26,16 @@ namespace vRPGEngine.Attributes.Specializations
         #region Properties
         private void DamageController_OnSwing(ref MeleeSwingResults swing)
         {
+            // Regenerate focus from melee swings. 
+            // For example, if the warrior is level 20 and he deals 480 damage, he regenerates 24 focus.
+            // Cricital hits always regenerate double the focus.
+            var regen = swing.Damage / Attributes.Level;
+
+            if (swing.Critical) regen *= 2;
+
+            Statuses.Focus += regen;
+
+            Statuses.Focus = Statuses.Focus >= TotalFocus() ? TotalFocus() : Statuses.Focus;
         }
         #endregion
 
@@ -90,6 +100,7 @@ namespace vRPGEngine.Attributes.Specializations
         }
         public override int TotalEndurance()
         {
+            // Warriors have base endurance of 100 and max focus cap of 200.
             return 100 + Attributes.Endurance;
         }
         public override int TotalFocus()

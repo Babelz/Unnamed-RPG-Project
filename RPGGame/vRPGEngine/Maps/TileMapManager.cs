@@ -13,6 +13,10 @@ namespace vRPGEngine.Maps
 {
     public sealed class TileMapManager : Singleton<TileMapManager>
     {
+        #region Constants
+        private const int MapLayer = 0;
+        #endregion
+
         #region Fields
         private List<Entity> entitites;
 
@@ -34,6 +38,7 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Texture = vRPGEngine.Instance.Content.Load<Texture2D>(image);
             renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible = visible;
+            renderer.Sprite.Layer   = MapLayer;
 
             var transform           = layer.FirstComponentOfType<Transform>();
             transform.Position      = new Vector2(x, y);
@@ -53,13 +58,14 @@ namespace vRPGEngine.Maps
         {
             var tile                 = Entity.Create();
 
-            var renderer             = tile.AddComponent<SpriteRenderer>();
-            renderer.Sprite.Texture  = tex;
-            renderer.Sprite.Position = new Vector2(x, y);
-            renderer.Sprite.Size     = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
-            renderer.Sprite.Color    = new Color(renderer.Sprite.Color, opacity);
-            renderer.Sprite.Visible  = visible;
-            renderer.Sprite.Source   = src;
+            var renderer              = tile.AddComponent<SpriteRenderer>();
+            renderer.Sprite.Texture   = tex;
+            renderer.Sprite.Position  = new Vector2(x, y);
+            renderer.Sprite.Size = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
+            renderer.Sprite.Color     = new Color(renderer.Sprite.Color, opacity);
+            renderer.Sprite.Visible   = visible;
+            renderer.Sprite.Source    = src;
+            renderer.Sprite.Layer     = MapLayer;
             
             return tile;
         }

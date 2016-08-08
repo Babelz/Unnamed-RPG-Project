@@ -14,6 +14,8 @@ namespace vRPGEngine.Graphics
         private Vector2 scale;
         private Vector2 position;
         private Vector2 size;
+
+        private int layer;
         #endregion
 
         #region Properties
@@ -29,8 +31,20 @@ namespace vRPGEngine.Graphics
         }
         public int Layer
         {
-            get;
-            set;
+            get
+            {
+                return layer;
+            }
+            set
+            {
+                if (layer == value) return;
+                
+                Renderer.Instance.Remove(this);
+
+                layer = value;
+
+                Renderer.Instance.Add(this, layer);
+            }
         }
 
         public Vector2 Center
@@ -70,13 +84,11 @@ namespace vRPGEngine.Graphics
         {
             get
             {
-                return size * scale;
+                return size;
             }
             set
             {
                 size = value;
-
-                Renderer.Instance.Invalidate(this);
             }
         }
         public Vector2 Origin
