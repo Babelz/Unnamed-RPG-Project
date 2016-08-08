@@ -31,16 +31,17 @@ namespace vRPGEngine.Maps
             entitites = new List<Entity>();
         }
 
-        private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible)
+        private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible, int location)
         {
             var layer               = EntityBuilder.Instance.Create("empty");
             layer.Tags              = name;
 
             var renderer            = layer.AddComponent<SpriteRenderer>();
+            renderer.Sprite.Layer   = location;
             renderer.Sprite.Texture = vRPGEngine.Instance.Content.Load<Texture2D>(image);
             renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible = visible;
-            renderer.Sprite.Layer   = MapLayer;
+            renderer.Sprite.Layer   = location;
             
             var transform           = layer.FirstComponentOfType<Transform>();
             transform.Position      = new Vector2(x, y);
@@ -56,7 +57,7 @@ namespace vRPGEngine.Maps
             return layer;
         }
 
-        private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible)
+        private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible, int location)
         {
             var tile                  = Entity.Create();
 
@@ -66,31 +67,20 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Color     = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible   = visible;
             renderer.Sprite.Source    = src;
-            renderer.Sprite.Layer     = MapLayer;
+            renderer.Sprite.Layer     = location;
 
             return tile;
         }
 
-        private Entity Collider(string type, float x, float y, float width, float height, float rotation)
+        private Entity Wall(string type, float x, float y, float width, float height, float rotation)
         {
             var collider  = Entity.Create();
             collider.Tags = "wall";
 
             var box = collider.AddComponent<BoxCollider>();
             box.MakeStatic(width, height, x, y);
-            box.OnCollision += Box_OnCollision;
             
             return collider;
-        }
-
-        private bool Box_OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
-        {
-            var aEnt = fixtureA.Body.UserData as Entity;
-            var bEnt = fixtureA.Body.UserData as Entity;
-
-            if (aEnt.Tags == "player" || bEnt.Tags == "player") Console.WriteLine(string.Format("{0} <-> {1}", aEnt.Tags, bEnt.Tags));
-
-            return true;
         }
 
         public IEnumerable<Entity> Entitites()
@@ -109,16 +99,26 @@ namespace vRPGEngine.Maps
             var mapHeight = data.Height;
 
             TileEngine.ChangeProperties(tileWidth, tileHeight, mapWidth, mapHeight);
-            
+
             // Load map.
             foreach (var layer in data.ImageLayers)
-                entitites.Add(ImageLayer(layer.Name, 
-                                         layer.Image?.Source, 
+            {
+
+                var value    = string.Empty;
+                var location = MapLayer;
+
+                if (layer.Properties.Dict != null)
+                    if (layer.Properties.Dict.TryGetValue("location", out value)) location = int.Parse(value);
+
+                entitites.Add(ImageLayer(layer.Name,
+                                         layer.Image?.Source,
                                          (float)layer.OffsetX,
                                          (float)layer.OffsetY,
-                                         (float)layer.Opacity, 
-                                         layer.Visible));
-            
+                                         (float)layer.Opacity,
+                                         layer.Visible,
+                                         location));
+            }
+
             foreach (var layer in data.Layers)
             {
                 var opacity     = layer.Opacity;
@@ -128,6 +128,12 @@ namespace vRPGEngine.Maps
                 
                 var tilesCount  = 0;
 
+                var value       = string.Empty;
+                var location    = MapLayer;
+
+                if (layer.Properties.Dict != null)
+                    if (layer.Properties.Dict.TryGetValue("location", out value)) location = int.Parse(value);
+                
                 foreach (var tile in layer.Tiles)
                 {
                     var gid = tile.Gid;
@@ -138,13 +144,13 @@ namespace vRPGEngine.Maps
                     var tileset     = data.Tilesets.FirstOrDefault(t => t.FirstGid <= gid);
                     var texname     = tileset.Image.Source.Substring(0, tileset.Image.Source.LastIndexOf("."));
                     var tex         = vRPGEngine.Instance.Content.Load<Texture2D>(texname);
-                    var row         = (int)Math.Floor((double)tileFrame / (double)(tex.Width / tileWidth));
+                    var row         = (int)Math.Floor(tileFrame / (double)(tex.Width / tileWidth));
                     var column      = tileFrame % (tex.Width / tileWidth);
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
                     var x           = (float)tile.X * tileWidth;
                     var y           = (float)tile.Y * tileHeight;
                     
-                    tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible));
+                    tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible, location));
 
                     tilesCount++;
                 }
@@ -167,7 +173,7 @@ namespace vRPGEngine.Maps
                     var height      = (float)entity.Height;
                     var rotation    = (float)entity.Rotation;
 
-                    if (entity.Name == "collider") objectLayer.AddChildren(Collider(type, x, y, width, height, rotation));
+                    if (entity.Name == "wall") objectLayer.AddChildren(Wall(type, x, y, width, height, rotation));
                 }
             }
 

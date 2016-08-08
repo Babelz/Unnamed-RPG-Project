@@ -43,6 +43,8 @@ namespace vRPGEngine.Graphics
                 layer = value;
 
                 Renderer.Instance.Add(this, layer);
+
+                Depth = layer * 0.1f;
             }
         }
 

@@ -54,11 +54,6 @@
 /processor:SpecializationProcessor
 /build:Databases/specializations.json
 
-#begin test bed map.tmx
-/importer:TmxImporter
-/processor:TmxProcessor
-/build:test bed map.tmx
-
 #begin tilea4.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -70,4 +65,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tilea4.png
+
+#begin test bed map.tmx
+/importer:TmxImporter
+/processor:TmxProcessor
+/build:test bed map.tmx
 
