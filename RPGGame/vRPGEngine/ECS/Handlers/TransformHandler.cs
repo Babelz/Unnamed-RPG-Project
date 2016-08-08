@@ -18,9 +18,9 @@ namespace vRPGEngine.ECS.Handlers
                 var body = transform.Owner.FirstComponentOfType<BoxCollider>();
 
                 if (body == null) continue;
-
-                transform.Position = ConvertUnits.ToDisplayUnits(body.Position);
+                
                 transform.Size     = ConvertUnits.ToDisplayUnits(body.Size);
+                transform.Position = ConvertUnits.ToDisplayUnits(body.Position) - transform.Size / 2.0f;
             }
         }
     }

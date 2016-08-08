@@ -1,4 +1,5 @@
-﻿using FarseerPhysics.Collision;
+﻿using FarseerPhysics;
+using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using System;
@@ -99,11 +100,18 @@ namespace vRPGEngine.ECS.Components
             body = null;
         }
         
-        public void Initialize(float width, float height)
+        public void MakeDynamic(float width, float height)
         {
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
-            body = RPGWorld.Instance.CreateEntityCollider(Owner, width, height);
+            body = RPGWorld.Instance.CreateDynamicCollider(Owner, width, height);
+        }
+
+        public void MakeStatic(float width, float height, float x, float y)
+        {
+            if (body != null) RPGWorld.Instance.DestroyBody(body);
+
+            body = RPGWorld.Instance.CreateStaticCollider(Owner, width, height, x + width / 2.0f, y + height / 2.0f);
         }
     }
 }

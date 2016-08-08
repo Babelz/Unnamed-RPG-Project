@@ -17,7 +17,8 @@ namespace RPGGame
     {
         private static Entity PlayerPrefab()
         {
-            var player = Entity.Create();
+            var player  = Entity.Create();
+            player.Tags = "player";
 
             var transform = player.AddComponent<Transform>();
 
@@ -28,7 +29,7 @@ namespace RPGGame
             rendrer.Anchored = true;
 
             var collider = player.AddComponent<BoxCollider>();
-            collider.Initialize(32.0f, 32.0f);
+            collider.MakeDynamic(32.0f, 32.0f);
 
             var behaviour = player.AddComponent<Behaviour>();
 

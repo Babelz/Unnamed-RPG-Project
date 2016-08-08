@@ -37,7 +37,7 @@ namespace vRPGEngine
             world.Step(TimeStep);
         }
 
-        public Body CreateEntityCollider(Entity owner, float width, float height)
+        public Body CreateDynamicCollider(Entity owner, float width, float height)
         {
             var body = BodyFactory.CreateRectangle(world,
                                                    ConvertUnits.ToSimUnits(width),
@@ -52,9 +52,26 @@ namespace vRPGEngine
             
             return body;
         }
+        public Body CreateStaticCollider(Entity owner, float width, float height, float x, float y)
+        { 
+            var body = BodyFactory.CreateRectangle(world,
+                                                   ConvertUnits.ToSimUnits(width),
+                                                   ConvertUnits.ToSimUnits(height),
+                                                   10.0f,
+                                                   owner);
+
+            body.Position       = new Vector2(ConvertUnits.ToSimUnits(x), ConvertUnits.ToSimUnits(y));
+            body.IsStatic       = true;
+            body.Mass           = 80.0f;
+            body.Friction       = 0.2f;
+            body.Restitution    = 0.2f;
+            body.BodyType       = BodyType.Static;
+            
+            return body;
+        }
         public Body CreateSensor(Entity owner, float width, float height)
         {
-            var body = CreateEntityCollider(owner, width, height);
+            var body = CreateDynamicCollider(owner, width, height);
 
             body.IsSensor = true;
 

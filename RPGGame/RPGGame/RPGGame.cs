@@ -46,7 +46,7 @@ namespace RPGGame
             Prefabs.Register();
             Layers.Create();
             
-            TileMapManager.Instance.Load("hello");
+            TileMapManager.Instance.Load("test bed map");
                         
             var player = EntityBuilder.Instance.Create("player");
         }

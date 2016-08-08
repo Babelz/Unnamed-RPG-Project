@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -56,7 +58,7 @@ namespace vRPGEngine.Maps
 
         private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible)
         {
-            var tile                 = Entity.Create();
+            var tile                  = Entity.Create();
 
             var renderer              = tile.AddComponent<SpriteRenderer>();
             renderer.Sprite.Texture   = tex;
@@ -67,6 +69,28 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Layer     = MapLayer;
 
             return tile;
+        }
+
+        private Entity Collider(string type, float x, float y, float width, float height, float rotation)
+        {
+            var collider  = Entity.Create();
+            collider.Tags = "wall";
+
+            var box = collider.AddComponent<BoxCollider>();
+            box.MakeStatic(width, height, x, y);
+            box.OnCollision += Box_OnCollision;
+            
+            return collider;
+        }
+
+        private bool Box_OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
+        {
+            var aEnt = fixtureA.Body.UserData as Entity;
+            var bEnt = fixtureA.Body.UserData as Entity;
+
+            if (aEnt.Tags == "player" || bEnt.Tags == "player") Console.WriteLine(string.Format("{0} <-> {1}", aEnt.Tags, bEnt.Tags));
+
+            return true;
         }
 
         public IEnumerable<Entity> Entitites()
@@ -137,13 +161,13 @@ namespace vRPGEngine.Maps
                 foreach (var entity in layer.Objects)
                 {
                     var type        = entity.Type;
-                    var x           = entity.X;
-                    var y           = entity.Y;
-                    var width       = entity.Width;
-                    var height      = entity.Height;
-                    var rotation    = entity.Rotation;
+                    var x           = (float)entity.X;
+                    var y           = (float)entity.Y;
+                    var width       = (float)entity.Width;
+                    var height      = (float)entity.Height;
+                    var rotation    = (float)entity.Rotation;
 
-                    // TODO: spawn.
+                    if (entity.Name == "collider") objectLayer.AddChildren(Collider(type, x, y, width, height, rotation));
                 }
             }
 
