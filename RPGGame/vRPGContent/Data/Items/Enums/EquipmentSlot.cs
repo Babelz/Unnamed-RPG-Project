@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGContent.Data.Enums
+namespace vRPGContent.Data.Items.Enums
 {
     [Serializable()]
     public enum EquipmentSlot : int

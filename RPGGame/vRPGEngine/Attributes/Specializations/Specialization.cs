@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
+using vRPGContent.Data.Items;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
 using vRPGEngine.Databases;
@@ -18,22 +19,50 @@ namespace vRPGEngine.Specializations
     public class Specialization
     {
         #region Fields
-        private readonly SpecializationData data;
+        private readonly SpecializationData specialization;
+
+        private readonly AttributesData attributes;
+
+        private readonly EquipmentContainer equipments;
+
+        private readonly Statuses statuses;
         #endregion
 
         #region Properties
+        protected AttributesData Attributes
+        {
+            get
+            {
+                return attributes;
+            }
+        }
+        protected EquipmentContainer Equipments
+        {
+            get
+            {
+                return equipments;
+            }
+        }
+        protected Statuses Statuses
+        {
+            get
+            {
+                return statuses;
+            }
+        }
+
         public string Name
         {
             get
             {
-                return data.Name;
+                return attributes.Name;
             }
         }
         public string Description
         {
             get
             {
-                return data.Description;
+                return attributes.Description;
             }
         }
 
@@ -44,7 +73,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return SpellDatabase.Instance.Elements().Where(e => data.Spells.Contains(e.ID));
+                return SpellDatabase.Instance.Elements().Where(e => attributes.Spells.Contains(e.ID));
             }
         }
         /// <summary>
@@ -54,99 +83,127 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => data.Buffs.Contains(e.ID));
+                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => attributes.Buffs.Contains(e.ID));
             }
         }
         #endregion
 
-        protected Specialization(SpecializationData data)
+        protected Specialization(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses)
         {
-            Debug.Assert(data != null);
+            Debug.Assert(specialization != null);
+            Debug.Assert(attributes != null);
 
-            this.data = data;
-        }
-
-        public virtual int TotalAgility(AttributesData data)
-        {
-            return data.Agility;
-        }
-        public virtual int TotalArmor(AttributesData data)
-        {
-            return data.Armor;
-        }
-        public virtual float TotalBlockRatingPercent(AttributesData data)
-        {
-            return data.BlockRatingPercent;
-        }
-        public virtual float TotalCriticalHitPercent(AttributesData data)
-        {
-            return data.CriticalHitPercent;
-        }
-        public virtual float TotalDefenceRatingPercent(AttributesData data)
-        {
-            return data.DefenceRatingPercent;
-        }
-        public virtual float TotalDodgeRatingPercent(AttributesData data)
-        {
-            return data.DodgeRatingPercent;
+            this.specialization  = specialization;
+            this.attributes      = attributes;
+            this.equipments      = equipments;
+            this.statuses        = statuses;
         }
 
-        public virtual int TotalEndurance(AttributesData data)
+        public virtual float CriticalDamagePercent()
         {
-            return data.Endurance;
+            // 200%.
+            return 2.0f;
         }
 
-        public virtual int TotalFp5(AttributesData data)
+        public virtual int TotalAgility()
         {
-            return data.Fp5;
+            return attributes.Agility;
         }
-        public virtual int TotalHp5(AttributesData data)
+        public virtual int TotalArmor()
         {
-            return data.Hp5;
-        }
-        public virtual int TotalMp5(AttributesData data)
-        {
-            return data.Mp5;
+            return attributes.Armor;
         }
 
-        public virtual float TotalMovementSpeedPercent(AttributesData data)
+        public virtual float TotalBlockRatingPercent()
         {
-            return data.MovementSpeedPercent;
+            return attributes.BlockRatingPercent;
         }
-        public virtual int TotalHaste(AttributesData data)
+        public virtual float TotalCriticalHitPercent()
         {
-            return data.Haste;
+            return attributes.CriticalHitPercent;
         }
-
-        public virtual float TotalParryRatingPercent(AttributesData data)
+        public virtual float TotalDefenceRatingPercent()
         {
-            return data.ParryRatingPercent;
+            return attributes.DefenceRatingPercent;
         }
-
-        public virtual int TotalIntellect(AttributesData data)
+        public virtual float TotalDodgeRatingPercent()
         {
-            return data.Intellect;
-        }
-        public virtual int TotalStamina(AttributesData data)
-        {
-            return data.Stamina;
-        }
-        public virtual int TotalStrength(AttributesData data)
-        {
-            return data.Strength;
+            return attributes.DodgeRatingPercent;
         }
 
-        public virtual int TotalMeleePower(AttributesData data)
+        public virtual int TotalEndurance()
         {
-            return data.PureMeleePower;
+            return attributes.Endurance;
         }
-        public virtual int TotalSpellPower(AttributesData data)
+
+        public virtual int TotalFp5()
         {
-            return data.PureSpellPower;
+            return attributes.Fp5;
         }
-        public virtual int TotalFocus(AttributesData data)
+        public virtual int TotalHp5()
         {
-            return data.Endurance;
+            return attributes.Hp5;
+        }
+        public virtual int TotalMp5()
+        {
+            return attributes.Mp5;
+        }
+
+        public virtual float TotalMovementSpeedPercent()
+        {
+            return attributes.MovementSpeedPercent;
+        }
+        public virtual int TotalHaste()
+        {
+            return attributes.Haste;
+        }
+
+        public virtual float TotalParryRatingPercent()
+        {
+            return attributes.ParryRatingPercent;
+        }
+
+        public virtual int TotalIntellect()
+        {
+            return attributes.Intellect;
+        }
+        public virtual int TotalStamina()
+        {
+            return attributes.Stamina;
+        }
+        public virtual int TotalStrength()
+        {
+            return attributes.Strength;
+        }
+
+        public virtual int TotalHealth()
+        {
+            return TotalStamina() * 10;
+        }
+        public virtual int TotalMeleePower()
+        {
+            return attributes.PureMeleePower;
+        }
+        public virtual int TotalSpellPower()
+        {
+            return attributes.PureSpellPower;
+        }
+        public virtual int TotalFocus()
+        {
+            return attributes.Endurance;
+        }
+
+        public virtual float MeleeDamageModifierPercent()
+        {
+            return 0.0f;
+        }
+        public virtual float SpellDamageModifierPercent()
+        {
+            return 0.0f;
+        }
+        public virtual float DamageModifierPercent()
+        {
+            return 0.0f;
         }
     }
 }

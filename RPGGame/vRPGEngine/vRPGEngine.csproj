@@ -52,12 +52,13 @@
   <ItemGroup>
     <Compile Include="Allocator.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
-    <Compile Include="Attributes\EntityAttributes.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\MeleeDamageController.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Attributes\Spells\Buff.cs" />
+    <Compile Include="Attributes\AttributesContainer.cs" />
+    <Compile Include="CombatLog.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
     <Compile Include="Databases\SpecializationDatabase.cs" />

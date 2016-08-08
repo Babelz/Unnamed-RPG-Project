@@ -102,6 +102,17 @@ namespace vRPGEngine.Attributes
             get;
             set;
         }
+
+        public float HealthPercentModifier
+        {
+            get;
+            set;
+        }
+        public float MeeleePowerPercentModifier
+        {
+            get;
+            set;
+        }
         #endregion
 
         public AttributesData()

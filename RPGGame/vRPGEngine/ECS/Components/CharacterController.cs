@@ -11,25 +11,7 @@ using vRPGEngine.Specializations;
 
 namespace vRPGEngine.ECS.Components
 {
-    public interface ICharacterController
-    {
-        #region Properties
-        BuffContainer Buffs
-        {
-            get;
-        }
-        AttributesData Attributes
-        {
-            get;
-        }
-        List<SpellHandler> Spells
-        {
-            get;
-        }
-        #endregion
-    }
-
-    public sealed class PlayerCharacterController : Component<NonPlayerCharacterController>, ICharacterController
+    public sealed class CharacterController : Component<CharacterController>
     {
         #region Fields
         private SpellHandler casting;
@@ -68,7 +50,7 @@ namespace vRPGEngine.ECS.Components
         //          - passives
         #endregion
 
-        public PlayerCharacterController()
+        public CharacterController()
             : base()
         {
             Attributes  = new AttributesData();
@@ -100,36 +82,5 @@ namespace vRPGEngine.ECS.Components
 
             casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
         }
-    }
-
-    public sealed class NonPlayerCharacterController : Component<NonPlayerCharacterController>, ICharacterController
-    {
-        #region Properties
-        public AttributesData Attributes
-        {
-            get;
-            private set;
-        }
-        public BuffContainer Buffs
-        {
-            get;
-            private set;
-        }
-        public List<SpellHandler> Spells
-        {
-            get;
-            private set;
-        }
-
-        // TODO: NPC data:
-        //          - name
-        //          - attribs
-        //          - spells
-        //          - animations 
-        //          - sounds
-        //          - sprites etc
-        //          - faction
-        //          - type
-        #endregion
     }
 }

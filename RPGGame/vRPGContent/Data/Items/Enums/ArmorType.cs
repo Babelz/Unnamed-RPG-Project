@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace vRPGContent.Data.Items.Enums
 {
-    public enum ItemType : int
+    public enum ArmorType : int
     {
-        Material = 0,
-        QuestItem,
-        Consumable,
-        Armor,
-        Weapon
+         Cloth = 0,
+         Leather,
+         Mail,
+         Plate
     }
 }

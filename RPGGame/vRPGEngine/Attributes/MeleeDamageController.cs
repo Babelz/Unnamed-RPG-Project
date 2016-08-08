@@ -7,53 +7,36 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Enums;
 using vRPGContent.Data.Items;
+using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes.Spells;
+using vRPGEngine.Specializations;
 
 namespace vRPGEngine.Attributes
-{
-    public class SwingBuff
+{  
+    public struct MeleeSwingResults
     {
-        /// <summary>
-        /// How many percents of the total weapon
-        /// damage will be used for this swing.
-        /// </summary>
-        public readonly float WeaponDamagePercent;
+        public int Damage;
 
-        /// <summary>
-        /// How many swings this swing buff will last.
-        /// </summary>
-        public readonly int SwingsCount;
-        
-        /// <summary>
-        /// The buff that triggeres this swing buff.
-        /// </summary>
-        public readonly Buff Buff;
+        public bool Critical;
 
-        /// <summary>
-        /// How many swings have been buffed.
-        /// </summary>
-        public int Count;
-
-        public SwingBuff(float weaponDamagePercent, int swingsCount, Buff buff)
-        {
-            WeaponDamagePercent = weaponDamagePercent;
-            SwingsCount         = swingsCount;
-            Buff                = buff;
-        }
+        public Weapon Weapon;
     }
 
     public sealed class MeleeDamageController
     {
         #region Fields
-        private readonly List<SwingBuff> swingBuffs;
-
-        private EquipmentContainer equipments;
+        private readonly EquipmentContainer equipments;
+        private readonly Specialization specialization;
+        
+        private List<MeleeSwingResults> results;
         
         private Weapon[] weapons;
         private int[] timers;
         private int count;
+        #endregion
 
-        private List<int> results;
+        #region Events
+        public event MeleeSwingEventHandler OnSwing;
         #endregion
 
         #region Properties
@@ -64,20 +47,16 @@ namespace vRPGEngine.Attributes
         }
         #endregion
 
-        public MeleeDamageController(EquipmentContainer equipments)
+        public MeleeDamageController(EquipmentContainer equipments, Specialization specialization)
         {
             Debug.Assert(equipments != null);
 
-            this.equipments = equipments;
+            this.equipments     = equipments;
+            this.specialization = specialization;
 
-            swingBuffs  = new List<SwingBuff>();
+            results     = new List<MeleeSwingResults>();
             weapons     = new Weapon[2];
             timers      = new int[2];
-        }
-
-        public void Buff(float weaponDamagePercent, int swingsCount, Buff buff)
-        {
-            swingBuffs.Add(new SwingBuff(weaponDamagePercent, swingsCount, buff));
         }
 
         public void EnterCombat()
@@ -85,17 +64,23 @@ namespace vRPGEngine.Attributes
             if (InCombat) return;
 
             InCombat        = true;
-            timers[0]       = 0;
-            timers[1]       = 0;
             count           = 0;
 
-            if (equipments.MainHand != null) weapons[count++] = equipments.MainHand;
+            if (equipments.MainHand != null)
+            {
+                timers[count]       = equipments.MainHand.SwingTimer;
+                weapons[count++]    = equipments.MainHand;
+            }
             if (equipments.OffHand != null)
             {
                 var isOffHand = ((int)(equipments.OffHand.WeaponType & WeaponType.OffHand)) == 0;
                 var isShield = ((int)(equipments.OffHand.WeaponType & WeaponType.Shield)) == 0;
 
-                if (!(isOffHand || isShield)) weapons[count] = equipments.OffHand; 
+                if (!(isOffHand || isShield))
+                {
+                    timers[count]   = equipments.OffHand.SwingTimer;
+                    weapons[count]  = equipments.OffHand;
+                } 
             }
         }
 
@@ -106,7 +91,47 @@ namespace vRPGEngine.Attributes
             // TODO: fill.
             for (int i = 0; i < count; i++)
             {
+                var weapon      = weapons[i];
+
+                if (timers[i] >= weapon.SwingTimer)
+                {
+                    timers[i] -= weapon.SwingTimer;
+
+                    if (timers[i] < 0) timers[i] = 0;
+                }
+                else
+                {
+                    timers[i] += gameTime.ElapsedGameTime.Milliseconds;
+
+                    continue;
+                }
+                
+                var critical    = specialization.TotalCriticalHitPercent() <= vRPGRandom.NextFloat();
+                var damage      = vRPGRandom.NextInt(weapon.BaseDamageMin, weapon.BaseDamageMax);
+
+                damage = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
+
+                var swing       = new MeleeSwingResults();
+                swing.Damage    = damage + (int)(damage * (specialization.MeleeDamageModifierPercent() + specialization.DamageModifierPercent()));
+                swing.Critical  = critical;
+                swing.Weapon    = weapon;
+
+                results.Add(swing);
             }
+        }
+
+        public IEnumerable<MeleeSwingResults> Results()
+        {
+            for (int i = 0; i < results.Count; i++)
+            {
+                var swing = results[i];
+
+                OnSwing?.Invoke(ref swing);
+
+                yield return swing;
+            }
+
+            results.Clear();
         }
 
         public void ExitCombat()
@@ -117,5 +142,7 @@ namespace vRPGEngine.Attributes
 
             weapons.Clear();
         }
+
+        public delegate void MeleeSwingEventHandler(ref MeleeSwingResults swing);
     }
 }

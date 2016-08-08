@@ -80,6 +80,7 @@
     <Compile Include="Data\Items\Armor.cs" />
     <Compile Include="Data\Items\Consumable.cs" />
     <Compile Include="Data\Items\DefaultEffectNames.cs" />
+    <Compile Include="Data\Items\Enums\ArmorType.cs" />
     <Compile Include="Data\Items\Enums\Categories.cs" />
     <Compile Include="Data\Items\Enums\Elements.cs" />
     <Compile Include="Data\Items\Enums\EquipmentSlot.cs" />

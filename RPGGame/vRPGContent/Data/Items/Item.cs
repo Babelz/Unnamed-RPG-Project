@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using vRPGContent.Data.Enums;
+using vRPGContent.Data.Items.Enums;
 
 namespace vRPGContent.Data.Items
 {

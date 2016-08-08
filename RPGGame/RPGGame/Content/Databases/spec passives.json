@@ -24,7 +24,7 @@
 		{
 			"ID": 			3,
 			"Name": 		"Armor proficiency: mail",
-			"Description":	"While wearing full mail set, increases damage dealth by 10%, critical strike
+			"Description":	"While wearing full mail set, increases total damage dealth by 10%, critical strike
 							 chance by 5% and strength by 10%",
 			"IconName":		""
 		},
@@ -38,7 +38,7 @@
 		{
 			"ID": 			5,
 			"Name": 		"Combat focus limit",
-			"Description":	"Combat focus has a max cap of 200",
+			"Description":	"Combat focus has a max cap of 200, one endurance point yields 1 focus",
 			"IconName":		""
 		},
 

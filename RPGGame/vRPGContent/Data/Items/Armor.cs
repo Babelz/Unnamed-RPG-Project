@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGContent.Data.Enums;
+using vRPGContent.Data.Items.Enums;
+using vRPGContent.Data.Items.Enums;
 
 namespace vRPGContent.Data.Items
 {
@@ -12,6 +13,11 @@ namespace vRPGContent.Data.Items
     {
         #region Properties
         public EquipmentSlot Slot
+        {
+            get;
+            set;
+        }
+        public ArmorType ArmorType
         {
             get;
             set;

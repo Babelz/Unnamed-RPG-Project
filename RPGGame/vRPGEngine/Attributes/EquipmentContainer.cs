@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Enums;
 using vRPGContent.Data.Items;
+using vRPGContent.Data.Items.Enums;
 
 namespace vRPGEngine.Attributes
 {
@@ -307,7 +308,7 @@ namespace vRPGEngine.Attributes
                     Ring4,
                     Earring1,
                     Earring2
-                };
+                }.Where(a => a != null);
             }
         }
         public IEnumerable<Weapon> Weapons
@@ -318,7 +319,7 @@ namespace vRPGEngine.Attributes
                 {
                     MainHand,
                     OffHand
-                };
+                }.Where(w => w != null);
             }
         }
         #endregion
