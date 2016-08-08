@@ -29,7 +29,7 @@ namespace vRPGEngine.Graphics
             Debug.Assert(areaHeight != 0);
 
             cellSize = new Vector2(cellWidth, cellHeight);
-            gridSize = new Point(areaWidth / cellWidth, areaHeight / cellHeight);
+            gridSize = new Point((int)Math.Floor((double)areaWidth / cellWidth), (int)Math.Floor((double)areaHeight / cellHeight));
 
             grid = new RenderCell[gridSize.Y][];
 
@@ -47,16 +47,16 @@ namespace vRPGEngine.Graphics
             }
         }
 
-        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, Vector2 viewSize, int columnsPadding, int rowsPadding)
+        public IEnumerable<RenderCell> VisibleCells(Vector2 viewPosition, int columnsPadding, int rowsPadding)
         {
-            var startColumn     = (int)(viewPosition.X / cellSize.X);
-            var startRow        = (int)(viewPosition.Y / cellSize.Y);
+            var startColumn     = (int)(viewPosition.X / cellSize.X) - columnsPadding;
+            var startRow        = (int)(viewPosition.Y / cellSize.Y) - rowsPadding;
 
             startColumn         = startColumn < 0 ? 0 : startColumn;
             startRow            = startRow < 0 ? 0 : startRow;
 
-            var endColumn       = startColumn + columnsPadding;
-            var endRow          = startRow + rowsPadding;
+            var endColumn = startColumn == 0    ? (int)((viewPosition.X) / cellSize.X) + columnsPadding : startColumn + columnsPadding * 2;
+            var endRow    = startRow == 0       ? (int)((viewPosition.Y) / cellSize.Y) + rowsPadding    : startRow + rowsPadding * 2;
 
             endColumn           = endColumn > gridSize.X ? gridSize.X : endColumn;
             endRow              = endRow > gridSize.Y ? gridSize.Y : endRow;
@@ -65,9 +65,7 @@ namespace vRPGEngine.Graphics
             {
                 for (var j = startColumn; j < endColumn; j++)
                 {
-                    var cell = grid[i][j];
-
-                    if (cell.InView(viewPosition, viewSize)) yield return cell;
+                    yield return grid[i][j];
                 }
             }
         }

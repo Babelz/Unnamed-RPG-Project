@@ -78,6 +78,7 @@
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
+    <Compile Include="Graphics\PresentationSettings.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />

@@ -56,12 +56,17 @@ namespace vRPGEngine.Graphics
                 return visibleElements;
             }
         }
-        public int ColumnsPadding
+        public int UserColumnsPadding
         {
             get;
             set;
         }
-        public int RowsPadding
+        public int UserRowsPadding
+        {
+            get;
+            set;
+        }
+        public bool DynamicPadding
         {
             get;
             set;
@@ -83,16 +88,23 @@ namespace vRPGEngine.Graphics
         {
             visibleElements = 0;
 
-            var device = vRPGEngine.Instance.GraphicsDevice;
+            var device      = vRPGEngine.Instance.GraphicsDevice;
+            var viewport    = device.Viewport;
 
             device.Clear(ClearColor);
 
             foreach (var view in views)
             {
                 device.Viewport = view.Viewport;
-
-                var viewSize        = new Vector2(view.Viewport.Width, view.Viewport.Height); // view.VisibleArea;
+                
                 var viewPosition    = view.Position;
+                var viewSize        = view.VisibleArea;
+
+                viewSize.X = viewSize.X <= viewport.Width  ? viewport.Width  : viewSize.X;
+                viewSize.Y = viewSize.Y <= viewport.Height ? viewport.Height : viewSize.Y;
+
+                var columnsPadding  = DynamicPadding ? (int)Math.Floor(viewSize.X / cellWidth)      : UserColumnsPadding;
+                var rowsPadding     = DynamicPadding ? (int)Math.Floor(viewSize.Y / cellHeight) + 1 : UserRowsPadding;
 
                 for (var i = 0; i < reservedIndices.Count; i++)
                 {
@@ -108,7 +120,7 @@ namespace vRPGEngine.Graphics
                                       layer.Effect,
                                       view.Transform);
 
-                    foreach (var element in layer.VisibleElements(viewPosition, viewSize, ColumnsPadding, RowsPadding))
+                    foreach (var element in layer.VisibleElements(viewPosition, columnsPadding, rowsPadding))
                     {
                         element.Present(spriteBatch, gameTime);
 
@@ -118,6 +130,8 @@ namespace vRPGEngine.Graphics
                     spriteBatch.End();
                 }
             }
+
+            device.Viewport = viewport;
         }
 
         protected override void OnUpdate(GameTime gameTime)
@@ -133,8 +147,8 @@ namespace vRPGEngine.Graphics
             this.cellWidth      = cellWidth;
             this.cellHeight     = cellHeight;
 
-            ColumnsPadding      = columnsPadding;
-            RowsPadding         = rowsPadding;
+            UserColumnsPadding  = columnsPadding;
+            UserRowsPadding     = rowsPadding;
         }
 
         public void Add(IRenderable element, int layer)

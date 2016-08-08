@@ -39,7 +39,7 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible = visible;
             renderer.Sprite.Layer   = MapLayer;
-
+            
             var transform           = layer.FirstComponentOfType<Transform>();
             transform.Position      = new Vector2(x, y);
             
@@ -61,12 +61,11 @@ namespace vRPGEngine.Maps
             var renderer              = tile.AddComponent<SpriteRenderer>();
             renderer.Sprite.Texture   = tex;
             renderer.Sprite.Position  = new Vector2(x, y);
-            renderer.Sprite.Size = new Vector2(TileEngine.TileWidth, TileEngine.TileHeight);
             renderer.Sprite.Color     = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible   = visible;
             renderer.Sprite.Source    = src;
             renderer.Sprite.Layer     = MapLayer;
-            
+
             return tile;
         }
 

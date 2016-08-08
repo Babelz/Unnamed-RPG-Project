@@ -61,9 +61,9 @@ namespace vRPGEngine.Graphics
             grid.Remove(elements);
         }
 
-        public IEnumerable<IRenderable> VisibleElements(Vector2 viewPosition, Vector2 viewSize, int columnsPadding, int rowsPadding)
+        public IEnumerable<IRenderable> VisibleElements(Vector2 viewPosition, int columnsPadding, int rowsPadding)
         {
-            foreach (var cell in grid.VisibleCells(viewPosition, viewSize, columnsPadding, rowsPadding))
+            foreach (var cell in grid.VisibleCells(viewPosition, columnsPadding, rowsPadding))
             {
                 foreach (var element in cell.Elements)
                 {

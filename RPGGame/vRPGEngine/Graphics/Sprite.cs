@@ -29,6 +29,18 @@ namespace vRPGEngine.Graphics
                 if (texture == null) texture = DefaultValues.MissingTexture;
             }
         }
+        public override Vector2 Size
+        {
+            get
+            {
+                Vector2 size;
+
+                size.X = Scale.X * texture.Width;
+                size.Y = Scale.Y * texture.Height;
+
+                return size;
+            }
+        }
         public Rectangle Source
         {
             get;
@@ -55,12 +67,16 @@ namespace vRPGEngine.Graphics
         {
             Texture     = texture;
             Source      = new Rectangle(0, 0, Texture.Width, Texture.Height);
-            Size        = new Vector2(Source.Width, Source.Height);
             Position    = Vector2.Zero;
             Color       = Color.White;
             Rotation    = 0.0f;
             Effects     = SpriteEffects.None;
             Depth       = 1.0f; 
+        }
+
+        public void ScaleTo(Vector2 to)
+        {
+            ScaleTo(to, texture);
         }
 
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)

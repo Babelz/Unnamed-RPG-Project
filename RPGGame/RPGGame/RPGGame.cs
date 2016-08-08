@@ -21,8 +21,6 @@ namespace RPGGame
     {
         #region Fields
         private readonly GraphicsDeviceManager graphics;
-
-        private View view;
         #endregion
 
         public RPGGame()
@@ -37,39 +35,20 @@ namespace RPGGame
 
             Content.RootDirectory = "Content";
         }
-
-        Entity player;
-
+        
         protected override void Initialize()
         {
             vRPGEngine.vRPGEngine.Instance.Initialize();
-           
-            view = new View(GraphicsDevice.Viewport);
-            
-            var renderer = Renderer.Instance;
-            renderer.SetPresentationParameters(3200, 3200, 320, 320, 3, 3);
+
+            Renderer.Instance.SetPresentationParameters(3200, 3200, 160, 160, 3, 3);
+            Renderer.Instance.DynamicPadding = true;
 
             Prefabs.Register();
             Layers.Create();
-
-            renderer.RegisterView(view);
             
             TileMapManager.Instance.Load("hello");
-            
-            var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
-
-            var camSpeed = 4.0f;
-            var camZoom = 0.1f;
-
-            kb.Bind("up", Keys.W, KeyTrigger.Down, () => view.Position += new Vector2(0.0f, -camSpeed));
-            kb.Bind("down", Keys.S, KeyTrigger.Down, () => view.Position += new Vector2(0.0f, camSpeed));
-            kb.Bind("left", Keys.A, KeyTrigger.Down, () => view.Position += new Vector2(-camSpeed, 0.0f));
-            kb.Bind("right", Keys.D, KeyTrigger.Down, () => view.Position += new Vector2(camSpeed, 0.0f));
-
-            kb.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += camZoom);
-            kb.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= camZoom);
-            
-            player = EntityBuilder.Instance.Create("player");
+                        
+            var player = EntityBuilder.Instance.Create("player");
         }
 
         protected override void Update(GameTime gameTime)

@@ -65,14 +65,6 @@ namespace vRPGEngine.Graphics
 
             elements = newElements;
         }
-
-        public bool InView(Vector2 viewPosition, Vector2 viewSize)
-        {
-            return VectorExtensions.Intersects(this.position,
-                                               this.size,
-                                               viewPosition,
-                                               viewSize);
-        }
         
         public void Add(IRenderable renderable)
         {

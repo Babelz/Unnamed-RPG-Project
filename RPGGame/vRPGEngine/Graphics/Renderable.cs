@@ -13,7 +13,6 @@ namespace vRPGEngine.Graphics
         #region Fields
         private Vector2 scale;
         private Vector2 position;
-        private Vector2 size;
 
         private int layer;
         #endregion
@@ -47,13 +46,6 @@ namespace vRPGEngine.Graphics
             }
         }
 
-        public Vector2 Center
-        {
-            get
-            {
-                return Size / 2.0f;
-            }
-        }
         public Vector2 Position
         {
             get
@@ -80,17 +72,20 @@ namespace vRPGEngine.Graphics
                 Renderer.Instance.Invalidate(this);
             }
         }
-        public Vector2 Size
+
+        public Vector2 Center
         {
             get
             {
-                return size;
-            }
-            set
-            {
-                size = value;
+                return Size / 2;
             }
         }
+
+        public abstract Vector2 Size
+        {
+            get;
+        }
+
         public Vector2 Origin
         {
             get;
@@ -107,6 +102,7 @@ namespace vRPGEngine.Graphics
             get;
             set;
         }
+
         public float Depth
         {
             get;
@@ -119,6 +115,24 @@ namespace vRPGEngine.Graphics
             Scale       = new Vector2(1.0f);
             Origin      = Vector2.Zero;
             Visible     = true;
+        }
+
+        public void ScaleTo(Vector2 to, Vector2 from)
+        {
+            var min = Vector2.Min(to, from);
+            var max = Vector2.Max(to, from);
+
+            Scale = min / max;
+        }
+
+        public void ScaleTo(Vector2 to, Texture2D from)
+        {
+            Vector2 texVec;
+
+            texVec.X = from.Width;
+            texVec.Y = from.Height;
+
+            ScaleTo(to, texVec);
         }
 
         public abstract void Present(SpriteBatch spriteBatch, GameTime gameTime);

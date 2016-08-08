@@ -35,6 +35,18 @@ namespace vRPGEngine.Graphics
                 if (texture == null) texture = DefaultValues.MissingTexture;
             }
         }
+        public override Vector2 Size
+        {
+            get
+            {
+                Vector2 size;
+
+                size.X = Scale.X * frames[0].Width;
+                size.Y = Scale.Y * frames[0].Height;
+
+                return size;
+            }
+        }
         public Rectangle Source
         {
             get;

@@ -107,7 +107,7 @@ namespace vRPGEngine.Graphics
                 var tl = Vector2.Transform(Vector2.Zero, inverseViewMatrix);
                 var tr = Vector2.Transform(new Vector2(Viewport.Width, 0), inverseViewMatrix);
                 var bl = Vector2.Transform(new Vector2(0, Viewport.Height), inverseViewMatrix);
-                var br = Vector2.Transform(Position, inverseViewMatrix);
+                var br = Vector2.Transform(Vector2.Zero, inverseViewMatrix);
 
                 var min = new Vector2(
                     MathHelper.Min(tl.X, MathHelper.Min(tr.X, MathHelper.Min(bl.X, br.X))),

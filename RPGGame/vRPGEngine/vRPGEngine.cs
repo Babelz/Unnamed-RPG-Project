@@ -92,15 +92,6 @@ namespace vRPGEngine
             try
             {
                 // TODO: wrap.
-                // Init systems.
-                InputManager.Instance.Activate();
-                EntityManager.Instance.Activate();
-                Renderer.Instance.Activate();
-                Logger.Instance.Activate();
-                
-                ActivateDebugRenderer();
-
-                // TODO: wrap.
                 // Init managers.
                 ComponentManager<DataDictionary>.Instance.Activate();
 
@@ -112,6 +103,16 @@ namespace vRPGEngine
 
                 ComponentManager<Transform>.Instance.Activate();
                 ComponentManager<Transform>.Instance.SetUpdateHandler(new TransformHandler());
+
+                // TODO: wrap.
+                // Init systems.
+                InputManager.Instance.Activate();
+                EntityManager.Instance.Activate();
+                Renderer.Instance.Activate();
+                Logger.Instance.Activate();
+                RPGWorld.Instance.Activate();
+
+                ActivateDebugRenderer();
 
                 Logger.Instance.LogFunctionMessage("engine systems initialized ok!");
 

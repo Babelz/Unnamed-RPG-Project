@@ -26,5 +26,15 @@ namespace vRPGEngine
                    aTop < bBottom &&
                    bTop < aBottom;
         }
+
+        public static Vector2 Abs(this Vector2 vector)
+        {
+            Vector2 results;
+
+            results.X = Math.Abs(vector.X);
+            results.Y = Math.Abs(vector.Y);
+
+            return results;
+        }
     }
 }
