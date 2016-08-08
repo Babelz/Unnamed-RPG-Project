@@ -32,7 +32,9 @@ namespace vRPGEngine
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            const float TimeStep = 1.0f / 60.0f;
+            // 60 causes shaking between bodies that collide constantly, use 30 instead.
+            // TODO: test.
+            const float TimeStep = 1.0f / 30.0f;
 
             world.Step(TimeStep);
         }
@@ -49,7 +51,8 @@ namespace vRPGEngine
             body.Friction       = 0.2f;
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Dynamic;
-            
+            body.FixedRotation  = true;
+
             return body;
         }
         public Body CreateStaticCollider(Entity owner, float width, float height, float x, float y)
@@ -62,11 +65,12 @@ namespace vRPGEngine
 
             body.Position       = new Vector2(ConvertUnits.ToSimUnits(x), ConvertUnits.ToSimUnits(y));
             body.IsStatic       = true;
-            body.Mass           = 80.0f;
+            body.Mass           = 500.0f;
             body.Friction       = 0.2f;
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Static;
-            
+            body.FixedRotation  = true;
+
             return body;
         }
         public Body CreateSensor(Entity owner, float width, float height)
