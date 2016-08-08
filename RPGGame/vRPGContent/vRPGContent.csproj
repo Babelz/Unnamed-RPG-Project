@@ -95,6 +95,8 @@
     <Compile Include="Data\Items\Material.cs" />
     <Compile Include="Data\Items\QuestItem.cs" />
     <Compile Include="Data\Items\Weapon.cs" />
+    <Compile Include="Data\Quests\Enums\QuestType.cs" />
+    <Compile Include="Data\Quests\Quest.cs" />
     <Compile Include="Data\SpecializationProcessor.cs" />
     <Compile Include="Data\DatabaseWriter.cs" />
     <Compile Include="Data\SpecPassiveBuffProcessor.cs" />
@@ -117,9 +119,7 @@
       <Name>TiledSharp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Quests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
