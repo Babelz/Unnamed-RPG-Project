@@ -66,6 +66,7 @@
     <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
     <Compile Include="Databases\SpecializationDatabase.cs" />
     <Compile Include="Databases\SpellDatabase.cs" />
+    <Compile Include="Databases\WeaponDatabase.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="ECS\Components\BoxCollider.cs" />
     <Compile Include="ECS\Components\CharacterController.cs" />

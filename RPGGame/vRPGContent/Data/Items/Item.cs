@@ -46,8 +46,7 @@ namespace vRPGContent.Data.Items
             get;
             set;
         }
-
-        [XmlIgnore()]
+        
         public ItemType Type
         {
             get;
