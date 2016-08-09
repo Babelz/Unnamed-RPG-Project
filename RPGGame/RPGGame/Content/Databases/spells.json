@@ -153,7 +153,7 @@
 			"Consumes":		1,
 			"Cooldown":		1000,
 			"CastTime":		0
-		}
+		},
 
 		{
 			"ID": 			9,

@@ -102,6 +102,7 @@
     <Compile Include="Data\SpecializationProcessor.cs" />
     <Compile Include="Data\DatabaseWriter.cs" />
     <Compile Include="Data\SpecPassiveBuffProcessor.cs" />
+    <Compile Include="Data\SpellProcessor.cs" />
     <Compile Include="Data\Spells\Currencies.cs" />
     <Compile Include="Data\Spells\Spell.cs" />
     <Compile Include="Data\Spells\SpellCostType.cs" />

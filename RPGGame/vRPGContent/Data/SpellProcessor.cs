@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using vRPGContent.Data.Items;
+using vRPGContent.Data.Spells;
 
 namespace vRPGContent.Data
 {
-    [ContentProcessor(DisplayName = "Weapon processor")]
-    public sealed class WeaponProcessor : GenericElementProcessor<Weapon>
+    [ContentProcessor(DisplayName = "Spell processor")]
+    public sealed class SpellProcessor : GenericElementProcessor<Spell>
     {
     }
 }

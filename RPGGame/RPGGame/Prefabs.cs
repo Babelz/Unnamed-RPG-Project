@@ -9,12 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine;
+using vRPGEngine.Attributes;
+using vRPGEngine.Attributes.Specializations;
 using vRPGEngine.Combat;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.NPC;
+using vRPGEngine.Handlers.Spells;
 using vRPGEngine.Input;
 
 namespace RPGGame
@@ -41,9 +44,19 @@ namespace RPGGame
 
             var behaviour = player.AddComponent<Behaviour>();
 
-            var view         = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
-            var zoomStep     = 0.1f;
-            var controller   = player.AddComponent<CharacterController>();
+            var view                = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
+            var zoomStep            = 0.1f;
+            var controller          = player.AddComponent<CharacterController>();
+            var specializationData  = SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior");
+            var attributes          = new AttributesData()
+            {
+                Stamina = 100,
+                Strength = 20
+            };
+            var equipments          = controller.Equipments;
+            var statuses            = new Statuses();
+            
+            controller.Initialize(new Warrior(specializationData, attributes, equipments, statuses));
 
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
@@ -76,7 +89,14 @@ namespace RPGGame
             {
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });
-            
+
+            var autoAttack = new AutoAttack();
+
+            kip.Bind("auto_attack", Keys.D1, KeyTrigger.Pressed, () =>
+            {
+                autoAttack.Use(player);
+            });
+
             kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
             kip.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= zoomStep);
 
@@ -87,7 +107,7 @@ namespace RPGGame
                 var position = view.ScreenToView(ms.Position);
                 var radius   = 2.5f;
 
-                targetFinder.FindTarget(position, radius);
+                controller.TargetFinder.FindTarget(position, radius);
             });
             
             Renderer.Instance.RegisterView(view);

@@ -50,7 +50,7 @@
 			"Quality": 1,
 
 			// Weapon members.
-			"SwingTimer": 2.5,
+			"SwingTimer": 2500,
 			"BaseDamageMin": 5,
 			"BaseDamageMax": 12
 		}

@@ -12,15 +12,24 @@ namespace vRPGEngine.Attributes.Specializations
     public sealed class Warrior : Specialization
     {
         #region Fields
-        private readonly MeleeDamageController damageController;
+        private MeleeDamageController damageController;
         #endregion
 
-        public Warrior(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
+        #region Properties
+        public MeleeDamageController DamageController
+        {
+            set
+            {
+                damageController = value;
+
+                damageController.OnSwing += DamageController_OnSwing;
+            }
+        }
+        #endregion
+
+        public Warrior(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses) 
             : base(specialization, attributes, equipments, statuses)
         {
-            this.damageController = damageController;
-
-            damageController.OnSwing += DamageController_OnSwing;
         }
 
         #region Properties

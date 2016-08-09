@@ -88,3 +88,13 @@
 /processorParam:TextureFormat=Color
 /build:sheep.png
 
+#begin Databases/weapons.json
+/importer:DatabaseImporter
+/processor:WeaponProcessor
+/build:Databases/weapons.json
+
+#begin Databases/spells.json
+/importer:DatabaseImporter
+/processor:SpellProcessor
+/build:Databases/spells.json
+
