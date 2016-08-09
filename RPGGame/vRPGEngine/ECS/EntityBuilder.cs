@@ -36,7 +36,13 @@ namespace vRPGEngine.ECS
         {
             Debug.Assert(!string.IsNullOrEmpty(name));
 
-            return prefabs[name]();
+            Func<Entity> activator = null;
+
+            if (prefabs.TryGetValue(name, out activator)) return activator();
+
+            Logger.Instance.LogFunctionWarning(string.Format("prefab with name \"{0}\" not found", name));
+
+            return null;
         }
 
         public void RegisterPrefab(string name, Func<Entity> activator)

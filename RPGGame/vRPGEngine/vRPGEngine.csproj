@@ -60,6 +60,7 @@
     <Compile Include="Attributes\AttributesContainer.cs" />
     <Compile Include="CombatLog.cs" />
     <Compile Include="Databases\Database.cs" />
+    <Compile Include="Databases\NPCDatabase.cs" />
     <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
     <Compile Include="Databases\SpecializationDatabase.cs" />
     <Compile Include="Databases\SpellDatabase.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="ECS\Components\Behaviour.cs" />
     <Compile Include="ECS\Components\DataDictionary.cs" />
     <Compile Include="ECS\Components\IComponent.cs" />
+    <Compile Include="ECS\Components\SpawnArea.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
     <Compile Include="Attributes\AttributesData.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
@@ -79,10 +81,13 @@
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="Graphics\PresentationSettings.cs" />
+    <Compile Include="Handlers\NPC\CritterHandler.cs" />
+    <Compile Include="Handlers\NPC\NPCHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
+    <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
     <Compile Include="Readers\SpecPassiveBuffReader.cs" />
     <Compile Include="Readers\SpellReader.cs" />

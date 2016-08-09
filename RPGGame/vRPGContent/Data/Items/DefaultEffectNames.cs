@@ -23,7 +23,7 @@ namespace vRPGContent.Data.Items
 
         public static bool UsesDefaultEffect(Consumable item)
         {
-            return DefaultEffects.Contains(item.EffectName);
+            return DefaultEffects.Contains(item.HandlerName);
         }
     }
 }

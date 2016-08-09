@@ -51,6 +51,11 @@ namespace vRPGContent.Data.Items
             get;
             set;
         }
+        public string HandlerName
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Weapon()

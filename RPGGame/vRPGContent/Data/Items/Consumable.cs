@@ -11,7 +11,7 @@ namespace vRPGContent.Data.Items
     public sealed class Consumable : Item
     {
         #region Properties
-        public string EffectName
+        public string HandlerName
         {
             get;
             set;
@@ -21,8 +21,8 @@ namespace vRPGContent.Data.Items
         public Consumable()
             : base()
         {
-            Type        = ItemType.Consumable;
-            EffectName  = string.Empty;
+            Type         = ItemType.Consumable;
+            HandlerName  = string.Empty;
         }
     }
 }

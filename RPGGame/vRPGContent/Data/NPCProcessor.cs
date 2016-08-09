@@ -9,7 +9,7 @@ using vRPGContent.Data.Characters;
 namespace vRPGContent.Data
 {
     [ContentProcessor(DisplayName = "NPC processor")]
-    public sealed class NPCProcessor : GenericElementProcessor<NPC>
+    public sealed class NPCProcessor : GenericElementProcessor<NPCData>
     {
     }
 }

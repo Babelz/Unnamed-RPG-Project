@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
+using vRPGEngine.Databases;
+using vRPGEngine.Handlers.NPC;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.Specializations;
 
@@ -59,7 +62,7 @@ namespace vRPGEngine.ECS.Components
             Spells      = new List<SpellHandler>();
         }
 
-        public void SetSpecialization(Specialization specialization)
+        public void Initialize(Specialization specialization)
         {
             Debug.Assert(specialization != null);
 
@@ -82,5 +85,152 @@ namespace vRPGEngine.ECS.Components
 
             casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
         }
+    }
+
+    public sealed class NPCController : Component<NPCController>
+    {
+        #region Const fields
+        public const int CombatInactiveTime = 500;
+        public const int DecayTime          = 2500;
+        #endregion
+
+        #region Events
+        public event NPCControllerEventHandler OnDeath;
+        public event NPCControllerEventHandler OnSpawn;
+        public event NPCControllerEventHandler OnEnteringCombat;
+        public event NPCControllerEventHandler OnLeavingCombat;
+        public event NPCControllerEventHandler OnDecayed;
+        #endregion
+
+        #region Properties
+        public NPCHandler Handler
+        {
+            get;
+            private set;
+        }
+        public List<SpellHandler> Spells
+        {
+            get;
+            private set;
+        }
+        public BuffContainer Buffs
+        {
+            get;
+            private set;
+        }
+
+        public bool Alive
+        {
+            get
+            {
+                return Handler.Data.Health > 0;
+            }
+        }
+        public int CombatElapsed
+        {
+            get;
+            private set;
+        }
+        public int DecayElapsed
+        {
+            get;
+            private set;
+        }
+        public bool InCombat
+        {
+            get;
+            private set;
+        }
+        #endregion
+        
+        public NPCController()
+            : base()
+        {
+            Spells = new List<SpellHandler>();
+            Buffs  = new BuffContainer();
+        }
+
+        public void Initialize(NPCHandler handler)
+        {
+            Handler = handler;
+
+            var spells = SpellDatabase.Instance.Elements().Where(p => handler.Data.SpellList.Contains(p.ID));
+
+            // Load spells.
+            foreach (var spell in spells)
+            {
+                var spellHandler = SpellHandlerFactory.Create(spell);
+
+                if (handler != null) Spells.Add(spellHandler);
+            }
+        }
+
+        public void EnterCombat()
+        {
+            if (InCombat) return;
+
+            Handler.EnterCombat();
+
+            OnEnteringCombat?.Invoke(this);
+        }
+        public void LeaveCombat()
+        {
+            if (!InCombat) return;
+
+            Handler.LeaveCombat();
+
+            OnLeavingCombat?.Invoke(this);
+        }
+
+        public void Update(GameTime gameTime)
+        { 
+            // Death/decay update.
+            if (!Alive)
+            {
+                // Death update.
+                OnDeath?.Invoke(this);
+
+                OnDeath = null;
+
+                DecayElapsed += gameTime.ElapsedGameTime.Milliseconds;
+
+                // Decay update.
+                if (DecayElapsed > DecayTime)
+                {
+                    Handler.Die(gameTime);
+
+                    OnDecayed?.Invoke(this);
+
+                    OnDecayed = null;
+                }
+
+                return;
+            }
+
+            // Combat update.
+            if (InCombat)
+            {
+                if (CombatElapsed > CombatInactiveTime)
+                {
+                    LeaveCombat();
+
+                    InCombat = false;
+
+                    CombatElapsed = 0;
+                }
+                else
+                {
+                    if (Handler.CombatUpdate(gameTime)) CombatElapsed = 0;
+                    else                                CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
+                }
+
+                return;
+            }
+
+            // Idle update.
+            Handler.IdleUpdate(gameTime);
+        }
+
+        public delegate void NPCControllerEventHandler(NPCController controller)
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace vRPGContent.Data.Characters
 {
     [Serializable()]
-    public sealed class NPCQuestGiver : NPC
+    public sealed class NPCQuestGiver : NPCData
     {
         #region Properties
         public int[] Quests

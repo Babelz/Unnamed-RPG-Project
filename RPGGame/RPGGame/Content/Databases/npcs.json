@@ -1,0 +1,33 @@
+{
+	"data": 
+	[
+		// Factions
+	    // - WorldHostile = 1,
+		// - WorldNeutral = 2,
+        // - WorldFriendly = 4
+		
+		{
+			"Name": "Sheep",
+			"ID": 0,
+			"Health": 100,
+			"Mana": 100,
+			"Focus": 100,
+			"Level": 1,
+			"MeleePower": 5,
+			"SpellPower": 0,
+			"CritChance": 1.0,
+			"Faction": 2,
+			
+			// Int list (ID)
+			//"LootList": [ ],
+			
+			// Int list (ID)
+			//"SpellList": [ ],
+
+			// Int list (index!)
+			//"SpellPriority": [ ],
+			
+			"HandlerName": "CritterHandler"
+		}
+	]
+}
