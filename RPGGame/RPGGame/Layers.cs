@@ -10,31 +10,28 @@ namespace RPGGame
     public static class Layers
     {
         #region Fields
-        public const int MapLayer           = 0;
-        public const int EntityLayerBottom  = 1;
-        public const int EntityLayerMiddle  = 2;
-        public const int EntityLayerTop     = 3;
-        public const int EffectsLayer       = 4;
-        public const int HUDLayer           = 5;
+        public const int Bottom  = 0;
+        public const int Middle  = 1;
+        public const int Top     = 2;
+        public const int Effects = 3;
+        public const int HUD     = 4;
         #endregion
 
         public static void Create()
         {
             if (Renderer.Instance.HasLayers()) Renderer.Instance.ClearLayers();
-            
-            Renderer.Instance.CreateLayer();    // Map layer.
-            Renderer.Instance.CreateLayer();    // Entity layer bottom.
-            Renderer.Instance.CreateLayer();    // Entity layer middle.
-            Renderer.Instance.CreateLayer();    // Entity layer top.
-            Renderer.Instance.CreateLayer();    // Effects layer.
-            Renderer.Instance.CreateLayer();    // HUD layer.
 
-            Renderer.Instance.ShowLayer(MapLayer);
-            Renderer.Instance.ShowLayer(EntityLayerBottom);
-            Renderer.Instance.ShowLayer(EntityLayerMiddle);
-            Renderer.Instance.ShowLayer(EntityLayerTop);
-            Renderer.Instance.ShowLayer(EffectsLayer);
-            Renderer.Instance.ShowLayer(HUDLayer);
+            Renderer.Instance.CreateLayer();
+            Renderer.Instance.CreateLayer();
+            Renderer.Instance.CreateLayer();
+            Renderer.Instance.CreateLayer();
+            Renderer.Instance.CreateLayer();
+
+            Renderer.Instance.ShowLayer(Bottom);
+            Renderer.Instance.ShowLayer(Middle);
+            Renderer.Instance.ShowLayer(Top);
+            Renderer.Instance.ShowLayer(Effects);
+            Renderer.Instance.ShowLayer(HUD);
         }
     }
 }

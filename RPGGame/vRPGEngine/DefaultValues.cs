@@ -93,11 +93,11 @@ namespace vRPGEngine
 
             using (var ms = new MemoryStream(MissingTextureData))
             {
-                MissingTexture = Texture2D.FromStream(vRPGEngine.Instance.GraphicsDevice, ms);
+                MissingTexture = Texture2D.FromStream(Engine.Instance.GraphicsDevice, ms);
             }
 
             // Default font init.
-            DefaultFont = vRPGEngine.Instance.Content.Load<SpriteFont>("default font");
+            DefaultFont = Engine.Instance.Content.Load<SpriteFont>("default font");
         }
     }
 }

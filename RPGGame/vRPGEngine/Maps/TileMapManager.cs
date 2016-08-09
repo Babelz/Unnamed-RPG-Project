@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TiledSharp;
+using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 
@@ -31,6 +32,18 @@ namespace vRPGEngine.Maps
             entitites = new List<Entity>();
         }
 
+        private string TryGetProperty(PropertyDict dict, string name, string defaultValue)
+        {
+            if (dict == null || dict.Dict == null) return defaultValue;
+            
+            var value = string.Empty;
+
+            if (dict.Dict.TryGetValue(name, out value)) return value;
+
+            return defaultValue;
+        }
+
+
         private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible, int location)
         {
             var layer               = EntityBuilder.Instance.Create("empty");
@@ -38,10 +51,11 @@ namespace vRPGEngine.Maps
 
             var renderer            = layer.AddComponent<SpriteRenderer>();
             renderer.Sprite.Layer   = location;
-            renderer.Sprite.Texture = vRPGEngine.Instance.Content.Load<Texture2D>(image);
+            renderer.Sprite.Texture = Engine.Instance.Content.Load<Texture2D>(image);
             renderer.Sprite.Color   = new Color(renderer.Sprite.Color, opacity);
             renderer.Sprite.Visible = visible;
             renderer.Sprite.Layer   = location;
+            renderer.Flags          = RenderFlags.None;
             
             var transform           = layer.FirstComponentOfType<Transform>();
             transform.Position      = new Vector2(x, y);
@@ -57,7 +71,7 @@ namespace vRPGEngine.Maps
             return layer;
         }
 
-        private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible, int location)
+        private Entity Tile(float x, float y, Rectangle src, Texture2D tex, float opacity, bool visible, int location, float depth)
         {
             var tile                  = Entity.Create();
 
@@ -68,19 +82,43 @@ namespace vRPGEngine.Maps
             renderer.Sprite.Visible   = visible;
             renderer.Sprite.Source    = src;
             renderer.Sprite.Layer     = location;
+            renderer.Flags            = RenderFlags.None;
+            renderer.Sprite.Depth     = depth;
 
             return tile;
         }
 
-        private Entity Wall(string type, float x, float y, float width, float height, float rotation)
+        private Entity Wall(float x, float y, float width, float height, float rotation)
         {
             var collider  = Entity.Create();
             collider.Tags = "wall";
 
             var box = collider.AddComponent<BoxCollider>();
             box.MakeStatic(width, height, x, y);
-            
+            box.Category = Category.Cat2;
+            box.CollidesWith = Category.Cat1;
+
             return collider;
+        }
+
+        private Entity SpawnArea(int id, int maxNPCs, int minLevel, int maxLevel, int spawnTime, float x, float y, float width, float height, float maxDist)
+        {
+            var area = EntityBuilder.Instance.Create("spawn area");
+
+            var controller = area.FirstComponentOfType<SpawnArea>();
+
+            var data = NPCDatabase.Instance.Elements().First(n => n.ID == id);
+
+            if (data == null)
+            {
+                Logger.Instance.LogFunctionWarning(string.Format("npc data with id {0} was not found", id));
+
+                return area;
+            }
+
+            controller.Initialize(data, new Vector2(x, y), new Vector2(width, height), minLevel, maxLevel, maxNPCs, spawnTime, maxDist);
+
+            return area;
         }
 
         public IEnumerable<Entity> Entitites()
@@ -90,7 +128,7 @@ namespace vRPGEngine.Maps
 
         public void Load(string name)
         {
-            data = vRPGEngine.Instance.Content.Load<TmxMap>(name);
+            data = Engine.Instance.Content.Load<TmxMap>(name);
 
             // Set tile-engine params.
             var tileWidth = data.TileWidth;
@@ -105,10 +143,7 @@ namespace vRPGEngine.Maps
             {
 
                 var value    = string.Empty;
-                var location = MapLayer;
-
-                if (layer.Properties.Dict != null)
-                    if (layer.Properties.Dict.TryGetValue("location", out value)) location = int.Parse(value);
+                var location = int.Parse(TryGetProperty(layer.Properties, "location", MapLayer.ToString()));
 
                 entitites.Add(ImageLayer(layer.Name,
                                          layer.Image?.Source,
@@ -129,10 +164,7 @@ namespace vRPGEngine.Maps
                 var tilesCount  = 0;
 
                 var value       = string.Empty;
-                var location    = MapLayer;
-
-                if (layer.Properties.Dict != null)
-                    if (layer.Properties.Dict.TryGetValue("location", out value)) location = int.Parse(value);
+                var location    = int.Parse(TryGetProperty(layer.Properties, "location", MapLayer.ToString()));
                 
                 foreach (var tile in layer.Tiles)
                 {
@@ -143,14 +175,15 @@ namespace vRPGEngine.Maps
                     var tileFrame   = gid - 1;
                     var tileset     = data.Tilesets.FirstOrDefault(t => t.FirstGid <= gid);
                     var texname     = tileset.Image.Source.Substring(0, tileset.Image.Source.LastIndexOf("."));
-                    var tex         = vRPGEngine.Instance.Content.Load<Texture2D>(texname);
+                    var tex         = Engine.Instance.Content.Load<Texture2D>(texname);
                     var row         = (int)Math.Floor(tileFrame / (double)(tex.Width / tileWidth));
                     var column      = tileFrame % (tex.Width / tileWidth);
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
                     var x           = (float)tile.X * tileWidth;
                     var y           = (float)tile.Y * tileHeight;
+                    var depth       = 1.0f - location * 0.1f; //y / (mapHeight * tileHeight);
                     
-                    tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible, location));
+                    tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible, location, depth));
 
                     tilesCount++;
                 }
@@ -173,7 +206,21 @@ namespace vRPGEngine.Maps
                     var height      = (float)entity.Height;
                     var rotation    = (float)entity.Rotation;
 
-                    if (entity.Name == "wall") objectLayer.AddChildren(Wall(type, x, y, width, height, rotation));
+                    if (entity.Name == "wall")
+                    {
+                        objectLayer.AddChildren(Wall(x, y, width, height, rotation));
+                    }
+                    else if (entity.Name == "spawn area")
+                    {
+                        var id          = int.Parse(TryGetProperty(entity.Properties, "id", "0"));
+                        var maxDist     = float.Parse(TryGetProperty(entity.Properties, "maxdist", ECS.Components.SpawnArea.DefaultMaxDist.ToString()));
+                        var maxLevel    = int.Parse(TryGetProperty(entity.Properties, "maxlvl", "0"));
+                        var minLevel    = int.Parse(TryGetProperty(entity.Properties, "minlvl", "0"));
+                        var spawnTime   = int.Parse(TryGetProperty(entity.Properties, "spawntime", ECS.Components.SpawnArea.DefaultSpawnTime.ToString()));
+                        var maxNPCs     = int.Parse(TryGetProperty(entity.Properties, "maxnpcs", ECS.Components.SpawnArea.DefaultMaxNPCs.ToString()));
+                        
+                        objectLayer.AddChildren(SpawnArea(id, maxNPCs, minLevel, maxLevel, spawnTime, x, y, width, height, maxDist));
+                    }
                 }
             }
 

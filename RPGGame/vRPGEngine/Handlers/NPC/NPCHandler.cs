@@ -8,25 +8,33 @@ using System.Threading.Tasks;
 using vRPGContent.Data.Characters;
 using vRPGContent.Data.Spells;
 using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
 using vRPGEngine.Handlers.Spells;
 
 namespace vRPGEngine.Handlers.NPC
 {
-    public abstract class NPCHandler 
+    public abstract class NPCHandler : ICloneable
     {
-        #region Properties
-        public string Name
-        {
-            get;
-            private set;
-        }
+        #region Fields
+        private NPCData data;
 
+        private Vector2[] area;
+
+        private float maxDist;
+        #endregion
+
+        #region Properties
         public NPCData Data
         {
-            get;
-            private set;
+            get
+            {
+                return data;
+            }
+            set
+            {
+                data = new NPCData(value);
+            }
         }
-
         public Entity Owner
         {
             get;
@@ -34,13 +42,48 @@ namespace vRPGEngine.Handlers.NPC
         }
         #endregion
 
-        protected NPCHandler(string name, NPCData data)
+        public NPCHandler()
         {
-            Debug.Assert(!string.IsNullOrEmpty(name));
-            Debug.Assert(data != null);
-            
-            Name = name;
-            Data = new NPCData(data);
+        }
+
+        protected bool InArea()
+        {
+            var position = Owner.FirstComponentOfType<Transform>().Position;
+
+            foreach (var vertex in area)
+            {
+                var distance = Vector2.Distance(vertex, position);
+
+                if (distance <= maxDist) return true;
+            }
+
+            return false;
+        }
+
+        public virtual void Initialize(Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
+        {
+            var collider        = Owner.FirstComponentOfType<BoxCollider>();
+            collider.SimulationPosition   = position;
+
+            this.maxDist = maxDist;
+            this.area    = area;
+
+            var currentLevel = Data.Level;
+
+            var healthPerLevel      = Data.Health / currentLevel;
+            var manaPerLevel        = Data.Mana / currentLevel;
+            var focusPerLevel       = Data.Focus / currentLevel;
+            var meleePowerPerLevel  = Data.MeleePower / currentLevel;
+            var spellPowerPerLevel  = Data.SpellPower / currentLevel;
+            var critChancePerLevel  = Data.CritChance / currentLevel;
+
+            Data.Level      = level;
+            Data.Health     += healthPerLevel * level;
+            Data.Mana       += manaPerLevel * level;
+            Data.Focus      += focusPerLevel * level;
+            Data.MeleePower += meleePowerPerLevel * level;
+            Data.SpellPower += spellPowerPerLevel * level;
+            Data.CritChance += critChancePerLevel * level;
         }
 
         public virtual void EnterCombat()
@@ -57,7 +100,7 @@ namespace vRPGEngine.Handlers.NPC
         /// this update call.
         /// </summary>
         /// <returns>active/inactive flag</returns>
-        public bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
+        public virtual bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
         {
             return false;
         }
@@ -75,5 +118,7 @@ namespace vRPGEngine.Handlers.NPC
         public virtual void IdleUpdate(GameTime gameTime)
         {
         }
+
+        public abstract object Clone();
     }
 }

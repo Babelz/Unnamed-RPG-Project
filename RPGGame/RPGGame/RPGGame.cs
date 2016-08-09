@@ -38,7 +38,7 @@ namespace RPGGame
         
         protected override void Initialize()
         {
-            vRPGEngine.vRPGEngine.Instance.Initialize();
+            vRPGEngine.Engine.Instance.Initialize();
 
             Renderer.Instance.SetPresentationParameters(3200, 3200, 160, 160, 3, 3);
             Renderer.Instance.DynamicPadding = true;
@@ -53,7 +53,7 @@ namespace RPGGame
 
         protected override void Update(GameTime gameTime)
         {
-            vRPGEngine.vRPGEngine.Instance.Update(gameTime);
+            vRPGEngine.Engine.Instance.Update(gameTime);
         }
     }
 }

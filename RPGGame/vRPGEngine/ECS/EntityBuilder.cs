@@ -19,8 +19,18 @@ namespace vRPGEngine.ECS
         {
             prefabs = new Dictionary<string, Func<Entity>>()
             {
-                { "empty", EmptyEntity }
+                { "empty", EmptyEntity },
+                { "spawn area", SpawnArea }
             };
+        }
+
+        private Entity SpawnArea()
+        {
+            var entity = Entity.Create();
+
+            entity.AddComponent<SpawnArea>();
+
+            return entity;
         }
 
         private Entity EmptyEntity()

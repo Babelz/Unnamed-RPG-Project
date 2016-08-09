@@ -13,8 +13,6 @@ namespace vRPGEngine.Graphics
         #region Fields
         private Vector2 scale;
         private Vector2 position;
-
-        private int layer;
         #endregion
 
         #region Properties
@@ -30,22 +28,8 @@ namespace vRPGEngine.Graphics
         }
         public int Layer
         {
-            get
-            {
-                return layer;
-            }
-            set
-            {
-                if (layer == value) return;
-                
-                Renderer.Instance.Remove(this);
-
-                layer = value;
-
-                Renderer.Instance.Add(this, layer);
-
-                Depth = layer * 0.1f;
-            }
+            get;
+            set;
         }
 
         public Vector2 Position

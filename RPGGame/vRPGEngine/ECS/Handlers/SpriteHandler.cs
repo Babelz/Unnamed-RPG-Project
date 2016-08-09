@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine.ECS.Handlers
 {
@@ -14,13 +15,20 @@ namespace vRPGEngine.ECS.Handlers
         {
             foreach (var renderer in components)
             {
-                if (!renderer.Anchored) continue;
+                if (renderer.Flags == RenderFlags.None) continue;
 
                 var transform = renderer.Owner.FirstComponentOfType<Transform>();
 
                 if (transform == null) continue;
 
-                renderer.Sprite.Position = transform.Position + renderer.PositionOffset;
+                if (renderer.Flags.HasFlag(RenderFlags.Anchored)) renderer.Sprite.Position = transform.Position + renderer.PositionOffset;
+
+                if (renderer.Flags.HasFlag(RenderFlags.AutomaticDepth))
+                {
+                    var depth = Math.Abs((transform.Position.Y - transform.Size.Y) / Renderer.Instance.LayerHeight);
+
+                    renderer.Sprite.Depth = depth;
+                }
             }
         }
     }

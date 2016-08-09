@@ -55,6 +55,22 @@ namespace vRPGEngine
 
             return body;
         }
+        public Body CreateKinematicCollider(Entity owner, float width, float height)
+        {
+            var body = BodyFactory.CreateRectangle(world,
+                                                   ConvertUnits.ToSimUnits(width),
+                                                   ConvertUnits.ToSimUnits(height),
+                                                   10.0f,
+                                                   owner);
+            body.IsStatic       = false;
+            body.Mass           = 80.0f;
+            body.Friction       = 0.2f;
+            body.Restitution    = 0.2f;
+            body.BodyType       = BodyType.Kinematic;
+            body.FixedRotation  = true;
+
+            return body;
+        }
         public Body CreateStaticCollider(Entity owner, float width, float height, float x, float y)
         { 
             var body = BodyFactory.CreateRectangle(world,

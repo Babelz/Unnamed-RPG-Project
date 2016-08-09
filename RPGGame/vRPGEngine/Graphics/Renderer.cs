@@ -71,12 +71,26 @@ namespace vRPGEngine.Graphics
             get;
             set;
         }
+        public int LayerHeight
+        {
+            get
+            {
+                return layerHeight;
+            }
+        }
+        public int LayerWidth
+        {
+            get
+            {
+                return layerWidth;
+            }
+        }
         #endregion
 
         private Renderer()
             : base()
         {
-            spriteBatch     = new SpriteBatch(vRPGEngine.Instance.GraphicsDevice);
+            spriteBatch     = new SpriteBatch(Engine.Instance.GraphicsDevice);
             views           = new List<View>();
             reservedIndices = new List<int>();
             freeIndices     = new Stack<int>();
@@ -88,7 +102,7 @@ namespace vRPGEngine.Graphics
         {
             visibleElements = 0;
 
-            var device      = vRPGEngine.Instance.GraphicsDevice;
+            var device      = Engine.Instance.GraphicsDevice;
             var viewport    = device.Viewport;
 
             device.Clear(ClearColor);
@@ -112,7 +126,7 @@ namespace vRPGEngine.Graphics
 
                     if (!layer.Visible) continue;
 
-                    spriteBatch.Begin(SpriteSortMode.BackToFront,
+                    spriteBatch.Begin(SpriteSortMode.Deferred,
                                       BlendState.AlphaBlend,
                                       null,
                                       null,

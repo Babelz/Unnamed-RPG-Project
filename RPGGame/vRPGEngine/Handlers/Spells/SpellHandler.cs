@@ -64,10 +64,7 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        public virtual object Clone()
-        {
-            return null;
-        }
+        public abstract object Clone();
     }
 
     public abstract class MissileSpellHandler : SpellHandler
@@ -339,6 +336,7 @@ namespace vRPGEngine.Handlers.Spells
 
             if (Elapsed > DecayTime) Working = false;
         }
+
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (renderable == null) return;

@@ -15,7 +15,7 @@ using vRPGEngine.Input;
 
 namespace vRPGEngine
 {
-    public sealed class vRPGEngine : Singleton<vRPGEngine>
+    public sealed class Engine : Singleton<Engine>
     {
         #region Fields
         private Game game;
@@ -52,7 +52,7 @@ namespace vRPGEngine
         }
         #endregion
 
-        private vRPGEngine() 
+        private Engine() 
             : base()
         {
         }
@@ -103,6 +103,12 @@ namespace vRPGEngine
 
                 ComponentManager<Transform>.Instance.Activate();
                 ComponentManager<Transform>.Instance.SetUpdateHandler(new TransformHandler());
+
+                ComponentManager<SpawnArea>.Instance.Activate();
+                ComponentManager<SpawnArea>.Instance.SetUpdateHandler(new SpawnAreaHandler());
+
+                ComponentManager<NPCController>.Instance.Activate();
+                ComponentManager<NPCController>.Instance.SetUpdateHandler(new NPCControllerHandler());
 
                 // TODO: wrap.
                 // Init systems.

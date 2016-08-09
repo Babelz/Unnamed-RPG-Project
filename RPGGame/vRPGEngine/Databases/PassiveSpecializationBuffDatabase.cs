@@ -21,7 +21,7 @@ namespace vRPGEngine.Databases
             {
                 Logger.Instance.LogFunctionMessage("loading passive spec buffs database...");
 
-                var data = vRPGEngine.Instance.Content.Load<PassiveSpecializationBuff[]>("Databases\\spec passives");
+                var data = Engine.Instance.Content.Load<PassiveSpecializationBuff[]>("Databases\\spec passives");
 
                 Logger.Instance.LogFunctionMessage("load ok!");
 

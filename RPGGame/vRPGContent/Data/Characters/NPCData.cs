@@ -98,9 +98,9 @@ namespace vRPGContent.Data.Characters
             SpellPower      = other.SpellPower;
             CritChance      = other.CritChance;
             Faction         = other.Faction;
-            LootList        = other.LootList.ToArray();
-            SpellList       = other.SpellList.ToArray();
-            SpellPriority   = other.SpellPriority.ToArray();
+            LootList        = other.LootList?.ToArray();
+            SpellList       = other.SpellList?.ToArray();
+            SpellPriority   = other.SpellPriority?.ToArray();
             HandlerName     = other.HandlerName;
         }
     }

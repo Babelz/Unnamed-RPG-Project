@@ -49,5 +49,10 @@ namespace vRPGEngine.Handlers.Spells
             : base("BattleShout", SpellDatabase.Instance.Elements().First(p => p.ID == 0), 3000, null)
         {
         }
+
+        public override object Clone()
+        {
+            return new BattleShout();
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace vRPGEngine.ECS.Components
             // Load spells.
             foreach (var spell in specialization.Spells)
             {
-                var handler = SpellHandlerFactory.Create(spell);
+                var handler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
 
                 if (handler != null) Spells.Add(handler);
             }
@@ -154,12 +154,14 @@ namespace vRPGEngine.ECS.Components
         {
             Handler = handler;
 
+            if (handler.Data.SpellList == null) return;
+
             var spells = SpellDatabase.Instance.Elements().Where(p => handler.Data.SpellList.Contains(p.ID));
 
             // Load spells.
             foreach (var spell in spells)
             {
-                var spellHandler = SpellHandlerFactory.Create(spell);
+                var spellHandler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
 
                 if (handler != null) Spells.Add(spellHandler);
             }
@@ -220,8 +222,8 @@ namespace vRPGEngine.ECS.Components
                 }
                 else
                 {
-                    if (Handler.CombatUpdate(gameTime)) CombatElapsed = 0;
-                    else                                CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
+                    if (Handler.CombatUpdate(gameTime, Spells)) CombatElapsed = 0;
+                    else                                        CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 return;
@@ -231,6 +233,6 @@ namespace vRPGEngine.ECS.Components
             Handler.IdleUpdate(gameTime);
         }
 
-        public delegate void NPCControllerEventHandler(NPCController controller)
+        public delegate void NPCControllerEventHandler(NPCController controller);
     }
 }

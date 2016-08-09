@@ -21,7 +21,7 @@ namespace vRPGEngine.Databases
             {
                 Logger.Instance.LogFunctionMessage("loading npc database...");
 
-                var data = vRPGEngine.Instance.Content.Load<NPCData[]>("Databases\\npcs");
+                var data = Engine.Instance.Content.Load<NPCData[]>("Databases\\npcs");
 
                 Logger.Instance.LogFunctionMessage("load ok!");
 

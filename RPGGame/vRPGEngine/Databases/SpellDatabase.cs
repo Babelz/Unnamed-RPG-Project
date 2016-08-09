@@ -21,7 +21,7 @@ namespace vRPGEngine.Databases
             {
                 Logger.Instance.LogFunctionMessage("loading spells database...");
 
-                var data = vRPGEngine.Instance.Content.Load<Spell[]>("Databases\\spells");
+                var data = Engine.Instance.Content.Load<Spell[]>("Databases\\spells");
 
                 Logger.Instance.LogFunctionMessage("load ok!");
 

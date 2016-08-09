@@ -24,12 +24,12 @@ namespace vRPGEngine.ECS.Components
             }
         }
 
-        public bool Anchored
+        public Vector2 PositionOffset
         {
             get;
             set;
         }
-        public Vector2 PositionOffset
+        public RenderFlags Flags
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace vRPGEngine.ECS.Components
         {
             sprite          = new Sprite();
             PositionOffset  = Vector2.Zero;
-            Anchored        = true;
+            Flags           |= RenderFlags.Anchored;
         }
 
         protected override void Initialize()

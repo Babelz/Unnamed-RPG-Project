@@ -19,8 +19,8 @@ namespace vRPGEngine.ECS.Handlers
 
                 if (body == null) continue;
                 
-                transform.Size     = ConvertUnits.ToDisplayUnits(body.Size);
-                transform.Position = ConvertUnits.ToDisplayUnits(body.Position) - transform.Size / 2.0f;
+                transform.Size     = ConvertUnits.ToDisplayUnits(body.SimulationSize);
+                transform.Position = ConvertUnits.ToDisplayUnits(body.SimulationPosition) - transform.Size / 2.0f;
             }
         }
     }

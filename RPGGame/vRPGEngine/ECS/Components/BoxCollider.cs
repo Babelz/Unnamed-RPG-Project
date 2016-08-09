@@ -41,14 +41,26 @@ namespace vRPGEngine.ECS.Components
                 body.LinearVelocity = value;
             }
         }
-        public Vector2 Position
+        public Vector2 SimulationPosition
         {
             get
             {
                 return body.Position;
             }
+            set
+            {
+                var simPosition = ConvertUnits.ToSimUnits(value);
+                body.Position   = simPosition;
+            }
         }
-        public Vector2 Size
+        public Vector2 DisplayPosition
+        {
+            get
+            {
+                return ConvertUnits.ToDisplayUnits(SimulationPosition);
+            }
+        }
+        public Vector2 SimulationSize
         {
             get
             {
@@ -57,6 +69,20 @@ namespace vRPGEngine.ECS.Components
                 body.FixtureList.First().GetAABB(out aabb, 0);
 
                 return new Vector2(aabb.Width, aabb.Height);
+            }
+        }
+        public Category Category
+        {
+            set
+            {
+                body.CollisionCategories = value;
+            }
+        }
+        public Category CollidesWith
+        {
+            set
+            {
+                body.CollidesWith = value;
             }
         }
         #endregion
@@ -112,6 +138,13 @@ namespace vRPGEngine.ECS.Components
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
             body = RPGWorld.Instance.CreateStaticCollider(Owner, width, height, x + width / 2.0f, y + height / 2.0f);
+        }
+
+        public void MakeKinematic(float width, float height)
+        {
+            if (body != null) RPGWorld.Instance.DestroyBody(body);
+
+            body = RPGWorld.Instance.CreateKinematicCollider(Owner, width, height);
         }
     }
 }

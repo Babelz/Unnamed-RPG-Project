@@ -25,7 +25,7 @@ namespace vRPGEngine.Graphics
         {
             strings = new List<Func<GameTime, string>>();
 
-            spriteBatch = new SpriteBatch(vRPGEngine.Instance.GraphicsDevice);
+            spriteBatch = new SpriteBatch(Engine.Instance.GraphicsDevice);
 
             font    = DefaultValues.DefaultFont;
             color   = Color.Red;

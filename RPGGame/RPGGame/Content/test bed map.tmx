@@ -119,6 +119,7 @@
     <property name="maxlvl" type="int" value="1"/>
     <property name="maxnpcs" type="int" value="5"/>
     <property name="minlvl" type="int" value="1"/>
+    <property name="spawntime" type="int" value="5000"/>
    </properties>
   </object>
   <object id="34" name="wall" x="192" y="160" width="768" height="64"/>
