@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
+using vRPGEngine.Combat;
 using vRPGEngine.Databases;
 using vRPGEngine.Handlers.NPC;
 using vRPGEngine.Handlers.Spells;
@@ -46,6 +47,16 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+        public MeleeDamageController MeleeDamageController
+        {
+            get;
+            private set;
+        }
+        public TargetFinder TargetFinder
+        {
+            get;
+            private set;
+        }
 
         // TODO: talents data
         //          - trees
@@ -56,17 +67,19 @@ namespace vRPGEngine.ECS.Components
         public CharacterController()
             : base()
         {
-            Attributes  = new AttributesData();
-            Buffs       = new BuffContainer();
-            Equipments  = new EquipmentContainer();
-            Spells      = new List<SpellHandler>();
+            Attributes   = new AttributesData();
+            Buffs        = new BuffContainer();
+            Equipments   = new EquipmentContainer();
+            Spells       = new List<SpellHandler>();
+            TargetFinder = new TargetFinder();
         }
 
         public void Initialize(Specialization specialization)
         {
             Debug.Assert(specialization != null);
 
-            Specialization = specialization;
+            MeleeDamageController = new MeleeDamageController(Equipments, specialization);
+            Specialization        = specialization;
 
             // Load spells.
             foreach (var spell in specialization.Spells)
@@ -96,7 +109,6 @@ namespace vRPGEngine.ECS.Components
 
         #region Events
         public event NPCControllerEventHandler OnDeath;
-        public event NPCControllerEventHandler OnSpawn;
         public event NPCControllerEventHandler OnEnteringCombat;
         public event NPCControllerEventHandler OnLeavingCombat;
         public event NPCControllerEventHandler OnDecayed;

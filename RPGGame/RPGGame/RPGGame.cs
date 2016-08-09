@@ -32,10 +32,11 @@ namespace RPGGame
             graphics.PreferredBackBufferHeight  = 720;
 
             graphics.ApplyChanges();
-
-            Content.RootDirectory = "Content";
+            
+            Content.RootDirectory   = "Content";
+            IsMouseVisible          = true;
         }
-        
+
         protected override void Initialize()
         {
             vRPGEngine.Engine.Instance.Initialize();

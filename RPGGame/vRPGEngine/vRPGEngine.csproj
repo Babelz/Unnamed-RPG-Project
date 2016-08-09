@@ -59,6 +59,8 @@
     <Compile Include="Attributes\Spells\Buff.cs" />
     <Compile Include="Attributes\AttributesContainer.cs" />
     <Compile Include="CombatLog.cs" />
+    <Compile Include="Combat\CombatLog.cs" />
+    <Compile Include="Combat\TargetFinder.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\NPCDatabase.cs" />
     <Compile Include="Databases\PassiveSpecializationBuffDatabase.cs" />
@@ -83,11 +85,13 @@
     <Compile Include="ECS\Handlers\SpawnAreaHandler.cs" />
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
+    <Compile Include="GameInfoLog.cs" />
     <Compile Include="Graphics\PresentationSettings.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\NPC\CritterHandler.cs" />
     <Compile Include="Handlers\NPC\NPCHandler.cs" />
     <Compile Include="Handlers\NPC\NPCHandlerFactory.cs" />
+    <Compile Include="Handlers\Spells\AutoAttack.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />

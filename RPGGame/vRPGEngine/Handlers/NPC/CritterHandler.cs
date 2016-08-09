@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using vRPGContent.Data.Characters;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.ECS;
 
 namespace vRPGEngine.Handlers.NPC
 {
@@ -47,9 +48,9 @@ namespace vRPGEngine.Handlers.NPC
             var collider = Owner.FirstComponentOfType<BoxCollider>();
             var position = collider.DisplayPosition;
 
-            if (Vector2.Distance(position, goal) <= 1)
+            if (Vector2.Distance(position, goal) <= 15)
             {
-                if (idleElapsed < 2500)
+                if (idleElapsed >= 6500)
                 {
                     goal = vRPGRandom.NextVector2(min, max);
 
@@ -62,11 +63,11 @@ namespace vRPGEngine.Handlers.NPC
 
                 return;
             }
-
-            var dir = position - goal;
+            
+            var dir = goal - position;
             dir = Vector2.Normalize(dir);
 
-            collider.LinearVelocity = 0.25f * dir;
+            collider.LinearVelocity = 0.45f * dir;
         }
         public override bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
         {

@@ -158,5 +158,9 @@ namespace vRPGEngine.Graphics
         {
             return Vector2.Transform(screenPosition, Matrix.Invert(Transform));
         }
+        public Vector2 ScreenToView(Point screenPosition)
+        {
+            return ScreenToView(new Vector2(screenPosition.X, screenPosition.Y));
+        }
     }
 }

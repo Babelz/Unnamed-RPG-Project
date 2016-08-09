@@ -46,7 +46,7 @@ namespace vRPGEngine.Handlers.Spells
         #endregion
         
         public BattleShout()
-            : base("BattleShout", SpellDatabase.Instance.Elements().First(p => p.ID == 0), 3000, null)
+            : base("Battle shout", SpellDatabase.Instance.Elements().First(p => p.ID == 0), 3000, null)
         {
         }
 

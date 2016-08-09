@@ -19,7 +19,7 @@ namespace vRPGEngine.Input
             providers = new IInputProvider[]
             {
                 new KeyboardInputProvider(), // Keyboard.
-                                             // Mouse.
+                new MouseInputProvider()
             };
         }
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine;
+using vRPGEngine.Combat;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
@@ -40,8 +41,9 @@ namespace RPGGame
 
             var behaviour = player.AddComponent<Behaviour>();
 
-            var view     = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
-            var zoomStep = 0.1f;
+            var view         = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
+            var zoomStep     = 0.1f;
+            var controller   = player.AddComponent<CharacterController>();
 
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
@@ -52,31 +54,41 @@ namespace RPGGame
             });
 
             // Init input.
-            var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
+            var kip = InputManager.Instance.GetProvider<KeyboardInputProvider>();
             var velo = 2.0f;
 
-            kb.Bind("player_up", Keys.Up, KeyTrigger.Down, () =>
+            kip.Bind("player_up", Keys.Up, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(collider.LinearVelocity.X, -velo);
             });
 
-            kb.Bind("player_down", Keys.Down, KeyTrigger.Down, () =>
+            kip.Bind("player_down", Keys.Down, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(collider.LinearVelocity.X, velo);
             });
 
-            kb.Bind("player_left", Keys.Left, KeyTrigger.Down, () =>
+            kip.Bind("player_left", Keys.Left, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(-velo, collider.LinearVelocity.Y);
             });
 
-            kb.Bind("player_right", Keys.Right, KeyTrigger.Down, () =>
+            kip.Bind("player_right", Keys.Right, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });
             
-            kb.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
-            kb.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= zoomStep);
+            kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
+            kip.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= zoomStep);
+
+            var mip = InputManager.Instance.GetProvider<MouseInputProvider>();
+
+            mip.Bind("click", MouseButton.LeftButton, MouseTrigger.Pressed, (ms) =>
+            {
+                var position = view.ScreenToView(ms.Position);
+                var radius   = 2.5f;
+
+                targetFinder.FindTarget(position, radius);
+            });
             
             Renderer.Instance.RegisterView(view);
 
