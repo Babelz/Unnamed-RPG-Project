@@ -99,7 +99,7 @@ namespace vRPGContent.Data.Items
             get;
             set;
         }
-        public string BehaviourName
+        public string HandlerName
         {
             get;
             set;
@@ -109,7 +109,7 @@ namespace vRPGContent.Data.Items
         public Equipment()
             : base()
         {
-            BehaviourName = string.Empty;
+            HandlerName = string.Empty;
         }
     }
 }

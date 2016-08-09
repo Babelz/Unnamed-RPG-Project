@@ -47,7 +47,7 @@ namespace RPGGame
             Layers.Create();
             
             TileMapManager.Instance.Load("test bed map");
-                        
+                            
             var player = EntityBuilder.Instance.Create("player");
         }
 

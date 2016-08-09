@@ -46,6 +46,11 @@ namespace vRPGContent.Data.Quests
             get;
             set;
         }
+        public int QuestItemID
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Quest()

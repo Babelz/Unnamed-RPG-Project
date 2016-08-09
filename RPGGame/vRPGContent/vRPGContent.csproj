@@ -80,6 +80,7 @@
     <Compile Include="Data\DataCollection.cs" />
     <Compile Include="Data\DefaultDatabaseProcessor.cs" />
     <Compile Include="Data\GenericElementProcessor.cs" />
+    <Compile Include="Data\ItemProcessor.cs" />
     <Compile Include="Data\Items\Armor.cs" />
     <Compile Include="Data\Items\Consumable.cs" />
     <Compile Include="Data\Items\DefaultEffectNames.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Data\Items\Material.cs" />
     <Compile Include="Data\Items\QuestItem.cs" />
     <Compile Include="Data\Items\Weapon.cs" />
+    <Compile Include="Data\NPCProcessor.cs" />
     <Compile Include="Data\Quests\Enums\QuestType.cs" />
     <Compile Include="Data\Quests\Quest.cs" />
     <Compile Include="Data\SpecializationProcessor.cs" />

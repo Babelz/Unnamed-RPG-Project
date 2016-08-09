@@ -19,11 +19,6 @@ namespace vRPGContent.Data.Items
             get;
             set;
         }
-        public string BehaviourName
-        {
-            get;
-            set;
-        }
         #endregion
 
         public QuestItem()
@@ -31,7 +26,6 @@ namespace vRPGContent.Data.Items
         {
             Type            = ItemType.QuestItem;
             VendorValue     = 0;                // Can't sell these to vendors.
-            BehaviourName   = string.Empty;
         }
     }
 }

@@ -46,7 +46,7 @@ namespace RPGGame
 
             // Init input.
             var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
-            var velo = 2.5f;
+            var velo = 2.0f;
 
             kb.Bind("player_up", Keys.Up, KeyTrigger.Down, () =>
             {
