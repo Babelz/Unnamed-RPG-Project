@@ -54,7 +54,7 @@ namespace vRPGEngine.Attributes
             timers      = new int[2];
         }
 
-        public void GenerateSwing(ref MeleeSwingResults swing, Weapon weapon)
+        private void GenerateSilentSwing(ref MeleeSwingResults swing, Weapon weapon)
         {
             var critical    = specialization.TotalCriticalHitPercent() <= vRPGRandom.NextFloat();
             var damage      = vRPGRandom.NextInt(weapon.BaseDamageMin, weapon.BaseDamageMax);
@@ -64,6 +64,13 @@ namespace vRPGEngine.Attributes
             swing.Damage    = damage + (int)(damage * (specialization.MeleeDamageModifierPercent() + specialization.DamageModifierPercent()));
             swing.Critical  = critical;
             swing.Weapon    = weapon;
+        }
+
+        public void GenerateSwing(ref MeleeSwingResults swing, Weapon weapon)
+        {
+            GenerateSilentSwing(ref swing, weapon);
+
+            OnSwing?.Invoke(ref swing);
         }
 
         public void Initialize(EquipmentContainer equipments, Specialization specialization)
@@ -125,7 +132,7 @@ namespace vRPGEngine.Attributes
 
                 MeleeSwingResults swing = new MeleeSwingResults();
 
-                GenerateSwing(ref swing, weapon);
+                GenerateSilentSwing(ref swing, weapon);
 
                 results.Add(swing);
             }
