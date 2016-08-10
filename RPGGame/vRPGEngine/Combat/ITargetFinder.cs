@@ -16,7 +16,7 @@ namespace vRPGEngine.Combat
         {
             get;
         }
-        CharacterController TargetController
+        ICharacterController TargetController
         {
             get;
         }

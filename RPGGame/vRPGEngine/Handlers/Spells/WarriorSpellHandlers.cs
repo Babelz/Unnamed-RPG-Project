@@ -30,14 +30,14 @@ namespace vRPGEngine.Handlers.Spells
 
             public override void Apply(Entity owner)
             {
-                var character = owner.FirstComponentOfType<CharacterController>();
+                var character = owner.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      += Value;
                 character.Attributes.MeeleePowerPercentModifier += Value;
             }
             public override void Remove(Entity owner)
             {
-                var character = owner.FirstComponentOfType<CharacterController>();
+                var character = owner.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      -= Value;
                 character.Attributes.MeeleePowerPercentModifier -= Value;

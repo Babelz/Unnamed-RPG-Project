@@ -18,7 +18,7 @@ namespace vRPGEngine.Combat
             get;
             set;
         }
-        public CharacterController TargetController
+        public ICharacterController TargetController
         {
             get;
             set;
@@ -67,7 +67,7 @@ namespace vRPGEngine.Combat
                 return;
             }
 
-            TargetController = Target.FirstComponentOfType<CharacterController>();
+            TargetController = Target.FirstComponentOfType<ICharacterController>();
 
             // Clear target, not an NPC.
             if (TargetController == null)

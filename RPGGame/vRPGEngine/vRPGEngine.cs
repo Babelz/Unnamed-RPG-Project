@@ -93,7 +93,7 @@ namespace vRPGEngine
 
                 if (player == null) return "Dist: null";
 
-                var controller = player.FirstComponentOfType<CharacterController>();
+                var controller = player.FirstComponentOfType<ICharacterController>();
 
                 if (controller.TargetFinder.Target == null) return "Dist: null";
 
@@ -109,7 +109,7 @@ namespace vRPGEngine
 
                 if (player == null) return "Target HP: null";
 
-                var controller = player.FirstComponentOfType<CharacterController>();
+                var controller = player.FirstComponentOfType<ICharacterController>();
 
                 if (controller.TargetFinder.Target == null) return "Target HP: null";
 

@@ -56,7 +56,7 @@ namespace vRPGEngine.ECS
             return children.Remove(child);
         }
 
-        public T AddComponent<T>() where T : class, IComponent, new()
+        public T AddComponent<T>() where T : Component<T>, IComponent, new()
         {
             T component = Component<T>.Create(this) as T;
 
@@ -75,14 +75,19 @@ namespace vRPGEngine.ECS
         }
         public T FirstComponentOfType<T>() where T : class, IComponent
         {
-            foreach (var component in components)
+            if (typeof(T).IsInterface)
             {
-                T result = component as T;
+                foreach (var component in components)
+                {
+                    var upper = component as T;
 
-                if (result != null) return result;
+                    if (upper != null) return upper;
+                }
             }
 
-            return null;
+            var results = components.FirstOrDefault(c => c.GetType() == typeof(T));
+
+            return results != null ? results as T : null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -13,7 +13,7 @@ namespace vRPGEngine.Handlers.Spells
 {
     public static class MeleeHelper
     {
-        public static bool InRange(CharacterController controller, Entity sender, Spell spell)
+        public static bool InRange(ICharacterController controller, Entity sender, Spell spell)
         {
             var pos  = controller.TargetFinder.Target.FirstComponentOfType<Transform>().Position;
             var dist = ConvertUnits.ToSimUnits(Vector2.Distance(sender.FirstComponentOfType<Transform>().Position, pos));

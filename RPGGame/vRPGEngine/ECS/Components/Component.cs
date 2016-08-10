@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.ECS.Components
 {
-    public class Component<T> : IComponent where T : class, IComponent, new()
+    public class Component<T> : IComponent where T : Component<T>, IComponent, new()
     {
         #region Properties
         public Entity Owner
@@ -44,8 +44,7 @@ namespace vRPGEngine.ECS.Components
             var component           = ComponentManager<T>.Instance.Create();
             component.Owner         = owner;
 
-            var genericComponent    = component as Component<T>;
-            genericComponent?.Initialize();
+            component.Initialize();
             
             return component as T;
         }

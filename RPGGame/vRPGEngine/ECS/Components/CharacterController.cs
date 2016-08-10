@@ -16,18 +16,66 @@ using vRPGEngine.Specializations;
 
 namespace vRPGEngine.ECS.Components
 {
-    public abstract class CharacterController : IComponent
+    public interface ICharacterController : IComponent
     {
         #region Properties
-        public int Location
+        BuffContainer Buffs
         {
             get;
-            set;
         }
-        public Entity Owner
+        List<SpellHandler> Spells
         {
             get;
-            set;
+        }
+
+        AttributesData Attributes
+        {
+            get;
+        }
+        Specialization Specialization
+        {
+            get;
+        }
+        Statuses Statuses
+        {
+            get;
+        }
+
+        MeleeDamageController MeleeDamageController
+        {
+            get;
+        }
+        ITargetFinder TargetFinder
+        {
+            get;
+        }
+
+        bool Alive
+        {
+            get;
+        }
+        bool HasFocus
+        {
+            get;
+        }
+        bool HasMana
+        {
+            get;
+        }
+        #endregion
+    }
+    
+    public sealed class PlayerCharacterController : Component<PlayerCharacterController>, ICharacterController
+    {
+        #region Fields
+        private SpellHandler casting;
+        #endregion
+
+        #region Properties
+        public EquipmentContainer Equipments
+        {
+            get;
+            private set;
         }
 
         public BuffContainer Buffs
@@ -41,31 +89,31 @@ namespace vRPGEngine.ECS.Components
             private set;
         }
 
-        public virtual AttributesData Attributes
+        public AttributesData Attributes
         {
             get;
-            protected set;
+            private set;
         }
         public Specialization Specialization
         {
             get;
-            protected set;
+            private set;
         }
         public Statuses Statuses
         {
             get;
-            protected set;
+            private set;
         }
 
         public MeleeDamageController MeleeDamageController
         {
             get;
-            protected set;
+            private set;
         }
         public ITargetFinder TargetFinder
         {
             get;
-            protected set;
+            private set;
         }
 
         public bool Alive
@@ -91,60 +139,11 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public CharacterController()
-        {
-            Buffs = new BuffContainer();
-            Spells = new List<SpellHandler>();
-            Statuses = new Statuses();
-        }
-
-        protected void CharacterControllerInitialize()
-        {
-            Debug.Assert(Statuses != null);
-            Debug.Assert(Specialization != null);
-
-            Statuses.Health = Specialization.TotalHealth();
-            Statuses.Focus = Specialization.TotalFocus();
-            Statuses.Mana = Specialization.TotalMana();
-
-            // Load spells.
-            foreach (var spell in Specialization.Spells)
-            {
-                var handler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
-
-                if (handler != null) Spells.Add(handler);
-            }
-
-            // Add spells that everyone has.
-            Spells.Add(new AutoAttack());
-        }
-
-        public abstract void Destroy();
-    }
-    
-    public sealed class PlayerCharacterController : CharacterController
-    {
-        #region Fields
-        private SpellHandler casting;
-        #endregion
-
-        #region Properties
-        public EquipmentContainer Equipments
-        {
-            get;
-            private set;
-        }
-        public override AttributesData Attributes
-        {
-            get;
-            protected set;
-        }
-        #endregion
-
         public PlayerCharacterController()
             : base()
         {
             TargetFinder = new TargetFinder();
+            Spells = new List<SpellHandler>();
         }
 
         public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, MeleeDamageController meleeDamageController, Statuses statuses)
@@ -159,8 +158,6 @@ namespace vRPGEngine.ECS.Components
             Equipments              = equipments;
             MeleeDamageController   = meleeDamageController;
             Statuses                = statuses;
-
-            CharacterControllerInitialize();
 
             // Add spells that everyone has.
             Spells.Add(new AutoAttack());
@@ -179,14 +176,9 @@ namespace vRPGEngine.ECS.Components
 
             casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
         }
-
-        public override void Destroy()
-        {
-            ComponentManager<PlayerCharacterController>.Instance.Destroy(this);
-        }
     }
 
-    public sealed class NPCController : CharacterController
+    public sealed class NPCController : Component<NPCController>, ICharacterController
     {
         #region Const fields
         public const int CombatInactiveTime = 5000;
@@ -223,15 +215,69 @@ namespace vRPGEngine.ECS.Components
             private set;
         }
 
-        public override AttributesData Attributes
+        public AttributesData Attributes
         {
             get
             {
                 return Handler.Data;
             }
-            protected set
+            private set
             {
                 Handler.Data.CopyAttributes(value);
+            }
+        }
+
+        public BuffContainer Buffs
+        {
+            get;
+            private set;
+        }
+        public List<SpellHandler> Spells
+        {
+            get;
+            private set;
+        }
+        public Specialization Specialization
+        {
+            get;
+            private set;
+        }
+        public Statuses Statuses
+        {
+            get;
+            private set;
+        }
+
+        public MeleeDamageController MeleeDamageController
+        {
+            get;
+            private set;
+        }
+        public ITargetFinder TargetFinder
+        {
+            get;
+            private set;
+        }
+
+        public bool Alive
+        {
+            get
+            {
+                return Statuses.Health != 0;
+            }
+        }
+        public bool HasFocus
+        {
+            get
+            {
+                return Statuses.Focus != 0;
+            }
+        }
+        public bool HasMana
+        {
+            get
+            {
+                return Statuses.Mana != 0;
             }
         }
         #endregion
@@ -324,11 +370,6 @@ namespace vRPGEngine.ECS.Components
 
             // Idle update.
             Handler.IdleUpdate(gameTime);
-        }
-
-        public override void Destroy()
-        { 
-            ComponentManager<NPCController>.Instance.Destroy(this);
         }
   
         public delegate void NPCControllerEventHandler(NPCController controller);
