@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FarseerPhysics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,14 @@ namespace vRPGEngine.Handlers.Spells
             if (controller.TargetFinder.TargetNPC == null) return;
 
             var pos = controller.TargetFinder.Target.FirstComponentOfType<Transform>().Position;
-            var dist = Vector2.Distance(owner.FirstComponentOfType<Transform>().Position, pos);
+            var dist = ConvertUnits.ToSimUnits(Vector2.Distance(owner.FirstComponentOfType<Transform>().Position, pos));
+            
+            if (dist < Spell.Range)
+            {
+                GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
+
+                return;
+            }
 
             // TODO:    melee swings
             //          weapon

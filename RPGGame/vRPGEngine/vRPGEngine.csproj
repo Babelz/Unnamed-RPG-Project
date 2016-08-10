@@ -87,6 +87,7 @@
     <Compile Include="ECS\Handlers\SpriteHandler.cs" />
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="GameInfoLog.cs" />
+    <Compile Include="Graphics\HUDRenderer.cs" />
     <Compile Include="Graphics\PresentationSettings.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\NPC\CritterHandler.cs" />

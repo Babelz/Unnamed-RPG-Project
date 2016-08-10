@@ -105,6 +105,11 @@ namespace vRPGEngine.Specializations
             return 2.0f;
         }
 
+        public virtual int TotalMana()
+        {
+            return attributes.Intellect * 10;
+        }
+
         public virtual int TotalAgility()
         {
             return attributes.Agility;
@@ -190,7 +195,7 @@ namespace vRPGEngine.Specializations
         }
         public virtual int TotalFocus()
         {
-            return attributes.Endurance;
+            return attributes.Endurance * 10;
         }
 
         public virtual float MeleeDamageModifierPercent()

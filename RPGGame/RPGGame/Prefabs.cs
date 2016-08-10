@@ -44,25 +44,26 @@ namespace RPGGame
 
             var behaviour = player.AddComponent<Behaviour>();
 
-            var view                = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
-            var zoomStep            = 0.1f;
-            var controller          = player.AddComponent<CharacterController>();
-            var specializationData  = SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior");
-            var attributes          = new AttributesData()
-            {
-                Stamina = 100,
-                Strength = 20
-            };
-            var equipments          = controller.Equipments;
-            var statuses            = new Statuses();
-            
-            controller.Initialize(new Warrior(specializationData, attributes, equipments, statuses));
+            var view                 = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
+            var zoomStep             = 0.1f;
+
+            // TODO: load from game data.
+            var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
+            var controller            = player.AddComponent<CharacterController>();
+            var attributes            = new AttributesData();
+            var equipments            = new EquipmentContainer();
+            var meleeDamageController = new MeleeDamageController();
+            var statuses              = new Statuses();
+            var specialization        = new Warrior(data, attributes, equipments, statuses);
+
+            controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
+            meleeDamageController.Initialize(equipments, specialization);
 
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;
+                view.Position           = transform.Position;
 
-                view.Position = transform.Position;
                 view.FocuCenter();
             });
 
@@ -70,22 +71,22 @@ namespace RPGGame
             var kip = InputManager.Instance.GetProvider<KeyboardInputProvider>();
             var velo = 2.0f;
 
-            kip.Bind("player_up", Keys.Up, KeyTrigger.Down, () =>
+            kip.Bind("player_up", Keys.W, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(collider.LinearVelocity.X, -velo);
             });
 
-            kip.Bind("player_down", Keys.Down, KeyTrigger.Down, () =>
+            kip.Bind("player_down", Keys.S, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(collider.LinearVelocity.X, velo);
             });
 
-            kip.Bind("player_left", Keys.Left, KeyTrigger.Down, () =>
+            kip.Bind("player_left", Keys.A, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(-velo, collider.LinearVelocity.Y);
             });
 
-            kip.Bind("player_right", Keys.Right, KeyTrigger.Down, () =>
+            kip.Bind("player_right", Keys.D, KeyTrigger.Down, () =>
             {
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });

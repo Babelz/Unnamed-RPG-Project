@@ -25,8 +25,8 @@ namespace vRPGEngine.Attributes
     public sealed class MeleeDamageController
     {
         #region Fields
-        private readonly EquipmentContainer equipments;
-        private readonly Specialization specialization;
+        private EquipmentContainer equipments;
+        private Specialization specialization;
         
         private List<MeleeSwingResults> results;
         
@@ -47,16 +47,20 @@ namespace vRPGEngine.Attributes
         }
         #endregion
 
-        public MeleeDamageController(EquipmentContainer equipments, Specialization specialization)
+        public MeleeDamageController()
         {
-            Debug.Assert(equipments != null);
-
-            this.equipments     = equipments;
-            this.specialization = specialization;
-
             results     = new List<MeleeSwingResults>();
             weapons     = new Weapon[2];
             timers      = new int[2];
+        }
+
+        public void Initialize(EquipmentContainer equipments, Specialization specialization)
+        {
+            Debug.Assert(equipments != null);
+            Debug.Assert(specialization != null);
+            
+            this.equipments     = equipments;
+            this.specialization = specialization;
         }
 
         public void EnterCombat()

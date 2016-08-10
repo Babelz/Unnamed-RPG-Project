@@ -57,6 +57,11 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+        public Statuses Statuses
+        {
+            get;
+            private set;
+        }
 
         // TODO: talents data
         //          - trees
@@ -67,19 +72,28 @@ namespace vRPGEngine.ECS.Components
         public CharacterController()
             : base()
         {
-            Attributes   = new AttributesData();
             Buffs        = new BuffContainer();
-            Equipments   = new EquipmentContainer();
             Spells       = new List<SpellHandler>();
             TargetFinder = new TargetFinder();
         }
 
-        public void Initialize(Specialization specialization)
+        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, MeleeDamageController meleeDamageController, Statuses statuses)
         {
             Debug.Assert(specialization != null);
+            Debug.Assert(attributes != null);
+            Debug.Assert(equipments != null);
+            Debug.Assert(meleeDamageController != null);
 
-            MeleeDamageController = new MeleeDamageController(Equipments, specialization);
-            Specialization        = specialization;
+            Specialization          = specialization;
+            Attributes              = attributes;
+            Equipments              = equipments;
+            MeleeDamageController   = meleeDamageController;
+            Statuses                = statuses;
+
+            // Compute statuses.
+            statuses.Health = specialization.TotalHealth();
+            statuses.Focus  = specialization.TotalFocus();
+            statuses.Mana   = specialization.TotalMana();
 
             // Load spells.
             foreach (var spell in specialization.Spells)

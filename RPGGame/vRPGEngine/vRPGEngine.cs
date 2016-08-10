@@ -117,6 +117,7 @@ namespace vRPGEngine
                 Renderer.Instance.Activate();
                 Logger.Instance.Activate();
                 RPGWorld.Instance.Activate();
+                HUDRenderer.Instance.Activate();
 
                 ActivateDebugRenderer();
 
