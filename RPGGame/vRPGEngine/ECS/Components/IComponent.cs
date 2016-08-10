@@ -10,11 +10,12 @@ namespace vRPGEngine.ECS.Components
     {
         #region Properties
         Entity Owner
-        {
+        {   
             get;
+            set;
         }
         #endregion
-
+        
         void Destroy();
     }
 }

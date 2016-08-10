@@ -10,7 +10,7 @@ using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.Combat
 {
-    public sealed class TargetFinder
+    public sealed class TargetFinder : ITargetFinder
     {
         #region Properties
         public Entity Target
@@ -18,7 +18,7 @@ namespace vRPGEngine.Combat
             get;
             set;
         }
-        public NPCController TargetNPC
+        public CharacterController TargetController
         {
             get;
             set;
@@ -35,8 +35,8 @@ namespace vRPGEngine.Combat
 
         public void ClearTarget()
         {
-            Target      = null;
-            TargetNPC   = null;
+            Target           = null;
+            TargetController = null;
 
             TargetChanged?.Invoke();
         }
@@ -67,10 +67,10 @@ namespace vRPGEngine.Combat
                 return;
             }
 
-            TargetNPC       = Target.FirstComponentOfType<NPCController>();
+            TargetController = Target.FirstComponentOfType<CharacterController>();
 
             // Clear target, not an NPC.
-            if (TargetNPC == null)
+            if (TargetController == null)
             {
                 ClearTarget();
                 return;

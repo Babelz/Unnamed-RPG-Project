@@ -62,7 +62,7 @@ namespace vRPGEngine.Handlers.NPC
 
         public virtual void Initialize(Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
         {
-            var collider        = Owner.FirstComponentOfType<BoxCollider>();
+            var collider                  = Owner.FirstComponentOfType<BoxCollider>();
             collider.SimulationPosition   = position;
 
             this.maxDist = maxDist;
@@ -72,20 +72,23 @@ namespace vRPGEngine.Handlers.NPC
             { 
                 var currentLevel = Data.Level;
 
-                var healthPerLevel      = Data.Health / currentLevel;
-                var manaPerLevel        = Data.Mana / currentLevel;
-                var focusPerLevel       = Data.Focus / currentLevel;
-                var meleePowerPerLevel  = Data.MeleePower / currentLevel;
-                var spellPowerPerLevel  = Data.SpellPower / currentLevel;
-                var critChancePerLevel  = Data.CritChance / currentLevel;
+                // TODO: fill rest
+                var staminaPerLevel     = Data.Stamina / currentLevel;
+                var intellectPerLevel   = Data.Intellect / currentLevel;
+                var endurancePerLevel   = Data.Endurance / currentLevel;
+                var strenghtPerLevel    = Data.Strength / currentLevel;
+                var agilityPerLevel     = data.Agility / currentLevel;
+                var meleePowerPerLevel  = Data.PureMeleePower / currentLevel;
+                var spellPowerPerLevel  = Data.PureSpellPower / currentLevel;
+                var critChancePerLevel  = Data.CriticalHitPercent / currentLevel;
 
-                Data.Level      = level;
-                Data.Health     += healthPerLevel * level;
-                Data.Mana       += manaPerLevel * level;
-                Data.Focus      += focusPerLevel * level;
-                Data.MeleePower += meleePowerPerLevel * level;
-                Data.SpellPower += spellPowerPerLevel * level;
-                Data.CritChance += critChancePerLevel * level;
+                Data.Level              = level;
+                Data.Stamina            += staminaPerLevel * level;
+                Data.Intellect          += intellectPerLevel * level;
+                Data.Endurance          += endurancePerLevel * level;
+                Data.PureMeleePower     += meleePowerPerLevel * level;
+                Data.PureSpellPower     += spellPowerPerLevel * level;
+                Data.CriticalHitPercent += critChancePerLevel * level;
             }
         }
 

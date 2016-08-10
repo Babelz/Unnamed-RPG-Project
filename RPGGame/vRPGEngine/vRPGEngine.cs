@@ -113,7 +113,7 @@ namespace vRPGEngine
 
                 if (controller.TargetFinder.Target == null) return "Target HP: null";
 
-                return "Target HP: " + controller.TargetFinder.TargetNPC.Handler.Data.Health;
+                return "Target HP: " + controller.TargetFinder.TargetController.Statuses.Health;
             });
         }
         
@@ -137,8 +137,8 @@ namespace vRPGEngine
                 ComponentManager<SpawnArea>.Instance.Activate();
                 ComponentManager<SpawnArea>.Instance.SetUpdateHandler(new SpawnAreaHandler());
                 
-                ComponentManager<CharacterController>.Instance.Activate();
-                ComponentManager<CharacterController>.Instance.SetUpdateHandler(new CharacterControllerHandler());
+                ComponentManager<PlayerCharacterController>.Instance.Activate();
+                ComponentManager<PlayerCharacterController>.Instance.SetUpdateHandler(new PlayerCharacterControllerHandler());
 
                 ComponentManager<NPCController>.Instance.Activate();
                 ComponentManager<NPCController>.Instance.SetUpdateHandler(new NPCControllerHandler());

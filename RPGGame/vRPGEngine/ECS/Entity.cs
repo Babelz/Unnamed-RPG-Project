@@ -39,9 +39,8 @@ namespace vRPGEngine.ECS
 
         internal Entity()
         {
-            components = new List<IComponent>();
-
-            children = new List<Entity>();
+            components  = new List<IComponent>();
+            children    = new List<Entity>();
         }
 
         public void AddChildren(Entity child)
@@ -57,9 +56,9 @@ namespace vRPGEngine.ECS
             return children.Remove(child);
         }
 
-        public T AddComponent<T>() where T : Component<T>, new()
+        public T AddComponent<T>() where T : class, IComponent, new()
         {
-            T component = Component<T>.Create(this);
+            T component = Component<T>.Create(this) as T;
 
             components.Add(component);
 
@@ -70,18 +69,20 @@ namespace vRPGEngine.ECS
         {
             return components;
         }
-        public IEnumerable<T> ComponentsOfType<T>() where T : Component<T>, new()
+        public IEnumerable<T> ComponentsOfType<T>() where T : class, IComponent
+        {
+            foreach (var component in components) if (component.GetType() == typeof(T)) yield return component as T;
+        }
+        public T FirstComponentOfType<T>() where T : class, IComponent
         {
             foreach (var component in components)
             {
-                if (component.GetType() == typeof(T)) yield return component as T;
-            }
-        }
-        public T FirstComponentOfType<T>() where T : Component<T>, new()
-        {
-            var component = components.FirstOrDefault(c => c.GetType() == typeof(T));
+                T result = component as T;
 
-            return component != null ? component as T : null;
+                if (result != null) return result;
+            }
+
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

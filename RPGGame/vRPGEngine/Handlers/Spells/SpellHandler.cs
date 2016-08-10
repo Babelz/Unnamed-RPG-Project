@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 
 namespace vRPGEngine.Handlers.Spells
@@ -18,11 +19,6 @@ namespace vRPGEngine.Handlers.Spells
     public abstract class SpellHandler : ICloneable
     {
         #region Properties
-        public string Name
-        {
-            get;
-            private set;
-        }
         public Spell Spell
         {
             get;
@@ -46,12 +42,10 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected SpellHandler(string name, Spell spell)
+        protected SpellHandler(Spell spell)
         {
-            Debug.Assert(!string.IsNullOrEmpty(name));
             Debug.Assert(spell != null);
-
-            Name        = name;
+            
             Spell       = spell;
         }
         
@@ -117,8 +111,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected MissileSpellHandler(string name, Spell spell, float width, float height)
-            : base(name, spell)
+        protected MissileSpellHandler(Spell spell, float width, float height)
+            : base(spell)
         {
             Width   = width;
             Height  = height;
@@ -198,6 +192,62 @@ namespace vRPGEngine.Handlers.Spells
         }
     }
 
+    public abstract class MeleeSpellHandler : SpellHandler
+    {
+        #region Properties
+        public Entity Owner
+        {
+            get;
+            protected set;
+        }
+        #endregion
+
+        public MeleeSpellHandler(Spell spell)
+            : base(spell)
+        {
+        }
+
+        //private void PlayerSetTarget(Entity owner)
+        //{
+        //    //Owner = owner;
+
+        //    //var controller = owner.FirstComponentOfType<CharacterController>();
+            
+        //    //if (Working)
+        //    //{
+        //    //    controller.MeleeDamageController.LeaveCombat();
+
+        //    //    Working = false;
+
+        //    //    return;
+        //    //}
+
+        //    //if (controller == null) return;
+
+        //    //if (controller.TargetFinder.TargetNPC == null) return;
+
+        //    //if (!MeleeHelper.InRange(controller, owner, Spell))
+        //    //{
+        //    //    GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
+
+        //    //    return;
+        //    //}
+
+        //    //Working = true;
+
+        //    //controller.MeleeDamageController.EnterCombat();
+        //    //controller.TargetFinder.TargetNPC.EnterCombat();
+        //}
+        //private void NPCSetTarget(Entity owner)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public override void Use(Entity owner)
+        {
+        }
+    }
+
     public abstract class AOESpellHandler : SpellHandler
     {
         #region Properties
@@ -225,8 +275,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        public AOESpellHandler(string name, Spell spell, float radius)
-            : base(name, spell)
+        public AOESpellHandler(Spell spell, float radius)
+            : base(spell)
         {
         }
 
@@ -302,8 +352,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected SelfBuffSpellHandler(string name, Spell spell, int decayTime, IRenderable renderable)
-                : base(name, spell)
+        protected SelfBuffSpellHandler(Spell spell, int decayTime, IRenderable renderable)
+                : base(spell)
         {
             DecayTime  = decayTime;
             Renderable = renderable;

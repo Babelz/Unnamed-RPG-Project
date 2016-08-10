@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGContent.Data.Attributes;
 using vRPGEngine;
 using vRPGEngine.Attributes;
 using vRPGEngine.Attributes.Specializations;
@@ -49,7 +50,7 @@ namespace RPGGame
 
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
-            var controller            = player.AddComponent<CharacterController>();
+            var controller            = player.AddComponent<PlayerCharacterController>();
             var attributes            = new AttributesData()
             {
                 Stamina = 12,
@@ -66,9 +67,9 @@ namespace RPGGame
             var statuses              = new Statuses();
             var specialization        = new Warrior(data, attributes, equipments, statuses);
 
-            controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
             meleeDamageController.Initialize(equipments, specialization);
-
+            //controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
+            
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;
@@ -103,7 +104,7 @@ namespace RPGGame
 
             kip.Bind("auto_attack", Keys.D1, KeyTrigger.Pressed, () =>
             {
-                controller.Spells.FirstOrDefault(s => s.Name == "Auto attack").Use(player);
+                controller.Spells.FirstOrDefault(s => s.Spell.Name == "Auto attack").Use(player);
             });
 
             kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);

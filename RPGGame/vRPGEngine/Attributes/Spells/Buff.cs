@@ -13,11 +13,6 @@ namespace vRPGEngine.Attributes.Spells
     public abstract class Buff
     {
         #region Properties
-        public string Name
-        {
-            get;
-            private set;
-        }
         public int Elapsed
         {
             get;
@@ -73,9 +68,8 @@ namespace vRPGEngine.Attributes.Spells
         }
         #endregion
 
-        protected Buff(string name, int time, bool canStack, bool doesTick, Spell fromSpell, BuffType type)
+        protected Buff(int time, bool canStack, bool doesTick, Spell fromSpell, BuffType type)
         {
-            Name        = name;
             Time        = time;
             FromSpell   = fromSpell;
             CanStack    = canStack;
@@ -85,6 +79,11 @@ namespace vRPGEngine.Attributes.Spells
 
         public abstract void Apply(Entity owner);
         public abstract void Remove(Entity owner);
+
+        public void Refresh()
+        {
+            Elapsed = 0;
+        }
 
         public void ResetTickTimer()
         {

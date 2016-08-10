@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.Attributes
+namespace vRPGContent.Data.Attributes
 {
     /// <summary>
     /// Runtime specific attributes of some entity.
     /// </summary>
-    public sealed class AttributesData 
+    [Serializable()]
+    public class AttributesData 
     {
         #region Properties
         public int Level

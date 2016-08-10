@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.ECS.Components
 {
-    public class Component<T> : IComponent where T : Component<T>, new()
+    public class Component<T> : IComponent where T : class, IComponent, new()
     {
         #region Properties
         public Entity Owner
         {
             get;
-            private set;
+            set;
         }
         public int Location
         {
@@ -41,12 +41,13 @@ namespace vRPGEngine.ECS.Components
         {
             Debug.Assert(owner != null);
 
-            var component   = ComponentManager<T>.Instance.Create();
-            component.Owner = owner;
+            var component           = ComponentManager<T>.Instance.Create();
+            component.Owner         = owner;
 
-            component.Initialize();
-
-            return component;
+            var genericComponent    = component as Component<T>;
+            genericComponent?.Initialize();
+            
+            return component as T;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
@@ -55,7 +56,7 @@ namespace vRPGEngine.ECS.Components
             //       (T) syntax can be compile time and i am
             //       pretty sure it will be with generics.
             ComponentManager<T>.Instance.Destroy(this as T);
-            
+
             Deinitialize();
             
             Owner = null;

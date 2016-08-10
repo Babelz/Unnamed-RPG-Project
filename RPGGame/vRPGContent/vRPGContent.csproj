@@ -71,6 +71,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Attributes\AttributesData.cs" />
     <Compile Include="Data\Attributes\PassiveSpecializationBuff.cs" />
     <Compile Include="Data\Attributes\SpecializationData.cs" />
     <Compile Include="Data\Characters\Enums\Factions.cs" />

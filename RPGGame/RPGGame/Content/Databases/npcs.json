@@ -9,9 +9,9 @@
 		{
 			"Name": "Sheep",
 			"ID": 0,
-			"Health": 100,
-			"Mana": 100,
-			"Focus": 100,
+			"Stamina": 10,
+			"Intellect": 10,
+			"Endurance": 10,
 			"Level": 1,
 			"MeleePower": 5,
 			"SpellPower": 0,

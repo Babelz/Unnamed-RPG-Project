@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
 using vRPGEngine.Combat;
@@ -15,24 +16,21 @@ using vRPGEngine.Specializations;
 
 namespace vRPGEngine.ECS.Components
 {
-    public sealed class CharacterController : Component<CharacterController>
+    public abstract class CharacterController : IComponent
     {
-        #region Fields
-        private SpellHandler casting;
-        #endregion
-
         #region Properties
-        public AttributesData Attributes
+        public int Location
         {
             get;
-            private set;
+            set;
         }
+        public Entity Owner
+        {
+            get;
+            set;
+        }
+
         public BuffContainer Buffs
-        {
-            get;
-            private set;
-        }
-        public EquipmentContainer Equipments
         {
             get;
             private set;
@@ -42,38 +40,110 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+
+        public virtual AttributesData Attributes
+        {
+            get;
+            protected set;
+        }
         public Specialization Specialization
         {
             get;
-            private set;
-        }
-        public MeleeDamageController MeleeDamageController
-        {
-            get;
-            private set;
-        }
-        public TargetFinder TargetFinder
-        {
-            get;
-            private set;
+            protected set;
         }
         public Statuses Statuses
         {
             get;
-            private set;
+            protected set;
         }
 
-        // TODO: talents data
-        //          - trees
-        //          - spells
-        //          - passives
+        public MeleeDamageController MeleeDamageController
+        {
+            get;
+            protected set;
+        }
+        public ITargetFinder TargetFinder
+        {
+            get;
+            protected set;
+        }
+
+        public bool Alive
+        {
+            get
+            {
+                return Statuses.Health != 0;
+            }
+        }
+        public bool HasFocus
+        {
+            get
+            {
+                return Statuses.Focus != 0;
+            }
+        }
+        public bool HasMana
+        {
+            get
+            {
+                return Statuses.Mana != 0;
+            }
+        }
         #endregion
 
         public CharacterController()
+        {
+            Buffs = new BuffContainer();
+            Spells = new List<SpellHandler>();
+            Statuses = new Statuses();
+        }
+
+        protected void CharacterControllerInitialize()
+        {
+            Debug.Assert(Statuses != null);
+            Debug.Assert(Specialization != null);
+
+            Statuses.Health = Specialization.TotalHealth();
+            Statuses.Focus = Specialization.TotalFocus();
+            Statuses.Mana = Specialization.TotalMana();
+
+            // Load spells.
+            foreach (var spell in Specialization.Spells)
+            {
+                var handler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
+
+                if (handler != null) Spells.Add(handler);
+            }
+
+            // Add spells that everyone has.
+            Spells.Add(new AutoAttack());
+        }
+
+        public abstract void Destroy();
+    }
+    
+    public sealed class PlayerCharacterController : CharacterController
+    {
+        #region Fields
+        private SpellHandler casting;
+        #endregion
+
+        #region Properties
+        public EquipmentContainer Equipments
+        {
+            get;
+            private set;
+        }
+        public override AttributesData Attributes
+        {
+            get;
+            protected set;
+        }
+        #endregion
+
+        public PlayerCharacterController()
             : base()
         {
-            Buffs        = new BuffContainer();
-            Spells       = new List<SpellHandler>();
             TargetFinder = new TargetFinder();
         }
 
@@ -90,23 +160,10 @@ namespace vRPGEngine.ECS.Components
             MeleeDamageController   = meleeDamageController;
             Statuses                = statuses;
 
-            // Compute statuses.
-            statuses.Health = specialization.TotalHealth();
-            statuses.Focus  = specialization.TotalFocus();
-            statuses.Mana   = specialization.TotalMana();
-
-            // Load spells.
-            foreach (var spell in specialization.Spells)
-            {
-                var handler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
-
-                if (handler != null) Spells.Add(handler);
-            }
+            CharacterControllerInitialize();
 
             // Add spells that everyone has.
-            var autoAttack = SpellDatabase.Instance.Elements().First(e => e.HandlerName == "AutoAttack");
-
-            Spells.Add(SpellHandlerFactory.Instance.Create(autoAttack, autoAttack.HandlerName));
+            Spells.Add(new AutoAttack());
         }
 
         public void Update(GameTime gameTime)
@@ -122,13 +179,18 @@ namespace vRPGEngine.ECS.Components
 
             casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
         }
+
+        public override void Destroy()
+        {
+            ComponentManager<PlayerCharacterController>.Instance.Destroy(this);
+        }
     }
 
-    public sealed class NPCController : Component<NPCController>
+    public sealed class NPCController : CharacterController
     {
         #region Const fields
         public const int CombatInactiveTime = 5000;
-        public const int DecayTime          = 25000;
+        public const int DecayTime = 25000;
         #endregion
 
         #region Events
@@ -144,24 +206,7 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
-        public List<SpellHandler> Spells
-        {
-            get;
-            private set;
-        }
-        public BuffContainer Buffs
-        {
-            get;
-            private set;
-        }
 
-        public bool Alive
-        {
-            get
-            {
-                return Handler.Data.Health != 0;
-            }
-        }
         public int CombatElapsed
         {
             get;
@@ -177,13 +222,23 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+
+        public override AttributesData Attributes
+        {
+            get
+            {
+                return Handler.Data;
+            }
+            protected set
+            {
+                Handler.Data.CopyAttributes(value);
+            }
+        }
         #endregion
-        
+
         public NPCController()
             : base()
         {
-            Spells = new List<SpellHandler>();
-            Buffs  = new BuffContainer();
         }
 
         public void Initialize(NPCHandler handler)
@@ -225,7 +280,7 @@ namespace vRPGEngine.ECS.Components
         }
 
         public void Update(GameTime gameTime)
-        { 
+        {
             // Death/decay update.
             if (!Alive)
             {
@@ -261,7 +316,7 @@ namespace vRPGEngine.ECS.Components
                 else
                 {
                     if (Handler.CombatUpdate(gameTime, Spells)) CombatElapsed = 0;
-                    else                                        CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
+                    else CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
                 }
 
                 return;
@@ -271,6 +326,11 @@ namespace vRPGEngine.ECS.Components
             Handler.IdleUpdate(gameTime);
         }
 
+        public override void Destroy()
+        { 
+            ComponentManager<NPCController>.Instance.Destroy(this);
+        }
+  
         public delegate void NPCControllerEventHandler(NPCController controller);
     }
 }

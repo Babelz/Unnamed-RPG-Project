@@ -24,7 +24,7 @@ namespace vRPGEngine.Handlers.Spells
             #endregion
 
             public BattleShoutBuff() 
-                : base("Battle shout", 3000, false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
+                : base(TimeConverter.ToMilliseconds(30.0f), false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
             {
             }
 
@@ -46,13 +46,12 @@ namespace vRPGEngine.Handlers.Spells
         #endregion
         
         public BattleShout()
-            : base("Battle shout", SpellDatabase.Instance.Elements().First(p => p.ID == 0), 3000, null)
+            : base(SpellDatabase.Instance.Elements().First(p => p.ID == 0), TimeConverter.ToMilliseconds(30.0f), null)
         {
         }
 
         public override void Use(Entity owner)
         {
-
         }
 
         public override object Clone()

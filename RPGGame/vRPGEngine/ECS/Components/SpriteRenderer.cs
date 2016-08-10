@@ -46,14 +46,10 @@ namespace vRPGEngine.ECS.Components
 
         protected override void Initialize()
         {
-            base.Initialize();
-
             Renderer.Instance.Add(sprite, sprite.Layer);
         }
         protected override void Deinitialize()
         {
-            base.Deinitialize();    
-
             Renderer.Instance.Remove(sprite);
         }
     }

@@ -57,9 +57,10 @@
     <Compile Include="Attributes\MeleeDamageController.cs" />
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Attributes\Spells\Buff.cs" />
-    <Compile Include="Attributes\AttributesContainer.cs" />
+    <Compile Include="Attributes\Statuses.cs" />
     <Compile Include="CombatLog.cs" />
     <Compile Include="Combat\CombatLog.cs" />
+    <Compile Include="Combat\ITargetFinder.cs" />
     <Compile Include="Combat\TargetFinder.cs" />
     <Compile Include="Databases\Database.cs" />
     <Compile Include="Databases\NPCDatabase.cs" />
@@ -78,10 +79,9 @@
     <Compile Include="ECS\Components\RenderFlags.cs" />
     <Compile Include="ECS\Components\SpawnArea.cs" />
     <Compile Include="ECS\Components\SpriteRenderer.cs" />
-    <Compile Include="Attributes\AttributesData.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
     <Compile Include="ECS\Handlers\BehaviourHandler.cs" />
-    <Compile Include="ECS\Handlers\CharacterControllerHandler.cs" />
+    <Compile Include="ECS\Handlers\PlayerCharacterControllerHandler.cs" />
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\NPCControllerHandler.cs" />
     <Compile Include="ECS\Handlers\SpawnAreaHandler.cs" />
