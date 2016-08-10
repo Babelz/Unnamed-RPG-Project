@@ -14,6 +14,12 @@ namespace vRPGEngine.Handlers.Spells
 {
     public sealed class AutoAttack : SpellHandler
     {
+        #region Fields
+        private CharacterController controller;
+
+        private Entity owner;
+        #endregion
+
         public AutoAttack() 
             : base("Auto attack", SpellDatabase.Instance.Elements().First(p => p.ID == 9))
         {
@@ -21,27 +27,59 @@ namespace vRPGEngine.Handlers.Spells
 
         public override void Use(Entity owner)
         {
-            var controller = owner.FirstComponentOfType<CharacterController>();
+            this.owner = owner;
+
+            if (Working)
+            {
+                controller.MeleeDamageController.LeaveCombat();
+
+                Working = false;
+                
+                return;
+            }
+
+            controller = owner.FirstComponentOfType<CharacterController>();
 
             if (controller == null) return;
 
             if (controller.TargetFinder.TargetNPC == null) return;
 
-            var pos = controller.TargetFinder.Target.FirstComponentOfType<Transform>().Position;
-            var dist = ConvertUnits.ToSimUnits(Vector2.Distance(owner.FirstComponentOfType<Transform>().Position, pos));
-            
-            if (dist < Spell.Range)
+            if (!MeleeHelper.InRange(controller, owner, Spell))
             {
                 GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
 
                 return;
             }
 
-            // TODO:    melee swings
-            //          weapon
-            //          spell
-            //          damage paska
-            //          statuses
+            Working = true;
+
+            controller.MeleeDamageController.EnterCombat();
+            controller.TargetFinder.TargetNPC.EnterCombat();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!Working) return;
+            
+            controller.MeleeDamageController.Tick(gameTime);
+
+            if (!MeleeHelper.InRange(controller, owner, Spell)) return;
+
+            foreach (var swing in controller.MeleeDamageController.Results())
+            {
+                controller.TargetFinder.TargetNPC.Handler.Data.Health -= swing.Damage;
+
+                GameInfoLog.Instance.Log(swing.Damage.ToString(), InfoLogEntryType.Message);
+
+                if (!controller.TargetFinder.TargetNPC.Alive)
+                {
+                    controller.TargetFinder.ClearTarget();
+
+                    controller.MeleeDamageController.LeaveCombat();
+
+                    Working = false;
+                }
+            }
         }
         
         public override object Clone()

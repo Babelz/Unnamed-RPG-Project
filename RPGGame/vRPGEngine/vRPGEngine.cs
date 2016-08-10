@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FarseerPhysics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -84,6 +85,22 @@ namespace vRPGEngine
                 }
 
                 return last;
+            });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+
+                if (player == null) return "Dist: null";
+
+                var controller = player.FirstComponentOfType<CharacterController>();
+
+                if (controller.TargetFinder.Target == null) return "Dist: null";
+
+                var pos  = controller.TargetFinder.Target.FirstComponentOfType<Transform>().Position;
+                var dist = ConvertUnits.ToSimUnits(Vector2.Distance(player.FirstComponentOfType<Transform>().Position, pos));
+
+                return "Dist: " + Math.Round(dist, 2);
             });
         }
         

@@ -94,6 +94,7 @@
     <Compile Include="Handlers\NPC\NPCHandler.cs" />
     <Compile Include="Handlers\NPC\NPCHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\AutoAttack.cs" />
+    <Compile Include="Handlers\Spells\MeleeHelper.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />

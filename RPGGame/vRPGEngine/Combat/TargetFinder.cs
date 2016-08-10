@@ -25,6 +25,10 @@ namespace vRPGEngine.Combat
         }
         #endregion
 
+        #region Events
+        public event TargetFinderEventHandler TargetChanged;
+        #endregion
+
         public TargetFinder()
         {
         }
@@ -33,6 +37,8 @@ namespace vRPGEngine.Combat
         {
             Target      = null;
             TargetNPC   = null;
+
+            TargetChanged?.Invoke();
         }
 
         public void FindTarget(Vector2 position, float radius)
@@ -69,6 +75,10 @@ namespace vRPGEngine.Combat
                 ClearTarget();
                 return;
             }
+            
+            TargetChanged?.Invoke();
         }
+
+        public delegate void TargetFinderEventHandler();
     }
 }

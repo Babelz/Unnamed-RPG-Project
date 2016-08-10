@@ -54,6 +54,18 @@ namespace vRPGEngine.Attributes
             timers      = new int[2];
         }
 
+        public void GenerateSwing(ref MeleeSwingResults swing, Weapon weapon)
+        {
+            var critical    = specialization.TotalCriticalHitPercent() <= vRPGRandom.NextFloat();
+            var damage      = vRPGRandom.NextInt(weapon.BaseDamageMin, weapon.BaseDamageMax);
+
+            damage          = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
+
+            swing.Damage    = damage + (int)(damage * (specialization.MeleeDamageModifierPercent() + specialization.DamageModifierPercent()));
+            swing.Critical  = critical;
+            swing.Weapon    = weapon;
+        }
+
         public void Initialize(EquipmentContainer equipments, Specialization specialization)
         {
             Debug.Assert(equipments != null);
@@ -75,10 +87,11 @@ namespace vRPGEngine.Attributes
                 timers[count]       = equipments.MainHand.SwingTimer;
                 weapons[count++]    = equipments.MainHand;
             }
+
             if (equipments.OffHand != null)
             {
-                var isOffHand = ((int)(equipments.OffHand.WeaponType & WeaponType.OffHand)) == 0;
-                var isShield = ((int)(equipments.OffHand.WeaponType & WeaponType.Shield)) == 0;
+                var isOffHand = (int)(equipments.OffHand.WeaponType & WeaponType.OffHand) == 1;
+                var isShield  = (int)(equipments.OffHand.WeaponType & WeaponType.Shield) == 1;
 
                 if (!(isOffHand || isShield))
                 {
@@ -109,16 +122,10 @@ namespace vRPGEngine.Attributes
 
                     continue;
                 }
-                
-                var critical    = specialization.TotalCriticalHitPercent() <= vRPGRandom.NextFloat();
-                var damage      = vRPGRandom.NextInt(weapon.BaseDamageMin, weapon.BaseDamageMax);
 
-                damage = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
+                MeleeSwingResults swing = new MeleeSwingResults();
 
-                var swing       = new MeleeSwingResults();
-                swing.Damage    = damage + (int)(damage * (specialization.MeleeDamageModifierPercent() + specialization.DamageModifierPercent()));
-                swing.Critical  = critical;
-                swing.Weapon    = weapon;
+                GenerateSwing(ref swing, weapon);
 
                 results.Add(swing);
             }
@@ -138,7 +145,7 @@ namespace vRPGEngine.Attributes
             results.Clear();
         }
 
-        public void ExitCombat()
+        public void LeaveCombat()
         {
             if (!InCombat) return;
 

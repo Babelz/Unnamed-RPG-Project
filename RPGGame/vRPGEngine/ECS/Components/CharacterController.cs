@@ -104,6 +104,11 @@ namespace vRPGEngine.ECS.Components
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            foreach (var spell in Spells) spell.Update(gameTime);
+        }
+
         public void BeginCast(int id)
         {
             if (casting != null)
