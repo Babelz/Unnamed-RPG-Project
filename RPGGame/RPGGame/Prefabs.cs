@@ -50,8 +50,18 @@ namespace RPGGame
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<CharacterController>();
-            var attributes            = new AttributesData();
-            var equipments            = new EquipmentContainer();
+            var attributes            = new AttributesData()
+            {
+                Stamina = 12,
+                Strength = 50,
+                CriticalHitPercent = 40
+            };
+
+            var equipments            = new EquipmentContainer()
+            {
+                MainHand = WeaponDatabase.Instance.Elements().First()
+            };
+
             var meleeDamageController = new MeleeDamageController();
             var statuses              = new Statuses();
             var specialization        = new Warrior(data, attributes, equipments, statuses);
@@ -91,11 +101,9 @@ namespace RPGGame
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });
 
-            var autoAttack = new AutoAttack();
-
             kip.Bind("auto_attack", Keys.D1, KeyTrigger.Pressed, () =>
             {
-                autoAttack.Use(player);
+                controller.Spells.FirstOrDefault(s => s.Name == "Auto attack").Use(player);
             });
 
             kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);

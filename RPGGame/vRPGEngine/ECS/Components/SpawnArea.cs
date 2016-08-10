@@ -61,12 +61,20 @@ namespace vRPGEngine.ECS.Components
             controller.Handler.Initialize(position, level, maxDist, area, position, bounds);
 
             controller.OnDecayed += Controller_OnDecayed;
+            controller.OnDeath   += Controller_OnDeath;
 
             return npc;
         }
 
+        private void Controller_OnDeath(NPCController controller)
+        {
+            controller.Handler.Die();
+        }
+
         private void Controller_OnDecayed(NPCController controller)
         {
+            controller.Handler.Decay();
+
             npcs.Remove(controller.Owner);
 
             controller.Owner.Destroy();

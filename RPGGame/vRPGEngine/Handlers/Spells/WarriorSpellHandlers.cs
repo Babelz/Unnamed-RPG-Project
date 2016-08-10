@@ -50,6 +50,11 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
+        public override void Use(Entity owner)
+        {
+
+        }
+
         public override object Clone()
         {
             return new BattleShout();

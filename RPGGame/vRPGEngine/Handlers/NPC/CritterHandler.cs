@@ -8,6 +8,7 @@ using vRPGContent.Data.Characters;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace vRPGEngine.Handlers.NPC
 {
@@ -15,6 +16,8 @@ namespace vRPGEngine.Handlers.NPC
     {
         #region Fields
         private Vector2 goal;
+
+        private int nextIdleTime;
         private int idleElapsed;
 
         private Vector2 min;
@@ -35,10 +38,11 @@ namespace vRPGEngine.Handlers.NPC
         {
             base.Initialize(position, level, maxDist, area, spawnLocation, spawnBounds);
 
-            min = spawnLocation;
-            max = spawnLocation + spawnBounds;
+            min          = spawnLocation;
+            max          = spawnLocation + spawnBounds;
 
-            goal = vRPGRandom.NextVector2(min, max);
+            goal         = vRPGRandom.NextVector2(min, max);
+            nextIdleTime = vRPGRandom.NextInt(1500, 10000);
         }
 
         public override void IdleUpdate(GameTime gameTime)
@@ -50,11 +54,11 @@ namespace vRPGEngine.Handlers.NPC
 
             if (Vector2.Distance(position, goal) <= 15)
             {
-                if (idleElapsed >= 6500)
+                if (idleElapsed >= nextIdleTime)
                 {
-                    goal = vRPGRandom.NextVector2(min, max);
-
-                    idleElapsed = 0;
+                    goal         = vRPGRandom.NextVector2(min, max);
+                    nextIdleTime = vRPGRandom.NextInt(1500, 10000);
+                    idleElapsed  = 0;
 
                     return;
                 }
@@ -65,10 +69,22 @@ namespace vRPGEngine.Handlers.NPC
             }
             
             var dir = goal - position;
-            dir = Vector2.Normalize(dir);
+            dir     = Vector2.Normalize(dir);
 
             collider.LinearVelocity = 0.45f * dir;
+
+            var renderer = Owner.FirstComponentOfType<SpriteRenderer>();
+
+            if (dir.X > 0) renderer.Sprite.Effects = SpriteEffects.FlipHorizontally;
+            else           renderer.Sprite.Effects = SpriteEffects.None;
         }
+
+        public override void Die()
+        {
+            var renderer           = Owner.FirstComponentOfType<SpriteRenderer>();
+            renderer.Sprite.Source = new Rectangle(64, 0, 32, 32);
+        }
+
         public override bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
         {
             SharedUpdate(gameTime);

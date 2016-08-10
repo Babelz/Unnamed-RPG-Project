@@ -10,6 +10,12 @@ namespace vRPGContent.Data.Characters
     [Serializable()]
     public class NPCData
     {
+        #region Fields
+        private int health;
+        private int focus;
+        private int mana;
+        #endregion
+
         #region Properties
         public string Name
         {
@@ -23,18 +29,36 @@ namespace vRPGContent.Data.Characters
         }
         public int Health
         {
-            get;
-            set;
+            get
+            {
+                return health;
+            }
+            set
+            {
+                health = value < 0 ? 0 : value;
+            }
         }
         public int Mana
         {
-            get;
-            set;
+            get
+            {
+                return mana;
+            }
+            set
+            {
+                mana = value < 0 ? 0 : value;
+            }
         }
         public int Focus
         {
-            get;
-            set;
+            get
+            {
+                return focus;
+            }
+            set
+            {
+                focus = value < 0 ? 0 : value;
+            }
         }
         public int Level
         {

@@ -102,6 +102,11 @@ namespace vRPGEngine.ECS.Components
 
                 if (handler != null) Spells.Add(handler);
             }
+
+            // Add spells that everyone has.
+            var autoAttack = SpellDatabase.Instance.Elements().First(e => e.HandlerName == "AutoAttack");
+
+            Spells.Add(SpellHandlerFactory.Instance.Create(autoAttack, autoAttack.HandlerName));
         }
 
         public void Update(GameTime gameTime)
@@ -122,8 +127,8 @@ namespace vRPGEngine.ECS.Components
     public sealed class NPCController : Component<NPCController>
     {
         #region Const fields
-        public const int CombatInactiveTime = 500;
-        public const int DecayTime          = 2500;
+        public const int CombatInactiveTime = 5000;
+        public const int DecayTime          = 25000;
         #endregion
 
         #region Events
@@ -154,7 +159,7 @@ namespace vRPGEngine.ECS.Components
         {
             get
             {
-                return Handler.Data.Health > 0;
+                return Handler.Data.Health != 0;
             }
         }
         public int CombatElapsed
@@ -202,6 +207,8 @@ namespace vRPGEngine.ECS.Components
         {
             if (InCombat) return;
 
+            InCombat = true;
+
             Handler.EnterCombat();
 
             OnEnteringCombat?.Invoke(this);
@@ -209,6 +216,8 @@ namespace vRPGEngine.ECS.Components
         public void LeaveCombat()
         {
             if (!InCombat) return;
+
+            InCombat = false;
 
             Handler.LeaveCombat();
 
@@ -230,8 +239,6 @@ namespace vRPGEngine.ECS.Components
                 // Decay update.
                 if (DecayElapsed > DecayTime)
                 {
-                    Handler.Die(gameTime);
-
                     OnDecayed?.Invoke(this);
 
                     OnDecayed = null;

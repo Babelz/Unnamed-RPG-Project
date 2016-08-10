@@ -81,6 +81,7 @@
     <Compile Include="Attributes\AttributesData.cs" />
     <Compile Include="ECS\Components\Transform.cs" />
     <Compile Include="ECS\Handlers\BehaviourHandler.cs" />
+    <Compile Include="ECS\Handlers\CharacterControllerHandler.cs" />
     <Compile Include="ECS\Handlers\IComponentUpdateHandler.cs" />
     <Compile Include="ECS\Handlers\NPCControllerHandler.cs" />
     <Compile Include="ECS\Handlers\SpawnAreaHandler.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Input\KeyboardBinding.cs" />
     <Compile Include="Input\KeyboardInputProvider.cs" />
     <Compile Include="Maps\TileEngine.cs" />
+    <Compile Include="TimeConverter.cs" />
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="Graphics\IRenderable.cs" />
     <Compile Include="Graphics\Layer.cs" />

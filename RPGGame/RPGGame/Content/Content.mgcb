@@ -76,6 +76,16 @@
 /processor:NPCProcessor
 /build:Databases/npcs.json
 
+#begin Databases/weapons.json
+/importer:DatabaseImporter
+/processor:WeaponProcessor
+/build:Databases/weapons.json
+
+#begin Databases/spells.json
+/importer:DatabaseImporter
+/processor:SpellProcessor
+/build:Databases/spells.json
+
 #begin sheep.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -87,14 +97,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sheep.png
-
-#begin Databases/weapons.json
-/importer:DatabaseImporter
-/processor:WeaponProcessor
-/build:Databases/weapons.json
-
-#begin Databases/spells.json
-/importer:DatabaseImporter
-/processor:SpellProcessor
-/build:Databases/spells.json
 

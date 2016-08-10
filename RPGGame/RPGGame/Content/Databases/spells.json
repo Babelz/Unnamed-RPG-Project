@@ -158,6 +158,7 @@
 		{
 			"ID": 			9,
 			"Name": 		"Auto attack",
+			"Description":	"Deals weapon damage + 25% of your melee power",
 			"Element": 		0,
 			"HandlerName": 	"AutoAttack",
 			"IconName": 	"",

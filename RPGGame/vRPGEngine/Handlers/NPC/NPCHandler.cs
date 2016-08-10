@@ -68,22 +68,25 @@ namespace vRPGEngine.Handlers.NPC
             this.maxDist = maxDist;
             this.area    = area;
 
-            var currentLevel = Data.Level;
+            if (data.Level != level)
+            { 
+                var currentLevel = Data.Level;
 
-            var healthPerLevel      = Data.Health / currentLevel;
-            var manaPerLevel        = Data.Mana / currentLevel;
-            var focusPerLevel       = Data.Focus / currentLevel;
-            var meleePowerPerLevel  = Data.MeleePower / currentLevel;
-            var spellPowerPerLevel  = Data.SpellPower / currentLevel;
-            var critChancePerLevel  = Data.CritChance / currentLevel;
+                var healthPerLevel      = Data.Health / currentLevel;
+                var manaPerLevel        = Data.Mana / currentLevel;
+                var focusPerLevel       = Data.Focus / currentLevel;
+                var meleePowerPerLevel  = Data.MeleePower / currentLevel;
+                var spellPowerPerLevel  = Data.SpellPower / currentLevel;
+                var critChancePerLevel  = Data.CritChance / currentLevel;
 
-            Data.Level      = level;
-            Data.Health     += healthPerLevel * level;
-            Data.Mana       += manaPerLevel * level;
-            Data.Focus      += focusPerLevel * level;
-            Data.MeleePower += meleePowerPerLevel * level;
-            Data.SpellPower += spellPowerPerLevel * level;
-            Data.CritChance += critChancePerLevel * level;
+                Data.Level      = level;
+                Data.Health     += healthPerLevel * level;
+                Data.Mana       += manaPerLevel * level;
+                Data.Focus      += focusPerLevel * level;
+                Data.MeleePower += meleePowerPerLevel * level;
+                Data.SpellPower += spellPowerPerLevel * level;
+                Data.CritChance += critChancePerLevel * level;
+            }
         }
 
         public virtual void EnterCombat()
@@ -104,18 +107,22 @@ namespace vRPGEngine.Handlers.NPC
         {
             return false;
         }
-        
-        /// <summary>
-        /// Called usually once when the NPC dies.
-        /// </summary>
-        public virtual void Die(GameTime gameTime)
-        {
-        }
-
+       
         /// <summary>
         /// Called when the NPC is not in combat.
         /// </summary>
         public virtual void IdleUpdate(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Called usually once when the NPC dies.
+        /// </summary>
+        public virtual void Die()
+        {
+        }
+
+        public virtual void Decay()
         {
         }
 

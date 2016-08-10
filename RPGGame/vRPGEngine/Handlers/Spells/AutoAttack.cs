@@ -63,13 +63,17 @@ namespace vRPGEngine.Handlers.Spells
             
             controller.MeleeDamageController.Tick(gameTime);
 
+            if (controller.TargetFinder.Target == null) return;
+
             if (!MeleeHelper.InRange(controller, owner, Spell)) return;
 
             foreach (var swing in controller.MeleeDamageController.Results())
             {
-                controller.TargetFinder.TargetNPC.Handler.Data.Health -= swing.Damage;
+                var damage = (int)(swing.Damage + controller.Specialization.TotalMeleePower() * 0.25f);
 
-                GameInfoLog.Instance.Log(swing.Damage.ToString(), InfoLogEntryType.Message);
+                controller.TargetFinder.TargetNPC.Handler.Data.Health -= damage;
+
+                GameInfoLog.Instance.Log(damage.ToString(), InfoLogEntryType.Message);
 
                 if (!controller.TargetFinder.TargetNPC.Alive)
                 {

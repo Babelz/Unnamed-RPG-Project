@@ -102,6 +102,19 @@ namespace vRPGEngine
 
                 return "Dist: " + Math.Round(dist, 2);
             });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+
+                if (player == null) return "Target HP: null";
+
+                var controller = player.FirstComponentOfType<CharacterController>();
+
+                if (controller.TargetFinder.Target == null) return "Target HP: null";
+
+                return "Target HP: " + controller.TargetFinder.TargetNPC.Handler.Data.Health;
+            });
         }
         
         public bool Initialize()
@@ -123,6 +136,9 @@ namespace vRPGEngine
 
                 ComponentManager<SpawnArea>.Instance.Activate();
                 ComponentManager<SpawnArea>.Instance.SetUpdateHandler(new SpawnAreaHandler());
+                
+                ComponentManager<CharacterController>.Instance.Activate();
+                ComponentManager<CharacterController>.Instance.SetUpdateHandler(new CharacterControllerHandler());
 
                 ComponentManager<NPCController>.Instance.Activate();
                 ComponentManager<NPCController>.Instance.SetUpdateHandler(new NPCControllerHandler());
