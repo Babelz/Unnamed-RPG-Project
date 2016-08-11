@@ -195,10 +195,15 @@ namespace vRPGEngine.Handlers.Spells
     public abstract class MeleeSpellHandler : SpellHandler
     {
         #region Properties
-        public Entity User
+        protected Entity User
         {
             get;
-            protected set;
+            private set;
+        }
+        protected ICharacterController UserController
+        {
+            get;
+            private set;
         }
         #endregion
 
@@ -206,43 +211,54 @@ namespace vRPGEngine.Handlers.Spells
             : base(spell)
         {
         }
-        
-        protected bool CanUse(Entity user)
+
+        protected abstract bool Tick(GameTime gameTime);
+
+        private void Toggle(Entity user)
         {
             User = user;
 
-            var controller = user.FirstComponentOfType<ICharacterController>();
+            UserController = user.FirstComponentOfType<ICharacterController>();
 
             if (Working)
             {
-                controller.MeleeDamageController.LeaveCombat();
+                UserController.MeleeDamageController.LeaveCombat();
 
                 Working = false;
 
-                return false;
+                return;
             }
 
-            if (controller == null) return false;
+            if (UserController == null)                               return;
+            if (UserController.TargetFinder.TargetController == null) return;
 
-            if (controller.TargetFinder.TargetController == null) return false;
-
-            if (!MeleeHelper.InRange(controller, user, Spell))
+            if (!MeleeHelper.InRange(UserController, user, Spell))
             {
                 if (user.Tags == "player") GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
 
-                return false;
+                return;
             }
 
             Working = true;
 
-            controller.EnterCombat();
-            controller.TargetFinder.TargetController.EnterCombat();
+            UserController.EnterCombat();
+            UserController.TargetFinder.TargetController.EnterCombat();
 
-            return false;
+            return;
         }
 
         public override void Use(Entity user)
         {
+            Toggle(user);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!Working) return;
+
+            Working = Tick(gameTime);
+
+            if (!Working) Toggle(User);
         }
     }
 
