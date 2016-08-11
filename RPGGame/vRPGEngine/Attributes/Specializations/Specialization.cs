@@ -57,6 +57,22 @@ namespace vRPGEngine.Specializations
             }
         }
 
+        protected int IntellectToManaRation
+        {
+            get;
+            set;
+        }
+        protected int StaminaToHealthRation
+        {
+            get;
+            set;
+        }
+        protected int EnduranceToFocusRation
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Spell list.
         /// </summary>
@@ -97,7 +113,7 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalMana()
         {
-            return attributes.Intellect * 10;
+            return attributes.Intellect * IntellectToManaRation;
         }
 
         public virtual int TotalAgility()
@@ -173,7 +189,7 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalHealth()
         {
-            return TotalStamina() * 10;
+            return TotalStamina() * StaminaToHealthRation;
         }
         public virtual int TotalMeleePower()
         {
@@ -185,7 +201,7 @@ namespace vRPGEngine.Specializations
         }
         public virtual int TotalFocus()
         {
-            return attributes.Endurance * 10;
+            return attributes.Endurance * EnduranceToFocusRation;
         }
 
         public virtual float MeleeDamageModifierPercent()
@@ -199,6 +215,19 @@ namespace vRPGEngine.Specializations
         public virtual float DamageModifierPercent()
         {
             return 0.0f;
+        }
+
+        public virtual int BaseHealth()
+        {
+            return attributes.BaseStamina * StaminaToHealthRation * attributes.Level;
+        }
+        public virtual int BaseMana()
+        {
+            return attributes.BaseIntellect * IntellectToManaRation * attributes.Level;
+        }
+        public virtual int BaseFocus()
+        {
+            return attributes.BaseEndurance * EnduranceToFocusRation * attributes.Level;
         }
     }
 }

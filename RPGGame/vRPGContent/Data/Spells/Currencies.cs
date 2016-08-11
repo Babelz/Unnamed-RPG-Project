@@ -12,6 +12,6 @@ namespace vRPGContent.Data.Spells
         None        = 0,
         Mana        = 1,
         Focus       = 2,
-        ManaFocus   = Mana | Focus
+        Health      = 4
     }
 }

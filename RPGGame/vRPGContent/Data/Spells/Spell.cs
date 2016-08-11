@@ -61,6 +61,16 @@ namespace vRPGContent.Data.Spells
             get;
             set;
         }
+        public SpellCostType CostType
+        {
+            get;
+            set;
+        }
+        public Currencies Consumes
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Spell()

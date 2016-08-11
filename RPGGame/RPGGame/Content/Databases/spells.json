@@ -5,6 +5,7 @@
 		// - None 	= 0,
 		// - Mana 	= 1,
 		// - Focus 	= 2,
+		// - Health = 4,
 		// - Both 	= 3
 
 		// Cost types:

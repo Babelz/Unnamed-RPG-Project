@@ -100,6 +100,7 @@
     <Compile Include="Handlers\Spells\MeleeHelper.cs" />
     <Compile Include="Handlers\Spells\SpellHandler.cs" />
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
+    <Compile Include="Handlers\Spells\SpellHelper.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />

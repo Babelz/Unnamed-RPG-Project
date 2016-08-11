@@ -50,10 +50,14 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        public override void Use(Entity owner)
+        protected override void RefreshIfCan(Buff buff)
+        {
+            var cost = buff.FromSpell.Cost + buff.FromSpell.
+        }
+        protected override void UseIfCan()
         {
         }
-
+        
         public override object Clone()
         {
             return new BattleShout();

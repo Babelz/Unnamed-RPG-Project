@@ -51,6 +51,21 @@ namespace vRPGEngine.Attributes
                 counts[(int)BuffType.Buff] = value;
             }
         }
+
+        public IEnumerable<Buff> Buffs
+        {
+            get
+            {
+                return buffs.Where(b => b.Type == BuffType.Buff);
+            }
+        }
+        public IEnumerable<Buff> Debuffs
+        {
+            get
+            {
+                return buffs.Where(b => b.Type == BuffType.Debuff);
+            }
+        }
         #endregion
 
         public BuffContainer()

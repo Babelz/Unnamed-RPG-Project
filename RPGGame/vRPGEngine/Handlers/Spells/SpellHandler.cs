@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
+using vRPGEngine.Attributes.Spells;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
@@ -359,6 +360,11 @@ namespace vRPGEngine.Handlers.Spells
             get;
             protected set;
         }
+        public ICharacterController UserController
+        {
+            get;
+            protected set;
+        }
         public IRenderable Renderable
         {
             get;
@@ -373,14 +379,29 @@ namespace vRPGEngine.Handlers.Spells
             Renderable = renderable;
         }
 
+        protected virtual void RefreshIfCan(Buff buff)
+        {
+        }
+        protected virtual void UseIfCan()
+        {
+        }
+
         public override void Use(Entity user)
         {
-            User           = user;
+            User            = user;
+            UserController  = user.FirstComponentOfType<ICharacterController>();
             Working         = true;
             Elapsed         = 0;
             CooldownElapsed = 0;
 
             if (Spell.Cooldown != 0) InCooldown = true;
+            
+            var controller = User.FirstComponentOfType<ICharacterController>();
+
+            var buff = controller.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
+
+            if (buff != null)   RefreshIfCan(buff);
+            else                UseIfCan();
         }
 
         public override void Update(GameTime gameTime)

@@ -32,16 +32,16 @@ namespace RPGGame
 
             var transform = player.AddComponent<Transform>();
 
-            var rendrer = player.AddComponent<SpriteRenderer>();
+            var rendrer   = player.AddComponent<SpriteRenderer>();
             rendrer.Flags = RenderFlags.Anchored | RenderFlags.AutomaticDepth;
 
             rendrer.Sprite.Layer = Layers.Middle;
             rendrer.Sprite.ScaleTo(new Vector2(32.0f), rendrer.Sprite.Texture);
 
-            var collider = player.AddComponent<BoxCollider>();
+            var collider            = player.AddComponent<BoxCollider>();
             collider.MakeDynamic(32.0f, 32.0f);
-            collider.Category = CollisionCategories.Entitites;
-            collider.CollidesWith = CollisionCategories.World;
+            collider.Category       = CollisionCategories.Entitites;
+            collider.CollidesWith   = CollisionCategories.World;
 
             var behaviour = player.AddComponent<Behaviour>();
 
@@ -100,6 +100,10 @@ namespace RPGGame
             kip.Bind("auto_attack", Keys.D1, KeyTrigger.Pressed, () =>
             {
                 controller.Spells.FirstOrDefault(s => s.Spell.Name == "Auto attack").Use(player);
+            });
+            kip.Bind("auto_attack", Keys.D2, KeyTrigger.Pressed, () =>
+            {
+                controller.Spells.FirstOrDefault(s => s.Spell.Name == "Battle shout").Use(player);
             });
 
             kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
