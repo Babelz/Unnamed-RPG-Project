@@ -51,7 +51,11 @@ namespace RPGGame
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
-            var attributes            = new AttributesData();
+            var attributes            = new AttributesData()
+            {
+                Level = 10
+            };
+
             var equipments            = new EquipmentContainer()
             {
                 MainHand = WeaponDatabase.Instance.Elements().First()
@@ -101,7 +105,7 @@ namespace RPGGame
             {
                 controller.Spells.FirstOrDefault(s => s.Spell.Name == "Auto attack").Use(player);
             });
-            kip.Bind("auto_attack", Keys.D2, KeyTrigger.Pressed, () =>
+            kip.Bind("battle_shout", Keys.D2, KeyTrigger.Pressed, () =>
             {
                 controller.Spells.FirstOrDefault(s => s.Spell.Name == "Battle shout").Use(player);
             });

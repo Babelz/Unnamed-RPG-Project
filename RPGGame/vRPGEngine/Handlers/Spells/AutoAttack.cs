@@ -38,7 +38,7 @@ namespace vRPGEngine.Handlers.Spells
                 {
                     UserController.TargetFinder.ClearTarget();
 
-                    UserController.MeleeDamageController.LeaveCombat();
+                    UserController.LeaveCombat();
 
                     return false;
                 }

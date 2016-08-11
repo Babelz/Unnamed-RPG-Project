@@ -36,6 +36,32 @@ namespace vRPGContent.Data.Attributes
             get;
             set;
         }
+
+        public int BaseStamina
+        {
+            get;
+            set;
+        }
+        public int BaseIntellect
+        {
+            get;
+            set;
+        }
+        public int BaseEndurance
+        {
+            get;
+            set;
+        }
+        public int BaseAgility
+        {
+            get;
+            set;
+        }
+        public int BaseStrenght
+        {
+            get;
+            set;
+        }
         #endregion
 
         public SpecializationData()

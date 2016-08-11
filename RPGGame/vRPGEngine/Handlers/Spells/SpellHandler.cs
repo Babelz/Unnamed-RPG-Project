@@ -395,10 +395,8 @@ namespace vRPGEngine.Handlers.Spells
             CooldownElapsed = 0;
 
             if (Spell.Cooldown != 0) InCooldown = true;
-            
-            var controller = User.FirstComponentOfType<ICharacterController>();
 
-            var buff = controller.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
+            var buff = UserController.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
 
             if (buff != null)   RefreshIfCan(buff);
             else                UseIfCan();

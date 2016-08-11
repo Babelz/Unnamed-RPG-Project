@@ -5,14 +5,22 @@
 			"Name":			"Warrior",
 		 	"Description":	"Balanced melee specialization",
 		 	"Buffs:": 		[ 0, 1, 2, 3, 4, 5 ],
-		 	"Spells":		[ 0, 1, 2 ]
+		 	"Spells":		[ 0, 1, 2 ],
+		 	"BaseStamina": 1,
+		 	"BaseIntellect": 5,
+		 	"BaseEndurance": 1,
+		 	"BaseStrenght": 3,
+		 	"BaseAgility": 1
 		},
 
 		{
 			"Name":			"Mage",
 			"Description":	"Powerful but vulnerable spell caster",
 		 	"Buffs:": 		[ 6, 7, 8, 9 ],
-		 	"Spells":		[ 3, 4, 5, 6, 7, 8 ]
+		 	"Spells":		[ 3, 4, 5, 6, 7, 8 ],
+			"BaseStamina": 5,
+		 	"BaseIntellect": 1,
+		 	"BaseEndurance": 0
 		},
 
 		{

@@ -115,6 +115,33 @@ namespace vRPGEngine
 
                 return "Target HP: " + controller.TargetFinder.TargetController.Statuses.Health;
             });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                
+                var controller = player.FirstComponentOfType<ICharacterController>();
+                
+                return "HP: " + controller.Statuses.Health + "/" + controller.Specialization.TotalHealth();
+            });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                
+                var controller = player.FirstComponentOfType<ICharacterController>();
+
+                return "Focus: " + controller.Statuses.Focus + "/" + controller.Specialization.TotalFocus();
+            });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+
+                var controller = player.FirstComponentOfType<ICharacterController>();
+
+                return "Melee power: " + controller.Specialization.TotalMeleePower();
+            });
         }
         
         public bool Initialize()

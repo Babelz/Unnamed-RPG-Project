@@ -28,16 +28,16 @@ namespace vRPGEngine.Handlers.Spells
             {
             }
 
-            public override void Apply(Entity owner)
+            public override void Apply(Entity user)
             {
-                var character = owner.FirstComponentOfType<ICharacterController>();
+                var character = user.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      += Value;
                 character.Attributes.MeeleePowerPercentModifier += Value;
             }
-            public override void Remove(Entity owner)
+            public override void Remove(Entity user)
             {
-                var character = owner.FirstComponentOfType<ICharacterController>();
+                var character = user.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      -= Value;
                 character.Attributes.MeeleePowerPercentModifier -= Value;
@@ -52,10 +52,23 @@ namespace vRPGEngine.Handlers.Spells
 
         protected override void RefreshIfCan(Buff buff)
         {
-            var cost = buff.FromSpell.Cost + buff.FromSpell.
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return;
+
+            buff.Refresh();
+
+            SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
         }
         protected override void UseIfCan()
         {
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return;
+
+            var buff = new BattleShoutBuff();
+
+            buff.Apply(User);
+
+            UserController.Buffs.Add(buff);
+
+            SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
         }
         
         public override object Clone()

@@ -27,9 +27,10 @@ namespace vRPGEngine.Attributes.Specializations
         public Warrior(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
             : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior"), attributes, statuses)
         {
-
             Equipments = equipments;
             this.damageController = damageController;
+
+            EnduranceToFocusRation = 1;
         }
 
         #region Event handlers
@@ -62,27 +63,27 @@ namespace vRPGEngine.Attributes.Specializations
         }
         public override int TotalStrength()
         {
-            if (IsWearingFullMail()) return (int)(Attributes.Strength * 0.1f);
+            if (IsWearingFullMail()) return (int)(base.TotalStrength() * 0.1f);
 
             return Attributes.Strength;
         }
         public override int TotalStamina()
         {
-            if (IsWearingFullPlate()) return (int)(Attributes.Stamina * 0.1f);
+            if (IsWearingFullPlate()) return (int)(base.TotalStamina() * 0.1f);
 
-            return Attributes.Stamina;
+            return base.TotalStamina();
         }
 
         public override int TotalMeleePower()
         {
             // 2ap per 
-            var pwr = (int)(Attributes.Strength * 2.0f);
+            var pwr = (int)(base.TotalStrength() * 2.0f);
 
             return pwr + (int)(pwr * Attributes.MeeleePowerPercentModifier) + Attributes.PureMeleePower;
         }
         public override int TotalHealth()
         {
-            var stm = (int)(Attributes.Stamina * 2.0f);
+            var stm = (int)(base.TotalStamina() * 2.0f);
 
             // 20% more health per point.
             stm += (int)(stm * 0.2f);
@@ -110,7 +111,7 @@ namespace vRPGEngine.Attributes.Specializations
         public override int TotalEndurance()
         {
             // Warriors have base endurance of 100 and max focus cap of 200.
-            return 100 + Attributes.Endurance;
+            return (100 + base.TotalEndurance()) * EnduranceToFocusRation;
         }
         public override int TotalFocus()
         {

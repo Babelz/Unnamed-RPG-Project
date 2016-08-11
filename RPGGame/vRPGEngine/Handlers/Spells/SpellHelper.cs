@@ -46,7 +46,7 @@ namespace vRPGEngine.Handlers.Spells
                 case Currencies.Mana:   statuses.Mana -= cost;      break;
                 case Currencies.Focus:  statuses.Focus -= cost;     break;
                 case Currencies.Health: statuses.Health -= cost;    break;
-                default: break;
+                default:                                            break;
             }
         }
 

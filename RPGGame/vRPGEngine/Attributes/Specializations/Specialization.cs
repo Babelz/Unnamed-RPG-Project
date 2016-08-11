@@ -103,6 +103,10 @@ namespace vRPGEngine.Specializations
             this.specialization  = specialization;
             this.attributes      = attributes;
             this.statuses        = statuses;
+
+            StaminaToHealthRation  = 10;
+            IntellectToManaRation  = 10;
+            EnduranceToFocusRation = 10;
         }
 
         public virtual float CriticalDamagePercent()
@@ -113,12 +117,12 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalMana()
         {
-            return attributes.Intellect * IntellectToManaRation;
+            return TotalIntellect() * IntellectToManaRation;
         }
 
         public virtual int TotalAgility()
         {
-            return attributes.Agility;
+            return attributes.Level * specialization.BaseAgility + attributes.Agility;
         }
         public virtual int TotalArmor()
         {
@@ -144,7 +148,7 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalEndurance()
         {
-            return attributes.Endurance;
+            return attributes.Level * specialization.BaseEndurance + attributes.Endurance;
         }
 
         public virtual int TotalFp5()
@@ -176,15 +180,15 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalIntellect()
         {
-            return attributes.Intellect;
+            return attributes.Level * specialization.BaseIntellect + attributes.Intellect;
         }
         public virtual int TotalStamina()
         {
-            return attributes.Stamina;
+            return attributes.Level * specialization.BaseStamina + attributes.Stamina;
         }
         public virtual int TotalStrength()
         {
-            return attributes.Strength;
+            return attributes.Level * specialization.BaseStrenght + attributes.Strength;
         }
 
         public virtual int TotalHealth()
@@ -219,15 +223,15 @@ namespace vRPGEngine.Specializations
 
         public virtual int BaseHealth()
         {
-            return attributes.BaseStamina * StaminaToHealthRation * attributes.Level;
+            return specialization.BaseStamina * StaminaToHealthRation * attributes.Level;
         }
         public virtual int BaseMana()
         {
-            return attributes.BaseIntellect * IntellectToManaRation * attributes.Level;
+            return specialization.BaseIntellect * IntellectToManaRation * attributes.Level;
         }
         public virtual int BaseFocus()
         {
-            return attributes.BaseEndurance * EnduranceToFocusRation * attributes.Level;
+            return specialization.BaseEndurance * EnduranceToFocusRation * attributes.Level;
         }
     }
 }

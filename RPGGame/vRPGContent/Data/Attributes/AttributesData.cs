@@ -125,18 +125,7 @@ namespace vRPGContent.Data.Attributes
             get;
             set;
         }
-
-        public int BaseStamina
-        {
-            get;
-            set;
-        }
-        public int BaseIntellect
-        {
-            get;
-            set;
-        }
-        public int BaseEndurance
+        public float FocusPercentModifier
         {
             get;
             set;

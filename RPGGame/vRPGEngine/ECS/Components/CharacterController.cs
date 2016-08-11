@@ -152,8 +152,9 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
-            TargetFinder = new TargetFinder();
-            Spells = new List<SpellHandler>();
+            Buffs           = new BuffContainer();
+            TargetFinder    = new TargetFinder();
+            Spells          = new List<SpellHandler>();
         }
 
         public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, MeleeDamageController meleeDamageController, Statuses statuses)
@@ -168,6 +169,15 @@ namespace vRPGEngine.ECS.Components
             Equipments              = equipments;
             MeleeDamageController   = meleeDamageController;
             Statuses                = statuses;
+
+            Statuses.Initialize(specialization);
+
+            foreach (var spell in specialization.Spells)
+            {
+                var handler = SpellHandlerFactory.Instance.Create(spell.HandlerName);
+
+                if (handler != null) Spells.Add(handler);
+            }
 
             // Add spells that everyone has.
             Spells.Add(new AutoAttack());
