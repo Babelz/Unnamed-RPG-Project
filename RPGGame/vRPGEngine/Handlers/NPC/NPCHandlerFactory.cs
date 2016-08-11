@@ -7,7 +7,7 @@ using vRPGContent.Data.Characters;
 
 namespace vRPGEngine.Handlers.NPC
 {
-    public sealed class NPCHandlerFactory : HandlerFactory<NPCHandlerFactory, NPCData, NPCHandler>
+    public sealed class NPCHandlerFactory : HandlerFactory<NPCHandlerFactory, NPCHandler>
     {
         public NPCHandlerFactory() 
             : base("vRPGEngine.Handlers.NPC.")

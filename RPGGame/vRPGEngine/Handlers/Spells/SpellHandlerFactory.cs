@@ -7,7 +7,7 @@ using vRPGContent.Data.Spells;
 
 namespace vRPGEngine.Handlers.Spells
 {
-    public sealed class SpellHandlerFactory : HandlerFactory<SpellHandlerFactory, Spell, SpellHandler>
+    public sealed class SpellHandlerFactory : HandlerFactory<SpellHandlerFactory, SpellHandler>
     {
         private SpellHandlerFactory()
             : base("vRPGEngine.Handlers.Spells.")

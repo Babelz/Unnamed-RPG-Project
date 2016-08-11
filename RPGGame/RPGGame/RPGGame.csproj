@@ -49,6 +49,7 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionCategories.cs" />
     <Compile Include="Layers.cs" />
     <Compile Include="Prefabs.cs" />
     <Compile Include="RPGGame.cs" />

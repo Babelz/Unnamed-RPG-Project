@@ -15,26 +15,27 @@ namespace vRPGEngine.Handlers.NPC
 {
     public abstract class NPCHandler : ICloneable
     {
-        #region Fields
-        private NPCData data;
-
-        private Vector2[] area;
-
-        private float maxDist;
-        #endregion
-
         #region Properties
         public NPCData Data
         {
-            get
-            {
-                return data;
-            }
+            get;
+            private set;
         }
         public Entity Owner
         {
             get;
-            set;
+            protected set;
+        }
+
+        protected Area Area
+        {
+            get;
+            private set;
+        }
+        protected float MaxDist
+        {
+            get;
+            private set;
         }
         #endregion
 
@@ -46,28 +47,27 @@ namespace vRPGEngine.Handlers.NPC
         {
             var position = Owner.FirstComponentOfType<Transform>().Position;
 
-            foreach (var vertex in area)
+            foreach (var pont in Area)
             {
-                var distance = Vector2.Distance(vertex, position);
+                var distance = Vector2.Distance(pont, position);
 
-                if (distance <= maxDist) return true;
+                if (distance <= MaxDist) return true;
             }
 
             return false;
         }
 
-        public virtual void Initialize(NPCData data, Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
+        public virtual void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Area? area = null)
         {
-            // Copy.
-            this.data = new NPCData(data);
+            Owner   = owner;
+            Data    = new NPCData(data);
+            MaxDist = maxDist;
+            Area    = area.Value;
 
             // Set position.
-            var collider                  = Owner.FirstComponentOfType<BoxCollider>();
-            collider.SimulationPosition   = position;
-
-            this.maxDist = maxDist;
-            this.area    = area;
-
+            var collider                    = Owner.FirstComponentOfType<BoxCollider>();
+            collider.DisplayPosition        = position.Value;
+            
             if (data.Level != level)
             { 
                 var currentLevel = Data.Level;

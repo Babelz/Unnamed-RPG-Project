@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Area.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />

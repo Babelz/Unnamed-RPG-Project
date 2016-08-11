@@ -40,8 +40,8 @@ namespace RPGGame
 
             var collider = player.AddComponent<BoxCollider>();
             collider.MakeDynamic(32.0f, 32.0f);
-            collider.Category = Category.Cat1;
-            collider.CollidesWith = Category.Cat2 | Category.Cat3;
+            collider.Category = CollisionCategories.Entitites;
+            collider.CollidesWith = CollisionCategories.World;
 
             var behaviour = player.AddComponent<Behaviour>();
 
@@ -59,7 +59,7 @@ namespace RPGGame
 
             var meleeDamageController = new MeleeDamageController();
             var statuses              = new Statuses();
-            var specialization        = new Warrior(data, attributes, equipments, statuses);
+            var specialization        = new Warrior(attributes, equipments, statuses, meleeDamageController);
 
             meleeDamageController.Initialize(equipments, specialization);
             statuses.Initialize(specialization);
@@ -129,26 +129,19 @@ namespace RPGGame
             
             var transform   = sheep.AddComponent<Transform>();
 
-            var collider    = sheep.AddComponent<BoxCollider>();
+            var collider            = sheep.AddComponent<BoxCollider>();
             collider.MakeDynamic(width, height);
-            collider.Category = Category.Cat1;
-            collider.CollidesWith = Category.Cat2 | Category.Cat3;
-
-            var controller  = sheep.AddComponent<NPCController>();
+            collider.Category       = CollisionCategories.Entitites;
+            collider.CollidesWith   = CollisionCategories.World;
             
-            var data        = NPCDatabase.Instance.Elements().FirstOrDefault(n => n.ID == 0);
-
-            var handler     = NPCHandlerFactory.Instance.Create(data, data.HandlerName);
-            handler.Owner   = sheep;
-            handler.Data    = data;
-
-            controller.Initialize(handler);
-
+            var controller           = sheep.AddComponent<NPCController>();
+            controller.Handler       = NPCHandlerFactory.Instance.Create("CritterHandler");
+            
             var rendrer             = sheep.AddComponent<SpriteRenderer>();
-            rendrer.Flags = RenderFlags.Anchored | RenderFlags.AutomaticDepth;
+            rendrer.Flags           = RenderFlags.Anchored | RenderFlags.AutomaticDepth;
             rendrer.Sprite.Layer    = Layers.Middle;
-            rendrer.Sprite.Texture = Engine.Instance.Content.Load<Texture2D>("sheep");
-            rendrer.Sprite.Source = new Rectangle(0, 0, 32, 32);
+            rendrer.Sprite.Texture  = Engine.Instance.Content.Load<Texture2D>("sheep");
+            rendrer.Sprite.Source   = new Rectangle(0, 0, 32, 32);
             
             return sheep;
         }

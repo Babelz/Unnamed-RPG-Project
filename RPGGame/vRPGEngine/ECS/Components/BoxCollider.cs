@@ -49,8 +49,7 @@ namespace vRPGEngine.ECS.Components
             }
             set
             {
-                var simPosition = ConvertUnits.ToSimUnits(value);
-                body.Position   = simPosition;
+                body.Position = ConvertUnits.ToSimUnits(value);
             }
         }
         public Vector2 DisplayPosition
@@ -58,6 +57,10 @@ namespace vRPGEngine.ECS.Components
             get
             {
                 return ConvertUnits.ToDisplayUnits(SimulationPosition);
+            }
+            set
+            {
+                body.Position = ConvertUnits.ToSimUnits(value);
             }
         }
         public Vector2 SimulationSize

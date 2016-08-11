@@ -11,12 +11,6 @@ namespace vRPGContent.Data.Characters
     [Serializable()]
     public class NPCData : AttributesData
     {
-        #region Fields
-        private int health;
-        private int focus;
-        private int mana;
-        #endregion
-
         #region Properties
         public string Name
         {
@@ -74,6 +68,8 @@ namespace vRPGContent.Data.Characters
             SpellList               = other.SpellList?.ToArray();
             SpellPriority           = other.SpellPriority?.ToArray();
             HandlerName             = other.HandlerName;
+
+            CopyAttributes(other);
         }
 
         public void CopyAttributes(AttributesData other)

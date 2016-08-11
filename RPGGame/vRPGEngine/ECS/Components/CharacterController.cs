@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
+using vRPGEngine.Attributes.Specializations;
 using vRPGEngine.Combat;
 using vRPGEngine.Databases;
 using vRPGEngine.Handlers.NPC;
@@ -63,6 +64,9 @@ namespace vRPGEngine.ECS.Components
             get;
         }
         #endregion
+
+        void EnterCombat();
+        void LeaveCombat();
     }
     
     public sealed class PlayerCharacterController : Component<PlayerCharacterController>, ICharacterController
@@ -137,6 +141,12 @@ namespace vRPGEngine.ECS.Components
                 return Statuses.Mana != 0;
             }
         }
+
+        public bool InCombat
+        {
+            get;
+            private set;
+        }
         #endregion
 
         public PlayerCharacterController()
@@ -176,6 +186,23 @@ namespace vRPGEngine.ECS.Components
 
             casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
         }
+        
+        public void EnterCombat()
+        {
+            if (InCombat) return;
+
+            MeleeDamageController.EnterCombat();
+
+            InCombat = true;
+        }
+        public void LeaveCombat()
+        {
+            if (!InCombat) return;
+
+            MeleeDamageController.EnterCombat();
+
+            InCombat = false;
+        }
     }
 
     public sealed class NPCController : Component<NPCController>, ICharacterController
@@ -196,7 +223,7 @@ namespace vRPGEngine.ECS.Components
         public NPCHandler Handler
         {
             get;
-            private set;
+            set;
         }
 
         public int CombatElapsed
@@ -285,22 +312,36 @@ namespace vRPGEngine.ECS.Components
         public NPCController()
             : base()
         {
+            Statuses = new Statuses();
+            Buffs    = new BuffContainer();
+            Spells   = new List<SpellHandler>();
         }
 
-        public void Initialize(NPCHandler handler)
+        public new void Initialize()
         {
-            Handler = handler;
-
-            if (handler.Data.SpellList == null) return;
-
-            var spells = SpellDatabase.Instance.Elements().Where(p => handler.Data.SpellList.Contains(p.ID));
-
-            // Load spells.
-            foreach (var spell in spells)
+            Debug.Assert(Handler != null);
+            
+            if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {
-                var spellHandler = SpellHandlerFactory.Instance.Create(spell, spell.HandlerName);
+                var specialization = new DefaultNPCSpecialization(Attributes, Statuses);
+                Statuses.Initialize(specialization);
+            }
+            else
+            {
+                throw new NotImplementedException("can't load specializations");
+            }
 
-                if (handler != null) Spells.Add(spellHandler);
+            if (Handler.Data.SpellList != null)
+            {
+                var spells = SpellDatabase.Instance.Elements().Where(p => Handler.Data.SpellList.Contains(p.ID));
+
+                // Load spells.
+                foreach (var spell in spells)
+                {
+                    var spellHandler = SpellHandlerFactory.Instance.Create(spell.HandlerName);
+
+                    if (Handler != null) Spells.Add(spellHandler);
+                }
             }
         }
 
@@ -371,7 +412,7 @@ namespace vRPGEngine.ECS.Components
             // Idle update.
             Handler.IdleUpdate(gameTime);
         }
-  
+
         public delegate void NPCControllerEventHandler(NPCController controller);
     }
 }

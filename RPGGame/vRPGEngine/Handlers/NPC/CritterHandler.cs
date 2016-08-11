@@ -34,15 +34,15 @@ namespace vRPGEngine.Handlers.NPC
             Owner.FirstComponentOfType<BoxCollider>().LinearVelocity = Vector2.Zero;
         }
 
-        public override void Initialize(Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
+        public override void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Area? area = null)
         {
-            base.Initialize(position, level, maxDist, area, spawnLocation, spawnBounds);
+            base.Initialize(owner, data, level, maxDist, position, area);
 
-            min          = spawnLocation;
-            max          = spawnLocation + spawnBounds;
+            min          = area.Value.TopLeft;
+            max          = area.Value.BottomRight;
 
             goal         = vRPGRandom.NextVector2(min, max);
-            nextIdleTime = vRPGRandom.NextInt(1500, 10000);
+            nextIdleTime = vRPGRandom.NextInt(1500, 10000);    
         }
 
         public override void IdleUpdate(GameTime gameTime)

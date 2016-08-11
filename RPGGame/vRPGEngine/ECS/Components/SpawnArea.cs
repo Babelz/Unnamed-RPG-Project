@@ -57,9 +57,10 @@ namespace vRPGEngine.ECS.Components
             var level       = vRPGRandom.NextInt(minLevel, maxLevel);
             var position    = new Vector2(vRPGRandom.NextFloat(this.position.X, this.position.X + bounds.X),
                                           vRPGRandom.NextFloat(this.position.Y, this.position.Y + bounds.Y));
-
-            controller.Handler.Initialize(position, level, maxDist, area, position, bounds);
-
+            
+            controller.Handler.Initialize(npc, data, level, maxDist, position, new Area(position, bounds));
+            controller.Initialize();
+            
             controller.OnDecayed += Controller_OnDecayed;
             controller.OnDeath   += Controller_OnDeath;
 

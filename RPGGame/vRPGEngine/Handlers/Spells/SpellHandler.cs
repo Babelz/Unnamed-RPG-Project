@@ -49,7 +49,7 @@ namespace vRPGEngine.Handlers.Spells
             Spell       = spell;
         }
         
-        public abstract void Use(Entity owner);
+        public abstract void Use(Entity user);
 
         public virtual void Update(GameTime gameTime)
         {
@@ -195,7 +195,7 @@ namespace vRPGEngine.Handlers.Spells
     public abstract class MeleeSpellHandler : SpellHandler
     {
         #region Properties
-        public Entity Owner
+        public Entity User
         {
             get;
             protected set;
@@ -206,44 +206,42 @@ namespace vRPGEngine.Handlers.Spells
             : base(spell)
         {
         }
+        
+        protected bool CanUse(Entity user)
+        {
+            User = user;
 
-        //private void PlayerSetTarget(Entity owner)
-        //{
-        //    //Owner = owner;
+            var controller = user.FirstComponentOfType<ICharacterController>();
 
-        //    //var controller = owner.FirstComponentOfType<CharacterController>();
-            
-        //    //if (Working)
-        //    //{
-        //    //    controller.MeleeDamageController.LeaveCombat();
+            if (Working)
+            {
+                controller.MeleeDamageController.LeaveCombat();
 
-        //    //    Working = false;
+                Working = false;
 
-        //    //    return;
-        //    //}
+                return false;
+            }
 
-        //    //if (controller == null) return;
+            if (controller == null) return false;
 
-        //    //if (controller.TargetFinder.TargetNPC == null) return;
+            if (controller.TargetFinder.TargetController == null) return false;
 
-        //    //if (!MeleeHelper.InRange(controller, owner, Spell))
-        //    //{
-        //    //    GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
+            if (!MeleeHelper.InRange(controller, user, Spell))
+            {
+                if (user.Tags == "player") GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
 
-        //    //    return;
-        //    //}
+                return false;
+            }
 
-        //    //Working = true;
+            Working = true;
 
-        //    //controller.MeleeDamageController.EnterCombat();
-        //    //controller.TargetFinder.TargetNPC.EnterCombat();
-        //}
-        //private void NPCSetTarget(Entity owner)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            controller.EnterCombat();
+            controller.TargetFinder.TargetController.EnterCombat();
 
-        public override void Use(Entity owner)
+            return false;
+        }
+
+        public override void Use(Entity user)
         {
         }
     }
@@ -256,7 +254,7 @@ namespace vRPGEngine.Handlers.Spells
             get;
             private set;
         }
-        public Entity Owner
+        public Entity User
         {
             get;
             private set;
@@ -282,11 +280,11 @@ namespace vRPGEngine.Handlers.Spells
 
         protected abstract void Tick(IEnumerable<Body> colliders);
 
-        public override void Use(Entity owner)
+        public override void Use(Entity user)
         {
-            Debug.Assert(owner != null);
+            Debug.Assert(user != null);
 
-            Owner           = owner;
+            User           = user;
             Working         = true;
             CooldownElapsed = 0;
             Elapsed         = 0;
@@ -340,7 +338,7 @@ namespace vRPGEngine.Handlers.Spells
             protected set;
         }
 
-        public Entity Owner
+        public Entity User
         {
             get;
             protected set;
@@ -359,9 +357,9 @@ namespace vRPGEngine.Handlers.Spells
             Renderable = renderable;
         }
 
-        public override void Use(Entity owner)
+        public override void Use(Entity user)
         {
-            Owner           = owner;
+            User           = user;
             Working         = true;
             Elapsed         = 0;
             CooldownElapsed = 0;
