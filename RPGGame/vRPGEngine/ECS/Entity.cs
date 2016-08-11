@@ -71,7 +71,19 @@ namespace vRPGEngine.ECS
         }
         public IEnumerable<T> ComponentsOfType<T>() where T : class, IComponent
         {
-            foreach (var component in components) if (component.GetType() == typeof(T)) yield return component as T;
+            if (typeof(T).IsInterface)
+            {
+                foreach (var component in components)
+                {
+                    var interfaceReference = component as T;
+
+                    if (interfaceReference != null) yield return interfaceReference;
+                }
+            }
+            else
+            {
+                foreach (var component in components) if (component.GetType() == typeof(T)) yield return component as T;
+            }
         }
         public T FirstComponentOfType<T>() where T : class, IComponent
         {
@@ -79,15 +91,19 @@ namespace vRPGEngine.ECS
             {
                 foreach (var component in components)
                 {
-                    var upper = component as T;
+                    var interfaceReference = component as T;
 
-                    if (upper != null) return upper;
+                    if (interfaceReference != null) return interfaceReference;
                 }
             }
+            else
+            {
+                var results = components.FirstOrDefault(c => c.GetType() == typeof(T));
 
-            var results = components.FirstOrDefault(c => c.GetType() == typeof(T));
+                return results != null ? results as T : null;
+            }
 
-            return results != null ? results as T : null;
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

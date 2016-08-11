@@ -23,8 +23,6 @@ namespace vRPGEngine.Specializations
 
         private readonly AttributesData attributes;
 
-        private readonly EquipmentContainer equipments;
-
         private readonly Statuses statuses;
         #endregion
 
@@ -34,13 +32,6 @@ namespace vRPGEngine.Specializations
             get
             {
                 return attributes;
-            }
-        }
-        protected EquipmentContainer Equipments
-        {
-            get
-            {
-                return equipments;
             }
         }
         protected Statuses Statuses
@@ -88,14 +79,13 @@ namespace vRPGEngine.Specializations
         }
         #endregion
 
-        protected Specialization(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses)
+        protected Specialization(SpecializationData specialization, AttributesData attributes, Statuses statuses)
         {
             Debug.Assert(specialization != null);
             Debug.Assert(attributes != null);
 
             this.specialization  = specialization;
             this.attributes      = attributes;
-            this.equipments      = equipments;
             this.statuses        = statuses;
         }
 

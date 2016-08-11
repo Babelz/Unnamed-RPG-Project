@@ -30,10 +30,6 @@ namespace vRPGEngine.Handlers.NPC
             {
                 return data;
             }
-            set
-            {
-                data = new NPCData(value);
-            }
         }
         public Entity Owner
         {
@@ -60,8 +56,12 @@ namespace vRPGEngine.Handlers.NPC
             return false;
         }
 
-        public virtual void Initialize(Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
+        public virtual void Initialize(NPCData data, Vector2 position, int level, float maxDist, Vector2[] area, Vector2 spawnLocation, Vector2 spawnBounds)
         {
+            // Copy.
+            this.data = new NPCData(data);
+
+            // Set position.
             var collider                  = Owner.FirstComponentOfType<BoxCollider>();
             collider.SimulationPosition   = position;
 

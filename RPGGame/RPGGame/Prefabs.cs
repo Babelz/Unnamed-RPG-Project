@@ -51,13 +51,7 @@ namespace RPGGame
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
-            var attributes            = new AttributesData()
-            {
-                Stamina = 12,
-                Strength = 50,
-                CriticalHitPercent = 40
-            };
-
+            var attributes            = new AttributesData();
             var equipments            = new EquipmentContainer()
             {
                 MainHand = WeaponDatabase.Instance.Elements().First()
@@ -68,8 +62,9 @@ namespace RPGGame
             var specialization        = new Warrior(data, attributes, equipments, statuses);
 
             meleeDamageController.Initialize(equipments, specialization);
-            //controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
-            
+            statuses.Initialize(specialization);
+            controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
+
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;

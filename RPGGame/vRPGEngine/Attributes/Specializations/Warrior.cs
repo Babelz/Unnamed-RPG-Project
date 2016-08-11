@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Items.Enums;
+using vRPGEngine.Databases;
 using vRPGEngine.Specializations;
 
 namespace vRPGEngine.Attributes.Specializations
@@ -16,23 +17,22 @@ namespace vRPGEngine.Attributes.Specializations
         #endregion
 
         #region Properties
-        public MeleeDamageController DamageController
+        private EquipmentContainer Equipments
         {
-            set
-            {
-                damageController = value;
-
-                damageController.OnSwing += DamageController_OnSwing;
-            }
+            get;
+            set;
         }
         #endregion
 
-        public Warrior(SpecializationData specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses) 
-            : base(specialization, attributes, equipments, statuses)
+        public Warrior(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
+            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior"), attributes, statuses)
         {
+
+            Equipments = equipments;
+            this.damageController = damageController;
         }
 
-        #region Properties
+        #region Event handlers
         private void DamageController_OnSwing(ref MeleeSwingResults swing)
         {
             // Regenerate focus from melee swings. 

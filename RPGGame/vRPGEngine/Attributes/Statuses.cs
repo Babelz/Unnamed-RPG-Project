@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Attributes.Specializations;
+using vRPGEngine.Specializations;
 
 namespace vRPGEngine.Attributes
 {
@@ -52,6 +54,13 @@ namespace vRPGEngine.Attributes
 
         public Statuses()
         {
+        }
+
+        public void Initialize(Specialization specialization)
+        {
+            Health  = specialization.TotalHealth();
+            Mana    = specialization.TotalMana();
+            Focus   = specialization.TotalFocus();
         }
     }
 }
