@@ -52,6 +52,17 @@ namespace vRPGContent.Data.Characters
             get;
             set;
         }
+        
+        public Factions YieldsReputationTowards
+        {
+            get;
+            set;
+        }
+        public int ReputationGain
+        {
+            get;
+            set;
+        }
         #endregion
 
         public NPCData()

@@ -62,6 +62,7 @@
     <Compile Include="Attributes\Statuses.cs" />
     <Compile Include="CombatLog.cs" />
     <Compile Include="Combat\CombatLog.cs" />
+    <Compile Include="Combat\CombatManager.cs" />
     <Compile Include="Combat\ITargetFinder.cs" />
     <Compile Include="Combat\TargetFinder.cs" />
     <Compile Include="Databases\Database.cs" />
