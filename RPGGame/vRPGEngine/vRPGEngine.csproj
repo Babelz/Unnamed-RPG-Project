@@ -92,6 +92,7 @@
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="GameInfoLog.cs" />
     <Compile Include="Graphics\HUDRenderer.cs" />
+    <Compile Include="HUD\IDisplayElement.cs" />
     <Compile Include="Graphics\PresentationSettings.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
     <Compile Include="Handlers\NPC\CritterHandler.cs" />
@@ -105,11 +106,14 @@
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="HUD\Bounds.cs" />
     <Compile Include="HUD\Control.cs" />
+    <Compile Include="HUD\IContentControl.cs" />
     <Compile Include="HUD\IPropertyChanged.cs" />
     <Compile Include="HUD\Converter.cs" />
     <Compile Include="HUD\Margin.cs" />
     <Compile Include="HUD\Padding.cs" />
     <Compile Include="HUD\Sizing.cs" />
+    <Compile Include="HUD\SolidColorFill.cs" />
+    <Compile Include="HUD\View.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

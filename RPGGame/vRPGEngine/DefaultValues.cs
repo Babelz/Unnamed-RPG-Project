@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,12 +12,21 @@ namespace vRPGEngine
     public static class DefaultValues
     {
         #region Fields
+        public static readonly Texture2D EmptyTexture;
         public static readonly Texture2D MissingTexture;
         public static readonly SpriteFont DefaultFont;
         #endregion
 
         static DefaultValues()
         {
+            // Empty texture init.
+            const int width  = 32;
+            const int height = 32;
+
+            EmptyTexture = new Texture2D(Engine.Instance.GraphicsDevice, width, height, false, SurfaceFormat.Color);
+            var pixels   = Enumerable.Range(0, width * height).Select(i => Color.White).ToArray();
+            EmptyTexture.SetData(pixels);
+
             // Missing texture init.
             #region Missing texture bytes
             var MissingTextureData = new byte[]

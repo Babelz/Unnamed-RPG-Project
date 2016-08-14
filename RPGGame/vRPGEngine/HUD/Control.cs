@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine.HUD
 {
@@ -24,6 +25,8 @@ namespace vRPGEngine.HUD
 
         private bool visible;
         private bool enabled;
+
+        private string name;
         #endregion
 
         #region Events
@@ -125,6 +128,20 @@ namespace vRPGEngine.HUD
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+
+                NotifyPropertyChanged("Name");
+            }
+        }
+
         public Control Parent
         {
             get
@@ -176,8 +193,8 @@ namespace vRPGEngine.HUD
 
                 switch (Sizing)
                 {
-                    case Sizing.Percents: displaySize = parent.Size * Size * Scale;  break;
-                    default:              displaySize = Scale * Size;               break;
+                    case Sizing.Percents: displaySize = (parent == null ? HUDRenderer.Instance.CanvasSize : parent.Size) * Size * Scale;  break;
+                    default:              displaySize = Scale * Size;                                                                     break;
                 }
 
                 displaySize.X += padX;
@@ -203,6 +220,10 @@ namespace vRPGEngine.HUD
 
         public Control()
         {
+            Name    = GetType().Name;
+            Enabled = true;
+            Visible = true;
+
             PropertyChanged += Control_PropertyChanged;
         }
 

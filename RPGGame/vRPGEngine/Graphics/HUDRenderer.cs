@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using vRPGEngine.HUD;
+using System.Diagnostics;
 
 namespace vRPGEngine.Graphics
 {
@@ -20,7 +22,25 @@ namespace vRPGEngine.Graphics
         #region Fields
         private readonly SpriteBatch spriteBatch;
 
+        private readonly List<IDisplayElement> elements;
+
         private int elapsed;
+        #endregion
+
+        #region Properties
+        public Vector2 CanvasSize
+        {
+            get
+            {
+                return new Vector2(Engine.Instance.GameWindow.ClientBounds.Width,
+                                   Engine.Instance.GameWindow.ClientBounds.Height);
+            }
+        }
+        public IContentControl Root
+        {
+            get;
+            set;
+        }
         #endregion
 
         private HUDRenderer()
@@ -28,10 +48,12 @@ namespace vRPGEngine.Graphics
         {
             spriteBatch = new SpriteBatch(Engine.Instance.GraphicsDevice);
         }
-        
+
         protected override void OnUpdate(GameTime gameTime)
         {
             if (GameInfoLog.Instance.Entries().Count() != 0) elapsed += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (Root != null) Root.Update(gameTime);
 
             spriteBatch.Begin();
 
@@ -53,6 +75,10 @@ namespace vRPGEngine.Graphics
                 spriteBatch.DrawString(DefaultValues.DefaultFont, entry.Contents, position, color);
             }
 
+            for (int i = 0; i < elements.Count; i++) elements[i].Show(gameTime, spriteBatch);
+
+            elements.Clear();
+
             spriteBatch.End();
 
             if (elapsed > 2500)
@@ -61,6 +87,13 @@ namespace vRPGEngine.Graphics
 
                 elapsed = 0;
             }
+        }
+
+        public void Present(IDisplayElement element)
+        {
+            Debug.Assert(element != null);
+
+            elements.Add(element);
         }
     }
 }
