@@ -155,7 +155,21 @@ namespace vRPGEngine.ECS.Components
             Buffs           = new BuffContainer();
             TargetFinder    = new TargetFinder();
             Spells          = new List<SpellHandler>();
+
+            CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
+            CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
         }
+
+        #region Events
+        private void Instance_HostilesEmpty()
+        {
+            LeaveCombat();
+        }
+        private void Instance_HostileRegistered()
+        {
+            EnterCombat();
+        }
+        #endregion
 
         public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, MeleeDamageController meleeDamageController, Statuses statuses)
         {
@@ -202,7 +216,7 @@ namespace vRPGEngine.ECS.Components
             if (InCombat) return;
 
             MeleeDamageController.EnterCombat();
-
+            
             InCombat = true;
         }
         public void LeaveCombat()
@@ -210,7 +224,7 @@ namespace vRPGEngine.ECS.Components
             if (!InCombat) return;
 
             MeleeDamageController.EnterCombat();
-
+            
             InCombat = false;
         }
     }
@@ -363,6 +377,8 @@ namespace vRPGEngine.ECS.Components
 
             Handler.EnterCombat();
 
+            CombatManager.Instance.RegisterHostile(this);
+
             OnEnteringCombat?.Invoke(this);
         }
         public void LeaveCombat()
@@ -372,6 +388,8 @@ namespace vRPGEngine.ECS.Components
             InCombat = false;
 
             Handler.LeaveCombat();
+
+            CombatManager.Instance.UnregisterHostile(this);
 
             OnLeavingCombat?.Invoke(this);
         }
