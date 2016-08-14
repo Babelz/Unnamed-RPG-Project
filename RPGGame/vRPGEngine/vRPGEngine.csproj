@@ -109,6 +109,7 @@
     <Compile Include="HUD\Converter.cs" />
     <Compile Include="HUD\Margin.cs" />
     <Compile Include="HUD\Padding.cs" />
+    <Compile Include="HUD\Sizing.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

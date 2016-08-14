@@ -9,16 +9,16 @@ namespace vRPGEngine.HUD
     public sealed class PropertyChangedEventArgs : EventArgs
     {
         #region Properties
-        public string Name
+        public string PropertyName
         {
             get;
             private set;
         }
         #endregion
 
-        public PropertyChangedEventArgs(string name)
+        public PropertyChangedEventArgs(string ropertyName)
         {
-            Name = name;
+            PropertyName = ropertyName;
         }
     }
 
