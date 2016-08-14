@@ -103,6 +103,12 @@
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\SpellHelper.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
+    <Compile Include="HUD\Bounds.cs" />
+    <Compile Include="HUD\Control.cs" />
+    <Compile Include="HUD\IPropertyChanged.cs" />
+    <Compile Include="HUD\Converter.cs" />
+    <Compile Include="HUD\Margin.cs" />
+    <Compile Include="HUD\Padding.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
