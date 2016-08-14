@@ -118,6 +118,8 @@
     <Compile Include="Readers\TmxReader.cs" />
     <Compile Include="Maps\TileMapManager.cs" />
     <Compile Include="Attributes\Specializations\Specialization.cs" />
+    <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />
@@ -179,6 +181,7 @@
       <Name>vRPGContent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
