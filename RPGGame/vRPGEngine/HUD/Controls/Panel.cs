@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGEngine.Graphics;
+using vRPGEngine.HUD.Elements;
 
-namespace vRPGEngine.HUD
+namespace vRPGEngine.HUD.Controls
 {
     public sealed class Panel : Control, IContentControl
     {
@@ -15,6 +16,8 @@ namespace vRPGEngine.HUD
         private readonly List<Control> children;
         
         private IDisplayElement element;
+
+        private Color fill;
         #endregion
 
         #region Properties
@@ -37,6 +40,23 @@ namespace vRPGEngine.HUD
                 element = value;
 
                 NotifyPropertyChanged("Element");
+
+                element.Invalidate(this);
+            }
+        }
+
+        public Color Fill
+        {
+            get
+            {
+                return fill;
+            }
+
+            set
+            {
+                fill = value;
+
+                NotifyPropertyChanged("Fill");
             }
         }
         #endregion
@@ -44,43 +64,34 @@ namespace vRPGEngine.HUD
         public Panel()
             : base()
         {
-            element  = new SolidColorFill()
-            {
-                Color = Color.Red
-            };
-
-            children = new List<Control>();
+            Fill      = Color.Red;
+            element   = new SolidColorFill();
+            children  = new List<Control>();
 
             RegisterProperty("Children", () => Children);
             RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
-            
+            RegisterProperty("Fill", () => Fill, (o) => Fill = (Color)o);
+
+            element.Invalidate(this);
+
             PropertyChanged += View_PropertyChanged;
         }
 
         #region Event handlers
         private void View_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == "Position" ||
-                args.PropertyName == "Size" ||
-                args.PropertyName == "Scale" ||
-                args.PropertyName == "Margin" ||
-                args.PropertyName == "Padding" ||
-                args.PropertyName == "Parent" ||
-                args.PropertyName == "Sizing")
-            {
-                Invalidate();
-            }
+            Invalidate();
         }
         #endregion
 
         protected override void OnInvalidate()
         {
             for (int i = 0; i < children.Count; i++) children[i].Invalidate();
+            
+            if (element != null) element.Invalidate(this);
         }
         protected override void OnUpdate(GameTime gameTime)
         {
-            if (element != null) element.Invalidate(this);
-
             for (int i = 0; i < children.Count; i++) children[i].Update(gameTime);
         }
 

@@ -6,27 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.Graphics;
+using vRPGEngine.HUD.Controls;
 
-namespace vRPGEngine.HUD
+namespace vRPGEngine.HUD.Elements
 {
     public sealed class SolidColorFill : IDisplayElement
     {
         #region Properties
+        private Color   color;
         private Vector2 position;
         private Vector2 scale;
         #endregion
 
-        #region Properties  
-        public Color Color
-        {
-            get;
-            set;
-        }
-        #endregion
-
         public SolidColorFill()
         {
-            Color = Color.Red;
+            color = Color.Red;
         }
         
         public void Invalidate(Control control)
@@ -39,11 +33,8 @@ namespace vRPGEngine.HUD
 
             position    = control.DisplayPosition;
             scale       = max / min;
-        }
-        
-        public void SetValue(string name, object value)
-        {
-            if (name == "Color") Color = (Color)value;
+
+            if (!control.ReadProperty("Fill", ref color)) color = Color.Red;
         }
 
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)
@@ -55,7 +46,7 @@ namespace vRPGEngine.HUD
                              null,
                              0.0f,
                              scale,
-                             Color,
+                             color,
                              SpriteEffects.None,
                              0.0f);
         }

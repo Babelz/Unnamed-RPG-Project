@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Graphics;
 
-namespace vRPGEngine.HUD
+namespace vRPGEngine.HUD.Controls
 {
     public abstract class Control : DependencyPropertyContainer, IPropertyChanged
     {
         #region Fields
+        private bool invalidating;
+
         private Vector2 position;
         private Vector2 size;
         private Vector2 scale;
@@ -193,8 +195,8 @@ namespace vRPGEngine.HUD
 
                 switch (Sizing)
                 {
-                    case Sizing.Percents: displaySize = (parent == null ? HUDRenderer.Instance.CanvasSize : parent.Size) * Size * Scale;  break;
-                    default:              displaySize = Scale * Size;                                                                     break;
+                    case Sizing.Percents: displaySize = GetContainerSize() * Size * Scale;  break;
+                    default:              displaySize = Scale * Size;                                                                            break;
                 }
 
                 displaySize.X += padX;
@@ -226,10 +228,14 @@ namespace vRPGEngine.HUD
             Size    = Vector2.One;
             Enabled = true;
             Visible = true;
+            Sizing  = Sizing.Percents;
 
             RegisterProperty("Position", () => Position, (o) => Position = (Vector2)o);
             RegisterProperty("Size", () => Size, (o) => Size = (Vector2)o);
             RegisterProperty("Scale", () => Scale, (o) => Scale = (Vector2)o);
+
+            RegisterProperty("Padding", () => Padding, (o) => Padding = (Padding)o);
+            RegisterProperty("Margin", () => Margin, (o) => Margin = (Margin)o);
 
             RegisterProperty("Visible", () => Visible, (o) => Visible = (bool)o);
             RegisterProperty("Enabled", () => Enabled, (o) => Enabled = (bool)o);
@@ -249,6 +255,11 @@ namespace vRPGEngine.HUD
         }
         #endregion
 
+        protected Vector2 GetContainerSize()
+        {
+            return parent == null ? HUDRenderer.Instance.CanvasSize : parent.DisplaySize;
+        }
+
         protected void NotifyPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -267,7 +278,18 @@ namespace vRPGEngine.HUD
 
         public void Invalidate()
         {
+            // Control already invalidating.
+            if (invalidating) return;
+            
+            // Supress invalidation.
+            invalidating = true;
+
+            // Invalidate only if the control is not invalidating
+            // and is enabled.
             if (Enabled) OnInvalidate();
+
+            // Allow new invalidations.
+            invalidating = false;
         }
 
         public void Update(GameTime gameTime)

@@ -88,6 +88,31 @@ namespace vRPGEngine.HUD
             }
         }
 
+        public bool ReadProperty<T>(string name, ref T results)
+        {
+            object nonGenericResults = null;
+
+            if (ReadProperty(name, ref nonGenericResults))
+            {
+                if (nonGenericResults.GetType() == typeof(T))
+                {
+                    results = (T)nonGenericResults;
+
+                    return true;
+                }
+            }
+
+            results = default(T);
+
+            return false;
+        }
+        public bool WriteProperty<T>(string name, T value)
+        {
+            object nonGenericValue = value;
+
+            return WriteProperty(name, nonGenericValue);
+        }
+
         public DependencyProperty GetProperty(string name)
         {
             DependencyProperty property = null;

@@ -41,7 +41,7 @@ namespace RPGGame
 
         protected override void Initialize()
         {
-            Engine.Instance.Initialize();
+            Engine.Instance.Initialize(graphics);
             
             SceneManager.Instance.ChangeScene(new HUDTestingScene());
         }

@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.HUD;
 using System.Diagnostics;
+using vRPGEngine.HUD.Elements;
+using vRPGEngine.HUD.Controls;
 
 namespace vRPGEngine.Graphics
 {
@@ -32,8 +34,8 @@ namespace vRPGEngine.Graphics
         {
             get
             {
-                return new Vector2(Engine.Instance.GameWindow.ClientBounds.Width,
-                                   Engine.Instance.GameWindow.ClientBounds.Height);
+                return new Vector2(Engine.Instance.GraphicsDeviceManager.PreferredBackBufferWidth,
+                                   Engine.Instance.GraphicsDeviceManager.PreferredBackBufferHeight);
             }
         }
         public IContentControl Root

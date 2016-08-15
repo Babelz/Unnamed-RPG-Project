@@ -20,6 +20,8 @@ namespace vRPGEngine
     public sealed class Engine : Singleton<Engine>
     {
         #region Fields
+        private GraphicsDeviceManager graphics;
+
         private Game game;
         #endregion
 
@@ -43,6 +45,13 @@ namespace vRPGEngine
             get
             {
                 return game.GraphicsDevice;
+            }
+        }
+        public GraphicsDeviceManager GraphicsDeviceManager
+        {
+            get
+            {
+                return graphics;
             }
         }
         public GameWindow GameWindow
@@ -151,8 +160,13 @@ namespace vRPGEngine
             });
         }
         
-        public bool Initialize()
+        public bool Initialize(GraphicsDeviceManager graphics)
         {
+            Debug.Assert(game != null);
+            Debug.Assert(graphics != null);
+
+            this.graphics = graphics;
+
             try
             {
                 // TODO: wrap.
@@ -224,6 +238,8 @@ namespace vRPGEngine
 
         public void Update(GameTime gameTime)
         {
+            Debug.Assert(game != null);
+
             SystemManagers.Instance.Update(gameTime);
 
             DebugRenderer.Instance.Present(gameTime);

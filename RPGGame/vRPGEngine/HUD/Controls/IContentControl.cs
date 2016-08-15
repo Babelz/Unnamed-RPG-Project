@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.HUD
+namespace vRPGEngine.HUD.Controls
 {
     public interface IContentControl
     {
