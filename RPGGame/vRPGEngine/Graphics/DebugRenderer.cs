@@ -54,9 +54,11 @@ namespace vRPGEngine.Graphics
             var position = Vector2.Zero;
             var pad      = 16.0f;
 
-            foreach (var func in strings)
-            {
-                var str = func(gameTime);
+            for (var i = 0; i < strings.Count; i++)
+            { 
+                var str = strings[i](gameTime);
+
+                if (string.IsNullOrEmpty(str)) continue;
 
                 var size = font.MeasureString(str);
 

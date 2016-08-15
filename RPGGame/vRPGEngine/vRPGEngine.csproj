@@ -113,7 +113,7 @@
     <Compile Include="HUD\Padding.cs" />
     <Compile Include="HUD\Sizing.cs" />
     <Compile Include="HUD\SolidColorFill.cs" />
-    <Compile Include="HUD\View.cs" />
+    <Compile Include="HUD\Panel.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

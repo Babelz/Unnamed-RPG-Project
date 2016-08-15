@@ -9,7 +9,7 @@ using vRPGEngine.Graphics;
 
 namespace vRPGEngine.HUD
 {
-    public sealed class View : Control, IContentControl
+    public sealed class Panel : Control, IContentControl
     {
         #region Fields
         private readonly List<Control> children;
@@ -41,7 +41,7 @@ namespace vRPGEngine.HUD
         }
         #endregion
 
-        public View()
+        public Panel()
             : base()
         {
             element  = new SolidColorFill()

@@ -23,6 +23,20 @@ namespace vRPGEngine.ECS
                 foreach (var entity in entitites) if (entity != null) yield return entity;
             }
         }
+        public Entity this[int index]
+        {
+            get
+            {
+                return entitites[index];
+            }
+        }
+        public int Count
+        {
+            get
+            {
+                return entitites.Length;
+            }
+        }
         #endregion
 
         private EntityManager()
@@ -58,6 +72,21 @@ namespace vRPGEngine.ECS
             allocator.Deallocate(entity);
 
             entitites[entity.Location] = null;
+        }
+
+        public void Clear()
+        {
+            for (var i = 0; i < entitites.Length; i++)
+            {
+                var entity = entitites[i];
+
+                if (entity != null)
+                {
+                    allocator.Deallocate(entity);
+
+                    entitites[i] = null;
+                }
+            }
         }
     }
 }

@@ -40,16 +40,6 @@ namespace RPGGame
         protected override void Initialize()
         {
             vRPGEngine.Engine.Instance.Initialize();
-
-            Renderer.Instance.SetPresentationParameters(3200, 3200, 160, 160, 3, 3);
-            Renderer.Instance.DynamicPadding = true;
-
-            Prefabs.Register();
-            Layers.Create();
-            
-            TileMapManager.Instance.Load("test bed map");
-                            
-            var player = EntityBuilder.Instance.Create("player");
         }
 
         protected override void Update(GameTime gameTime)

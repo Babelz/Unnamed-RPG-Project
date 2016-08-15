@@ -187,6 +187,8 @@ namespace vRPGEngine.Maps
 
                     tilesCount++;
                 }
+
+                entitites.Add(tileLayer);
             }
 
             // Load entitites.
@@ -222,6 +224,8 @@ namespace vRPGEngine.Maps
                         objectLayer.AddChildren(SpawnArea(id, maxNPCs, minLevel, maxLevel, spawnTime, x, y, width, height, maxDist));
                     }
                 }
+
+                entitites.Add(objectLayer);
             }
 
             // Load state from saved game.
@@ -236,6 +240,7 @@ namespace vRPGEngine.Maps
             // Save state to saved game.
 
             // Unload entitites.
+            for (var i = 0; i < entitites.Count; i++) entitites[i].Destroy();
 
             // Done.
         }

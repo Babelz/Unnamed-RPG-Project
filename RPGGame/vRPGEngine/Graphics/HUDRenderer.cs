@@ -47,6 +47,7 @@ namespace vRPGEngine.Graphics
             : base()
         {
             spriteBatch = new SpriteBatch(Engine.Instance.GraphicsDevice);
+            elements    = new List<IDisplayElement>();
         }
 
         protected override void OnUpdate(GameTime gameTime)

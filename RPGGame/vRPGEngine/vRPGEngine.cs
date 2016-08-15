@@ -13,6 +13,7 @@ using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS.Handlers;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
+using vRPGEngine.Scenes;
 
 namespace vRPGEngine
 {
@@ -91,7 +92,7 @@ namespace vRPGEngine
             {
                 var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
 
-                if (player == null) return "Dist: null";
+                if (player == null) return string.Empty;
 
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
@@ -107,7 +108,7 @@ namespace vRPGEngine
             {
                 var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
 
-                if (player == null) return "Target HP: null";
+                if (player == null) return string.Empty;
 
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
@@ -119,7 +120,9 @@ namespace vRPGEngine
             DebugRenderer.Instance.AddString((gt) =>
             {
                 var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
-                
+
+                if (player == null) return string.Empty;
+
                 var controller = player.FirstComponentOfType<ICharacterController>();
                 
                 return "HP: " + controller.Statuses.Health + "/" + controller.Specialization.TotalHealth();
@@ -128,7 +131,9 @@ namespace vRPGEngine
             DebugRenderer.Instance.AddString((gt) =>
             {
                 var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
-                
+
+                if (player == null) return string.Empty;
+
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
                 return "Focus: " + controller.Statuses.Focus + "/" + controller.Specialization.TotalFocus();
@@ -137,6 +142,8 @@ namespace vRPGEngine
             DebugRenderer.Instance.AddString((gt) =>
             {
                 var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+
+                if (player == null) return string.Empty;
 
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
@@ -178,6 +185,7 @@ namespace vRPGEngine
                 Logger.Instance.Activate();
                 RPGWorld.Instance.Activate();
                 HUDRenderer.Instance.Activate();
+                SceneManager.Instance.Activate();
 
                 ActivateDebugRenderer();
 
