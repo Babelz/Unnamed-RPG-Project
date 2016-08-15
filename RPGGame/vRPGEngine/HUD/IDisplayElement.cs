@@ -13,5 +13,7 @@ namespace vRPGEngine.HUD
         void Invalidate(Control control);
 
         void Show(GameTime gameTime, SpriteBatch spriteBatch);
+
+        void SetValue(string name, object value);
     }
 }

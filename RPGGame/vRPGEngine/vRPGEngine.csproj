@@ -108,12 +108,14 @@
     <Compile Include="HUD\Control.cs" />
     <Compile Include="HUD\IContentControl.cs" />
     <Compile Include="HUD\IPropertyChanged.cs" />
-    <Compile Include="HUD\Converter.cs" />
+    <Compile Include="HUD\Label.cs" />
     <Compile Include="HUD\Margin.cs" />
     <Compile Include="HUD\Padding.cs" />
+    <Compile Include="HUD\DependencyPropertyContainer.cs" />
     <Compile Include="HUD\Sizing.cs" />
     <Compile Include="HUD\SolidColorFill.cs" />
     <Compile Include="HUD\Panel.cs" />
+    <Compile Include="HUD\TextElement.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

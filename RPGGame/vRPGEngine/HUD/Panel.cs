@@ -51,6 +51,9 @@ namespace vRPGEngine.HUD
 
             children = new List<Control>();
 
+            RegisterProperty("Children", () => Children);
+            RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
+            
             PropertyChanged += View_PropertyChanged;
         }
 

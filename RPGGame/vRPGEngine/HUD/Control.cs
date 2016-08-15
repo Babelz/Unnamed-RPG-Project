@@ -9,7 +9,7 @@ using vRPGEngine.Graphics;
 
 namespace vRPGEngine.HUD
 {
-    public abstract class Control : IPropertyChanged
+    public abstract class Control : DependencyPropertyContainer, IPropertyChanged
     {
         #region Fields
         private Vector2 position;
@@ -219,11 +219,26 @@ namespace vRPGEngine.HUD
         #endregion
 
         public Control()
+            : base()
         {
             Name    = GetType().Name;
+            Scale   = Vector2.One;
+            Size    = Vector2.One;
             Enabled = true;
             Visible = true;
 
+            RegisterProperty("Position", () => Position, (o) => Position = (Vector2)o);
+            RegisterProperty("Size", () => Size, (o) => Size = (Vector2)o);
+            RegisterProperty("Scale", () => Scale, (o) => Scale = (Vector2)o);
+
+            RegisterProperty("Visible", () => Visible, (o) => Visible = (bool)o);
+            RegisterProperty("Enabled", () => Enabled, (o) => Enabled = (bool)o);
+
+            RegisterProperty("Name", () => Name, (o) => Name = (string)o);
+            RegisterProperty("Parent", () => Parent, (o) => Parent = (Control)o);
+
+            RegisterProperty("Sizing", () => Sizing, (o) => Sizing = (Sizing)o);
+            
             PropertyChanged += Control_PropertyChanged;
         }
 

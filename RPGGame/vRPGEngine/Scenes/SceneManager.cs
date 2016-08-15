@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace vRPGEngine.Scenes
 {
@@ -23,7 +24,11 @@ namespace vRPGEngine.Scenes
 
         public void ChangeScene(Scene scene)
         {
-            next = scene;
+            Debug.Assert(scene != null);
+            Debug.Assert(!sceneChanging);
+
+            sceneChanging   = true;
+            next            = scene;
 
             next.Initialize();
         }

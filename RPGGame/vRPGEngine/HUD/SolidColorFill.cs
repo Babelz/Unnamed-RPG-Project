@@ -31,14 +31,19 @@ namespace vRPGEngine.HUD
         
         public void Invalidate(Control control)
         {
-            var to      = new Vector2(DefaultValues.EmptyTexture.Width, DefaultValues.EmptyTexture.Height);
-            var from    = control.DisplayPosition;
+            var from      = new Vector2(DefaultValues.EmptyTexture.Width, DefaultValues.EmptyTexture.Height);
+            var to        = control.DisplaySize;
 
             var min     = Vector2.Min(to, from);
             var max     = Vector2.Max(to, from);
 
             position    = control.DisplayPosition;
-            scale       = min / max;
+            scale       = max / min;
+        }
+        
+        public void SetValue(string name, object value)
+        {
+            if (name == "Color") Color = (Color)value;
         }
 
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)

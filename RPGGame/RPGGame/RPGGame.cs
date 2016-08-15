@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RPGGame.Scenes;
 using TiledSharp;
 using vRPGEngine;
 using vRPGEngine.Databases;
@@ -11,6 +12,7 @@ using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 using vRPGEngine.Input;
 using vRPGEngine.Maps;
+using vRPGEngine.Scenes;
 
 namespace RPGGame
 {
@@ -39,12 +41,14 @@ namespace RPGGame
 
         protected override void Initialize()
         {
-            vRPGEngine.Engine.Instance.Initialize();
+            Engine.Instance.Initialize();
+            
+            SceneManager.Instance.ChangeScene(new HUDTestingScene());
         }
 
         protected override void Update(GameTime gameTime)
         {
-            vRPGEngine.Engine.Instance.Update(gameTime);
+            Engine.Instance.Update(gameTime);
         }
     }
 }
