@@ -58,7 +58,7 @@ namespace vRPGEngine.ECS.Components
             var position    = new Vector2(vRPGRandom.NextFloat(this.position.X, this.position.X + bounds.X),
                                           vRPGRandom.NextFloat(this.position.Y, this.position.Y + bounds.Y));
             
-            controller.Handler.Initialize(npc, data, level, maxDist, position, new Area(position, bounds));
+            controller.Handler.Initialize(npc, data, level, maxDist, position, new Rectf(position, bounds));
             controller.Initialize();
             
             controller.OnDecayed += Controller_OnDecayed;

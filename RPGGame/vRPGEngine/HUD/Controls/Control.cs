@@ -176,7 +176,7 @@ namespace vRPGEngine.HUD.Controls
         {
             get
             {
-                var position = Position;
+                var position = Position + GetContainerPosition();
 
                 position.X = margin.Left + position.X - margin.Right;
                 position.Y = margin.Top + position.Y - margin.Bottom;
@@ -205,16 +205,14 @@ namespace vRPGEngine.HUD.Controls
                 return displaySize;
             }
         }
-        public Bounds DisplayBounds
+        public Rectf DisplayBounds
         {
             get
             {
-                return new Bounds
+                return new Rectf
                 {
-                    X = Position.X,
-                    Y = Position.Y,
-                    W = Size.X,
-                    H = Size.Y
+                    Position = Position,
+                    Size     = Size
                 };
             }
         }
@@ -258,6 +256,10 @@ namespace vRPGEngine.HUD.Controls
         protected Vector2 GetContainerSize()
         {
             return parent == null ? HUDRenderer.Instance.CanvasSize : parent.DisplaySize;
+        }
+        protected Vector2 GetContainerPosition()
+        {
+            return parent == null ? Vector2.Zero : parent.DisplayPosition;
         }
 
         protected void NotifyPropertyChanged(string name)

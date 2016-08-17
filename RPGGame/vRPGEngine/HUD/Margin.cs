@@ -27,7 +27,7 @@ namespace vRPGEngine.HUD
             return margin;
         }
 
-        public static Margin Percents(Bounds bounds, float top, float bottom, float left, float right)
+        public static Margin Percents(Rectf bounds, float top, float bottom, float left, float right)
         {
             Margin margin;
 

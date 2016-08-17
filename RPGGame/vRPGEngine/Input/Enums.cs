@@ -25,6 +25,7 @@ namespace vRPGEngine.Input
     [Flags()]
     public enum MouseButton : int 
     {
+        None            = 0,
         LeftButton      = 1,
         RightButton     = 2,
         MiddleButton    = 4,

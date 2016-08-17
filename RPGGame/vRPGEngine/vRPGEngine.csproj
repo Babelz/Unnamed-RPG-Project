@@ -51,7 +51,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
-    <Compile Include="Area.cs" />
+    <Compile Include="EnumExtensions.cs" />
+    <Compile Include="HUD\HUDInputManager.cs" />
+    <Compile Include="Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="ECS\Handlers\TransformHandler.cs" />
     <Compile Include="GameInfoLog.cs" />
     <Compile Include="Graphics\HUDRenderer.cs" />
+    <Compile Include="HUD\Controls\ButtonBase.cs" />
     <Compile Include="HUD\Elements\IDisplayElement.cs" />
     <Compile Include="Graphics\PresentationSettings.cs" />
     <Compile Include="Handlers\HandlerFactory.cs" />
@@ -104,9 +107,9 @@
     <Compile Include="Handlers\Spells\SpellHandlerFactory.cs" />
     <Compile Include="Handlers\Spells\SpellHelper.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
-    <Compile Include="HUD\Bounds.cs" />
     <Compile Include="HUD\Controls\Control.cs" />
     <Compile Include="HUD\Controls\IContentControl.cs" />
+    <Compile Include="HUD\Interfaces\IButtonControl.cs" />
     <Compile Include="HUD\IPropertyChanged.cs" />
     <Compile Include="HUD\Controls\Label.cs" />
     <Compile Include="HUD\Margin.cs" />

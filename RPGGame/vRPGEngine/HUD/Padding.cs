@@ -27,7 +27,7 @@ namespace vRPGEngine.HUD
             return padding;
         }
 
-        public static Padding Percents(Bounds bounds, float top, float bottom, float left, float right)
+        public static Padding Percents(Rectf bounds, float top, float bottom, float left, float right)
         {
             Padding padding;
 

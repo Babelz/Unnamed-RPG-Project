@@ -27,7 +27,7 @@ namespace vRPGEngine.Handlers.NPC
             protected set;
         }
 
-        protected Area Area
+        protected Rectf Area
         {
             get;
             private set;
@@ -57,7 +57,7 @@ namespace vRPGEngine.Handlers.NPC
             return false;
         }
 
-        public virtual void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Area? area = null)
+        public virtual void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Rectf? area = null)
         {
             Owner   = owner;
             Data    = new NPCData(data);

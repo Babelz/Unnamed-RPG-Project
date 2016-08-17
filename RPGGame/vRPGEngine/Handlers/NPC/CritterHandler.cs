@@ -34,7 +34,7 @@ namespace vRPGEngine.Handlers.NPC
             Owner.FirstComponentOfType<BoxCollider>().LinearVelocity = Vector2.Zero;
         }
 
-        public override void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Area? area = null)
+        public override void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Rectf? area = null)
         {
             base.Initialize(owner, data, level, maxDist, position, area);
 

@@ -23,6 +23,7 @@ namespace vRPGEngine.Combat
         private CombatManager()
             : base()
         {
+            hostiles = new List<ICharacterController>();
         }
 
         public void RegisterHostile(ICharacterController hostile)
