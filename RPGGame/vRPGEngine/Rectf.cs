@@ -115,9 +115,9 @@ namespace vRPGEngine
         public bool Intersects(Rectf other)
         {
             return Left < other.Right &&
-                   Left < other.Right &&
+                   other.Left < Right &&
                    Top < other.Bottom &&
-                   Top < other.Bottom;
+                   other.Top < Bottom;
         }
 
         public IEnumerator<Vector2> GetEnumerator()

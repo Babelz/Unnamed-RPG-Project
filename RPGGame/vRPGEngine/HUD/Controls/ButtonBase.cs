@@ -94,6 +94,7 @@ namespace vRPGEngine.HUD.Controls
         public ButtonBase()
             : base()
         {
+            Trigger     = MouseButton.LeftButton;
             ButtonState = ButtonControlState.Up;
             HoverState  = MouseHoverState.Enter;
 
@@ -105,6 +106,7 @@ namespace vRPGEngine.HUD.Controls
         private void UpdateButtonState()
         {
             var isTriggerDown = HUDInputManager.Instance.PressedButtons.Contains(Trigger);
+            var intersects    = HUDInputManager.Instance.Intersects(DisplayBounds);
 
             switch (ButtonState)
             {
@@ -129,7 +131,7 @@ namespace vRPGEngine.HUD.Controls
                     }
                     break;
                 case ButtonControlState.Released:
-                    ButtonReleased?.Invoke(this);
+                    if (intersects) ButtonReleased?.Invoke(this);
 
                     ButtonState = ButtonControlState.Up;
                     break;
@@ -153,7 +155,7 @@ namespace vRPGEngine.HUD.Controls
                     }
                     break;
                 case MouseHoverState.Hover:
-                    if (intersects) OnMouseEnter?.Invoke(this);
+                    if (intersects) OnMouseHover?.Invoke(this);
                     else            HoverState = MouseHoverState.Leave;
                     break;
                 case MouseHoverState.Leave:

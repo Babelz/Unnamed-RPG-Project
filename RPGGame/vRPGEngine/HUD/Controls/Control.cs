@@ -212,7 +212,7 @@ namespace vRPGEngine.HUD.Controls
                 return new Rectf
                 {
                     Position = Position,
-                    Size     = Size
+                    Size     = DisplaySize
                 };
             }
         }

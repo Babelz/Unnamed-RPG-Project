@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Allocator.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="HUD\Controls\Button.cs" />
+    <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
     <Compile Include="Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />

@@ -12,6 +12,7 @@ using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS.Handlers;
 using vRPGEngine.Graphics;
+using vRPGEngine.HUD;
 using vRPGEngine.Input;
 using vRPGEngine.Scenes;
 
@@ -198,6 +199,7 @@ namespace vRPGEngine
                 Renderer.Instance.Activate();
                 Logger.Instance.Activate();
                 RPGWorld.Instance.Activate();
+                HUDInputManager.Instance.Activate();
                 HUDRenderer.Instance.Activate();
                 SceneManager.Instance.Activate();
 

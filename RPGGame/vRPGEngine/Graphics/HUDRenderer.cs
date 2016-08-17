@@ -78,7 +78,7 @@ namespace vRPGEngine.Graphics
                 spriteBatch.DrawString(DefaultValues.DefaultFont, entry.Contents, position, color);
             }
 
-            for (int i = 0; i < elements.Count; i++) elements[i].Show(gameTime, spriteBatch);
+            for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
 
             elements.Clear();
 
