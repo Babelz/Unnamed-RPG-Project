@@ -52,7 +52,10 @@
   <ItemGroup>
     <Compile Include="Allocator.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />
+    <Compile Include="HUD\Controls\Icon.cs" />
+    <Compile Include="HUD\Elements\BindButtonElement.cs" />
     <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
     <Compile Include="Rectf.cs" />
