@@ -75,6 +75,8 @@ namespace vRPGEngine.HUD.Controls
         #region Event handlers
         private void ScrollView_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
+            if (args.PropertyName == "HoverState") return;
+
             Invalidate();
         }
         #endregion
