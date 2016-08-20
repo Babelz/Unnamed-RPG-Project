@@ -55,7 +55,6 @@
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />
     <Compile Include="HUD\Controls\Icon.cs" />
-    <Compile Include="HUD\Controls\IScrollViewView.cs" />
     <Compile Include="HUD\Controls\MouseControlBase.cs" />
     <Compile Include="HUD\Controls\ScrollView.cs" />
     <Compile Include="HUD\Elements\BindButtonElement.cs" />
@@ -117,7 +116,7 @@
     <Compile Include="Handlers\Spells\SpellHelper.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="HUD\Controls\Control.cs" />
-    <Compile Include="HUD\Controls\IContentControl.cs" />
+    <Compile Include="HUD\Interfaces\IContentControl.cs" />
     <Compile Include="HUD\Interfaces\IButtonControl.cs" />
     <Compile Include="HUD\IPropertyChanged.cs" />
     <Compile Include="HUD\Controls\Label.cs" />

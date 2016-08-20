@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGEngine.Graphics;
 using vRPGEngine.HUD.Elements;
+using vRPGEngine.HUD.Interfaces;
 
 namespace vRPGEngine.HUD.Controls
 {

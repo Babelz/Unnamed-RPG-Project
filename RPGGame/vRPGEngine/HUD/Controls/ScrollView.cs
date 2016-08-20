@@ -9,7 +9,6 @@ namespace vRPGEngine.HUD.Controls
     public sealed class ScrollView<T> : Control where T : Control
     {
         #region Fields
-        private IScrollViewView<T> view;
         #endregion
 
         public ScrollView()
