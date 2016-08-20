@@ -25,20 +25,15 @@ namespace vRPGEngine.HUD.Controls
         Released,
     }
 
-    public abstract class ButtonBase : Control, IButtonControl
+    public abstract class ButtonBase : MouseControlBase, IButtonControl
     {
         #region Fields
         private ButtonControlState buttonState;
-        private MouseHoverState hoverState;
 
         private MouseButton trigger;
         #endregion
 
         #region Events
-        public event ButtonMouseEventHandler OnMouseEnter;
-        public event ButtonMouseEventHandler OnMouseLeave;
-        public event ButtonMouseEventHandler OnMouseHover;
-
         public event ButtonMouseEventHandler ButtonDown;
         public event ButtonMouseEventHandler ButtonUp;
 
@@ -49,19 +44,6 @@ namespace vRPGEngine.HUD.Controls
         #endregion
 
         #region Properties
-        protected MouseHoverState HoverState
-        {
-            get
-            {
-                return hoverState;
-            }
-            set
-            {
-                hoverState = value;
-
-                NotifyPropertyChanged("HoverState");
-            }
-        }
         protected ButtonControlState ButtonState
         {
             get
@@ -96,9 +78,7 @@ namespace vRPGEngine.HUD.Controls
         {
             Trigger     = MouseButton.LeftButton;
             ButtonState = ButtonControlState.Up;
-            HoverState  = MouseHoverState.Enter;
 
-            RegisterProperty("HoverState", () => HoverState, (o) => HoverState = (MouseHoverState)o);
             RegisterProperty("ButtonState", () => ButtonState, (o) => ButtonState = (ButtonControlState)o);
             RegisterProperty("Trigger", () => Trigger, (o) => Trigger = (MouseButton)o);
         }
@@ -140,48 +120,12 @@ namespace vRPGEngine.HUD.Controls
             }
         }
 
-        private void UpdateHoverState()
-        {
-            var intersects = HUDInputManager.Instance.Intersects(DisplayBounds);
-
-            switch (HoverState)
-            {
-                case MouseHoverState.Enter:
-                    if (intersects)
-                    {
-                        OnMouseEnter?.Invoke(this);
-
-                        HoverState = MouseHoverState.Hover;
-                    }
-                    break;
-                case MouseHoverState.Hover:
-                    if (intersects) OnMouseHover?.Invoke(this);
-                    else            HoverState = MouseHoverState.Leave;
-                    break;
-                case MouseHoverState.Leave:
-                    if (!intersects)
-                    {
-                        OnMouseLeave?.Invoke(this);
-
-                        HoverState = MouseHoverState.Enter;
-                    }
-                    else
-                    {
-                        HoverState = MouseHoverState.Hover;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
         protected override void OnUpdate(GameTime gameTime)
         {
+            base.OnUpdate(gameTime);
+
             // Update button state.
             UpdateButtonState();
-
-            // Update hover.
-            UpdateHoverState();
         }
     }
 }

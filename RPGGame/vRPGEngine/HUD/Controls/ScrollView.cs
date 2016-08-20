@@ -12,8 +12,9 @@ namespace vRPGEngine.HUD.Controls
         private IScrollViewView<T> view;
         #endregion
 
-        #region Properties
-
-        #endregion
+        public ScrollView()
+            : base()
+        {
+        }
     }
 }

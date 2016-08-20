@@ -12,13 +12,9 @@ namespace vRPGEngine.HUD.Interfaces
 {
     public delegate void ButtonMouseEventHandler(IButtonControl sender);
     
-    public interface IButtonControl
+    public interface IButtonControl : IMouseControl
     {
         #region Events
-        event ButtonMouseEventHandler OnMouseEnter;
-        event ButtonMouseEventHandler OnMouseLeave;
-        event ButtonMouseEventHandler OnMouseHover;
-
         event ButtonMouseEventHandler ButtonDown;
         event ButtonMouseEventHandler ButtonUp;
 

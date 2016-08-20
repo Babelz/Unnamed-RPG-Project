@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.HUD.Controls
 {
-    public interface IScrollViewView<T> where T : Control
+    public interface IScrollViewView<T>
     {
     }
 }

@@ -56,10 +56,12 @@
     <Compile Include="HUD\Controls\Button.cs" />
     <Compile Include="HUD\Controls\Icon.cs" />
     <Compile Include="HUD\Controls\IScrollViewView.cs" />
+    <Compile Include="HUD\Controls\MouseControlBase.cs" />
     <Compile Include="HUD\Controls\ScrollView.cs" />
     <Compile Include="HUD\Elements\BindButtonElement.cs" />
     <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
+    <Compile Include="HUD\Interfaces\IMouseControl.cs" />
     <Compile Include="Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
