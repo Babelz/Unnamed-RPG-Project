@@ -8,6 +8,7 @@ using vRPGEngine;
 using vRPGEngine.Graphics;
 using vRPGEngine.HUD;
 using vRPGEngine.HUD.Controls;
+using vRPGEngine.HUD.Elements;
 using vRPGEngine.Scenes;
 
 namespace RPGGame.Scenes
@@ -32,19 +33,29 @@ namespace RPGGame.Scenes
             label.Text              = "Hello, world!";
             label.AdjustTextSize    = false;
             label.Size              = new Vector2(0.25f);
+            label.Position          = new Vector2(500.0f);
 
             var button = new Button();
             button.Text     = "Paina minua lujaa";
             button.Position = new Vector2(1280 * 0.5f, 720 * 0.5f);
-            button.Size     = new Vector2(0.25f);
+            button.Size     = new Vector2(0.25f);;
 
-            button.ButtonPressed += delegate
+            var textElement = new TextScrollElement();
+            var textView = new ScrollView(textElement);
+            textView.Position = new Vector2(300.0f);
+            textView.Size = new Vector2(0.25f);
+
+            textElement.Text = string.Join(" ", Enumerable.Repeat("Hello, world!", 128));
+            textView.Invalidate();
+
+            button.ButtonDown += delegate
             {
-                root.Fill = new Color(vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255));
+                textView.ScrollVertical(textView.DisplaySize.Y / 10.0f);
             };
 
             root.Add(button);
             root.Add(label);
+            root.Add(textView);
 
             HUDRenderer.Instance.Root = root;
         }

@@ -91,8 +91,8 @@ namespace vRPGEngine.HUD.Controls
             switch (ButtonState)
             {
                 case ButtonControlState.Up:
-                    if (!isTriggerDown) ButtonUp?.Invoke(this);
-                    else                ButtonState = ButtonControlState.Pressed;
+                    if      (!isTriggerDown)  ButtonUp?.Invoke(this);
+                    else if (intersects)      ButtonState = ButtonControlState.Pressed;
                     break;
                 case ButtonControlState.Down:
                     if (isTriggerDown) ButtonDown?.Invoke(this);
