@@ -22,7 +22,7 @@ namespace RPGGame.Scenes
             Renderer.Instance.SetPresentationParameters(3200, 3200, 160, 160, 3, 3);
             Renderer.Instance.DynamicPadding = true;
 
-            Prefabs.Register();
+            Prefabs.Create();
             Layers.Create();
 
             TileMapManager.Instance.Load("test bed map");

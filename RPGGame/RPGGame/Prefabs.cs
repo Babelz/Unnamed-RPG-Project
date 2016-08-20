@@ -154,7 +154,7 @@ namespace RPGGame
             return sheep;
         }
 
-        public static void Register()
+        public static void Create()
         {
             var builder = EntityBuilder.Instance;
 

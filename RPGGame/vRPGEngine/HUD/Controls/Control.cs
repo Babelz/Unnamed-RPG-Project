@@ -109,7 +109,7 @@ namespace vRPGEngine.HUD.Controls
             {
                 return visible;
             }
-            set
+            private set
             {
                 visible = value;
 
@@ -122,7 +122,7 @@ namespace vRPGEngine.HUD.Controls
             {
                 return enabled;
             }
-            set
+            private set
             {
                 enabled = value;
 
@@ -276,6 +276,54 @@ namespace vRPGEngine.HUD.Controls
         }
         protected virtual void OnUpdate(GameTime gameTime)
         {
+        }
+
+        protected virtual void OnHide()
+        {
+        }
+        protected virtual void OnShow()
+        {
+        }
+
+        protected virtual void OnEnable()
+        {
+        }
+        protected virtual void OnDisable()
+        {
+        }
+
+        public void Show()
+        {
+            if (Visible) return;
+
+            Visible = true;
+
+            OnShow();
+        }
+        public void Hide()
+        {
+            if (!Visible) return;
+
+            Visible = false;
+
+            OnHide();
+        }
+
+        public void Disable()
+        {
+            if (!Enabled) return;
+
+            Enabled = false;
+
+            OnDisable(); 
+        }
+        public void Enable()
+        {
+            if (!Enabled) return;
+
+            Enabled = true;
+
+            OnEnable();
         }
 
         public void Invalidate()

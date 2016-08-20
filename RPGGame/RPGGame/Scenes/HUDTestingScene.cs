@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine;
 using vRPGEngine.Graphics;
 using vRPGEngine.HUD;
 using vRPGEngine.HUD.Controls;
@@ -36,7 +37,12 @@ namespace RPGGame.Scenes
             button.Text     = "Paina minua lujaa";
             button.Position = new Vector2(1280 * 0.5f, 720 * 0.5f);
             button.Size     = new Vector2(0.25f);
-            
+
+            button.ButtonPressed += delegate
+            {
+                root.Fill = new Color(vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255), vRPGRandom.NextInt(0, 255));
+            };
+
             root.Add(button);
             root.Add(label);
 

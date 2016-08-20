@@ -55,6 +55,8 @@
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />
     <Compile Include="HUD\Controls\Icon.cs" />
+    <Compile Include="HUD\Controls\IScrollViewView.cs" />
+    <Compile Include="HUD\Controls\ScrollView.cs" />
     <Compile Include="HUD\Elements\BindButtonElement.cs" />
     <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
