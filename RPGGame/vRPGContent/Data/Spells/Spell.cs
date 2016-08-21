@@ -31,6 +31,11 @@ namespace vRPGContent.Data.Spells
             get;
             set;
         }
+        public string DisplayInfo
+        {
+            get;
+            set;
+        }
         public Elements Element
         {
             get;

@@ -32,6 +32,7 @@
 			"ID": 			0,
 			"Name": 		"Battle shout",
 			"Description": 	"Increases melee attack power by 5% and health by 5%, lasts 30s",
+			"DisplayInfo":  "Melee attack power +5% and health +5%",
 			"Element": 		0,
 			"HandlerName": 	"BattleShout",
 			"IconName": 	"BattleShout",

@@ -65,6 +65,7 @@
     <Compile Include="HUD\Interfaces\IScrollViewElement.cs" />
     <Compile Include="HUD\HUDManager.cs" />
     <Compile Include="HUD\TextHelper.cs" />
+    <Compile Include="HUD\BackgroundTextureSplitter.cs" />
     <Compile Include="Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />

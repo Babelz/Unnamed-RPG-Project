@@ -99,7 +99,7 @@ namespace vRPGEngine.HUD
                 {
                     var icon = buffIcons[iconIndex++];
 
-                    icon.Position = positon - offset;
+                    icon.Position = new Vector2(positon.X - offset.X, positon.Y + offset.Y);
 
                     if (iconIndex == buffIcons.Count) return;
 
