@@ -10,6 +10,7 @@ using vRPGEngine.Attributes.Spells;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
+using vRPGEngine.Handlers.Spells;
 using vRPGEngine.HUD.Controls;
 
 namespace vRPGEngine.HUD
@@ -37,13 +38,16 @@ namespace vRPGEngine.HUD
 
         protected override void OnActivate()
         {
-            HUDRenderer.Instance.Root = new Panel();
+            var root        = new Panel();
+            root.Element    = null;
+
+            HUDRenderer.Instance.Root = root;
         }
         protected override void OnSuspend()
         {
             HUDRenderer.Instance.Root = null;
         }
-
+        
         public void Initialize(Entity player)
         {
             Debug.Assert(player != null);
@@ -71,12 +75,20 @@ namespace vRPGEngine.HUD
             SortIcons();
         }
         #endregion
+
+        private SelfBuffSpellHandler GetHandler(Buff buff)
+        {
+            return player.FirstComponentOfType<PlayerCharacterController>().Spells.FirstOrDefault(h => h.Spell.ID == buff.FromSpell.ID) as SelfBuffSpellHandler;
+        }
         
         private void SortIcons()
         {
+            if (buffIcons.Count == 0) return;
+
             var offset      = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
 
-            Vector2 positon = HUDRenderer.Instance.CanvasSize + (HUDRenderer.Instance.CanvasSize * IconSize);
+            Vector2 positon = HUDRenderer.Instance.CanvasSize - (HUDRenderer.Instance.CanvasSize * IconSize);
+            positon.X       -= offset.X;
             positon.Y       = offset.Y;
 
             var iconIndex   = 0;
@@ -102,15 +114,19 @@ namespace vRPGEngine.HUD
         {
             var icon     = new Icon();
             icon.Size    = new Vector2(IconSize);
-            icon.Content = buff;
+            icon.Content = GetHandler(buff);
         
             HUDRenderer.Instance.Root.Add(icon);
+
+            buffIcons.Add(icon);
         }
         private void RemoveIcon(Buff buff)
         {
-            var icon = buffIcons.First(i => ReferenceEquals(i.Content, buff));
+            var icon = buffIcons.First(i => ReferenceEquals(i.Content, GetHandler(buff)));
 
             HUDRenderer.Instance.Root.Remove(icon);
+
+            buffIcons.Remove(icon);
         }
     }
 }

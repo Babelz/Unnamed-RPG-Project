@@ -41,8 +41,6 @@ namespace vRPGEngine.HUD.Controls
                 element = value;
 
                 NotifyPropertyChanged("Element");
-
-                element.Invalidate(this);
             }
         }
 

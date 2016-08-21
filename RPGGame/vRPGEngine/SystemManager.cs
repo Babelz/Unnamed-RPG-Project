@@ -52,12 +52,10 @@ namespace vRPGEngine
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnActivate()
         {
-            SystemManagers.Instance.Register(this);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnSuspend()
         {
-            SystemManagers.Instance.Unregister(this);
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnUpdate(GameTime gameTime)
@@ -70,15 +68,19 @@ namespace vRPGEngine
 
             OnActivate();
 
-            Active = true; 
+            Active = true;
+
+            SystemManagers.Instance.Register(this);
         }
         public void Suspend()
         {
             if (!Active) return;
 
             OnSuspend();
-
+            
             Active = false;
+            
+            SystemManagers.Instance.Unregister(this);
         }
 
         public void Update(GameTime gameTime)

@@ -34,7 +34,7 @@
 			"Description": 	"Increases melee attack power by 5% and health by 5%, lasts 30s",
 			"Element": 		0,
 			"HandlerName": 	"BattleShout",
-			"IconName": 	"",
+			"IconName": 	"BattleShout",
 			"Cost":			10,
 			"CostType":		4,
 			"Consumes":		2,

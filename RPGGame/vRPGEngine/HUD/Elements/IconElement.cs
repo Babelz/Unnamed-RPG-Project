@@ -161,8 +161,9 @@ namespace vRPGEngine.HUD.Elements
             position = control.DisplaySize;
             size     = HUDRenderer.Instance.CanvasSize * 0.1f;
 
-            if (!control.ReadProperty("Font", ref font))       return;
-            if (!control.ReadProperty("Content", ref content)) return;
+            if (!control.ReadProperty("Font", ref font))             return;
+            if (!control.ReadProperty("Content", ref content))       return;
+            if (!control.ReadProperty("HoverState", ref hoverState)) return;
 
             if (content == null) return;
 
