@@ -13,6 +13,7 @@ using vRPGEngine.Graphics;
 using vRPGEngine.Input;
 using vRPGEngine.Maps;
 using vRPGEngine.Scenes;
+using System.Linq;
 
 namespace RPGGame
 {

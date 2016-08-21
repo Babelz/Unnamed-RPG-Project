@@ -67,15 +67,22 @@ namespace vRPGEngine.HUD
             var bottomLeftActionBarButtons = new List<BindButton>();
 
             var offset              = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
-            var bindingsPosition    = HUDRenderer.Instance.CanvasSize;
+            var bindingsPosition    = new Vector2(offset.X, HUDRenderer.Instance.CanvasSize.Y - offset.Y);
             var key                 = (int)Keys.D1;
-            bindingsPosition.X      = offset.X;
-            bindingsPosition.Y      -= offset.Y;
-
+            
             for (int i = 0; i < 8; i++)
             {
-                var bindButton  = new BindButton();
-                bindButton.Keys = (Keys)key++;
+                var bindButton          = new BindButton();
+                bindButton.Keys         = (Keys)key++;
+                bindButton.Size         = new Vector2(IconSize);
+
+                var position = bindingsPosition;
+                position.X += bindButton.DisplaySize.X;
+                position.Y -= bindButton.DisplaySize.Y;
+
+                bindButton.Position = position;
+
+                bindingsPosition.X -= offset.X - bindButton.DisplaySize.X;
 
                 bottomLeftActionBarButtons.Add(bindButton);
             }

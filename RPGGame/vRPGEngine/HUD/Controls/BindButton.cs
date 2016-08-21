@@ -145,7 +145,7 @@ namespace vRPGEngine.HUD.Controls
         
         protected override void OnInvalidate()
         {
-            if (element != null) element.Invalidate(this);
+             if (element != null) element.Invalidate(this);
         }
         protected override void OnRender(GameTime gameTime)
         {

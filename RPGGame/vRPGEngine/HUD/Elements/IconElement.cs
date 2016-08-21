@@ -262,13 +262,13 @@ namespace vRPGEngine.HUD.Elements
 
             if (content == null) return;
 
-            var buff = content as SelfBuffSpellHandler;
-            
-            if (buff != null) { handler = new BuffIconHandler(buff); return; }
-
             var spell = content as SpellHandler;
 
             if (spell != null) { handler = new SpellIconHandler(spell); return; }
+
+            var buff = content as SelfBuffSpellHandler;
+            
+            if (buff != null) { handler = new BuffIconHandler(buff); return; }
         }
 
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)

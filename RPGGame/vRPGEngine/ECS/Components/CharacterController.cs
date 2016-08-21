@@ -167,6 +167,7 @@ namespace vRPGEngine.ECS.Components
         }
         private void Instance_HostileRegistered()
         {
+            Console.WriteLine("ASD");
             EnterCombat();
         }
         #endregion
@@ -215,7 +216,7 @@ namespace vRPGEngine.ECS.Components
         {
             if (InCombat) return;
 
-            MeleeDamageController.EnterCombat();
+            MeleeDamageController?.EnterCombat();
             
             InCombat = true;
         }
@@ -223,7 +224,7 @@ namespace vRPGEngine.ECS.Components
         {
             if (!InCombat) return;
 
-            MeleeDamageController.EnterCombat();
+            MeleeDamageController?.LeaveCombat();
             
             InCombat = false;
         }
