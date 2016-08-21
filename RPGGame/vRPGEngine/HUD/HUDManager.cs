@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,7 @@ using vRPGEngine.Attributes;
 using vRPGEngine.Attributes.Spells;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Graphics;
 using vRPGEngine.HUD.Controls;
 
 namespace vRPGEngine.HUD
@@ -15,8 +17,9 @@ namespace vRPGEngine.HUD
     public sealed class HUDManager : SystemManager<HUDManager>
     {
         #region Constants
-        private const int BuffIconColumns = 10;
-        private const int BuffIconRows    = 3;
+        private const float IconSize        = 0.05f;
+        private const int BuffIconColumns   = 10;
+        private const int BuffIconRows      = 3;
         #endregion
 
         #region Fields
@@ -29,6 +32,16 @@ namespace vRPGEngine.HUD
         private HUDManager()
             : base()
         {
+            buffIcons = new List<Icon>();
+        }
+
+        protected override void OnActivate()
+        {
+            HUDRenderer.Instance.Root = new Panel();
+        }
+        protected override void OnSuspend()
+        {
+            HUDRenderer.Instance.Root = null;
         }
 
         public void Initialize(Entity player)
@@ -61,13 +74,43 @@ namespace vRPGEngine.HUD
         
         private void SortIcons()
         {
+            var offset      = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
+
+            Vector2 positon = HUDRenderer.Instance.CanvasSize + (HUDRenderer.Instance.CanvasSize * IconSize);
+            positon.Y       = offset.Y;
+
+            var iconIndex   = 0;
+            
+            for (int i = 0; i < BuffIconRows; i++)
+            {
+                for (int j = 0; j < BuffIconColumns; j++)
+                {
+                    var icon = buffIcons[iconIndex++];
+
+                    icon.Position = positon - offset;
+
+                    if (iconIndex == buffIcons.Count) return;
+
+                    positon.X -= offset.X - icon.DisplaySize.X;
+                }
+
+                positon.Y += offset.Y + HUDRenderer.Instance.CanvasSize.Y * IconSize;
+            }
         }
 
         private void AddIcon(Buff buff)
         {
+            var icon     = new Icon();
+            icon.Size    = new Vector2(IconSize);
+            icon.Content = buff;
+        
+            HUDRenderer.Instance.Root.Add(icon);
         }
         private void RemoveIcon(Buff buff)
         {
+            var icon = buffIcons.First(i => ReferenceEquals(i.Content, buff));
+
+            HUDRenderer.Instance.Root.Remove(icon);
         }
     }
 }
