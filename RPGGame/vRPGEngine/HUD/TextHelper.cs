@@ -34,8 +34,8 @@ namespace vRPGEngine.HUD
 
                 if (strSize.X + columnOffset >= maxWidth)
                 {
-                    if      (ch == '.')         { buffer.Append(ch); }
-                    else if (char.IsLetter(ch)) { buffer.Append('-'); i--; }
+                    if (char.IsLetter(ch)) { buffer.Append('-'); i--; }
+                    else                   { i--; }
 
                     TextLine line;
 

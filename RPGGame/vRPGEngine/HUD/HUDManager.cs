@@ -66,8 +66,8 @@ namespace vRPGEngine.HUD
             // Create bottom left action bar.
             var bottomLeftActionBarButtons = new List<BindButton>();
 
-            var offset              = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
-            var bindingsPosition    = new Vector2(offset.X, HUDRenderer.Instance.CanvasSize.Y - offset.Y);
+            var startPosition       = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
+            var bindingsPosition    = new Vector2(startPosition.X, HUDRenderer.Instance.CanvasSize.Y - startPosition.Y);
             var key                 = (int)Keys.D1;
             
             for (int i = 0; i < 8; i++)
@@ -82,7 +82,7 @@ namespace vRPGEngine.HUD
 
                 bindButton.Position = position;
 
-                bindingsPosition.X -= offset.X - bindButton.DisplaySize.X;
+                bindingsPosition.X += bindButton.DisplaySize.X;
 
                 bottomLeftActionBarButtons.Add(bindButton);
             }

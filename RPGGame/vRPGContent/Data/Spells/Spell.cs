@@ -90,5 +90,16 @@ namespace vRPGContent.Data.Spells
         {
             return Name.GetHashCode();
         }
+
+        public string CostDisplayString()
+        {
+            switch (CostType)
+            {
+                case SpellCostType.BasePercent:     return string.Format("Cost: {0}% of base {1}", Cost, Consumes.ToString().ToLower());
+                case SpellCostType.TotalPercent:    return string.Format("Cost: {0}% of total {1}", Cost, Consumes.ToString().ToLower());
+                case SpellCostType.Static:          return string.Format("Cost: {0} {1}", Cost, Consumes.ToString().ToLower());
+                default:                            return string.Empty;
+            }
+        }
     }
 }

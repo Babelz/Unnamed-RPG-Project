@@ -76,35 +76,29 @@ namespace vRPGEngine.HUD.Elements
 
                 splitter = new BackgroundTextureSplitter(3);
             }
+
             private void DrawInfo(SpriteFont font, SpriteBatch spriteBatch)
             {
                 const float ElementOffset = 16.0f;
                 
                 var canvasSize  = HUDRenderer.Instance.CanvasSize;
-                var lines       = TextHelper.GenerateLines(canvasSize * 0.25f, font, DisplayInfo).ToList();
+                var area        = HUDRenderer.Instance.CanvasSize * 0.25f;
+                var lines       = TextHelper.GenerateLines(area, font, DisplayInfo).ToList();
                 var textWidth   = lines.Max(l => l.Size.X);
-                var textHeight  = lines.Max(l => l.Size.Y);
+                var textHeight  = lines.Max(l => l.Size.Y + l.Position.Y) + ElementOffset * 2;
+
+                if (!string.IsNullOrEmpty(AdditionalDisplayInfo)) textHeight += ElementOffset + font.MeasureString(AdditionalDisplayInfo).Y;
                 
                 var textPosition = HUDInputManager.Instance.MousePosition;
                 textPosition.X   = MathHelper.Clamp(textPosition.X, 0.0f, canvasSize.X - textWidth);
                 textPosition.Y   = MathHelper.Clamp(textPosition.Y, 0.0f, canvasSize.Y - textHeight);
 
-                var target      = new Vector2(textWidth, textHeight);
-                var source      = new Vector2(Icon.Width, Icon.Height);
-                target.Y        += ElementOffset;
-
-                var scale       = target / source;
-
-                spriteBatch.Draw(Background,
-                                 textPosition - new Vector2(ElementOffset),
-                                 null,
-                                 null,
-                                 null,
-                                 0.0f,
-                                 scale,
-                                 Color.Wheat,
-                                 SpriteEffects.None,
-                                 0.0f);
+                spriteBatch.Draw(Background, 
+                                 new Rectangle((int)(textPosition.X - ElementOffset), 
+                                               (int)(textPosition.Y - ElementOffset), 
+                                               (int)(textWidth + ElementOffset * 2), 
+                                               (int)(textHeight + ElementOffset)), 
+                                 Color.Wheat);
 
                 spriteBatch.DrawString(font, Header, textPosition, Color.White);
 
@@ -112,15 +106,13 @@ namespace vRPGEngine.HUD.Elements
 
                 foreach (var line in lines)
                 {
-                    spriteBatch.DrawString(font, line.Contents, line.Position + textPosition, Color.White);
+                    textPosition += line.Position;
+
+                    spriteBatch.DrawString(font, line.Contents, textPosition, Color.White);
                 }
 
                 if (!string.IsNullOrEmpty(AdditionalDisplayInfo))
-                {
-                    textPosition.Y += ElementOffset;
-
-                    spriteBatch.DrawString(font, AdditionalDisplayInfo, new Vector2(textPosition.X, textHeight + textPosition.Y + font.MeasureString(AdditionalDisplayInfo).Y), Color.White);
-                }
+                    spriteBatch.DrawString(font, AdditionalDisplayInfo, new Vector2(textPosition.X, textPosition.Y + font.MeasureString(AdditionalDisplayInfo).Y), Color.White);
             }
             private void DrawIcon(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
             {
@@ -197,7 +189,7 @@ namespace vRPGEngine.HUD.Elements
             {
                 get
                 {
-                    return "COST: NAN";
+                    return Handler.Spell.CostDisplayString();
                 }
             }
             protected override string DisplayInfo
@@ -247,28 +239,37 @@ namespace vRPGEngine.HUD.Elements
         public IconElement()
         {
         }
-        
+
         public void Invalidate(Control control)
         {
             Debug.Assert(content != null);
 
-            handler  = null;
+            handler = null;
             position = control.DisplayPosition;
-            size     = control.DisplaySize;
+            size = control.DisplaySize;
 
-            if (!control.ReadProperty("Font", ref font))             return;
-            if (!control.ReadProperty("Content", ref content))       return;
+            if (!control.ReadProperty("Font", ref font)) return;
+            if (!control.ReadProperty("Content", ref content)) return;
             if (!control.ReadProperty("HoverState", ref hoverState)) return;
 
             if (content == null) return;
 
-            var spell = content as SpellHandler;
+            if (content.GetType().BaseType == typeof(SpellHandler) || content.GetType().BaseType == typeof(MeleeSpellHandler))
+            {
+                handler = new SpellIconHandler(content as SpellHandler);
 
-            if (spell != null) { handler = new SpellIconHandler(spell); return; }
+                return;
+            }
 
-            var buff = content as SelfBuffSpellHandler;
-            
-            if (buff != null) { handler = new BuffIconHandler(buff); return; }
+            if (content.GetType().BaseType == typeof(SelfBuffSpellHandler))
+            {
+                var buffHandler = content as SelfBuffSpellHandler;
+
+                if (!buffHandler.Working) handler = new SpellIconHandler(buffHandler);
+                else handler = new BuffIconHandler(buffHandler);
+
+                return;
+            }
         }
 
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)
