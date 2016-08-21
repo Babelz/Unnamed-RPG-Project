@@ -27,10 +27,11 @@ namespace vRPGEngine.Attributes.Specializations
         public Warrior(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
             : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior"), attributes, statuses)
         {
-            Equipments = equipments;
-            this.damageController = damageController;
-
-            EnduranceToFocusRation = 1;
+            Equipments               = equipments;
+            this.damageController    = damageController;
+            EnduranceToFocusRation   = 1;
+            
+            damageController.OnSwing += DamageController_OnSwing;
         }
 
         #region Event handlers

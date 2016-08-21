@@ -258,8 +258,6 @@ namespace vRPGEngine.Handlers.Spells
             if (!Working) return;
 
             Working = Tick(gameTime);
-
-            if (!Working) Toggle(User);
         }
     }
 

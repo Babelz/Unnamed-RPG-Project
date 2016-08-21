@@ -48,7 +48,7 @@ namespace vRPGEngine.HUD.Controls
         private readonly string bindingName;
 
         private ICommand command;
-        private IconElement element;
+        private IDisplayElement element;
 
         private SpriteFont font;
         private object content;
@@ -100,7 +100,7 @@ namespace vRPGEngine.HUD.Controls
                 NotifyPropertyChanged("Font");
             }
         }
-        public IconElement Element
+        public IDisplayElement Element
         {
             get
             {
@@ -120,9 +120,8 @@ namespace vRPGEngine.HUD.Controls
         {
             bindingName = string.Format("{0}:{1}", Name, idc++);
             font        = DefaultValues.DefaultFont;
-            element     = new IconElement();
 
-            RegisterProperty("Element", () => Element, (o) => Element = (IconElement)o);
+            RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
             RegisterProperty("Content", () => Content, (o) => Content = o);
             RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
 

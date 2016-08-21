@@ -152,14 +152,8 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
-            Buffs           = new BuffContainer();
-            TargetFinder    = new TargetFinder();
-            Spells          = new List<SpellHandler>();
-
-            CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
-            CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
         }
-
+        
         #region Events
         private void Instance_HostilesEmpty()
         {
@@ -167,7 +161,6 @@ namespace vRPGEngine.ECS.Components
         }
         private void Instance_HostileRegistered()
         {
-            Console.WriteLine("ASD");
             EnterCombat();
         }
         #endregion
@@ -179,6 +172,13 @@ namespace vRPGEngine.ECS.Components
             Debug.Assert(equipments != null);
             Debug.Assert(meleeDamageController != null);
 
+            Buffs           = new BuffContainer();
+            TargetFinder    = new TargetFinder();
+            Spells          = new List<SpellHandler>();
+
+            CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
+            CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
+        
             Specialization          = specialization;
             Attributes              = attributes;
             Equipments              = equipments;
@@ -215,18 +215,18 @@ namespace vRPGEngine.ECS.Components
         public void EnterCombat()
         {
             if (InCombat) return;
-
-            MeleeDamageController?.EnterCombat();
             
             InCombat = true;
+
+            MeleeDamageController?.EnterCombat();
         }
         public void LeaveCombat()
         {
             if (!InCombat) return;
-
-            MeleeDamageController?.LeaveCombat();
             
             InCombat = false;
+
+            MeleeDamageController?.LeaveCombat();
         }
     }
 

@@ -68,10 +68,9 @@ namespace vRPGEngine.HUD.Controls
         public Icon()
             : base()
         {
-            element = new IconElement();
             font    = DefaultValues.DefaultFont;
 
-            RegisterProperty("Element", () => Element, (o) => Element = (IconElement)o);
+            RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
             RegisterProperty("Content", () => Content, (o) => Content = o);
             RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
 

@@ -13,6 +13,7 @@ using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.HUD.Controls;
+using vRPGEngine.HUD.Elements;
 
 namespace vRPGEngine.HUD
 {
@@ -82,6 +83,8 @@ namespace vRPGEngine.HUD
 
                 bindButton.Position = position;
 
+                bindButton.Element = new IconElement(new SpellIconHandler());
+
                 bindingsPosition.X += bindButton.DisplaySize.X;
 
                 bottomLeftActionBarButtons.Add(bindButton);
@@ -147,6 +150,7 @@ namespace vRPGEngine.HUD
         {
             var icon     = new Icon();
             icon.Size    = new Vector2(IconSize);
+            icon.Element = new IconElement(new BuffIconHandler());
             icon.Content = GetHandler(buff);
         
             HUDRenderer.Instance.Root.Add(icon);

@@ -5,7 +5,7 @@
 			"Name":			"Warrior",
 		 	"Description":	"Balanced melee specialization",
 		 	"Buffs:": 		[ 0, 1, 2, 3, 4, 5 ],
-		 	"Spells":		[ 0, 1, 2 ],
+		 	"Spells":		[ 0, 1, 2, 10 ],
 		 	"BaseStamina": 1,
 		 	"BaseIntellect": 5,
 		 	"BaseEndurance": 1,
