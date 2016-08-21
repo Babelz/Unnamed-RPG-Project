@@ -43,7 +43,7 @@ namespace RPGGame
         {
             Engine.Instance.Initialize(graphics);
             
-            SceneManager.Instance.ChangeScene(new HUDTestingScene());
+            SceneManager.Instance.ChangeScene(new GameplayTestingScene());
         }
 
         protected override void Update(GameTime gameTime)

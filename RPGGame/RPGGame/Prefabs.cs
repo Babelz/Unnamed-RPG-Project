@@ -19,6 +19,7 @@ using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.NPC;
 using vRPGEngine.Handlers.Spells;
+using vRPGEngine.HUD;
 using vRPGEngine.Input;
 
 namespace RPGGame
@@ -125,6 +126,8 @@ namespace RPGGame
             
             Renderer.Instance.RegisterView(view);
 
+            HUDManager.Instance.Initialize(player);
+
             return player;
         }
 
@@ -150,7 +153,7 @@ namespace RPGGame
             rendrer.Sprite.Layer    = Layers.Middle;
             rendrer.Sprite.Texture  = Engine.Instance.Content.Load<Texture2D>("sheep");
             rendrer.Sprite.Source   = new Rectangle(0, 0, 32, 32);
-            
+
             return sheep;
         }
 

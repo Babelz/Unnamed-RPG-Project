@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.HUD.Controls;
+using System.Diagnostics;
 
 namespace vRPGEngine.HUD.Elements
 {
@@ -37,6 +38,8 @@ namespace vRPGEngine.HUD.Elements
 
         public void Invalidate(Control control)
         {
+            Debug.Assert(control != null);
+
             ButtonControlState state = ButtonControlState.Up;
 
             if (control.ReadProperty("ButtonState", ref state))

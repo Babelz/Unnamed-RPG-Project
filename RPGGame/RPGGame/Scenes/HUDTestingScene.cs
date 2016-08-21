@@ -40,12 +40,12 @@ namespace RPGGame.Scenes
             button.Position = new Vector2(1280 * 0.5f, 720 * 0.5f);
             button.Size     = new Vector2(0.25f);;
 
-            var textElement = new TextScrollElement();
+            var textElement = new TextScrollViewElement();
             var textView = new ScrollView(textElement);
             textView.Position = new Vector2(300.0f);
             textView.Size = new Vector2(0.25f);
 
-            textElement.Text = string.Join(" ", Enumerable.Repeat("Hello, world!", 128));
+            textElement.Text = string.Join(" ", Enumerable.Repeat("Suka blyet idi eemil nahhui", 128));
             textView.Invalidate();
 
             button.ButtonDown += delegate

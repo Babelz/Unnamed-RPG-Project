@@ -58,10 +58,13 @@
     <Compile Include="HUD\Controls\ScrollView.cs" />
     <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\Elements\IconElement.cs" />
-    <Compile Include="HUD\Elements\TextScrollElement.cs" />
+    <Compile Include="HUD\Elements\IContentDisplayElement.cs" />
+    <Compile Include="HUD\Elements\TextScrollViewElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
     <Compile Include="HUD\Interfaces\IMouseControl.cs" />
     <Compile Include="HUD\Interfaces\IScrollViewElement.cs" />
+    <Compile Include="HUD\HUDManager.cs" />
+    <Compile Include="HUD\TextHelper.cs" />
     <Compile Include="Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />

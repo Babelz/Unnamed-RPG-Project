@@ -46,7 +46,7 @@ namespace vRPGEngine.HUD.Controls
 
         private void UpdateHoverState()
         {
-            var intersects = HUDInputManager.Instance.Intersects(DisplayBounds);
+            var intersects = HUDInputManager.Instance.MouseIntersects(DisplayBounds);
 
             switch (HoverState)
             {

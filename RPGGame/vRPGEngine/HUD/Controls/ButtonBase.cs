@@ -85,8 +85,8 @@ namespace vRPGEngine.HUD.Controls
 
         private void UpdateButtonState()
         {
-            var isTriggerDown = HUDInputManager.Instance.PressedButtons.Contains(Trigger);
-            var intersects    = HUDInputManager.Instance.Intersects(DisplayBounds);
+            var isTriggerDown = HUDInputManager.Instance.PressedMouseButtons.Contains(Trigger);
+            var intersects    = HUDInputManager.Instance.MouseIntersects(DisplayBounds);
 
             switch (ButtonState)
             {

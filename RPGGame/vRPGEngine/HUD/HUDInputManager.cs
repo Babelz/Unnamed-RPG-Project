@@ -16,7 +16,7 @@ namespace vRPGEngine.HUD
         #endregion
 
         #region Properties
-        public IEnumerable<MouseButton> PressedButtons
+        public IEnumerable<MouseButton> PressedMouseButtons
         {
             get
             {
@@ -27,14 +27,14 @@ namespace vRPGEngine.HUD
                 if (ms.XButton2 == ButtonState.Pressed)       yield return MouseButton.XButton2;
             }
         }
-        public Vector2 Position
+        public Vector2 MousePosition
         {
             get
             {
                 return new Vector2(ms.Position.X, ms.Position.Y);
             }
         }
-        public int ScrollValue
+        public int MouseScrollValue
         {
             get
             {
@@ -53,11 +53,11 @@ namespace vRPGEngine.HUD
             ms = Mouse.GetState();
         }
 
-        public bool Intersects(Rectf displayBounds)
+        public bool MouseIntersects(Rectf displayBounds)
         {
             Rectf mouseBounds;
 
-            mouseBounds.Position    = Position;
+            mouseBounds.Position    = MousePosition;
             mouseBounds.Size        = new Vector2(1.0f);
 
             return displayBounds.Intersects(mouseBounds);

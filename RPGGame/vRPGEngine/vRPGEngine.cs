@@ -201,6 +201,7 @@ namespace vRPGEngine
                 RPGWorld.Instance.Activate();
                 HUDInputManager.Instance.Activate();
                 HUDRenderer.Instance.Activate();
+                HUDManager.Instance.Activate();
                 SceneManager.Instance.Activate();
 
                 ActivateDebugRenderer();

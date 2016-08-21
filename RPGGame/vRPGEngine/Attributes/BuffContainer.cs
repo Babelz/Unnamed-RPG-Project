@@ -9,6 +9,8 @@ using vRPGEngine.Attributes.Spells;
 
 namespace vRPGEngine.Attributes
 {
+    public delegate void BuffContainerBuffEventHandler(BuffContainer sender, Buff buff);
+
     public sealed class BuffContainer
     {
         #region Constants
@@ -26,6 +28,11 @@ namespace vRPGEngine.Attributes
         private readonly List<Buff> buffs;
 
         private int[] counts;
+        #endregion
+
+        #region Events
+        public event BuffContainerBuffEventHandler BuffAdded;
+        public event BuffContainerBuffEventHandler BuffRemoved;
         #endregion
 
         #region Properties
@@ -85,6 +92,8 @@ namespace vRPGEngine.Attributes
                 buffs.Add(buff);
 
                 counts[(int)buff.Type]++;
+                
+                BuffAdded?.Invoke(this, buff);   
             }
 
             return add;
@@ -98,6 +107,8 @@ namespace vRPGEngine.Attributes
             {
                 counts[(int)buff.Type]--;
 
+                BuffRemoved?.Invoke(this, buff);
+                
                 return true;
             }
 

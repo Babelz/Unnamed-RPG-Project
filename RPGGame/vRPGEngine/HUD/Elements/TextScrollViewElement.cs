@@ -8,17 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.HUD.Controls;
 using vRPGEngine.HUD.Interfaces;
 using System.IO;
+using System.Diagnostics;
 
 namespace vRPGEngine.HUD.Elements
 {
-    public struct TextLine
-    {
-        public Vector2 Position;
-        public Vector2 Size;
-        public string Contents;
-    }
-
-    public sealed class TextScrollElement : IScrollViewElement
+    public sealed class TextScrollViewElement : IScrollViewElement
     {
         #region Fields
         private SpriteBatch spritebatch;
@@ -95,60 +89,12 @@ namespace vRPGEngine.HUD.Elements
         }
         #endregion
 
-        public TextScrollElement()
+        public TextScrollViewElement()
         {
             font            = DefaultValues.DefaultFont;
             spritebatch     = new SpriteBatch(Engine.Instance.GraphicsDevice);
             textColor       = Color.Black;
             backgroundColor = Color.White;
-        }
-
-        private IEnumerable<TextLine> GenerateLines()
-        {
-            var maxWidth             = size.X;
-            var textSize             = font.MeasureString(text);
-            var linesCount           = (int)Math.Round(textSize.X / maxWidth, 0);
-            var lineWidth            = maxWidth / linesCount;
-            var buffer               = new StringBuilder();
-            var WidthOff             = 8.0f;
-            var row                  = 0.0f;
-            var rowOffset            = 0.0f;
-
-            for (int i = 0; i < text.Length; i++)
-            {
-                var ch      = text[i];
-                var str     = buffer.ToString();
-                var strSize = font.MeasureString(str);
-
-                if (strSize.X + WidthOff >= maxWidth)
-                {
-                    if      (ch == '.')         { buffer.Append(ch); }
-                    else if (char.IsLetter(ch)) { buffer.Append('-'); i--; }
-                    
-                    TextLine line;
-
-                    line.Position = new Vector2(0.0f, row + rowOffset);
-                    line.Contents = buffer.ToString();
-                    line.Size     = font.MeasureString(line.Contents);
-
-                    row += line.Size.Y;
-
-                    buffer.Clear();
-
-                    yield return line;
-                    
-                    continue;
-                }
-                    
-                buffer.Append(ch);
-            }
-
-            TextLine lastLine;
-            lastLine.Position = new Vector2(0.0f, row + rowOffset);
-            lastLine.Contents = buffer.ToString();
-            lastLine.Size     = font.MeasureString(lastLine.Contents);
-
-            if (!string.IsNullOrEmpty(lastLine.Contents)) yield return lastLine;
         }
 
         private void InvalidateRenderTarget(int width, int height)
@@ -190,12 +136,14 @@ namespace vRPGEngine.HUD.Elements
 
         public void Invalidate(Control control)
         {
+            Debug.Assert(control != null);
+
             position    = control.DisplayPosition;
             size        = control.DisplaySize;
 
             if (string.IsNullOrEmpty(text)) return;
-            
-            var lines = GenerateLines().ToList();
+
+            var lines = TextHelper.GenerateLines(size, font, text).ToList();
 
             var width  = (int)lines.Max(l => l.Size.X);
             var height = (int)lines.Max(l => l.Position.Y + l.Size.Y);

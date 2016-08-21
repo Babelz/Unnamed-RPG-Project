@@ -24,7 +24,7 @@ namespace vRPGEngine.Handlers.Spells
             #endregion
 
             public BattleShoutBuff() 
-                : base(TimeConverter.ToMilliseconds(30.0f), false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
+                : base(0, false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
             {
             }
 
@@ -34,7 +34,7 @@ namespace vRPGEngine.Handlers.Spells
 
                 character.Attributes.HealthPercentModifier      += Value;
                 character.Attributes.MeeleePowerPercentModifier += Value;
-            }
+            }   
             public override void Remove(Entity user)
             {
                 var character = user.FirstComponentOfType<ICharacterController>();
@@ -58,9 +58,9 @@ namespace vRPGEngine.Handlers.Spells
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
         }
-        protected override void UseIfCan()
+        protected override Buff UseIfCan()
         {
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return;
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return null;
 
             var buff = new BattleShoutBuff();
 
@@ -69,6 +69,8 @@ namespace vRPGEngine.Handlers.Spells
             UserController.Buffs.Add(buff);
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
+
+            return buff;
         }
         
         public override object Clone()

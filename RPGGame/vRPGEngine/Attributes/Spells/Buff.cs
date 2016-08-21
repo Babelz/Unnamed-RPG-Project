@@ -18,26 +18,15 @@ namespace vRPGEngine.Attributes.Spells
             get;
             private set;
         }
+        public int TickTime
+        {
+            get;
+            private set;
+        }
         public int TickTimer
         {
             get;
             private set;
-        }
-        public int Time
-        {
-            get;
-            private set;
-        }
-        public int TimeLeft
-        {
-            get
-            {
-                var value = Time - Elapsed;
-
-                if (value < 0) return 0;
-
-                return value;
-            }
         }
         public bool CanStack
         {
@@ -68,9 +57,9 @@ namespace vRPGEngine.Attributes.Spells
         }
         #endregion
 
-        protected Buff(int time, bool canStack, bool doesTick, Spell fromSpell, BuffType type)
+        protected Buff(int tickTime, bool canStack, bool doesTick, Spell fromSpell, BuffType type)
         {
-            Time        = time;
+            TickTime    = tickTime;
             FromSpell   = fromSpell;
             CanStack    = canStack;
             DoesTick    = doesTick;

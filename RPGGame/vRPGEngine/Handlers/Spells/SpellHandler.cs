@@ -340,6 +340,8 @@ namespace vRPGEngine.Handlers.Spells
     {
         #region Fields
         private readonly IRenderable renderable;
+        
+        private Buff buff;
         #endregion
 
         #region Properties
@@ -382,8 +384,16 @@ namespace vRPGEngine.Handlers.Spells
         protected virtual void RefreshIfCan(Buff buff)
         {
         }
-        protected virtual void UseIfCan()
+        protected virtual Buff UseIfCan()
         {
+            return null;
+        }
+
+        public void Remove()
+        {
+            UserController.Buffs.Remove(buff);
+
+            buff.Remove(User);
         }
 
         public override void Use(Entity user)
@@ -396,10 +406,18 @@ namespace vRPGEngine.Handlers.Spells
 
             if (Spell.Cooldown != 0) InCooldown = true;
 
-            var buff = UserController.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
+            buff = UserController.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
 
-            if (buff != null)   RefreshIfCan(buff);
-            else                UseIfCan();
+            if (buff != null)
+            {
+                RefreshIfCan(buff);
+            }
+            else
+            {
+                buff = UseIfCan();
+
+                if (buff == null) Working = false;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -415,9 +433,16 @@ namespace vRPGEngine.Handlers.Spells
                 }
             }
 
+            if (!Working) return;
+
             Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (Elapsed > DecayTime) Working = false;
+            if (Elapsed > DecayTime)
+            {
+                Remove();
+
+                Working = false;
+            }
         }
 
         public override void Present(SpriteBatch spriteBatch, GameTime gameTime)

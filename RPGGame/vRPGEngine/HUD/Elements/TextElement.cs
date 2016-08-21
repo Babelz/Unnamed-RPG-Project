@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.HUD.Controls;
+using System.Diagnostics;
 
 namespace vRPGEngine.HUD.Elements
 {
@@ -28,6 +29,8 @@ namespace vRPGEngine.HUD.Elements
 
         public void Invalidate(Control control)
         {
+            Debug.Assert(control != null);
+
             if (!control.ReadProperty("Text", ref text))             text      = string.Empty;
             if (!control.ReadProperty("Font", ref font))             font      = DefaultValues.DefaultFont;
             if (!control.ReadProperty("TextColor", ref textColor))   textColor = Color.White;
