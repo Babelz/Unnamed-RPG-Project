@@ -47,6 +47,7 @@
 			"Name": 		"Taste for blood",
 			"Description": 	"Next 3 melee attacks regenerate 3% of your total health and deal 75% of your 
 							 weapon damage + 10% of your total melee power",
+			"DisplayInfo":	"Attacks regenerate health and deal 75% of weapon damage + 10% of your total melee power",
 			"Element": 		0,
 			"HandlerName": 	"TasteForBlood",
 			"IconName": 	"",
@@ -161,9 +162,9 @@
 			"ID": 			9,
 			"Name": 		"Auto attack",
 			"Description":	"Deals weapon damage + 25% of your melee power",
+			"IconName":		"AutoAttack",
 			"Element": 		0,
 			"HandlerName": 	"AutoAttack",
-			"IconName": 	"",
 			"Range":		0.5
 		}
 	]

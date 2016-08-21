@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +27,8 @@ namespace vRPGEngine.HUD
         #region Fields
         private readonly List<Icon> buffIcons;
 
+        private Panel root;
+
         private PlayerCharacterController controller;
         private Entity player;
         #endregion
@@ -38,7 +41,7 @@ namespace vRPGEngine.HUD
 
         protected override void OnActivate()
         {
-            var root        = new Panel();
+            root            = new Panel();
             root.Element    = null;
 
             HUDRenderer.Instance.Root = root;
@@ -56,9 +59,32 @@ namespace vRPGEngine.HUD
             this.player = player;
 
             controller  = player.FirstComponentOfType<PlayerCharacterController>();
-
+            
             controller.Buffs.BuffAdded   += Buffs_BuffAdded;
             controller.Buffs.BuffRemoved += Buffs_BuffRemoved;
+
+            // Create bottom left action bar.
+            var bottomLeftActionBarButtons = new List<BindButton>();
+
+            var offset              = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
+            var bindingsPosition    = HUDRenderer.Instance.CanvasSize;
+            var key                 = (int)Keys.D1;
+            bindingsPosition.X      = offset.X;
+            bindingsPosition.Y      -= offset.Y;
+
+            for (int i = 0; i < 8; i++)
+            {
+                var bindButton  = new BindButton();
+                bindButton.Keys = (Keys)key++;
+
+                bottomLeftActionBarButtons.Add(bindButton);
+            }
+
+            var buttonIndex = 0;
+
+            foreach (var spell in controller.Spells) bottomLeftActionBarButtons[buttonIndex++].Content = spell;
+
+            foreach (var button in bottomLeftActionBarButtons) root.Add(button);
         }
 
         #region Event handlers

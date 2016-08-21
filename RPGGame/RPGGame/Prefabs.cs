@@ -102,15 +102,6 @@ namespace RPGGame
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });
 
-            kip.Bind("auto_attack", Keys.D1, KeyTrigger.Pressed, () =>
-            {
-                controller.Spells.FirstOrDefault(s => s.Spell.Name == "Auto attack").Use(player);
-            });
-            kip.Bind("battle_shout", Keys.D2, KeyTrigger.Pressed, () =>
-            {
-                controller.Spells.FirstOrDefault(s => s.Spell.Name == "Battle shout").Use(player);
-            });
-
             kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
             kip.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= zoomStep);
 

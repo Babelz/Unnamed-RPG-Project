@@ -45,8 +45,6 @@ namespace vRPGEngine.HUD.Elements
         {
             #region Fields
             private readonly BackgroundTextureSplitter splitter;
-
-            private T handler;
             #endregion
 
             #region Properties
@@ -74,7 +72,7 @@ namespace vRPGEngine.HUD.Elements
             {
                 Debug.Assert(handler != null);
 
-                this.handler = handler;
+                Handler = handler;
 
                 splitter = new BackgroundTextureSplitter(3);
             }
@@ -267,6 +265,10 @@ namespace vRPGEngine.HUD.Elements
             var buff = content as SelfBuffSpellHandler;
             
             if (buff != null) { handler = new BuffIconHandler(buff); return; }
+
+            var spell = content as SpellHandler;
+
+            if (spell != null) { handler = new SpellIconHandler(spell); return; }
         }
 
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)

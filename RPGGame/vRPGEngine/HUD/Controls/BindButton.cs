@@ -1,40 +1,62 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Commands;
+using vRPGEngine.ECS;
+using vRPGEngine.Graphics;
+using vRPGEngine.Handlers.Spells;
 using vRPGEngine.HUD.Elements;
+using vRPGEngine.Input;
 
 namespace vRPGEngine.HUD.Controls
 {
     public sealed class BindButton : ButtonBase
     {
+        #region Bind button commands
+        private sealed class SpellCommand : ICommand
+        {
+            #region Fields
+            private readonly SpellHandler handler;
+            #endregion
+
+            public SpellCommand(SpellHandler handler)
+                : base()
+            {
+                Debug.Assert(handler != null);
+
+                this.handler = handler;
+            }
+            
+            public void Execute()
+            {
+                handler.Use(EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player"));
+            }
+        }
+        #endregion
+
+        #region Static fields
+        private static int idc;
+        #endregion
+        
         #region Fields
-        private readonly BindButtonElement button;
+        private readonly string bindingName;
 
-        private readonly IconElement icon;
+        private ICommand command;
+        private IconElement element;
 
+        private SpriteFont font;
         private object content;
+
         private Keys keys;
         #endregion
 
         #region Properties
-        public object Content
-        {
-            get
-            {
-                return content;
-            }
-
-            set
-            {
-                content = value;
-
-                NotifyPropertyChanged("Content");
-            }
-        }
-
         public Keys Keys
         {
             get
@@ -47,6 +69,48 @@ namespace vRPGEngine.HUD.Controls
                 keys = value;
 
                 NotifyPropertyChanged("Keys");
+
+                Rebind();
+            }
+        }
+
+        public object Content
+        {
+            get
+            {
+                return content;
+            }
+            set
+            {
+                content = value;
+
+                NotifyPropertyChanged("Content");
+            }
+        }
+        public SpriteFont Font
+        {
+            get
+            {
+                return font;
+            }
+            set
+            {
+                font = value;
+
+                NotifyPropertyChanged("Font");
+            }
+        }
+        public IconElement Element
+        {
+            get
+            {
+                return element;
+            }
+            set
+            {
+                element = value;
+
+                NotifyPropertyChanged("Element");
             }
         }
         #endregion
@@ -54,10 +118,67 @@ namespace vRPGEngine.HUD.Controls
         public BindButton()
             : base()
         {
+            bindingName = string.Format("{0}:{1}", Name, idc++);
+            font        = DefaultValues.DefaultFont;
+            element     = new IconElement();
+
+            RegisterProperty("Element", () => Element, (o) => Element = (IconElement)o);
+            RegisterProperty("Content", () => Content, (o) => Content = o);
+            RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
+
+            PropertyChanged += BindButton_PropertyChanged;
+            ButtonPressed   += BindButton_ButtonPressed;
         }
-        
-        public void Use()
+
+        #region Event handlers
+        private void BindButton_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
+            Invalidate();
+
+            if (args.PropertyName == "Content") InvalidateCommand();
+        }
+        private void BindButton_ButtonPressed(Interfaces.IButtonControl sender)
+        {
+            Use();
+        }
+        #endregion
+        
+        protected override void OnInvalidate()
+        {
+            if (element != null) element.Invalidate(this);
+        }
+        protected override void OnRender(GameTime gameTime)
+        {
+            if (element != null) HUDRenderer.Instance.Present(element);
+        }
+
+        private void InvalidateCommand()
+        {
+            if (content == null)
+            {
+                command = null;
+
+                return;
+            }
+
+            var spell = content as SpellHandler;
+
+            if (spell != null) command = new SpellCommand(spell);
+        }
+
+        private void Use()
+        {
+            if (command == null) return;
+
+            command.Execute();
+        }
+
+        private void Rebind()
+        {
+            var kb = InputManager.Instance.GetProvider<KeyboardInputProvider>();
+
+            kb.Unbind(bindingName);
+            kb.Bind(bindingName, Keys, KeyTrigger.Pressed, Use);
         }
     }
 }

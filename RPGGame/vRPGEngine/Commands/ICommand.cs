@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine.HUD.Elements
+namespace vRPGEngine.Commands
 {
-    class BindButtonElement
+    public interface ICommand
     {
+        void Execute();
     }
 }
