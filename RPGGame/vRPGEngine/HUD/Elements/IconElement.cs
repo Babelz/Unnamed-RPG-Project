@@ -41,84 +41,144 @@ namespace vRPGEngine.HUD.Elements
             public abstract void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState);
         }
 
-        private sealed class BuffIconHandler : IconElementHandler
+        private abstract class SpellIconHandler<T> : IconElementHandler where T : class
         {
             #region Fields
             private readonly BackgroundTextureSplitter splitter;
-            private readonly SelfBuffSpellHandler handler;
+
+            private T handler;
             #endregion
 
-            public BuffIconHandler(SelfBuffSpellHandler handler)
+            #region Properties
+            protected T Handler
+            {
+                get;
+                private set;
+            }
+            protected abstract string Header
+            {
+                get;
+            }
+            protected abstract string DisplayInfo
+            {
+                get;
+            }
+            protected abstract string AdditionalDisplayInfo
+            {
+                get;
+            }
+            #endregion
+
+            public SpellIconHandler(T handler)
                 : base()
             {
                 Debug.Assert(handler != null);
 
                 this.handler = handler;
 
-                Icon         = Engine.Instance.Content.Load<Texture2D>(handler.Spell.IconName);
                 splitter = new BackgroundTextureSplitter(3);
             }
+            private void DrawInfo(SpriteFont font, SpriteBatch spriteBatch)
+            {
+                const float ElementOffset = 16.0f;
+                
+                var canvasSize  = HUDRenderer.Instance.CanvasSize;
+                var lines       = TextHelper.GenerateLines(canvasSize * 0.25f, font, DisplayInfo).ToList();
+                var textWidth   = lines.Max(l => l.Size.X);
+                var textHeight  = lines.Max(l => l.Size.Y);
+                
+                var textPosition = HUDInputManager.Instance.MousePosition;
+                textPosition.X   = MathHelper.Clamp(textPosition.X, 0.0f, canvasSize.X - textWidth);
+                textPosition.Y   = MathHelper.Clamp(textPosition.Y, 0.0f, canvasSize.Y - textHeight);
 
-            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
+                var target      = new Vector2(textWidth, textHeight);
+                var source      = new Vector2(Icon.Width, Icon.Height);
+                target.Y        += ElementOffset;
+
+                var scale       = target / source;
+
+                spriteBatch.Draw(Background,
+                                 textPosition - new Vector2(ElementOffset),
+                                 null,
+                                 null,
+                                 null,
+                                 0.0f,
+                                 scale,
+                                 Color.Wheat,
+                                 SpriteEffects.None,
+                                 0.0f);
+
+                spriteBatch.DrawString(font, Header, textPosition, Color.White);
+
+                textPosition.Y += font.MeasureString(Header).Y + ElementOffset;
+
+                foreach (var line in lines)
+                {
+                    spriteBatch.DrawString(font, line.Contents, line.Position + textPosition, Color.White);
+                }
+
+                if (!string.IsNullOrEmpty(AdditionalDisplayInfo))
+                {
+                    textPosition.Y += ElementOffset;
+
+                    spriteBatch.DrawString(font, AdditionalDisplayInfo, new Vector2(textPosition.X, textHeight + textPosition.Y + font.MeasureString(AdditionalDisplayInfo).Y), Color.White);
+                }
+            }
+            private void DrawIcon(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
             {
                 var iconScale   = size;
                 iconScale.X     /= Icon.Width;
                 iconScale.Y     /= Icon.Height;
-                
+
                 foreach (var part in splitter.Split(Icon))
                 {
-                    var partPosition     = new Vector2(part.X * iconScale.X, part.Y * iconScale.Y) + position;
-                    var partSize         = new Vector2(part.Width * iconScale.X, part.Height * iconScale.Y);
-                    var partDestionation = new Rectangle((int)partPosition.X, (int)partPosition.Y, (int)partSize.X, (int)partSize.Y);
+                    var partPosition        = new Vector2(part.X * iconScale.X, part.Y * iconScale.Y) + position;
+                    var partSize            = new Vector2(part.Width * iconScale.X, part.Height * iconScale.Y);
+                    var partDestionation    = new Rectangle((int)partPosition.X, (int)partPosition.Y, (int)partSize.X, (int)partSize.Y);
 
                     spriteBatch.Draw(Icon, partDestionation, part, Color.White);
                 }
+            }
 
-                if (hoverState == MouseHoverState.Hover)
+            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
+            {
+                DrawIcon(spriteBatch, position, size);
+
+                if (hoverState == MouseHoverState.Hover) DrawInfo(font, spriteBatch);
+            }
+
+        }
+
+        private sealed class BuffIconHandler : SpellIconHandler<SelfBuffSpellHandler>
+        {
+            #region Properties
+            protected override string AdditionalDisplayInfo
+            {
+                get
                 {
-                    const float ElementOffset = 16.0f;
-
-                    var header          = handler.Spell.Name;
-                    var canvasSize      = HUDRenderer.Instance.CanvasSize;
-                    var lines           = TextHelper.GenerateLines(canvasSize * 0.25f, font, handler.Spell.DisplayInfo).ToList();
-                    var textWidth       = lines.Max(l => l.Size.X);
-                    var textHeight      = lines.Max(l => l.Size.Y);
-                    var timeLeft        = string.Format("{0}s", (int)Math.Round(TimeConverter.ToSeconds(handler.DecayTime - handler.Elapsed), 0));
-
-                    var textPosition    = HUDInputManager.Instance.MousePosition;
-                    textPosition.X      = MathHelper.Clamp(textPosition.X, 0.0f, canvasSize.X - textWidth);
-                    textPosition.Y      = MathHelper.Clamp(textPosition.Y, 0.0f, canvasSize.Y - textHeight);
-
-                    var target          = new Vector2(textWidth, textHeight);
-                    var source          = new Vector2(Icon.Width, Icon.Height);
-                    target.Y            += ElementOffset;
-
-                    var scale = target / source;
-
-                    spriteBatch.Draw(Background,
-                                     textPosition - new Vector2(ElementOffset),
-                                     null,
-                                     null,
-                                     null,
-                                     0.0f,
-                                     scale,
-                                     Color.Wheat,
-                                     SpriteEffects.None,
-                                     0.0f);
-
-                    spriteBatch.DrawString(font, header, textPosition, Color.White);
-
-                    textPosition.Y += font.MeasureString(header).Y + ElementOffset;
-
-                    foreach (var line in lines)
-                    {
-                        spriteBatch.DrawString(font, line.Contents, line.Position + textPosition, Color.White);
-                    }
-
-                    textPosition.Y += ElementOffset;
-
-                    spriteBatch.DrawString(font, timeLeft, new Vector2(textPosition.X, textHeight + textPosition.Y + font.MeasureString(timeLeft).Y), Color.White);
+                    return string.Format("{0}s", (int)Math.Round(TimeConverter.ToSeconds(Handler.DecayTime - Handler.Elapsed), 0));
                 }
+            }
+            protected override string DisplayInfo
+            {
+                get
+                {
+                    return Handler.Spell.DisplayInfo;
+                }
+            }
+            protected override string Header
+            {
+                get
+                {
+                    return Handler.Spell.Name;
+                }
+            }
+            #endregion
+
+            public BuffIconHandler(SelfBuffSpellHandler handler)
+                : base(handler)
+            {
+                Icon = Engine.Instance.Content.Load<Texture2D>(handler.Spell.IconName);
             }
         }
         private sealed class ItemIconHandler : IconElementHandler
@@ -132,15 +192,44 @@ namespace vRPGEngine.HUD.Elements
             {
             }
         }
-        private sealed class SpellIconHandler : IconElementHandler
+        private sealed class SpellIconHandler : SpellIconHandler<SpellHandler>
         {
-            public SpellIconHandler()
-                : base()
+            #region Properties
+            protected override string AdditionalDisplayInfo
             {
+                get
+                {
+                    return "COST: NAN";
+                }
+            }
+            protected override string DisplayInfo
+            {
+                get
+                {
+                    return Handler.Spell.Description;
+                }
+            }
+            protected override string Header
+            {
+                get
+                {
+                    return Handler.Spell.Name;
+                }
+            }
+            #endregion
+
+            public SpellIconHandler(SpellHandler handler)
+                : base(handler)
+            {
+                Icon = Engine.Instance.Content.Load<Texture2D>(handler.Spell.IconName);
             }
 
             public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
             {
+                base.Show(font, spriteBatch, position, size, hoverState);
+
+                // TODO: show binding key.
+                // TODO: show cooldown.
             }
         }
         #endregion
