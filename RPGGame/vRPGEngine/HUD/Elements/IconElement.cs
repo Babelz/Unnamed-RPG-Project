@@ -38,7 +38,7 @@ namespace vRPGEngine.HUD.Elements
                 Background = Engine.Instance.Content.Load<Texture2D>("info background");
             }
 
-            public abstract void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState, object content);
+            public abstract void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState);
         }
 
         private sealed class BuffIconHandler : IconElementHandler
@@ -57,12 +57,8 @@ namespace vRPGEngine.HUD.Elements
                 Icon         = Engine.Instance.Content.Load<Texture2D>(handler.Spell.IconName);
             }
 
-            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState, object content)
+            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
             {
-                var buff = content as Buff;
-                
-                Debug.Assert(buff != null);
-
                 var iconScale   = size;
                 iconScale.X     /= Icon.Width;
                 iconScale.Y     /= Icon.Height;
@@ -80,14 +76,14 @@ namespace vRPGEngine.HUD.Elements
 
                 if (hoverState == MouseHoverState.Hover)
                 {
-                    var header = buff.FromSpell.Name;
-                    var lines = TextHelper.GenerateLines(size, font, buff.FromSpell.Description).ToList();
-                    var mousePosition = HUDInputManager.Instance.MousePosition;
-                    var canvasSize = HUDRenderer.Instance.CanvasSize;
-                    var textWidth = lines.Max(l => l.Size.X);
-                    var textHeight = lines.Max(l => l.Position.Y + l.Size.Y);
-                    var scale = new Vector2(textWidth, textHeight) / new Vector2(Background.Width, Background.Height);
-                    var timeLeft = (int)Math.Round(TimeConverter.ToSeconds(handler.DecayTime - handler.Elapsed), 0);
+                    var header          = handler.Spell.Name;
+                    var lines           = TextHelper.GenerateLines(size, font, handler.Spell.Description).ToList();
+                    var mousePosition   = HUDInputManager.Instance.MousePosition;
+                    var canvasSize      = HUDRenderer.Instance.CanvasSize;
+                    var textWidth       = lines.Max(l => l.Size.X);
+                    var textHeight      = lines.Max(l => l.Position.Y + l.Size.Y);
+                    var scale           = new Vector2(textWidth, textHeight) / new Vector2(Background.Width, Background.Height);
+                    var timeLeft        = (int)Math.Round(TimeConverter.ToSeconds(handler.DecayTime - handler.Elapsed), 0);
 
                     spriteBatch.Draw(Background,
                                      mousePosition,
@@ -120,7 +116,7 @@ namespace vRPGEngine.HUD.Elements
             {
             }
 
-            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState, object content)
+            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
             {
             }
         }
@@ -131,7 +127,7 @@ namespace vRPGEngine.HUD.Elements
             {
             }
 
-            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState, object content)
+            public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)
             {
             }
         }
@@ -158,8 +154,8 @@ namespace vRPGEngine.HUD.Elements
             Debug.Assert(content != null);
 
             handler  = null;
-            position = control.DisplaySize;
-            size     = HUDRenderer.Instance.CanvasSize * 0.1f;
+            position = control.DisplayPosition;
+            size     = control.DisplaySize;
 
             if (!control.ReadProperty("Font", ref font))             return;
             if (!control.ReadProperty("Content", ref content))       return;
@@ -176,7 +172,7 @@ namespace vRPGEngine.HUD.Elements
         {
             if (handler == null) return;
 
-            handler.Show(font, spriteBatch, position, size, hoverState, content);
+            handler.Show(font, spriteBatch, position, size, hoverState);
         }
     }
 }

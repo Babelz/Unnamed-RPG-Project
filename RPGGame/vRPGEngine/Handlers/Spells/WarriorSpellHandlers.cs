@@ -46,7 +46,7 @@ namespace vRPGEngine.Handlers.Spells
         #endregion
         
         public BattleShout()
-            : base(SpellDatabase.Instance.Elements().First(p => p.ID == 0), TimeConverter.ToMilliseconds(30.0f), null)
+            : base(SpellDatabase.Instance.Elements().First(p => p.ID == 0), TimeConverter.ToMilliseconds(3.0f), null)
         {
         }
 
