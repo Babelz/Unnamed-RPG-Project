@@ -163,6 +163,7 @@
     <Compile Include="Input\KeyboardInputProvider.cs" />
     <Compile Include="Maps\TileEngine.cs" />
     <Compile Include="TimeConverter.cs" />
+    <Compile Include="Timers.cs" />
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="Graphics\IRenderable.cs" />
     <Compile Include="Graphics\Layer.cs" />
