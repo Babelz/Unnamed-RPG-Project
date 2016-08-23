@@ -8,7 +8,7 @@ namespace vRPGEngine
 {
     public enum InfoLogEntryType : int
     {
-        Message,
+        Message = 0,
         Warning,
         TakeDamage,
         DealDamage,
@@ -25,7 +25,8 @@ namespace vRPGEngine
 
     public struct InfoLogEntry
     {
-        public string Contents;
+        public string           Contents;
+        public string           Data;
         public InfoLogEntryType Type;
     }
 
@@ -40,20 +41,21 @@ namespace vRPGEngine
         {
             entries = new List<InfoLogEntry>();
         }
-
-        public void LogRaw(string contents, InfoLogEntryType type)
-        {
-            entries.Add(CreateEntry(contents, type));
-        }
-
-        private InfoLogEntry CreateEntry(string contents, InfoLogEntryType type)
+        
+        private InfoLogEntry CreateEntry(string contents, InfoLogEntryType type, object data = null)
         {
             InfoLogEntry entry;
 
             entry.Contents  = contents;
             entry.Type      = type;
+            entry.Data      = data?.ToString();
 
             return entry;
+        }
+        
+        public void LogRaw(string contents, InfoLogEntryType type)
+        {
+            entries.Add(CreateEntry(contents, type));
         }
 
         public void LogMessage(string message)
@@ -68,31 +70,31 @@ namespace vRPGEngine
         {
             var message = string.Format("{0} dealt {1} damage using {2}{3}", fromEntity, amount, fromSpell, critical ? " (critical)" : string.Empty);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, amount));
         }
         public void LogDealDamage(int amount, bool critical, string fromSpell, string targetEntity)
         {
             var message = string.Format("{0} dealt {1} damage to {2}{3}", fromSpell, amount, targetEntity, critical ? " (critical)" : string.Empty);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, amount));
         }
         public void LogGainHealth(int amount, string from, string sender)
         {
             var message = string.Format("{0} gained {1} health from {1}", sender, amount, from);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, amount));
         }
         public void LogGainMana(int amount, string from, string sender)
         {
             var message = string.Format("{0} gained {1} mana from {1}", sender, amount, from);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, amount));
         }
         public void LogGainFocus(int amount, string from, string sender)
         {
             var message = string.Format("{0} gained {1} focus from {1}", sender, amount, from);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, amount));
         }
         public void LogGainReputation(int amount, string faction)
         {
@@ -101,7 +103,7 @@ namespace vRPGEngine
             if (amount < 0) message = string.Format("Lost {0} reputation towards {1}", Math.Abs(amount), faction);
             else            message = string.Format("Gained {0} reputation towards {1}", amount, faction);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, string.Format("+{0} {1}", amount, faction)));
         }
         public void LogUseSpell(string spell, string sender, string target = "")
         {
@@ -110,31 +112,31 @@ namespace vRPGEngine
             if (!string.IsNullOrEmpty(target)) message = string.Format("{0} used spell {1} and is targeting {2}", sender, spell, target);
             else                               message = string.Format("{0} used spell {1}", sender, spell);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, spell));
         }
         public void GainBuff(string buff, string sender)
         {
             var message = string.Format("{0} gained buff {1}", sender, buff);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, buff));
         }
         public void LoseBuff(string buff, string sender)
         {
             var message = string.Format("{0} lost buff {1}", sender, buff);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, buff));
         }
         public void GainDebuff(string debuff, string sender)
         {
             var message = string.Format("{0} gained debuff {1}", sender, debuff);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, debuff));
         }
         public void LoseDebuff(string debuff, string sender)
         {
             var message = string.Format("{0} lost debuff {1}", sender, debuff);
 
-            entries.Add(CreateEntry(message, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(message, InfoLogEntryType.Message, debuff));
         }
 
         public IEnumerable<InfoLogEntry> Entries()
