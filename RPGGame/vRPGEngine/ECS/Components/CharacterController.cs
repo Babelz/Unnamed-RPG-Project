@@ -202,7 +202,9 @@ namespace vRPGEngine.ECS.Components
         {
             foreach (var spell in Spells) spell.Update(gameTime);
 
-            if (TargetFinder.TargetController != null && TargetFinder.TargetController.Alive)
+            if (TargetFinder.TargetController != null && 
+                !TargetFinder.TargetController.Alive && 
+                !CombatManager.Instance.HasHostiles())
             {
                 TargetFinder.ClearTarget();
 

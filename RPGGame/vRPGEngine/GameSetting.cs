@@ -9,7 +9,7 @@ namespace vRPGEngine
     public sealed class HUDSettings
     {
         #region Properties
-        public bool HUDVisible
+        public bool Visible
         {
             get;
             set;
@@ -30,7 +30,21 @@ namespace vRPGEngine
 
     public sealed class CombatTextSettings
     {
+        #region Floating type
+        public enum FloatingTextBehaviour
+        {
+            FromTopToBottom,
+            FromBottomToTop,
+            FlyToSides
+        }
+        #endregion
+
         #region Properties
+        public FloatingTextBehaviour FloatingBehaviour
+        {
+            get;
+            set;
+        }
         public bool ShowDamageDealt
         {
             get;
@@ -99,7 +113,7 @@ namespace vRPGEngine
         {
             HUD         = new HUDSettings()
             {
-                HUDVisible = true
+                Visible = true
             };
 
             CombatText  = new CombatTextSettings()

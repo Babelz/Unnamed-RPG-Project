@@ -25,7 +25,7 @@ namespace vRPGEngine.ECS.Handlers
 
                 if (renderer.Flags.HasFlag(RenderFlags.AutomaticDepth))
                 {
-                    var depth = Math.Abs((transform.Position.Y - transform.Size.Y) / Renderer.Instance.LayerHeight);
+                    var depth = Math.Abs((transform.Position.Y - transform.Size.Y * transform.Scale.Y) / Renderer.Instance.LayerHeight);
 
                     renderer.Sprite.Depth = depth;
                 }

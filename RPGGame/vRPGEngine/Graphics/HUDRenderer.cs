@@ -23,12 +23,12 @@ namespace vRPGEngine.Graphics
     public sealed class HUDRenderer : SystemManager<HUDRenderer>
     {
         #region Fields
+        private readonly CombatTextManager combatText;
+
         private readonly SpriteBatch spriteBatch;
 
         private readonly List<IDisplayElement> elements;
-
-        private int elapsed;
-        #endregion
+         #endregion
 
         #region Properties
         public Vector2 CanvasSize
@@ -49,32 +49,41 @@ namespace vRPGEngine.Graphics
         private HUDRenderer()
             : base()
         {
+            combatText  = new CombatTextManager();
             spriteBatch = new SpriteBatch(Engine.Instance.GraphicsDevice);
             elements    = new List<IDisplayElement>();
         }
 
-        private void DrawHUD(GameTime gameTime)
+        private void UpdateHUD(GameTime gameTime)
         {
+            if (Root != null) Root.Update(gameTime);
+            
             for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
-
+            
             elements.Clear();
         }
-        private void DrawCombatText(GameTime gameTime)
+        private void UpdateCombatText(GameTime gameTime)
         {
+            if (!GameSetting.CombatText.Visible) return;
+
+            combatText.Update(gameTime);
+            combatText.Draw(spriteBatch);
         }
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            if (!GameSetting.HUDVisible) return;
-
-            if (Root != null) Root.Update(gameTime);
+            if (!GameSetting.HUD.Visible) return;
 
             spriteBatch.Begin();
 
-            DrawCombatText(gameTime);
-            DrawHUD(gameTime);
+            UpdateCombatText(gameTime);
+            UpdateHUD(gameTime);
 
             spriteBatch.End();
+
+            // Always clear log so we don't get a spam if the player 
+            // changes the visibility of the HUD during the gameplay.
+            GameInfoLog.Instance.Clear();
         }
 
         public void Show(IDisplayElement element)

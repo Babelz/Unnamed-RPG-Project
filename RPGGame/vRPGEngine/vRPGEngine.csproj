@@ -56,6 +56,7 @@
     <Compile Include="GameSetting.cs" />
     <Compile Include="Graphics\FloatingCombatText.cs" />
     <Compile Include="Handlers\Spells\FocusedStrike.cs" />
+    <Compile Include="HUD\CombatTextManager.cs" />
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />
     <Compile Include="HUD\Controls\Icon.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Attributes\Spells\Buff.cs" />
     <Compile Include="Attributes\Statuses.cs" />
-    <Compile Include="CombatLog.cs" />
     <Compile Include="Combat\CombatLog.cs" />
     <Compile Include="Combat\CombatManager.cs" />
     <Compile Include="Combat\ITargetFinder.cs" />

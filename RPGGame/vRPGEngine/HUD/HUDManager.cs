@@ -20,9 +20,10 @@ namespace vRPGEngine.HUD
     public sealed class HUDManager : SystemManager<HUDManager>
     {
         #region Constants
-        private const float IconSize        = 0.05f;
-        private const int BuffIconColumns   = 10;
-        private const int BuffIconRows      = 3;
+        private static readonly Vector2 IconSizeInPixels = new Vector2(32.0f);
+        private static readonly Vector2 IconSize         = IconSizeInPixels / HUDRenderer.Instance.CanvasSize;
+        private const int BuffIconColumns                = 10;
+        private const int BuffIconRows                   = 3;
         #endregion
 
         #region Fields
@@ -75,14 +76,13 @@ namespace vRPGEngine.HUD
             {
                 var bindButton          = new BindButton();
                 bindButton.Keys         = (Keys)key++;
-                bindButton.Size         = new Vector2(IconSize);
+                bindButton.Size         = IconSize;
 
                 var position = bindingsPosition;
                 position.X += bindButton.DisplaySize.X;
                 position.Y -= bindButton.DisplaySize.Y;
 
                 bindButton.Position = position;
-
                 bindButton.Element = new IconElement(new SpellIconHandler());
 
                 bindingsPosition.X += bindButton.DisplaySize.X;
@@ -142,14 +142,14 @@ namespace vRPGEngine.HUD
                     positon.X -= offset.X - icon.DisplaySize.X;
                 }
 
-                positon.Y += offset.Y + HUDRenderer.Instance.CanvasSize.Y * IconSize;
+                positon.Y += offset.Y + HUDRenderer.Instance.CanvasSize.Y * IconSize.Y;
             }
         }
 
         private void AddIcon(Buff buff)
         {
             var icon     = new Icon();
-            icon.Size    = new Vector2(IconSize);
+            icon.Size    = IconSize;
             icon.Element = new IconElement(new BuffIconHandler());
             icon.Content = GetHandler(buff);
         
