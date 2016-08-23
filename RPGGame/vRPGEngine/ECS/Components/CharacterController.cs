@@ -201,6 +201,13 @@ namespace vRPGEngine.ECS.Components
         public void Update(GameTime gameTime)
         {
             foreach (var spell in Spells) spell.Update(gameTime);
+
+            if (TargetFinder.TargetController != null && TargetFinder.TargetController.Alive)
+            {
+                TargetFinder.ClearTarget();
+
+                LeaveCombat();
+            }
         }
 
         public void BeginCast(int id)

@@ -31,7 +31,7 @@ namespace vRPGEngine.Handlers.Spells
             get;
             protected set;
         }
-        public bool Working
+        public bool InUse
         {
             get;
             protected set;
@@ -161,7 +161,7 @@ namespace vRPGEngine.Handlers.Spells
 
             elapsed         = 0;
             CooldownElapsed = 0;
-            Working         = true;
+            InUse         = true;
 
             if (Spell.Cooldown != 0) InCooldown = true;
         }
@@ -179,7 +179,7 @@ namespace vRPGEngine.Handlers.Spells
                 }
             }
 
-            if (Working)
+            if (InUse)
             {
                 elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -187,7 +187,7 @@ namespace vRPGEngine.Handlers.Spells
                 {
                     DisposeSensor();
 
-                    Working = false;
+                    InUse = false;
                 }
             }
         }
@@ -195,6 +195,21 @@ namespace vRPGEngine.Handlers.Spells
 
     public abstract class MeleeSpellHandler : SpellHandler
     {
+        #region Enums
+        public enum MeleeSpellState
+        {
+            /// <summary>
+            /// The spell has been used, the handler should be disposed.
+            /// </summary>
+            Used,
+
+            /// <summary>
+            /// The spell is still being used, the handler should not be disposed.
+            /// </summary>
+            Using
+        }
+        #endregion
+
         #region Properties
         protected Entity User
         {
@@ -213,7 +228,7 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        protected abstract bool Tick(GameTime gameTime);
+        protected abstract MeleeSpellState Tick(GameTime gameTime);
 
         private void Toggle(Entity user)
         {
@@ -221,11 +236,11 @@ namespace vRPGEngine.Handlers.Spells
 
             UserController = user.FirstComponentOfType<ICharacterController>();
 
-            if (Working)
+            if (InUse)
             {
                 UserController.MeleeDamageController.LeaveCombat();
 
-                Working = false;
+                InUse = false;
 
                 return;
             }
@@ -235,12 +250,18 @@ namespace vRPGEngine.Handlers.Spells
 
             if (!MeleeHelper.InRange(UserController, user, Spell))
             {
-                if (user.Tags == "player") GameInfoLog.Instance.Log("target is too far away!", InfoLogEntryType.Warning);
+                if (user.Tags == "player") GameInfoLog.Instance.LogRaw("target is too far away!", InfoLogEntryType.Warning);
+
+                return;
+            }
+            if (ReferenceEquals(UserController.TargetFinder.Target, User))
+            {
+                if (user.Tags == "player") GameInfoLog.Instance.LogRaw("can't attack yourself!", InfoLogEntryType.Warning);
 
                 return;
             }
 
-            Working = true;
+            InUse = true;
 
             UserController.EnterCombat();
             UserController.TargetFinder.TargetController.EnterCombat();
@@ -255,9 +276,9 @@ namespace vRPGEngine.Handlers.Spells
 
         public override void Update(GameTime gameTime)
         {
-            if (!Working) return;
+            if (!InUse) return;
 
-            Working = Tick(gameTime);
+            InUse = Tick(gameTime) == MeleeSpellState.Using;
         }
     }
 
@@ -300,7 +321,7 @@ namespace vRPGEngine.Handlers.Spells
             Debug.Assert(user != null);
 
             User           = user;
-            Working         = true;
+            InUse         = true;
             CooldownElapsed = 0;
             Elapsed         = 0;
 
@@ -320,7 +341,7 @@ namespace vRPGEngine.Handlers.Spells
                 }
             }
 
-            if (Working)
+            if (InUse)
             {
                 Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -398,7 +419,7 @@ namespace vRPGEngine.Handlers.Spells
         {
             User            = user;
             UserController  = user.FirstComponentOfType<ICharacterController>();
-            Working         = true;
+            InUse         = true;
             Elapsed         = 0;
             CooldownElapsed = 0;
 
@@ -414,7 +435,7 @@ namespace vRPGEngine.Handlers.Spells
             {
                 buff = UseIfCan();
 
-                if (buff == null) Working = false;
+                if (buff == null) InUse = false;
             }
         }
 
@@ -431,7 +452,7 @@ namespace vRPGEngine.Handlers.Spells
                 }
             }
 
-            if (!Working) return;
+            if (!InUse) return;
 
             Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -439,7 +460,7 @@ namespace vRPGEngine.Handlers.Spells
             {
                 Remove();
 
-                Working = false;
+                InUse = false;
             }
         }
 

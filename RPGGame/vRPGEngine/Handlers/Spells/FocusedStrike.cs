@@ -16,21 +16,21 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        protected override bool Tick(GameTime gameTime)
+        protected override MeleeSpellState Tick(GameTime gameTime)
         {
             // TODO: fix.
-            if (UserController.TargetFinder.Target == null)                                         return false;
-            if (!MeleeHelper.InRange(UserController, User, Spell))                                  return false;
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
+            if (UserController.TargetFinder.Target == null)                                         return MeleeSpellState.Used;
+            if (!MeleeHelper.InRange(UserController, User, Spell))                                  return MeleeSpellState.Used;
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return MeleeSpellState.Used;
 
             var damage = (int)(UserController.Specialization.TotalMeleePower() * 0.15f);
 
             UserController.TargetFinder.TargetController.Statuses.Health -= damage;
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
-            GameInfoLog.Instance.Log(damage.ToString(), InfoLogEntryType.Message);
+            GameInfoLog.Instance.LogRaw(damage.ToString(), InfoLogEntryType.Message);
 
-            return false;
+            return MeleeSpellState.Used;
         }
 
         public override object Clone()

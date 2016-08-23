@@ -9,7 +9,18 @@ namespace vRPGEngine
     public enum InfoLogEntryType : int
     {
         Message,
-        Warning
+        Warning,
+        TakeDamage,
+        DealDamage,
+        GainHealth,
+        GainMana,
+        GainFocus,
+        GainReputation,
+        UseSpell,
+        GainBuff,
+        LoseBuff,
+        GainDebuff,
+        LoseDebuff
     }
 
     public struct InfoLogEntry
@@ -30,7 +41,7 @@ namespace vRPGEngine
             entries = new List<InfoLogEntry>();
         }
 
-        public void Log(string contents, InfoLogEntryType type)
+        public void LogRaw(string contents, InfoLogEntryType type)
         {
             InfoLogEntry entry;
 
@@ -38,6 +49,46 @@ namespace vRPGEngine
             entry.Type      = type;
 
             entries.Add(entry);
+        }
+
+        public void LogMessage(string message)
+        {
+        }
+        public void LogWarning(string warning)
+        {
+        }
+        public void LogTakeDamage(int amount, bool critical = false, string fromSpell = "", string fromEntity = "")
+        {
+        }
+        public void LogDealDamage(int amount, bool critical = false, string fromSpell = "", string targetEntity = "")
+        {
+        }
+        public void LogGainHealth(int amount, string from, string sender)
+        {
+        }
+        public void LogGainMana(int amount, string from, string sender)
+        {
+        }
+        public void LogGainFocus(int amount, string from, string sender)
+        {
+        }
+        public void LogGainReputation(int amount, string faction)
+        {
+        }
+        public void LogUseSpell(string name, string sender, string target = "")
+        {
+        }
+        public void GainBuff(string name, string sender)
+        {
+        }
+        public void LoseBuff(string name, string sender)
+        {
+        }
+        public void GainDebuff(string name, string sender)
+        {
+        }
+        public void LoseDebuff(string name, string sender)
+        {
         }
 
         public IEnumerable<InfoLogEntry> Entries()

@@ -19,12 +19,12 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
         
-        protected override bool Tick(GameTime gameTime)
+        protected override MeleeSpellState Tick(GameTime gameTime)
         {
             UserController.MeleeDamageController.Tick(gameTime);
 
-            if (UserController.TargetFinder.Target == null)         return false;
-            if (!MeleeHelper.InRange(UserController, User, Spell))  return false;
+            if (UserController.TargetFinder.Target == null)         return MeleeSpellState.Used;
+            if (!MeleeHelper.InRange(UserController, User, Spell))  return MeleeSpellState.Used;
 
             foreach (var swing in UserController.MeleeDamageController.Results())
             {
@@ -32,19 +32,12 @@ namespace vRPGEngine.Handlers.Spells
 
                 UserController.TargetFinder.TargetController.Statuses.Health -= damage;
 
-                GameInfoLog.Instance.Log(damage.ToString(), InfoLogEntryType.Message);
+                GameInfoLog.Instance.LogRaw(damage.ToString(), InfoLogEntryType.Message);
 
-                if (!UserController.TargetFinder.TargetController.Alive)
-                {
-                    UserController.TargetFinder.ClearTarget();
-
-                    UserController.LeaveCombat();
-
-                    return false;
-                }
+                if (!UserController.TargetFinder.TargetController.Alive) return MeleeSpellState.Used;
             }
 
-            return true;
+            return MeleeSpellState.Using;
         }
 
         public override object Clone()
