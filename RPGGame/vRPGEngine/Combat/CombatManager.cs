@@ -19,7 +19,7 @@ namespace vRPGEngine.Combat
         public event CombatManagerEventHandler HostileUnregistered;
         public event CombatManagerEventHandler HostilesEmpty;
         #endregion
-        
+
         private CombatManager()
             : base()
         {
