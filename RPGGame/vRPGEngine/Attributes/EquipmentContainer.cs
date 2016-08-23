@@ -321,6 +321,22 @@ namespace vRPGEngine.Attributes
                 }.Where(w => w != null);
             }
         }
+
+        public int ArmorSlotsCount
+        {
+            get
+            {
+                // Rings, earrings, necklaces and capes are not counted as any armor type.
+                return 8;
+            }
+        }
+        public int WeaponSlotsCount
+        {
+            get
+            {
+                return 2;
+            }
+        }
         #endregion
 
         #region Events

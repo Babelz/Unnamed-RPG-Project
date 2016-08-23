@@ -52,15 +52,11 @@ namespace vRPGEngine.Attributes.Specializations
 
         private bool IsWearingFullPlate()
         {
-            var count = Equipments.Armors.Count();
-
-            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate) == count;
+            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate) == Equipments.ArmorSlotsCount;
         }
         public bool IsWearingFullMail()
         {
-            var count = Equipments.Armors.Count();
-
-            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail) == count;
+            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail) == Equipments.ArmorSlotsCount;
         }
         public override int TotalStrength()
         {
