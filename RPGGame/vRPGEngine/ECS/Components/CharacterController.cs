@@ -152,9 +152,10 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
+            InCombat = false;
         }
         
-        #region Events
+        #region Event handlers
         private void Instance_HostilesEmpty()
         {
             LeaveCombat();
@@ -202,14 +203,7 @@ namespace vRPGEngine.ECS.Components
         {
             foreach (var spell in Spells) spell.Update(gameTime);
 
-            if (TargetFinder.TargetController != null && 
-                !TargetFinder.TargetController.Alive && 
-                !CombatManager.Instance.HasHostiles())
-            {
-                TargetFinder.ClearTarget();
-
-                LeaveCombat();
-            }
+            MeleeDamageController?.Update(gameTime);
         }
 
         public void BeginCast(int id)
@@ -236,6 +230,7 @@ namespace vRPGEngine.ECS.Components
             InCombat = false;
 
             MeleeDamageController?.LeaveCombat();
+            TargetFinder.ClearTarget();
         }
     }
 
@@ -387,8 +382,6 @@ namespace vRPGEngine.ECS.Components
 
             Handler.EnterCombat();
 
-            CombatManager.Instance.RegisterHostile(this);
-
             OnEnteringCombat?.Invoke(this);
         }
         public void LeaveCombat()
@@ -398,8 +391,6 @@ namespace vRPGEngine.ECS.Components
             InCombat = false;
 
             Handler.LeaveCombat();
-
-            CombatManager.Instance.UnregisterHostile(this);
 
             OnLeavingCombat?.Invoke(this);
         }

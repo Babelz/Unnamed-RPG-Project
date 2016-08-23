@@ -19,10 +19,8 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
         
-        protected override MeleeSpellState Tick(GameTime gameTime)
+        protected override MeleeSpellState OnUse(GameTime gameTime)
         {
-            UserController.MeleeDamageController.Tick(gameTime);
-
             if (UserController.TargetFinder.Target == null)         return MeleeSpellState.Used;
             if (!MeleeHelper.InRange(UserController, User, Spell))  return MeleeSpellState.Used;
 

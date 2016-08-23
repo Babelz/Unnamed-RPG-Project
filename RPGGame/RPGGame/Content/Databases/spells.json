@@ -172,12 +172,12 @@
 		{
 			"ID": 			10,
 			"Name": 		"Focused strike",
-			"Description":	"Deals 15% of your melee power as melee damage",
+			"Description":	"Deals weapon damage + 15% of your melee power",
 			"IconName":		"AutoAttack",
 			"Element": 		0,
 			"HandlerName": 	"FocusedStrike",
 			"Range":		0.5,
-			"Cost":			20,
+			"Cost":			15,
 			"CostType":		4,
 			"Consumes":		2
 		}

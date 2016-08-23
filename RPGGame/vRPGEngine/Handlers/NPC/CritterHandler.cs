@@ -9,6 +9,8 @@ using vRPGEngine.Handlers.Spells;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS;
 using Microsoft.Xna.Framework.Graphics;
+using vRPGEngine.Combat;
+using vRPGEngine.Attributes;
 
 namespace vRPGEngine.Handlers.NPC
 {
@@ -42,8 +44,17 @@ namespace vRPGEngine.Handlers.NPC
             max          = area.Value.BottomRight;
 
             goal         = vRPGRandom.NextVector2(min, max);
-            nextIdleTime = vRPGRandom.NextInt(1500, 10000);    
+            nextIdleTime = vRPGRandom.NextInt(1500, 10000);
+
+            owner.FirstComponentOfType<ICharacterController>().Statuses.HealthChanged += Statuses_HealthChanged;
         }
+
+        #region Event handlers
+        private void Statuses_HealthChanged(Statuses sender, int newValue, int oldValue)
+        {
+            idleElapsed = 0;
+        }
+        #endregion
 
         public override void IdleUpdate(GameTime gameTime)
         {
@@ -83,13 +94,28 @@ namespace vRPGEngine.Handlers.NPC
         {
             var renderer           = Owner.FirstComponentOfType<SpriteRenderer>();
             renderer.Sprite.Source = new Rectangle(64, 0, 32, 32);
+
+            LeaveCombat();
         }
 
         public override bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
         {
             SharedUpdate(gameTime);
 
-            return true;
+            idleElapsed += gameTime.ElapsedGameTime.Milliseconds;
+
+            return idleElapsed <= 3500;
+        }
+
+        public override void EnterCombat()
+        {
+            idleElapsed = 0;
+
+            CombatManager.Instance.RegisterHostile(Owner.FirstComponentOfType<ICharacterController>());
+        }
+        public override void LeaveCombat()
+        {
+            CombatManager.Instance.UnregisterHostile(Owner.FirstComponentOfType<ICharacterController>());
         }
 
         public override object Clone()

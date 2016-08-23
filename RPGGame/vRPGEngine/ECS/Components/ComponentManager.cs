@@ -33,7 +33,7 @@ namespace vRPGEngine.ECS.Components
         protected ComponentManager()
             : base()
         {
-            const int InitialCapacity = 128;
+            const int InitialCapacity = 1;
 
             allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];

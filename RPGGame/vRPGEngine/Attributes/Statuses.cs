@@ -16,6 +16,14 @@ namespace vRPGEngine.Attributes
         private int focus;
         #endregion
 
+        #region Events
+        public event StausesChangedEventHandler HealthChanged;
+        public event StausesChangedEventHandler ManaChanged;
+        public event StausesChangedEventHandler FocusChanged;
+
+        public event StatusesEventHandler StatusChanged;
+        #endregion
+
         #region Properties
         public int Health
         {
@@ -25,7 +33,13 @@ namespace vRPGEngine.Attributes
             }
             set
             {
+                var oldValue = health;
+
                 health = value < 0 ? 0 : value;
+
+                if (oldValue != health) HealthChanged?.Invoke(this, health, oldValue);
+
+                StatusChanged?.Invoke(this, "Health");
             }
         }
         public int Mana
@@ -36,7 +50,13 @@ namespace vRPGEngine.Attributes
             }
             set
             {
+                var oldValue = mana;
+
                 mana = value < 0 ? 0 : value;
+
+                if (oldValue != mana) HealthChanged?.Invoke(this, mana, oldValue);
+
+                StatusChanged?.Invoke(this, "Mana");
             }
         }
         public int Focus
@@ -47,7 +67,13 @@ namespace vRPGEngine.Attributes
             }
             set
             {
+                var oldValue = focus;
+
                 focus = value < 0 ? 0 : value;
+
+                if (oldValue != focus) HealthChanged?.Invoke(this, focus, oldValue);
+
+                StatusChanged?.Invoke(this, "Focus");
             }
         }
         #endregion
@@ -62,5 +88,8 @@ namespace vRPGEngine.Attributes
             Mana    = specialization.TotalMana();
             Focus   = specialization.TotalFocus();
         }
+
+        public delegate void StausesChangedEventHandler(Statuses sender, int newValue, int oldValue);
+        public delegate void StatusesEventHandler(Statuses sender, string name);
     }
 }

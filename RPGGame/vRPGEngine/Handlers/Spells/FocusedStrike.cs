@@ -17,12 +17,10 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        protected override MeleeSpellState Tick(GameTime gameTime)
+        protected override MeleeSpellState OnUse(GameTime gameTime)
         {
             // TODO: fix.
-            if (UserController.TargetFinder.Target == null)                                         return MeleeSpellState.Used;
-            if (!MeleeHelper.InRange(UserController, User, Spell))                                  return MeleeSpellState.Used;
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return MeleeSpellState.Used;
+            if (!CanUse()) return MeleeSpellState.Used;
 
             MeleeSwingResults swing = new MeleeSwingResults();
             UserController.MeleeDamageController.GenerateMeleeAttackPowerBasedSwing(ref swing, 0.15f);

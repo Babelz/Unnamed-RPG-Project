@@ -123,20 +123,17 @@ namespace vRPGEngine.Attributes
             }
         }
 
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (!InCombat) return;
 
-            // TODO: fill.
             for (int i = 0; i < count; i++)
             {
-                var weapon      = weapons[i];
-
+                var weapon = weapons[i];
+                
                 if (timers[i] >= weapon.SwingTimer)
                 {
                     timers[i] -= weapon.SwingTimer;
-
-                    if (timers[i] < 0) timers[i] = 0;
                 }
                 else
                 {
@@ -145,11 +142,14 @@ namespace vRPGEngine.Attributes
                     continue;
                 }
 
-                MeleeSwingResults swing = new MeleeSwingResults();
+                if (results.Count < count)
+                {
+                    MeleeSwingResults swing = new MeleeSwingResults();
 
-                GenerateSilentSwing(ref swing, weapon);
+                    GenerateSilentSwing(ref swing, weapon);
 
-                results.Add(swing);
+                    results.Add(swing);
+                }
             }
         }
 

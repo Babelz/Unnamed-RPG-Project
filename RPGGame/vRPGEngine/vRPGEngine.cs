@@ -174,6 +174,7 @@ namespace vRPGEngine
                 // TODO: wrap.
                 // Init managers.
                 GlobalCooldownManager.Instance.Activate();
+                CombatManager.Instance.Activate();
 
                 ComponentManager<DataDictionary>.Instance.Activate();
 

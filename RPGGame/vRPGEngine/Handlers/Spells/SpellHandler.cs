@@ -230,29 +230,35 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        protected abstract MeleeSpellState Tick(GameTime gameTime);
+        protected abstract MeleeSpellState OnUse(GameTime gameTime);
 
-        private void Toggle(Entity user, ICharacterController userController)
+        protected bool CanUse()
+        {
+            if (UserController.TargetFinder.Target == null)                                         return false;
+            if (!MeleeHelper.InRange(UserController, User, Spell))                                  return false;
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
+
+            return true;
+        }
+
+        private void Enable(Entity user, ICharacterController userController)
         {
             User            = user;
             UserController  = userController;
-            
-            // Toggle off.
-            if (BeingUsed)
-            {
-                UserController.MeleeDamageController.LeaveCombat();
 
-                BeingUsed = false;
+            // Try toggle.
+            if (UserController.TargetFinder.TargetController == null)
+            {
+                Disable();
 
                 return;
             }
 
-            // Try toggle.
-            if (UserController.TargetFinder.TargetController == null) return;
-
             if (!MeleeHelper.InRange(UserController, user, Spell))
             {
                 if (user.Tags == "player") GameInfoLog.Instance.LogRaw("target is too far away!", InfoLogEntryType.Warning);
+
+                Disable();
 
                 return;
             }
@@ -260,15 +266,22 @@ namespace vRPGEngine.Handlers.Spells
             {
                 if (user.Tags == "player") GameInfoLog.Instance.LogRaw("can't attack yourself!", InfoLogEntryType.Warning);
 
+                Disable();
+
                 return;
             }
 
             BeingUsed = true;
 
             UserController.EnterCombat();
-            UserController.TargetFinder.TargetController.EnterCombat();
-
+            userController.TargetFinder.TargetController.EnterCombat();
+               
             return;
+        }
+
+        private void Disable()
+        {
+            BeingUsed = false;
         }
 
         public override void Use(Entity user)
@@ -278,21 +291,31 @@ namespace vRPGEngine.Handlers.Spells
             if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(controller)) return;
             if (OnCooldown)                                                           return;
 
-            Toggle(user, controller);
-
             if (BeingUsed)
             {
-                if (Spell.GCD) GlobalCooldownManager.Instance.Trigger(user.FirstComponentOfType<ICharacterController>());
+                Disable();
+
+                return;
+            }
+            else
+            {
+                Enable(user, controller);
+
+                if (BeingUsed)
+                {
+                    if (Spell.GCD) GlobalCooldownManager.Instance.Trigger(user.FirstComponentOfType<ICharacterController>());
+                }
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!BeingUsed) return;
-
+            if (!BeingUsed)                                                               return;
             if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(UserController)) return;
 
-            BeingUsed = Tick(gameTime) == MeleeSpellState.Using;
+            BeingUsed = OnUse(gameTime) == MeleeSpellState.Using;
+
+            if (!BeingUsed) Disable();
         }
     }
 
