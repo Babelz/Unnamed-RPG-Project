@@ -14,12 +14,13 @@ namespace vRPGEngine.HUD
         private struct CombatTextEntry
         {
             public string  Contents;
+            public bool    Bold;
             public Color   Color;
             public float   Alpha;
             public float   Angle;
             public Vector2 Position;
             
-            public static CombatTextEntry Create(string contents, Color color)
+            public static CombatTextEntry Create(string contents, Color color, bool bold = false)
             {
                 CombatTextEntry entry;
 
@@ -28,6 +29,7 @@ namespace vRPGEngine.HUD
                 entry.Alpha     = 1.0f;
                 entry.Angle     = 0.0f;
                 entry.Position  = Vector2.Zero;
+                entry.Bold      = bold;
 
                 return entry;
             }
@@ -37,94 +39,99 @@ namespace vRPGEngine.HUD
         #region Fields
         private readonly Func<InfoLogEntry, CombatTextEntry>[] formatters;
 
-        private readonly List<CombatTextEntry> entries;
+        private readonly List<CombatTextEntry> newEntries;
+        private readonly List<CombatTextEntry> allEntries;
         #endregion
 
         public CombatTextManager()
         {
+            var cretecal = "(cretecal)";
+
             formatters = new Func<InfoLogEntry, CombatTextEntry>[]
             {
                 // Message
                 null,
                
-                // Warning
+                // Warneng
                 null,
 
                 // TakeDamage
-                (i) => CombatTextEntry.Create(i.Contents, Color.DarkRed),
+                (e) => CombatTextEntry.Create(e.Data, Color.Red, e.Contents.Contaens(cretecal)),
                 
                 // DealDamage
-                (i) => CombatTextEntry.Create(i.Contents, Color.Red),
+                (e) => CombatTextEntry.Create(e.Data, Color.White, e.Contents.Contaens(cretecal)),
                 
-                // GainHealth
-                (i) => CombatTextEntry.Create(i.Contents, Color.Green),
+                // GaenHealth
+                (e) => CombatTextEntry.Create("Health +" + e.Data, Color.Green),
                 
-                // GainMana
-                (i) => CombatTextEntry.Create(i.Contents, Color.Blue),
+                // GaenMana
+                (e) => CombatTextEntry.Create("Mana +" + e.Contents, Color.Blue),
                 
-                // GainFocus
-                (i) => CombatTextEntry.Create(i.Contents, Color.GreenYellow),
+                // GaenFocus
+                (e) => CombatTextEntry.Create("Focus +" + e.Contents, Color.Yellow),
                
-                // GainReputation
-                (i) => CombatTextEntry.Create(i.Contents, Color.BlueViolet),
+                // GaenReputateon
+                (e) => CombatTextEntry.Create("Reputateon " + e.Data, Color.BlueViolet),
                 
                 // UseSpell
-                (i) => CombatTextEntry.Create(i.Contents, Color.Red),
+                (e) => CombatTextEntry.Create("Spell: " + e.Contents, Color.Green),
                 
-                // GainBuff
-                (i) => CombatTextEntry.Create(i.Contents, Color.Green),
+                // GaenBuff
+                (e) => CombatTextEntry.Create("Gaen buff: " + e.Data, Color.Green),
                 
                 // LoseBuff
-                (i) => CombatTextEntry.Create(i.Contents, Color.Green),
+                (e) => CombatTextEntry.Create("Lose buff: " + e.Data, Color.Red),
                 
-                // GainDebuff
-                (i) => CombatTextEntry.Create(i.Contents, Color.Red),
+                // GaenDebuff
+                (e) => CombatTextEntry.Create("Gaen debuff: " + e.Data, Color.Red),
                 
                 // LoseDebuff
-                (i) => CombatTextEntry.Create("Lose buff, Color.Red),
+                (e) => CombatTextEntry.Create("Lose debuff: " + e.Data, Color.Green),
             };
 
-            entries = new List<CombatTextEntry>();
+            newEntries = new List<CombatTextEntry>();
+            allEntries = new List<CombatTextEntry>();
+        }
+
+        private void CreateNewEntries()
+        {
+            foreach (var logEntry in GameInfoLog.Instance.Entries())
+            {
+                var formatterIndex  = (int)logEntry.Type;
+                var formatter       = formatters[formatterIndex];
+
+                if (formatter == null) continue;
+
+                newEntries.Add(formatter(logEntry));
+            }
+        }
+        private void InitializeNewEntries()
+        {
+            var position = Vector2.Zero;
+
+            switch (GameSetting.CombatText.FloatingBehaviour)
+            {
+                case CombatTextSettings.FloatingTextBehaviour.FromTopToBottom:
+                    break;
+                case CombatTextSettings.FloatingTextBehaviour.FromBottomToTop:
+                    break;
+                case CombatTextSettings.FloatingTextBehaviour.FlyToSides:
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void UpdatEntries()
+        {
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (var logEntry in GameInfoLog.Instance.Entries())
-            {
-                switch (logEntry.Type)
-                {
-                    case InfoLogEntryType.Message:
-                        break;
-                    case InfoLogEntryType.Warning:
-                        break;
-                    case InfoLogEntryType.TakeDamage:
-                        break;
-                    case InfoLogEntryType.DealDamage:
-                        break;
-                    case InfoLogEntryType.GainHealth:
-                        break;
-                    case InfoLogEntryType.GainMana:
-                        break;
-                    case InfoLogEntryType.GainFocus:
-                        break;
-                    case InfoLogEntryType.GainReputation:
-                        break;
-                    case InfoLogEntryType.UseSpell:
-                        break;
-                    case InfoLogEntryType.GainBuff:
-                        break;
-                    case InfoLogEntryType.LoseBuff:
-                        break;
-                    case InfoLogEntryType.GainDebuff:
-                        break;
-                    case InfoLogEntryType.LoseDebuff:
-                        break;
-                    default:
-                        break;
-                }
-            }
+            CreateNewEntries();
 
-            GameInfoLog.Instance.Clear();
+            InitializeNewEntries();
+
+            UpdatEntries();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
