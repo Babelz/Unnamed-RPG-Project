@@ -76,10 +76,16 @@ namespace vRPGContent.Data.Spells
             get;
             set;
         }
+        public bool GCD
+        {
+            get;
+            set;
+        }
         #endregion
 
         public Spell()
         {
+            GCD = true;
         }
 
         public override string ToString()

@@ -22,6 +22,7 @@ namespace vRPGEngine.HUD
             public float   Alpha;
             public float   Angle;
             public Vector2 Position;
+            public int     Side;
             
             public CombatTextEntry(string contents, Color color, bool bold = false)
             {
@@ -30,6 +31,7 @@ namespace vRPGEngine.HUD
                 Bold        = bold;
                 Alpha       = 1.0f;
                 Angle       = 0.0f;
+                Side        = 0;
             }
         }
         #endregion
@@ -132,23 +134,17 @@ namespace vRPGEngine.HUD
             
             foreach (var newEntry in newEntries)
             {
-                switch (GameSetting.CombatText.FloatingBehaviour)
-                {
-                    case CombatTextSettings.FloatingTextBehaviour.FromBottomToTop:
-                    case CombatTextSettings.FloatingTextBehaviour.FromTopToBottom:
-                        if (TextSideLeft()) position.X -= Font.MeasureString(newEntry.Contents).X;
-                        else                position.X += Font.MeasureString(newEntry.Contents).X;
+                if (TextSideLeft()) { position.X -= Font.MeasureString(newEntry.Contents).X; newEntry.Side = -1; }
+                else                { position.X += Font.MeasureString(newEntry.Contents).X; newEntry.Side = 1;  }
 
-                        position.Y = Font.MeasureString(newEntry.Contents).Y + HUDRenderer.Instance.CanvasSize.Y / 2.0f;
-                        break;
-                    default:
-                        break;
+                if (GameSetting.CombatText.FloatingBehaviour != CombatTextSettings.FloatingTextBehaviour.FlyToSides)
+                {
+                    position.Y        = Font.MeasureString(newEntry.Contents).Y + HUDRenderer.Instance.CanvasSize.Y / 2.0f;
+
+                    newEntry.Position = position;
                 }
 
-                var entry       = newEntry;
-                entry.Position  = position;
-                
-                allEntries.Add(entry);
+                allEntries.Add(newEntry);
 
                 side++;
             }
@@ -174,11 +170,20 @@ namespace vRPGEngine.HUD
                         entry.Position.Y -= velocity * dt;
                         break;
                     case CombatTextSettings.FloatingTextBehaviour.FlyToSides:
+                        var radius = Font.MeasureString(entry.Contents).X;
+
+                        var cx = HUDRenderer.Instance.CanvasSize.X / 2.0f + (float)Math.Cos(entry.Angle) * radius * dt * entry.Side;
+                        var cy = HUDRenderer.Instance.CanvasSize.Y / 2.0f + (float)Math.Sin(entry.Angle) * radius * dt * entry.Side;
+
+                        entry.Position.X = cx;
+                        entry.Position.Y = cy;
+                        break;
                     default:
-                        throw new NotImplementedException();
+                        break;
                 }
 
                 entry.Alpha -= 0.01f * dt;
+                entry.Angle += 0.025f * dt;
 
                 if (entry.Alpha < 0.0f) allEntries.RemoveAt(i);
             }

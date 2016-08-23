@@ -124,7 +124,8 @@ namespace vRPGEngine
                 ShowHealthGains         = true,
                 ShowManaGains           = true,
                 ShowReputationChanges   = true,
-                Visible                 = true
+                Visible                 = true,
+                FloatingBehaviour       = CombatTextSettings.FloatingTextBehaviour.FromBottomToTop
             };
         }
 

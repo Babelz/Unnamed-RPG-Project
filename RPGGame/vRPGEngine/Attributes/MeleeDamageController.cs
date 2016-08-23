@@ -56,7 +56,7 @@ namespace vRPGEngine.Attributes
 
         private void GenerateSilentSwing(ref MeleeSwingResults swing, Weapon weapon)
         {
-            var critical    = specialization.TotalCriticalHitPercent() <= vRPGRandom.NextFloat();
+            var critical    = specialization.TotalCriticalHitPercent() >= vRPGRandom.NextFloat();
             var damage      = vRPGRandom.NextInt(weapon.BaseDamageMin, weapon.BaseDamageMax);
 
             damage          = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;

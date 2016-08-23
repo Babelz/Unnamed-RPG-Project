@@ -50,13 +50,15 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        protected override void RefreshIfCan(Buff buff)
+        protected override bool RefreshIfCan(Buff buff)
         {
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return;
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
 
             buff.Refresh();
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
+
+            return true;
         }
         protected override Buff UseIfCan()
         {

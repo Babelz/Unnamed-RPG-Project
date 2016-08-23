@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes.Spells;
+using vRPGEngine.Combat;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
@@ -31,12 +32,13 @@ namespace vRPGEngine.Handlers.Spells
             get;
             protected set;
         }
-        public bool InUse
+
+        public bool BeingUsed
         {
             get;
             protected set;
         }
-        public bool InCooldown
+        public bool OnCooldown
         {
             get;
             protected set;
@@ -161,25 +163,25 @@ namespace vRPGEngine.Handlers.Spells
 
             elapsed         = 0;
             CooldownElapsed = 0;
-            InUse         = true;
+            BeingUsed         = true;
 
-            if (Spell.Cooldown != 0) InCooldown = true;
+            if (Spell.Cooldown != 0) OnCooldown = true;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InCooldown)
+            if (OnCooldown)
             {
                 CooldownElapsed += gameTime.ElapsedGameTime.Milliseconds;
 
                 if (CooldownElapsed >= Spell.Cooldown)
                 {
-                    InCooldown      = false;
+                    OnCooldown      = false;
                     CooldownElapsed = 0;
                 }
             }
 
-            if (InUse)
+            if (BeingUsed)
             {
                 elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -187,7 +189,7 @@ namespace vRPGEngine.Handlers.Spells
                 {
                     DisposeSensor();
 
-                    InUse = false;
+                    BeingUsed = false;
                 }
             }
         }
@@ -230,22 +232,22 @@ namespace vRPGEngine.Handlers.Spells
 
         protected abstract MeleeSpellState Tick(GameTime gameTime);
 
-        private void Toggle(Entity user)
+        private void Toggle(Entity user, ICharacterController userController)
         {
-            User = user;
-
-            UserController = user.FirstComponentOfType<ICharacterController>();
-
-            if (InUse)
+            User            = user;
+            UserController  = userController;
+            
+            // Toggle off.
+            if (BeingUsed)
             {
                 UserController.MeleeDamageController.LeaveCombat();
 
-                InUse = false;
+                BeingUsed = false;
 
                 return;
             }
 
-            if (UserController == null)                               return;
+            // Try toggle.
             if (UserController.TargetFinder.TargetController == null) return;
 
             if (!MeleeHelper.InRange(UserController, user, Spell))
@@ -261,7 +263,7 @@ namespace vRPGEngine.Handlers.Spells
                 return;
             }
 
-            InUse = true;
+            BeingUsed = true;
 
             UserController.EnterCombat();
             UserController.TargetFinder.TargetController.EnterCombat();
@@ -271,14 +273,26 @@ namespace vRPGEngine.Handlers.Spells
 
         public override void Use(Entity user)
         {
-            Toggle(user);
+            var controller = user.FirstComponentOfType<ICharacterController>();
+            
+            if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(controller)) return;
+            if (OnCooldown)                                                           return;
+
+            Toggle(user, controller);
+
+            if (BeingUsed)
+            {
+                if (Spell.GCD) GlobalCooldownManager.Instance.Trigger(user.FirstComponentOfType<ICharacterController>());
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!InUse) return;
+            if (!BeingUsed) return;
 
-            InUse = Tick(gameTime) == MeleeSpellState.Using;
+            if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(UserController)) return;
+
+            BeingUsed = Tick(gameTime) == MeleeSpellState.Using;
         }
     }
 
@@ -321,27 +335,27 @@ namespace vRPGEngine.Handlers.Spells
             Debug.Assert(user != null);
 
             User           = user;
-            InUse         = true;
+            BeingUsed         = true;
             CooldownElapsed = 0;
             Elapsed         = 0;
 
-            if (Spell.Cooldown != 0) InCooldown = true;
+            if (Spell.Cooldown != 0) OnCooldown = true;
         }
         
         public override void Update(GameTime gameTime)
         {
-            if (InCooldown)
+            if (OnCooldown)
             {
                 CooldownElapsed += gameTime.ElapsedGameTime.Milliseconds;
 
                 if (CooldownElapsed >= Spell.Cooldown)
                 {
-                    InCooldown = false;
+                    OnCooldown = false;
                     CooldownElapsed = 0;
                 }
             }
 
-            if (InUse)
+            if (BeingUsed)
             {
                 Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -400,8 +414,9 @@ namespace vRPGEngine.Handlers.Spells
             Renderable = renderable;
         }
 
-        protected virtual void RefreshIfCan(Buff buff)
+        protected virtual bool RefreshIfCan(Buff buff)
         {
+            return true;
         }
         protected virtual Buff UseIfCan()
         {
@@ -419,40 +434,45 @@ namespace vRPGEngine.Handlers.Spells
         {
             User            = user;
             UserController  = user.FirstComponentOfType<ICharacterController>();
-            InUse         = true;
+            
+            if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(UserController)) return;
+
+            BeingUsed       = true;
             Elapsed         = 0;
             CooldownElapsed = 0;
 
-            if (Spell.Cooldown != 0) InCooldown = true;
+            if (Spell.Cooldown != 0) OnCooldown = true;
 
             buff = UserController.Buffs.Buffs.FirstOrDefault(b => b.FromSpell.ID == Spell.ID);
 
             if (buff != null)
             {
-                RefreshIfCan(buff);
+                if (RefreshIfCan(buff))
+                    GlobalCooldownManager.Instance.Trigger(UserController);
             }
             else
             {
                 buff = UseIfCan();
 
-                if (buff == null) InUse = false;
+                if (buff == null)   BeingUsed = false;
+                else                GlobalCooldownManager.Instance.Trigger(UserController);
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InCooldown)
+            if (OnCooldown)
             {
                 CooldownElapsed += gameTime.ElapsedGameTime.Milliseconds;
 
                 if (CooldownElapsed >= Spell.Cooldown)
                 {
-                    InCooldown      = false;
+                    OnCooldown      = false;
                     CooldownElapsed = 0;
                 }
             }
 
-            if (!InUse) return;
+            if (!BeingUsed) return;
 
             Elapsed += gameTime.ElapsedGameTime.Milliseconds;
 
@@ -460,7 +480,7 @@ namespace vRPGEngine.Handlers.Spells
             {
                 Remove();
 
-                InUse = false;
+                BeingUsed = false;
             }
         }
 

@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Allocator.cs" />
+    <Compile Include="Combat\GlobalCooldownManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="GameSetting.cs" />

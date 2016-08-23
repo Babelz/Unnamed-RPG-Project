@@ -165,7 +165,8 @@
 			"IconName":		"AutoAttack",
 			"Element": 		0,
 			"HandlerName": 	"AutoAttack",
-			"Range":		0.5
+			"Range":		0.5,
+			"GCD": 			0
 		},
 
 		{

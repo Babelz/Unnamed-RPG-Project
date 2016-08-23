@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Combat;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS.Handlers;
@@ -172,6 +173,8 @@ namespace vRPGEngine
             {
                 // TODO: wrap.
                 // Init managers.
+                GlobalCooldownManager.Instance.Activate();
+
                 ComponentManager<DataDictionary>.Instance.Activate();
 
                 ComponentManager<SpriteRenderer>.Instance.Activate();
