@@ -32,7 +32,7 @@ namespace vRPGEngine.Handlers.Spells
 
                 UserController.TargetFinder.TargetController.Statuses.Health -= damage;
 
-                GameInfoLog.Instance.LogRaw(damage.ToString(), InfoLogEntryType.Message);
+                GameInfoLog.Instance.LogDealDamage(damage, swing.Critical, Spell.Name, UserController.TargetFinder.Target.Tags);
 
                 if (!UserController.TargetFinder.TargetController.Alive) return MeleeSpellState.Used;
             }

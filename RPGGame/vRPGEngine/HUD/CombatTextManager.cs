@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine.HUD
 {
     public sealed class CombatTextManager
     {
-        #region CombatTextEntry struct
-        private struct CombatTextEntry
+        #region Combat text entry class
+        private sealed class CombatTextEntry
         {
             public string  Contents;
             public bool    Bold;
@@ -20,32 +23,39 @@ namespace vRPGEngine.HUD
             public float   Angle;
             public Vector2 Position;
             
-            public static CombatTextEntry Create(string contents, Color color, bool bold = false)
+            public CombatTextEntry(string contents, Color color, bool bold = false)
             {
-                CombatTextEntry entry;
-
-                entry.Contents  = contents;
-                entry.Color     = color;
-                entry.Alpha     = 1.0f;
-                entry.Angle     = 0.0f;
-                entry.Position  = Vector2.Zero;
-                entry.Bold      = bold;
-
-                return entry;
+                Contents    = contents;
+                Color       = color;
+                Bold        = bold;
+                Alpha       = 1.0f;
+                Angle       = 0.0f;
             }
         }
         #endregion
-
+        
         #region Fields
         private readonly Func<InfoLogEntry, CombatTextEntry>[] formatters;
 
         private readonly List<CombatTextEntry> newEntries;
         private readonly List<CombatTextEntry> allEntries;
+        
+        private int side;
+        #endregion
+
+        #region Properties
+        public SpriteFont Font
+        {
+            get;
+            set;
+        }
         #endregion
 
         public CombatTextManager()
         {
-            var cretecal = "(cretecal)";
+            Font            = DefaultValues.DefaultFont;
+
+            var critical    = "(critical)";
 
             formatters = new Func<InfoLogEntry, CombatTextEntry>[]
             {
@@ -56,41 +66,50 @@ namespace vRPGEngine.HUD
                 null,
 
                 // TakeDamage
-                (e) => CombatTextEntry.Create(e.Data, Color.Red, e.Contents.Contaens(cretecal)),
+                (e) => new CombatTextEntry(e.Data, Color.Red, e.Contents.Contains(critical)),
                 
                 // DealDamage
-                (e) => CombatTextEntry.Create(e.Data, Color.White, e.Contents.Contaens(cretecal)),
+                (e) => new CombatTextEntry(e.Data, Color.White, e.Contents.Contains(critical)),
                 
                 // GaenHealth
-                (e) => CombatTextEntry.Create("Health +" + e.Data, Color.Green),
+                (e) => new CombatTextEntry("Health +" + e.Data, Color.Green),
                 
                 // GaenMana
-                (e) => CombatTextEntry.Create("Mana +" + e.Contents, Color.Blue),
+                (e) => new CombatTextEntry("Mana +" + e.Contents, Color.Blue),
                 
                 // GaenFocus
-                (e) => CombatTextEntry.Create("Focus +" + e.Contents, Color.Yellow),
+                (e) => new CombatTextEntry("Focus +" + e.Contents, Color.Yellow),
                
                 // GaenReputateon
-                (e) => CombatTextEntry.Create("Reputateon " + e.Data, Color.BlueViolet),
+                (e) => new CombatTextEntry("Reputateon " + e.Data, Color.BlueViolet),
                 
                 // UseSpell
-                (e) => CombatTextEntry.Create("Spell: " + e.Contents, Color.Green),
+                (e) => new CombatTextEntry("Spell: " + e.Contents, Color.Green),
                 
                 // GaenBuff
-                (e) => CombatTextEntry.Create("Gaen buff: " + e.Data, Color.Green),
+                (e) => new CombatTextEntry("Gaen buff: " + e.Data, Color.Green),
                 
                 // LoseBuff
-                (e) => CombatTextEntry.Create("Lose buff: " + e.Data, Color.Red),
+                (e) => new CombatTextEntry("Lose buff: " + e.Data, Color.Red),
                 
                 // GaenDebuff
-                (e) => CombatTextEntry.Create("Gaen debuff: " + e.Data, Color.Red),
+                (e) => new CombatTextEntry("Gaen debuff: " + e.Data, Color.Red),
                 
                 // LoseDebuff
-                (e) => CombatTextEntry.Create("Lose debuff: " + e.Data, Color.Green),
+                (e) => new CombatTextEntry("Lose debuff: " + e.Data, Color.Green),
             };
 
             newEntries = new List<CombatTextEntry>();
             allEntries = new List<CombatTextEntry>();
+        }
+        
+        private bool TextSideLeft()
+        {
+            return side % 2 == 0;
+        }
+        private bool TextSideRight()
+        {
+            return side % 2 != 0;
         }
 
         private void CreateNewEntries()
@@ -108,21 +127,61 @@ namespace vRPGEngine.HUD
         private void InitializeNewEntries()
         {
             var position = Vector2.Zero;
-
-            switch (GameSetting.CombatText.FloatingBehaviour)
+            
+            position.X   = HUDRenderer.Instance.CanvasSize.X / 2.0f;
+            
+            foreach (var newEntry in newEntries)
             {
-                case CombatTextSettings.FloatingTextBehaviour.FromTopToBottom:
-                    break;
-                case CombatTextSettings.FloatingTextBehaviour.FromBottomToTop:
-                    break;
-                case CombatTextSettings.FloatingTextBehaviour.FlyToSides:
-                    break;
-                default:
-                    break;
+                switch (GameSetting.CombatText.FloatingBehaviour)
+                {
+                    case CombatTextSettings.FloatingTextBehaviour.FromBottomToTop:
+                    case CombatTextSettings.FloatingTextBehaviour.FromTopToBottom:
+                        if (TextSideLeft()) position.X -= Font.MeasureString(newEntry.Contents).X;
+                        else                position.X += Font.MeasureString(newEntry.Contents).X;
+
+                        position.Y = Font.MeasureString(newEntry.Contents).Y + HUDRenderer.Instance.CanvasSize.Y / 2.0f;
+                        break;
+                    default:
+                        break;
+                }
+
+                var entry       = newEntry;
+                entry.Position  = position;
+                
+                allEntries.Add(entry);
+
+                side++;
             }
+
+            newEntries.Clear();
         }
-        private void UpdatEntries()
+
+        private void UpdatEntries(GameTime gameTime)
         {
+            var dt       = gameTime.ElapsedGameTime.Milliseconds * 0.1f;
+            var velocity = 0.35f;
+
+            for (int i = 0; i < allEntries.Count; i++)
+            {
+                var entry = allEntries[i];
+
+                switch (GameSetting.CombatText.FloatingBehaviour)
+                {
+                    case CombatTextSettings.FloatingTextBehaviour.FromTopToBottom:
+                        entry.Position.Y += velocity * dt;
+                        break;
+                    case CombatTextSettings.FloatingTextBehaviour.FromBottomToTop:
+                        entry.Position.Y -= velocity * dt;
+                        break;
+                    case CombatTextSettings.FloatingTextBehaviour.FlyToSides:
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                entry.Alpha -= 0.01f * dt;
+
+                if (entry.Alpha < 0.0f) allEntries.RemoveAt(i);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -131,10 +190,22 @@ namespace vRPGEngine.HUD
 
             InitializeNewEntries();
 
-            UpdatEntries();
+            UpdatEntries(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+            foreach (var entry in allEntries)
+            {
+                spriteBatch.DrawString(Font,
+                                       entry.Contents,
+                                       entry.Position,
+                                       entry.Color * entry.Alpha,
+                                       0.0f,
+                                       Vector2.Zero,
+                                       entry.Bold ? 1.5f : 1.0f,
+                                       SpriteEffects.None,
+                                       0.0f);
+            }
         }
     }
 }

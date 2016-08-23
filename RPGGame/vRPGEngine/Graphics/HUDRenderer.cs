@@ -74,7 +74,7 @@ namespace vRPGEngine.Graphics
         {
             if (!GameSetting.HUD.Visible) return;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             UpdateCombatText(gameTime);
             UpdateHUD(gameTime);

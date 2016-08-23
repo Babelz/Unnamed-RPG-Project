@@ -125,6 +125,7 @@ namespace RPGGame
         private static Entity SheepPrefab()
         {
             var sheep       = Entity.Create();
+            sheep.Tags      = "Sheep";
 
             var width       = RPGWorld.UnitToPixel * 1.3f;
             var height      = RPGWorld.UnitToPixel * 0.7f;
