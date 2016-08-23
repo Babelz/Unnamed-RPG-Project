@@ -47,6 +47,8 @@ namespace vRPGEngine.Attributes.Specializations
             Statuses.Focus += regen;
 
             Statuses.Focus = Statuses.Focus >= TotalFocus() ? TotalFocus() : Statuses.Focus;
+
+            if (regen != 0) GameInfoLog.Instance.LogGainFocus(regen, "melee swing", "Player");
         }
         #endregion
 

@@ -21,6 +21,12 @@ namespace vRPGEngine.Attributes
 
         public Weapon Weapon;
     }
+    
+    public enum Hand
+    {
+        Main    = 0,
+        Off     = 1
+    }
 
     public sealed class MeleeDamageController
     {
@@ -66,9 +72,18 @@ namespace vRPGEngine.Attributes
             swing.Weapon    = weapon;
         }
 
-        public void GenerateSwing(ref MeleeSwingResults swing, Weapon weapon)
+        public void GenerateSwing(ref MeleeSwingResults swing, Hand hand = Hand.Main)
         {
-            GenerateSilentSwing(ref swing, weapon);
+            GenerateSilentSwing(ref swing, weapons[(int)hand]);
+
+            OnSwing?.Invoke(ref swing);
+        }
+
+        public void GenerateMeleeAttackPowerBasedSwing(ref MeleeSwingResults swing, float percent, Hand hand = Hand.Main)
+        {
+            GenerateSilentSwing(ref swing, weapons[(int)hand]);
+
+            swing.Damage += (int)(specialization.TotalMeleePower() * percent);
 
             OnSwing?.Invoke(ref swing);
         }

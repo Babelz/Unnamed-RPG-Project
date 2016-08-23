@@ -77,25 +77,25 @@ namespace vRPGEngine.HUD
                 (e) => new CombatTextEntry("Health +" + e.Data, Color.Green),
                 
                 // GaenMana
-                (e) => new CombatTextEntry("Mana +" + e.Contents, Color.Blue),
+                (e) => new CombatTextEntry("Mana +" + e.Data, Color.Blue),
                 
                 // GaenFocus
-                (e) => new CombatTextEntry("Focus +" + e.Contents, Color.Yellow),
+                (e) => new CombatTextEntry("Focus +" + e.Data, Color.Yellow),
                
                 // GaenReputateon
-                (e) => new CombatTextEntry("Reputateon " + e.Data, Color.BlueViolet),
+                (e) => new CombatTextEntry("Reputation " + e.Data, Color.BlueViolet),
                 
                 // UseSpell
-                (e) => new CombatTextEntry("Spell: " + e.Contents, Color.Green),
+                (e) => new CombatTextEntry("Spell: " + e.Data, Color.Green),
                 
                 // GaenBuff
-                (e) => new CombatTextEntry("Gaen buff: " + e.Data, Color.Green),
+                (e) => new CombatTextEntry("Gain buff: " + e.Data, Color.Green),
                 
                 // LoseBuff
                 (e) => new CombatTextEntry("Lose buff: " + e.Data, Color.Red),
                 
                 // GaenDebuff
-                (e) => new CombatTextEntry("Gaen debuff: " + e.Data, Color.Red),
+                (e) => new CombatTextEntry("Gain debuff: " + e.Data, Color.Red),
                 
                 // LoseDebuff
                 (e) => new CombatTextEntry("Lose debuff: " + e.Data, Color.Green),
@@ -129,17 +129,19 @@ namespace vRPGEngine.HUD
         private void InitializeNewEntries()
         {
             var position = Vector2.Zero;
-            
-            position.X   = HUDRenderer.Instance.CanvasSize.X / 2.0f;
-            
+
+            position.Y = HUDRenderer.Instance.CanvasSize.Y / 2.0f;
+
             foreach (var newEntry in newEntries)
             {
+                position.X = HUDRenderer.Instance.CanvasSize.X / 2.0f;
+
                 if (TextSideLeft()) { position.X -= Font.MeasureString(newEntry.Contents).X; newEntry.Side = -1; }
-                else                { position.X += Font.MeasureString(newEntry.Contents).X; newEntry.Side = 1;  }
+                else                { position.X += Font.MeasureString(newEntry.Contents).X / 2.0f; newEntry.Side = 1;  }
 
                 if (GameSetting.CombatText.FloatingBehaviour != CombatTextSettings.FloatingTextBehaviour.FlyToSides)
                 {
-                    position.Y        = Font.MeasureString(newEntry.Contents).Y + HUDRenderer.Instance.CanvasSize.Y / 2.0f;
+                    position.Y        += Font.MeasureString(newEntry.Contents).Y;
 
                     newEntry.Position = position;
                 }
@@ -182,7 +184,7 @@ namespace vRPGEngine.HUD
                         break;
                 }
 
-                entry.Alpha -= 0.01f * dt;
+                entry.Alpha -= 0.0025f * dt;
                 entry.Angle += 0.025f * dt;
 
                 if (entry.Alpha < 0.0f) allEntries.RemoveAt(i);

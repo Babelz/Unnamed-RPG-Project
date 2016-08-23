@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Databases;
+using vRPGEngine.Attributes;
 
 namespace vRPGEngine.Handlers.Spells
 {
@@ -23,12 +24,13 @@ namespace vRPGEngine.Handlers.Spells
             if (!MeleeHelper.InRange(UserController, User, Spell))                                  return MeleeSpellState.Used;
             if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return MeleeSpellState.Used;
 
-            var damage = (int)(UserController.Specialization.TotalMeleePower() * 0.15f);
+            MeleeSwingResults swing = new MeleeSwingResults();
+            UserController.MeleeDamageController.GenerateMeleeAttackPowerBasedSwing(ref swing, 0.15f);
 
-            UserController.TargetFinder.TargetController.Statuses.Health -= damage;
+            UserController.TargetFinder.TargetController.Statuses.Health -= swing.Damage;
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
-            GameInfoLog.Instance.LogRaw(damage.ToString(), InfoLogEntryType.Message);
+            GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.Target.Tags);
 
             return MeleeSpellState.Used;
         }
