@@ -9,7 +9,7 @@ namespace vRPGEngine
     public sealed class HUDSettings
     {
         #region Properties
-        public static bool HUDVisible
+        public bool HUDVisible
         {
             get;
             set;
@@ -31,37 +31,37 @@ namespace vRPGEngine
     public sealed class CombatTextSettings
     {
         #region Properties
-        public static bool ShowDamageDealt
+        public bool ShowDamageDealt
         {
             get;
             set;
         }
-        public static bool ShowDamageTaken
+        public bool ShowDamageTaken
         {
             get;
             set;
         }
-        public static bool Visible
+        public bool Visible
         {
             get;
             set;
         }
-        public static bool ShowReputationChanges
+        public bool ShowReputationChanges
         {
             get;
             set;
         }
-        public static bool ShowHealthGains
+        public bool ShowHealthGains
         {
             get;
             set;
         }
-        public static bool ShowManaGains
+        public bool ShowManaGains
         {
             get;
             set;
         }
-        public static bool ShowFocusGains
+        public bool ShowFocusGains
         {
             get;
             set;
@@ -83,18 +83,46 @@ namespace vRPGEngine
     public static class GameSetting
     {
         #region Properties
+        public static HUDSettings HUD
+        {
+            get;
+            private set;
+        }
+        public static CombatTextSettings CombatText
+        {
+            get;
+            private set;
+        }
         #endregion
 
         static GameSetting()
         {
-            HUDVisible = true;
+            HUD         = new HUDSettings()
+            {
+                HUDVisible = true
+            };
+
+            CombatText  = new CombatTextSettings()
+            {
+                ShowDamageDealt         = true,
+                ShowDamageTaken         = true,
+                ShowFocusGains          = true,
+                ShowHealthGains         = true,
+                ShowManaGains           = true,
+                ShowReputationChanges   = true,
+                Visible                 = true
+            };
         }
 
         public static void Load()
         {
+            HUD.Load();
+            CombatText.Load();
         }
         public static void Save()
         {
+            HUD.Save();
+            CombatText.Save();
         }
     }
 }
