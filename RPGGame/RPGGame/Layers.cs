@@ -14,7 +14,6 @@ namespace RPGGame
         public const int Middle  = 1;
         public const int Top     = 2;
         public const int Effects = 3;
-        public const int HUD     = 4;
         #endregion
 
         public static void Create()
@@ -25,13 +24,11 @@ namespace RPGGame
             Renderer.Instance.CreateLayer();
             Renderer.Instance.CreateLayer();
             Renderer.Instance.CreateLayer();
-            Renderer.Instance.CreateLayer();
 
             Renderer.Instance.ShowLayer(Bottom);
             Renderer.Instance.ShowLayer(Middle);
             Renderer.Instance.ShowLayer(Top);
             Renderer.Instance.ShowLayer(Effects);
-            Renderer.Instance.ShowLayer(HUD);
         }
     }
 }
