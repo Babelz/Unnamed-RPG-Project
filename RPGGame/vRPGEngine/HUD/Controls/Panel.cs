@@ -94,9 +94,9 @@ namespace vRPGEngine.HUD.Controls
             for (int i = 0; i < children.Count; i++) children[i].Update(gameTime);
         }
 
-        protected override void OnRender(GameTime gameTime)
+        protected override void OnDraw(GameTime gameTime)
         {
-            if (element != null) HUDRenderer.Instance.Present(element);
+            if (element != null) HUDRenderer.Instance.Show(element);
         }
 
         public void Add(Control child)

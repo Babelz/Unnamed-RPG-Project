@@ -53,6 +53,8 @@
     <Compile Include="Allocator.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="EnumExtensions.cs" />
+    <Compile Include="GameSetting.cs" />
+    <Compile Include="Graphics\FloatingCombatText.cs" />
     <Compile Include="Handlers\Spells\FocusedStrike.cs" />
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />

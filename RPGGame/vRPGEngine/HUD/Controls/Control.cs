@@ -271,7 +271,7 @@ namespace vRPGEngine.HUD.Controls
         {
         }
 
-        protected virtual void OnRender(GameTime gameTime)
+        protected virtual void OnDraw(GameTime gameTime)
         {
         }
         protected virtual void OnUpdate(GameTime gameTime)
@@ -345,7 +345,7 @@ namespace vRPGEngine.HUD.Controls
         public void Update(GameTime gameTime)
         {
             if (Enabled) OnUpdate(gameTime);
-            if (Visible) OnRender(gameTime);
+            if (Visible) OnDraw(gameTime);
         }
     }
 }

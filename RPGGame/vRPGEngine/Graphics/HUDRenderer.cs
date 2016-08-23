@@ -53,47 +53,31 @@ namespace vRPGEngine.Graphics
             elements    = new List<IDisplayElement>();
         }
 
+        private void DrawHUD(GameTime gameTime)
+        {
+            for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
+
+            elements.Clear();
+        }
+        private void DrawCombatText(GameTime gameTime)
+        {
+        }
+
         protected override void OnUpdate(GameTime gameTime)
         {
-            if (GameInfoLog.Instance.Entries().Count() != 0) elapsed += gameTime.ElapsedGameTime.Milliseconds;
+            if (!GameSetting.HUDVisible) return;
 
             if (Root != null) Root.Update(gameTime);
 
             spriteBatch.Begin();
 
-            var viewport = Engine.Instance.GraphicsDevice.Viewport;
-
-            Vector2 offset;
-
-            offset.X = viewport.Width / 2.0f;
-            offset.Y = viewport.Height / 2.0f;
-
-            var font = DefaultValues.DefaultFont;
-
-            foreach (var entry in GameInfoLog.Instance.Entries())
-            {
-                var size     = font.MeasureString(entry.Contents);
-                var position = new Vector2(offset.X - size.X / 2.0f, offset.Y + size.Y);
-                var color    = entry.Type == InfoLogEntryType.Message ? Color.Green : Color.Yellow;
-
-                spriteBatch.DrawString(DefaultValues.DefaultFont, entry.Contents, position, color);
-            }
-
-            for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
-
-            elements.Clear();
+            DrawCombatText(gameTime);
+            DrawHUD(gameTime);
 
             spriteBatch.End();
-
-            if (elapsed > 2500)
-            {
-                GameInfoLog.Instance.Clear();
-
-                elapsed = 0;
-            }
         }
 
-        public void Present(IDisplayElement element)
+        public void Show(IDisplayElement element)
         {
             Debug.Assert(element != null);
 

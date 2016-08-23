@@ -136,9 +136,9 @@ namespace vRPGEngine.HUD.Controls
             }
         }
 
-        protected override void OnRender(GameTime gameTime)
+        protected override void OnDraw(GameTime gameTime)
         {
-            if (element != null) HUDRenderer.Instance.Present(element);
+            if (element != null) HUDRenderer.Instance.Show(element);
         }
 
         protected override void OnInvalidate()
