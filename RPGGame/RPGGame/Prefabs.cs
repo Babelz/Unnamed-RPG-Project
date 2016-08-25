@@ -40,10 +40,11 @@ namespace RPGGame
             rendrer.Sprite.Layer = Layers.Middle;
             rendrer.Sprite.ScaleTo(new Vector2(32.0f), rendrer.Sprite.Texture);
 
-            var collider            = player.AddComponent<Collider>();
+            var collider             = player.AddComponent<Collider>();
             collider.MakeDynamicBox(32.0f, 32.0f);
-            collider.Category       = CollisionCategories.Entitites;
-            collider.CollidesWith   = CollisionCategories.World;
+            collider.Category        = CollisionCategories.Entitites;
+            collider.CollidesWith    = CollisionCategories.World;
+            collider.DisplayPosition = new Vector2(100.0f, 100.0f);
 
             var behaviour = player.AddComponent<Behaviour>();
 
@@ -81,7 +82,7 @@ namespace RPGGame
 
             // Init input.
             var kip = InputManager.Instance.GetProvider<KeyboardInputProvider>();
-            var velo = 2.0f;
+            var velo = 1.0f;
 
             kip.Bind("player_up", Keys.W, KeyTrigger.Down, () =>
             {

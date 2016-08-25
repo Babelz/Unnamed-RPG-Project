@@ -170,11 +170,9 @@ namespace vRPGEngine.Maps
                                          layer.Visible,
                                          location));
             }
-
+            
             foreach (var layer in data.Layers)
             {
-                if (layer.Name != "Middle") continue;
-
                 var opacity     = layer.Opacity;
                 var visible     = layer.Visible;
 
@@ -200,7 +198,7 @@ namespace vRPGEngine.Maps
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
                     var x           = (float)tile.X * tileWidth;
                     var y           = (float)tile.Y * tileHeight;
-                    var depth       = Math.Abs((y - tileHeight)) / (mapHeight * tileHeight);
+                    var depth       = Math.Abs((y + tileHeight)) / (mapHeight * tileHeight);
                     
                     tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible, location, depth));
 

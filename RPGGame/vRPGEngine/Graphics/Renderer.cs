@@ -128,7 +128,7 @@ namespace vRPGEngine.Graphics
 
                     spriteBatch.Begin(SpriteSortMode.FrontToBack,
                                       BlendState.AlphaBlend,
-                                      null,
+                                      SamplerState.PointClamp,
                                       null,
                                       null,
                                       layer.Effect,

@@ -29,10 +29,11 @@ namespace RPGGame
         public RPGGame()
             : base()
         {
-            graphics                            = new GraphicsDeviceManager(this);
-            graphics.PreferMultiSampling        = true;
-            graphics.PreferredBackBufferWidth   = 1280;
-            graphics.PreferredBackBufferHeight  = 720;
+            graphics                                = new GraphicsDeviceManager(this);
+            graphics.SynchronizeWithVerticalRetrace = true;
+            graphics.PreferMultiSampling            = false;
+            graphics.PreferredBackBufferWidth       = 1280;
+            graphics.PreferredBackBufferHeight      = 720;
 
             graphics.ApplyChanges();
             

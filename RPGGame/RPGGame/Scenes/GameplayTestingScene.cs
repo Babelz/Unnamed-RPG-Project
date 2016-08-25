@@ -15,16 +15,28 @@ namespace RPGGame.Scenes
         public GameplayTestingScene()
             : base()
         {
+            TileEngine.PropertiesChanged += TileEngine_PropertiesChanged;
         }
+
+        #region Event handlers
+        private void TileEngine_PropertiesChanged(object sender, EventArgs e)
+        {
+            var layerWidth  = TileEngine.MapWidth * TileEngine.TileWidth;
+            var layerHeight = TileEngine.MapHeight * TileEngine.TileHeight;
+            var cellWidth   = layerWidth / 16;
+            var cellHeight  = layerHeight / 16;
+
+            Renderer.Instance.SetPresentationParameters(layerWidth, layerHeight, cellWidth, cellHeight);
+            Layers.Create();
+        }
+        #endregion
 
         public override void Initialize()
         {
-            Renderer.Instance.SetPresentationParameters(3200, 3200, 160, 160, 3, 3);
             Renderer.Instance.DynamicPadding = true;
 
             Prefabs.Create();
-            Layers.Create();
-
+            
             TileMapManager.Instance.Load("demo");
 
             var player = EntityBuilder.Instance.Create("player");
