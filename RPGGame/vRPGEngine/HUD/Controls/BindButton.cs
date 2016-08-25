@@ -35,7 +35,7 @@ namespace vRPGEngine.HUD.Controls
             
             public void Execute()
             {
-                handler.Use(EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player"));
+                handler.Use(EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player")));
             }
         }
         #endregion

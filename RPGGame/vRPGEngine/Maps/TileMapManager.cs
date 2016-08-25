@@ -47,7 +47,7 @@ namespace vRPGEngine.Maps
         private Entity ImageLayer(string name, string image, float x, float y, float opacity, bool visible, int location)
         {
             var layer               = EntityBuilder.Instance.Create("empty");
-            layer.Tags              = name;
+            layer.Tag(name);
 
             var renderer            = layer.AddComponent<SpriteRenderer>();
             renderer.Sprite.Layer   = location;
@@ -66,7 +66,8 @@ namespace vRPGEngine.Maps
         private Entity Layer(string name)
         {
             var layer   = Entity.Create();
-            layer.Tags  = name;
+
+            layer.Tag(name);
 
             return layer;
         }
@@ -91,7 +92,8 @@ namespace vRPGEngine.Maps
         private Entity Wall(float x, float y, float width, float height, float rotation)
         {
             var collider  = Entity.Create();
-            collider.Tags = "wall";
+
+            collider.Tag("wall");
 
             var box = collider.AddComponent<BoxCollider>();
             box.MakeStatic(width, height, x, y);

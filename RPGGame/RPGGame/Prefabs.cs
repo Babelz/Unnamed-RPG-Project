@@ -29,7 +29,8 @@ namespace RPGGame
         private static Entity PlayerPrefab()
         {
             var player  = Entity.Create();
-            player.Tags = "player";
+
+            player.Tag("player");
 
             var transform = player.AddComponent<Transform>();
 
@@ -125,7 +126,8 @@ namespace RPGGame
         private static Entity SheepPrefab()
         {
             var sheep       = Entity.Create();
-            sheep.Tags      = "Sheep";
+
+            sheep.Tag("npc");
 
             var width       = RPGWorld.UnitToPixel * 1.3f;
             var height      = RPGWorld.UnitToPixel * 0.7f;

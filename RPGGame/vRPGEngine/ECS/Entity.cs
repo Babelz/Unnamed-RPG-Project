@@ -104,7 +104,7 @@ namespace vRPGEngine.ECS
             return null;
         }
 
-        public bool HasTag(string tag)
+        public bool Tagged(string tag)
         {
             var hash = tag.GetHashCode();
 
@@ -112,7 +112,7 @@ namespace vRPGEngine.ECS
         }
         public void Tag(string tag)
         {
-            if (HasTag(tag)) return;
+            if (Tagged(tag)) return;
 
             tags.Add(tag.GetHashCode());
         }

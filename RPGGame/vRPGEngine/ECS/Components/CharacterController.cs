@@ -342,7 +342,7 @@ namespace vRPGEngine.ECS.Components
                 {
                     var spellHandler = SpellHandlerFactory.Instance.Create(spell.HandlerName);
 
-                    if (Handler != null) Spells.Add(spellHandler);
+                    if (Handler != null) this.spells.Add(spellHandler);
                 }
             }
         }
@@ -371,7 +371,7 @@ namespace vRPGEngine.ECS.Components
         public void Update(GameTime gameTime)
         {
             // Death/decay update.
-            if (!Alive)
+            if (!Statuses.Alive)
             {
                 // Death update.
                 OnDeath?.Invoke(this);
@@ -404,7 +404,7 @@ namespace vRPGEngine.ECS.Components
                 }
                 else
                 {
-                    if (Handler.CombatUpdate(gameTime, Spells)) CombatElapsed = 0;
+                    if (Handler.CombatUpdate(gameTime, spells)) CombatElapsed = 0;
                     else CombatElapsed += gameTime.ElapsedGameTime.Milliseconds;
                 }
 

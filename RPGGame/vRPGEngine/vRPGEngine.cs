@@ -101,7 +101,7 @@ namespace vRPGEngine
 
             DebugRenderer.Instance.AddString((gt) =>
             {
-                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
 
                 if (player == null) return string.Empty;
 
@@ -117,7 +117,7 @@ namespace vRPGEngine
 
             DebugRenderer.Instance.AddString((gt) =>
             {
-                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
 
                 if (player == null) return string.Empty;
 
@@ -130,7 +130,7 @@ namespace vRPGEngine
 
             DebugRenderer.Instance.AddString((gt) =>
             {
-                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
 
                 if (player == null) return string.Empty;
 
@@ -141,7 +141,7 @@ namespace vRPGEngine
 
             DebugRenderer.Instance.AddString((gt) =>
             {
-                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
 
                 if (player == null) return string.Empty;
 
@@ -152,7 +152,7 @@ namespace vRPGEngine
 
             DebugRenderer.Instance.AddString((gt) =>
             {
-                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tags == "player");
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
 
                 if (player == null) return string.Empty;
 

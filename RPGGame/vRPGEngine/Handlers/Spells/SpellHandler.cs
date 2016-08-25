@@ -256,7 +256,7 @@ namespace vRPGEngine.Handlers.Spells
 
             if (!MeleeHelper.InRange(UserController, user, Spell))
             {
-                if (user.HasTag("player")) GameInfoLog.Instance.LogRaw("target is too far away!", InfoLogEntryType.Warning);
+                if (user.Tagged("player")) GameInfoLog.Instance.LogRaw("target is too far away!", InfoLogEntryType.Warning);
 
                 Disable();
 
@@ -264,7 +264,7 @@ namespace vRPGEngine.Handlers.Spells
             }
             if (ReferenceEquals(UserController.TargetFinder.Target, User))
             {
-                if (user.HasTag("player")) GameInfoLog.Instance.LogRaw("can't attack yourself!", InfoLogEntryType.Warning);
+                if (user.Tagged("player")) GameInfoLog.Instance.LogRaw("can't attack yourself!", InfoLogEntryType.Warning);
 
                 Disable();
 
