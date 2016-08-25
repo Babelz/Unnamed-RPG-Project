@@ -87,12 +87,7 @@ namespace vRPGEngine.HUD.Elements
             textPosition.X = MathHelper.Clamp(textPosition.X, 0.0f, canvasSize.X - textWidth);
             textPosition.Y = MathHelper.Clamp(textPosition.Y, 0.0f, canvasSize.Y - textHeight);
 
-            spriteBatch.Draw(Background,
-                             new Rectangle((int)(textPosition.X),
-                                           (int)(textPosition.Y),
-                                           (int)(textWidth),
-                                           (int)(textHeight)),
-                             Color.Wheat);
+            DrawBackground(spriteBatch, textPosition, new Vector2(textWidth, textHeight));
 
             spriteBatch.DrawString(font, Header, textPosition, Color.White);
             textPosition.Y += font.MeasureString(Header).Y;
@@ -106,6 +101,21 @@ namespace vRPGEngine.HUD.Elements
 
             if (!string.IsNullOrEmpty(AdditionalDisplayInfo))
                 spriteBatch.DrawString(font, AdditionalDisplayInfo, new Vector2(textPosition.X, textPosition.Y + font.MeasureString(AdditionalDisplayInfo).Y), Color.White);
+        }
+        private void DrawBackground(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
+        {
+            var backgroundScale = size;
+            backgroundScale.X /= Background.Width;
+            backgroundScale.Y /= Background.Height;
+
+            foreach (var part in splitter.Split(Background))
+            {
+                var partPosition = new Vector2(part.X * backgroundScale.X, part.Y * backgroundScale.Y) + position;
+                var partSize = new Vector2(part.Width * backgroundScale.X, part.Height * backgroundScale.Y);
+                var partDestionation = new Rectangle((int)partPosition.X, (int)partPosition.Y, (int)partSize.X, (int)partSize.Y);
+
+                spriteBatch.Draw(Background, partDestionation, part, Color.Wheat);
+            }
         }
         private void DrawIcon(SpriteBatch spriteBatch, Vector2 position, Vector2 size)
         {
