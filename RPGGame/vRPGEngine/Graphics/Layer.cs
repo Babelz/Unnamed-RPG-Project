@@ -72,7 +72,7 @@ namespace vRPGEngine.Graphics
             }
         }
 
-        internal void Invalidate(IRenderable element)
+        public void Invalidate(IRenderable element)
         {
             Debug.Assert(element != null);
 

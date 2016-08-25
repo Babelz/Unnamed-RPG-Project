@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -159,6 +160,15 @@ namespace vRPGEngine
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
                 return "Melee power: " + controller.Specialization.TotalMeleePower();
+            });
+
+            DebugRenderer.Instance.AddString((gt) =>
+            {
+                var player = EntityManager.Instance.Entitites.FirstOrDefault(e => e.Tagged("player"));
+
+                if (player == null) return string.Empty;
+
+                return "Player depth: " + player.FirstComponentOfType<SpriteRenderer>().Sprite.Depth;
             });
         }
         

@@ -231,6 +231,7 @@ namespace vRPGEngine.Graphics
 
             return index;
         }
+
         public void DestroyLayer(int layer)
         {
             if (layers[layer] == null || layer >= layers.Length) throw new vRPGEngineException("layers access violation - invalid id");

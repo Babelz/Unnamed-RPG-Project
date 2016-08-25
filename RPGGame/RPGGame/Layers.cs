@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +21,16 @@ namespace RPGGame
         {
             if (Renderer.Instance.HasLayers()) Renderer.Instance.ClearLayers();
 
-            Renderer.Instance.CreateLayer();
-            Renderer.Instance.CreateLayer();
-            Renderer.Instance.CreateLayer();
-            Renderer.Instance.CreateLayer();
+            var bottom  = Renderer.Instance.CreateLayer();
+            var middle  = Renderer.Instance.CreateLayer();
+            var top     = Renderer.Instance.CreateLayer();
+            var effects = Renderer.Instance.CreateLayer();
+
+            // TODO: wtf
+            Debug.Assert(bottom == Bottom);
+            Debug.Assert(middle == Middle);
+            Debug.Assert(top == Top);
+            Debug.Assert(effects == Effects);
 
             Renderer.Instance.ShowLayer(Bottom);
             Renderer.Instance.ShowLayer(Middle);
