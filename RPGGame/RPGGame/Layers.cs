@@ -10,10 +10,10 @@ namespace RPGGame
     public static class Layers
     {
         #region Fields
-        public const int Bottom  = 0;
-        public const int Middle  = 1;
-        public const int Top     = 2;
-        public const int Effects = 3;
+        public const int Bottom  = 0;   // Map base.
+        public const int Middle  = 1;   // Entity layer.
+        public const int Top     = 2;   // Map middle.
+        public const int Effects = 3;  
         #endregion
 
         public static void Create()

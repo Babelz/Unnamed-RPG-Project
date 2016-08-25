@@ -19,8 +19,8 @@ namespace vRPGEngine.ECS
         {
             prefabs = new Dictionary<string, Func<Entity>>()
             {
-                { "empty", EmptyEntity },
-                { "spawn area", SpawnArea }
+                { "empty",       EmptyEntity },
+                { "spawn area",  SpawnArea }
             };
         }
 

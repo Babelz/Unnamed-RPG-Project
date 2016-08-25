@@ -9,9 +9,9 @@ namespace vRPGEngine.ECS.Components
     [Flags()]
     public enum RenderFlags : int
     {
-        None = 0,
-        Anchored = 1,
-        AutomaticDepth = 2,
-        All = Anchored | AutomaticDepth
+        None            = 0,
+        Anchored        = 1,
+        AutomaticDepth  = 2,
+        All             = Anchored | AutomaticDepth
     }
 }

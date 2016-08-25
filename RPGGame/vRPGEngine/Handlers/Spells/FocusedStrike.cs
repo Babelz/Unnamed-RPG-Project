@@ -28,7 +28,7 @@ namespace vRPGEngine.Handlers.Spells
             UserController.TargetFinder.TargetController.Statuses.Health -= swing.Damage;
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
-            GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.Target.Tags);
+            GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
 
             return MeleeSpellState.Used;
         }

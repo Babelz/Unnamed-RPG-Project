@@ -76,6 +76,28 @@ namespace vRPGEngine.Attributes
                 StatusChanged?.Invoke(this, "Focus");
             }
         }
+
+        public bool Alive
+        {
+            get
+            {
+                return health != 0;
+            }
+        }
+        public bool HasFocus
+        {
+            get
+            {
+                return focus != 0;
+            }
+        }
+        public bool HasMana
+        {
+            get
+            {
+                return mana != 0;
+            }
+        }
         #endregion
 
         public Statuses()

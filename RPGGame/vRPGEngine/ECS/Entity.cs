@@ -12,18 +12,15 @@ namespace vRPGEngine.ECS
     public sealed class Entity : IRegisterEntry
     {
         #region Fields
-        private List<IComponent> components;
+        private readonly List<int> tags;
+
+        private readonly List<IComponent> components;
         
-        private List<Entity> children;
+        private readonly List<Entity> children;
         #endregion
 
         #region Properties
         public int Location
-        {
-            get;
-            set;
-        }
-        public string Tags
         {
             get;
             set;
@@ -41,6 +38,7 @@ namespace vRPGEngine.ECS
         {
             components  = new List<IComponent>();
             children    = new List<Entity>();
+            tags        = new List<int>();
         }
 
         public void AddChildren(Entity child)
@@ -106,13 +104,28 @@ namespace vRPGEngine.ECS
             return null;
         }
 
+        public bool HasTag(string tag)
+        {
+            var hash = tag.GetHashCode();
+
+            return tags.Contains(hash);
+        }
+        public void Tag(string tag)
+        {
+            if (HasTag(tag)) return;
+
+            tags.Add(tag.GetHashCode());
+        }
+        public void Untag(string tag)
+        {
+            tags.Remove(tag.GetHashCode());
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Entity Create()
         {
             var entity = EntityManager.Instance.Create();
-
-            entity.Tags = string.Empty;
-
+            
             return entity;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

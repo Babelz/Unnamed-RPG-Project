@@ -20,11 +20,15 @@ namespace vRPGEngine.ECS.Components
     public interface ICharacterController : IComponent
     {
         #region Properties
+        string Name
+        {
+            get;
+        }
         BuffContainer Buffs
         {
             get;
         }
-        List<SpellHandler> Spells
+        IEnumerable<SpellHandler> Spells
         {
             get;
         }
@@ -50,19 +54,6 @@ namespace vRPGEngine.ECS.Components
         {
             get;
         }
-
-        bool Alive
-        {
-            get;
-        }
-        bool HasFocus
-        {
-            get;
-        }
-        bool HasMana
-        {
-            get;
-        }
         #endregion
 
         void EnterCombat();
@@ -72,10 +63,20 @@ namespace vRPGEngine.ECS.Components
     public sealed class PlayerCharacterController : Component<PlayerCharacterController>, ICharacterController
     {
         #region Fields
+        private readonly List<SpellHandler> spells;
+
         private SpellHandler casting;
         #endregion
 
         #region Properties
+        public string Name
+        {
+            get
+            {
+                return "Player";
+            }
+        }
+
         public EquipmentContainer Equipments
         {
             get;
@@ -87,10 +88,12 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
-        public List<SpellHandler> Spells
+        public IEnumerable<SpellHandler> Spells
         {
-            get;
-            private set;
+            get
+            {
+                return spells;
+            }
         }
 
         public AttributesData Attributes
@@ -120,28 +123,6 @@ namespace vRPGEngine.ECS.Components
             private set;
         }
 
-        public bool Alive
-        {
-            get
-            {
-                return Statuses.Health != 0;
-            }
-        }
-        public bool HasFocus
-        {
-            get
-            {
-                return Statuses.Focus != 0;
-            }
-        }
-        public bool HasMana
-        {
-            get
-            {
-                return Statuses.Mana != 0;
-            }
-        }
-
         public bool InCombat
         {
             get;
@@ -152,6 +133,7 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
+            spells   = new List<SpellHandler>();
             InCombat = false;
         }
         
@@ -175,7 +157,6 @@ namespace vRPGEngine.ECS.Components
 
             Buffs           = new BuffContainer();
             TargetFinder    = new TargetFinder();
-            Spells          = new List<SpellHandler>();
 
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
@@ -187,16 +168,16 @@ namespace vRPGEngine.ECS.Components
             Statuses                = statuses;
 
             Statuses.Initialize(specialization);
-
+            
             foreach (var spell in specialization.Spells)
             {
                 var handler = SpellHandlerFactory.Instance.Create(spell.HandlerName);
 
-                if (handler != null) Spells.Add(handler);
+                if (handler != null) spells.Add(handler);
             }
 
             // Add spells that everyone has.
-            Spells.Add(new AutoAttack());
+            spells.Add(new AutoAttack());
         }
 
         public void Update(GameTime gameTime)
@@ -241,6 +222,10 @@ namespace vRPGEngine.ECS.Components
         public const int DecayTime = 25000;
         #endregion
 
+        #region Fields
+        private readonly List<SpellHandler> spells;
+        #endregion
+
         #region Events
         public event NPCControllerEventHandler OnDeath;
         public event NPCControllerEventHandler OnEnteringCombat;
@@ -249,6 +234,14 @@ namespace vRPGEngine.ECS.Components
         #endregion
 
         #region Properties
+        public string Name
+        {
+            get
+            {
+                return Handler.Data.Name;
+            }
+        }
+
         public NPCHandler Handler
         {
             get;
@@ -288,10 +281,12 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
-        public List<SpellHandler> Spells
+        public IEnumerable<SpellHandler> Spells
         {
-            get;
-            private set;
+            get
+            {
+                return spells;
+            }
         }
         public Specialization Specialization
         {
@@ -314,28 +309,6 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
-
-        public bool Alive
-        {
-            get
-            {
-                return Statuses.Health != 0;
-            }
-        }
-        public bool HasFocus
-        {
-            get
-            {
-                return Statuses.Focus != 0;
-            }
-        }
-        public bool HasMana
-        {
-            get
-            {
-                return Statuses.Mana != 0;
-            }
-        }
         #endregion
 
         public NPCController()
@@ -343,7 +316,7 @@ namespace vRPGEngine.ECS.Components
         {
             Statuses = new Statuses();
             Buffs    = new BuffContainer();
-            Spells   = new List<SpellHandler>();
+            spells   = new List<SpellHandler>();
         }
 
         public new void Initialize()
