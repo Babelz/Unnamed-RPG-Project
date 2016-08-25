@@ -10,34 +10,39 @@ namespace vRPGEngine
     public sealed class FrameCounter
     {
         #region Constants
-        public const int MaxSamples = 100;
+        private const int MaxSamples = 128;
         #endregion
 
         #region Fields
-        private Queue<float> samples = new Queue<float>();
+        private readonly Queue<float> samples;
         #endregion
 
         #region Properties
         public long TotalFrames
         {
-            get; private set;
+            get;
+            private set;
         }
         public float TotalSeconds
         {
-            get; private set;
+            get;
+            private set;
         }
         public float AverageFramesPerSecond
         {
-            get; private set;
+            get;
+            private set;
         }
         public float CurrentFramesPerSecond
         {
-            get; private set;
+            get;
+            private set;
         }
         #endregion
 
         public FrameCounter()
         {
+            samples = new Queue<float>();
         }
 
         public void Update(GameTime gameTime)
@@ -51,6 +56,7 @@ namespace vRPGEngine
             if (samples.Count > MaxSamples)
             {
                 samples.Dequeue();
+
                 AverageFramesPerSecond = samples.Average(i => i);
             }
             else

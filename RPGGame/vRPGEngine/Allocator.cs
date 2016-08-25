@@ -11,20 +11,20 @@ namespace vRPGEngine
     public abstract class Allocator<T> where T : class
     {
         #region Fields
-        private readonly Func<T> objectAllocator;
+        private readonly Func<T> alloc;
         #endregion
         
-        public Allocator(Func<T> objectAllocator)
+        public Allocator(Func<T> alloc)
         {
-            Debug.Assert(objectAllocator != null);
+            Debug.Assert(alloc != null);
 
-            this.objectAllocator = objectAllocator;
+            this.alloc = alloc;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected T AllocateSingle()
         {
-            return objectAllocator();
+            return alloc();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

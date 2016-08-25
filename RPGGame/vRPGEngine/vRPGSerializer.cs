@@ -9,13 +9,13 @@ namespace vRPGEngine
 {
     public static class vRPGSerializer
     {
-        public static byte[] GetBytes(object value)
+        public static byte[] GetBytes(object @object)
         {
-            var bf = new BinaryFormatter();
+            var binaryFormatter = new BinaryFormatter();
 
             using (var ms = new MemoryStream())
             {
-                bf.Serialize(ms, value);
+                binaryFormatter.Serialize(ms, @object);
 
                 return ms.ToArray();
             }
@@ -23,34 +23,34 @@ namespace vRPGEngine
 
         public static object GetObject(byte[] bytes)
         {
-            using (var ms = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                var bf = new BinaryFormatter();
+                var binaryFormatter = new BinaryFormatter();
 
-                ms.Write(bytes, 0, bytes.Length);
-                ms.Seek(0, SeekOrigin.Begin);
+                memoryStream.Write(bytes, 0, bytes.Length);
+                memoryStream.Seek(0, SeekOrigin.Begin);
 
-                var obj = bf.Deserialize(ms);
+                var @object = binaryFormatter.Deserialize(memoryStream);
 
-                return obj;
+                return @object;
             }
         }
 
-        public static void CopyMemory(ref object src, ref object dest, int size = 0)
+        public static void CopyMemory(ref object source, ref object destionation, int size = 0)
         {
-            var srcBytes    = GetBytes(src);
-            var destBytes   = GetBytes(dest);
+            var sourceBytes         = GetBytes(source);
+            var destionationBytes   = GetBytes(destionation);
 
-            var srcLen  = srcBytes.Length;
-            var destLen = destBytes.Length;
+            var sourceLength        = sourceBytes.Length;
+            var destionationLength  = destionationBytes.Length;
 
-            var len = size == 0 ? srcLen : size;
+            var length = size == 0 ? sourceLength : size;
 
-            if (len > destLen) throw new InvalidOperationException("dest.len < src.len");
+            if (length > destionationLength) throw new InvalidOperationException("sizeof(destionation) < sizeof(source)");
             
-            Array.Copy(srcBytes, destBytes, len);
+            Array.Copy(sourceBytes, destionationBytes, length);
 
-            dest = GetObject(destBytes);
+            destionation = GetObject(destionationBytes);
         }
     }
 }

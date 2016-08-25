@@ -109,9 +109,7 @@ namespace vRPGEngine
             Position    = position;
             Size        = size;
         }
-
-        public static Rectf Empty;
-
+        
         public bool Intersects(Rectf other)
         {
             return Left < other.Right &&
