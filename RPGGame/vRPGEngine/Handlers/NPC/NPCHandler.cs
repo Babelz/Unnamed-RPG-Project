@@ -65,7 +65,7 @@ namespace vRPGEngine.Handlers.NPC
             Area    = area.Value;
 
             // Set position.
-            var collider                    = Owner.FirstComponentOfType<BoxCollider>();
+            var collider                    = Owner.FirstComponentOfType<Collider>();
             collider.DisplayPosition        = position.Value;
             
             if (data.Level != level)

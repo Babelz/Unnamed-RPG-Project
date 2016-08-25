@@ -11,6 +11,7 @@ using TiledSharp;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine.Maps
 {
@@ -91,16 +92,30 @@ namespace vRPGEngine.Maps
 
         private Entity Wall(float x, float y, float width, float height, float rotation)
         {
-            var collider  = Entity.Create();
+            var wall  = Entity.Create();
 
-            collider.Tag("wall");
+            wall.Tag("wall");
 
-            var box = collider.AddComponent<BoxCollider>();
-            box.MakeStatic(width, height, x, y);
-            box.Category = Category.Cat2;
-            box.CollidesWith = Category.Cat1;
+            var collider          = wall.AddComponent<Collider>();
+            collider.MakeStaticBox(width, height, x, y);
+            collider.Category     = Category.Cat2;
+            collider.CollidesWith = Category.Cat1;
 
-            return collider;
+            return wall;
+        }
+
+        private Entity ComplexWall(float x, float y, Vector2[] points)
+        {
+            var wall    = Entity.Create();
+
+            wall.Tag("wall");
+
+            var collider          = wall.AddComponent<Collider>();
+            collider.MakeStaticPolygon(x, y, points);
+            collider.Category     = Category.Cat2;
+            collider.CollidesWith = Category.Cat1;
+
+            return wall;
         }
 
         private Entity SpawnArea(int id, int maxNPCs, int minLevel, int maxLevel, int spawnTime, float x, float y, float width, float height, float maxDist)
@@ -158,6 +173,8 @@ namespace vRPGEngine.Maps
 
             foreach (var layer in data.Layers)
             {
+                if (layer.Name != "Middle") continue;
+                 
                 var opacity     = layer.Opacity;
                 var visible     = layer.Visible;
 
@@ -183,7 +200,7 @@ namespace vRPGEngine.Maps
                     var src         = new Rectangle(tileWidth * column, tileHeight * row, tileWidth, tileHeight);
                     var x           = (float)tile.X * tileWidth;
                     var y           = (float)tile.Y * tileHeight;
-                    var depth       = 1.0f - location * 0.1f; //y / (mapHeight * tileHeight);
+                    var depth       = (y + tileHeight) / (mapHeight * tileHeight);
                     
                     tileLayer.AddChildren(Tile(x, y, src, tex, (float)opacity, visible, location, depth));
 
@@ -213,6 +230,10 @@ namespace vRPGEngine.Maps
                     if (entity.Name == "wall")
                     {
                         objectLayer.AddChildren(Wall(x, y, width, height, rotation));
+                    }
+                    else if (entity.Name == "walls")
+                    {
+                        objectLayer.AddChildren(ComplexWall(x, y, entity.Points.Select(p => new Vector2((float)p.X, (float)p.Y)).ToArray()));
                     }
                     else if (entity.Name == "spawn area")
                     {

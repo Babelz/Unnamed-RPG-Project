@@ -25,7 +25,7 @@ namespace RPGGame.Scenes
             Prefabs.Create();
             Layers.Create();
 
-            TileMapManager.Instance.Load("test bed map");
+            TileMapManager.Instance.Load("demo");
 
             var player = EntityBuilder.Instance.Create("player");
         }

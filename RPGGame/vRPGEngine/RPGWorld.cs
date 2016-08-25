@@ -10,6 +10,8 @@ using FarseerPhysics;
 using System.Diagnostics;
 using vRPGEngine.ECS;
 using FarseerPhysics.Collision;
+using FarseerPhysics.Common;
+using vRPGEngine.Graphics;
 
 namespace vRPGEngine
 {
@@ -39,7 +41,7 @@ namespace vRPGEngine
             world.Step(TimeStep);
         }
 
-        public Body CreateDynamicCollider(Entity owner, float width, float height)
+        public Body CreateDynamicBoxCollider(Entity owner, float width, float height)
         {
             var body = BodyFactory.CreateRectangle(world,
                                                    ConvertUnits.ToSimUnits(width),
@@ -55,7 +57,7 @@ namespace vRPGEngine
 
             return body;
         }
-        public Body CreateKinematicCollider(Entity owner, float width, float height)
+        public Body CreateKinematicBoxCollider(Entity owner, float width, float height)
         {
             var body = BodyFactory.CreateRectangle(world,
                                                    ConvertUnits.ToSimUnits(width),
@@ -71,7 +73,7 @@ namespace vRPGEngine
 
             return body;
         }
-        public Body CreateStaticCollider(Entity owner, float width, float height, float x, float y)
+        public Body CreateStaticBoxCollider(Entity owner, float width, float height, float x, float y)
         { 
             var body = BodyFactory.CreateRectangle(world,
                                                    ConvertUnits.ToSimUnits(width),
@@ -89,9 +91,26 @@ namespace vRPGEngine
 
             return body;
         }
-        public Body CreateSensor(Entity owner, float width, float height)
+
+        public Body CreateStaticPolygonCollider(Entity owner, float x, float y, Vector2[] points)
         {
-            var body = CreateDynamicCollider(owner, width, height);
+            var vertices        = new Vertices(points.Select(p => ConvertUnits.ToSimUnits(p)));
+            var body            = BodyFactory.CreateLoopShape(world, vertices, owner);
+
+            body.Position       = new Vector2(ConvertUnits.ToSimUnits(x), ConvertUnits.ToSimUnits(y));
+            body.IsStatic       = true;
+            body.Mass           = 500.0f;
+            body.Friction       = 0.2f;
+            body.Restitution    = 0.2f;
+            body.BodyType       = BodyType.Static;
+            body.FixedRotation  = true;
+
+            return body;
+        }
+
+        public Body CreateBoxSensor(Entity owner, float width, float height)
+        {
+            var body = CreateDynamicBoxCollider(owner, width, height);
 
             body.IsSensor = true;
 

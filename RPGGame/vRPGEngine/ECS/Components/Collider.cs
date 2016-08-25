@@ -12,7 +12,14 @@ using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.ECS.Components
 {
-    public sealed class BoxCollider : Component<BoxCollider>
+    public enum ColliderType
+    {
+        None,
+        Box,
+        Polygon
+    }
+
+    public sealed class Collider : Component<Collider>
     {
         #region Fields
         private Body body;
@@ -88,6 +95,11 @@ namespace vRPGEngine.ECS.Components
                 body.CollidesWith = value;
             }
         }
+        public ColliderType Type
+        {
+            get;
+            private set;
+        }
         #endregion
 
         #region Events
@@ -123,31 +135,46 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public BoxCollider()
+        public Collider()
             : base()
         {
             body = null;
         }
         
-        public void MakeDynamic(float width, float height)
+        public void MakeDynamicBox(float width, float height)
         {
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
-            body = RPGWorld.Instance.CreateDynamicCollider(Owner, width, height);
+            body = RPGWorld.Instance.CreateDynamicBoxCollider(Owner, width, height);
+
+            Type = ColliderType.Box;
         }
 
-        public void MakeStatic(float width, float height, float x, float y)
+        public void MakeStaticBox(float width, float height, float x, float y)
         {
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
-            body = RPGWorld.Instance.CreateStaticCollider(Owner, width, height, x + width / 2.0f, y + height / 2.0f);
+            body = RPGWorld.Instance.CreateStaticBoxCollider(Owner, width, height, x + width / 2.0f, y + height / 2.0f);
+
+            Type = ColliderType.Box;
         }
 
-        public void MakeKinematic(float width, float height)
+        public void MakeKinematicBox(float width, float height)
         {
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
-            body = RPGWorld.Instance.CreateKinematicCollider(Owner, width, height);
+            body = RPGWorld.Instance.CreateKinematicBoxCollider(Owner, width, height);
+
+            Type = ColliderType.Box;
+        }
+
+        public void MakeStaticPolygon(float x, float y, Vector2[] points)
+        {
+            if (body != null) RPGWorld.Instance.DestroyBody(body);
+
+            body = RPGWorld.Instance.CreateStaticPolygonCollider(Owner, x, y, points);
+
+            Type = ColliderType.Polygon;
         }
     }
 }

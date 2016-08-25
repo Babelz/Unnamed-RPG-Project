@@ -157,7 +157,7 @@ namespace vRPGEngine.Handlers.Spells
 
             Owner = owner;
 
-            Sensor                  = RPGWorld.Instance.CreateSensor(Owner, Width, Height);
+            Sensor                  = RPGWorld.Instance.CreateBoxSensor(Owner, Width, Height);
             Sensor.LinearVelocity   = Velocity;
             Sensor.OnCollision      += Collider_OnCollision;
 

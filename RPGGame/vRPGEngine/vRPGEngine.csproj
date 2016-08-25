@@ -93,7 +93,7 @@
     <Compile Include="Databases\SpellDatabase.cs" />
     <Compile Include="Databases\WeaponDatabase.cs" />
     <Compile Include="DefaultValues.cs" />
-    <Compile Include="ECS\Components\BoxCollider.cs" />
+    <Compile Include="ECS\Components\Collider.cs" />
     <Compile Include="ECS\Components\CharacterController.cs" />
     <Compile Include="ECS\Components\Component.cs" />
     <Compile Include="ECS\Components\ComponentManager.cs" />

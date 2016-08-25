@@ -40,8 +40,8 @@ namespace RPGGame
             rendrer.Sprite.Layer = Layers.Middle;
             rendrer.Sprite.ScaleTo(new Vector2(32.0f), rendrer.Sprite.Texture);
 
-            var collider            = player.AddComponent<BoxCollider>();
-            collider.MakeDynamic(32.0f, 32.0f);
+            var collider            = player.AddComponent<Collider>();
+            collider.MakeDynamicBox(32.0f, 32.0f);
             collider.Category       = CollisionCategories.Entitites;
             collider.CollidesWith   = CollisionCategories.World;
 
@@ -134,8 +134,8 @@ namespace RPGGame
             
             var transform   = sheep.AddComponent<Transform>();
 
-            var collider            = sheep.AddComponent<BoxCollider>();
-            collider.MakeDynamic(width, height);
+            var collider            = sheep.AddComponent<Collider>();
+            collider.MakeDynamicBox(width, height);
             collider.Category       = CollisionCategories.Entitites;
             collider.CollidesWith   = CollisionCategories.World;
             

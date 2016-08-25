@@ -105,6 +105,7 @@ namespace vRPGContent.Data.Characters
             PureSpellPower              = other.PureSpellPower;
             HealthPercentModifier       = other.HealthPercentModifier;
             MeeleePowerPercentModifier  = other.MeeleePowerPercentModifier;
+            Level                       = other.Level;
         }
     }
 }

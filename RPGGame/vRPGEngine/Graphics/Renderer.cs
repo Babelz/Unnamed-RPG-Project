@@ -126,7 +126,7 @@ namespace vRPGEngine.Graphics
 
                     if (!layer.Visible) continue;
 
-                    spriteBatch.Begin(SpriteSortMode.Deferred,
+                    spriteBatch.Begin(SpriteSortMode.FrontToBack,
                                       BlendState.AlphaBlend,
                                       null,
                                       null,

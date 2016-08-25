@@ -11,8 +11,8 @@ namespace RPGGame
     {
         #region Fields
         public const int Bottom  = 0;   // Map base.
-        public const int Middle  = 1;   // Entity layer.
-        public const int Top     = 2;   // Map middle.
+        public const int Middle  = 1;   // Entity layer and map middle.
+        public const int Top     = 2;   // Map top.
         public const int Effects = 3;  
         #endregion
 

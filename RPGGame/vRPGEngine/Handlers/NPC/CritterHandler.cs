@@ -33,7 +33,7 @@ namespace vRPGEngine.Handlers.NPC
 
         private void SharedUpdate(GameTime gameTime)
         {
-            Owner.FirstComponentOfType<BoxCollider>().LinearVelocity = Vector2.Zero;
+            Owner.FirstComponentOfType<Collider>().LinearVelocity = Vector2.Zero;
         }
 
         public override void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Rectf? area = null)
@@ -60,7 +60,7 @@ namespace vRPGEngine.Handlers.NPC
         {
             SharedUpdate(gameTime);
 
-            var collider = Owner.FirstComponentOfType<BoxCollider>();
+            var collider = Owner.FirstComponentOfType<Collider>();
             var position = collider.DisplayPosition;
 
             if (Vector2.Distance(position, goal) <= 15)

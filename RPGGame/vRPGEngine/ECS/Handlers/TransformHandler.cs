@@ -15,7 +15,7 @@ namespace vRPGEngine.ECS.Handlers
         {
             foreach (var transform in components)
             {
-                var body = transform.Owner.FirstComponentOfType<BoxCollider>();
+                var body = transform.Owner.FirstComponentOfType<Collider>();
 
                 if (body == null) continue;
                 
