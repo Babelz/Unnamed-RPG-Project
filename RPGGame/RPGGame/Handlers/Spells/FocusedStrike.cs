@@ -7,8 +7,11 @@ using Microsoft.Xna.Framework;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Databases;
 using vRPGEngine.Attributes;
+using static vRPGEngine.Handlers.Spells.MeleeSpellHandler;
+using vRPGEngine;
+using vRPGEngine.Handlers.Spells;
 
-namespace vRPGEngine.Handlers.Spells
+namespace RPGGame.Handlers.Spells
 {
     public sealed class FocusedStrike : MeleeSpellHandler
     {
@@ -20,7 +23,7 @@ namespace vRPGEngine.Handlers.Spells
         protected override MeleeSpellState OnUse(GameTime gameTime)
         {
             // TODO: fix.
-            if (!CanUse()) return MeleeSpellState.Active;
+            if (!CanUse()) return MeleeSpellState.Inactive;
 
             MeleeSwingResults swing = new MeleeSwingResults();
             UserController.MeleeDamageController.GenerateSwing(ref swing, 0.15f);
@@ -30,7 +33,7 @@ namespace vRPGEngine.Handlers.Spells
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
             GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
 
-            return MeleeSpellState.Active;
+            return MeleeSpellState.Inactive;
         }
 
         public override object Clone()

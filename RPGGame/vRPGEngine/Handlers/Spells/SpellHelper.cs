@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FarseerPhysics;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +8,8 @@ using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes;
+using vRPGEngine.ECS;
+using vRPGEngine.ECS.Components;
 using vRPGEngine.Specializations;
 
 namespace vRPGEngine.Handlers.Spells
@@ -61,6 +65,14 @@ namespace vRPGEngine.Handlers.Spells
                 case Currencies.Health: return statuses.Health >= cost;    
                 default:                return true;
             }
+        }
+
+        public static bool InRange(ICharacterController controller, Entity sender, Spell spell)
+        {
+            var pos     = controller.TargetFinder.Target.FirstComponentOfType<Transform>().Position;
+            var dist    = ConvertUnits.ToSimUnits(Vector2.Distance(sender.FirstComponentOfType<Transform>().Position, pos));
+
+            return dist < spell.Range;
         }
     }
 }

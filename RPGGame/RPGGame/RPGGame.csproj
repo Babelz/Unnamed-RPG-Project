@@ -50,6 +50,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CollisionCategories.cs" />
+    <Compile Include="Handlers\NPC\CritterHandler.cs" />
+    <Compile Include="Handlers\Spells\AutoAttack.cs" />
+    <Compile Include="Handlers\Spells\FocusedStrike.cs" />
+    <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
     <Compile Include="Layers.cs" />
     <Compile Include="Prefabs.cs" />
     <Compile Include="RPGGame.cs" />

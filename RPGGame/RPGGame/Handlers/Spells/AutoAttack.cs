@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
+using vRPGEngine;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Handlers.Spells;
 
-namespace vRPGEngine.Handlers.Spells
+namespace RPGGame.Handlers.Spells
 {
     public sealed class AutoAttack : MeleeSpellHandler
     {
@@ -21,8 +23,8 @@ namespace vRPGEngine.Handlers.Spells
         
         protected override MeleeSpellState OnUse(GameTime gameTime)
         {
-            if (UserController.TargetFinder.Target == null)         return MeleeSpellState.Active;
-            if (!MeleeHelper.InRange(UserController, User, Spell))  return MeleeSpellState.Active;
+            if (UserController.TargetFinder.Target == null)         return MeleeSpellState.Inactive;
+            if (!SpellHelper.InRange(UserController, User, Spell))  return MeleeSpellState.Inactive;
 
             foreach (var swing in UserController.MeleeDamageController.Results())
             {
@@ -32,10 +34,10 @@ namespace vRPGEngine.Handlers.Spells
 
                 GameInfoLog.Instance.LogDealDamage(damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
 
-                if (!UserController.TargetFinder.TargetController.Statuses.Alive) return MeleeSpellState.Active;
+                if (!UserController.TargetFinder.TargetController.Statuses.Alive) return MeleeSpellState.Inactive;
             }
 
-            return MeleeSpellState.Inactive;
+            return MeleeSpellState.Active;
         }
 
         public override object Clone()

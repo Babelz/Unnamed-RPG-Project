@@ -207,12 +207,12 @@ namespace vRPGEngine.Handlers.Spells
             /// <summary>
             /// The spell has been used, the handler should be disposed.
             /// </summary>
-            Active,
+            Inactive,
 
             /// <summary>
             /// The spell is still being used, the handler should not be disposed.
             /// </summary>
-            Inactive
+            Active
         }
         #endregion
 
@@ -238,9 +238,9 @@ namespace vRPGEngine.Handlers.Spells
 
         protected bool CanUse()
         {
-            if (UserController.TargetFinder.Target == null)                                         return false;
-            if (!MeleeHelper.InRange(UserController, User, Spell))                                  return false;
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
+            if (UserController.TargetFinder.Target == null)                                          return false;
+            if (!SpellHelper.InRange(UserController, User, Spell))                                   return false;
+            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell))  return false;
 
             return true;
         }
@@ -258,7 +258,7 @@ namespace vRPGEngine.Handlers.Spells
                 return;
             }
 
-            if (!MeleeHelper.InRange(UserController, user, Spell))
+            if (!SpellHelper.InRange(UserController, user, Spell))
             {
                 if (user.Tagged("player")) GameInfoLog.Instance.LogRaw("target is too far away!", InfoLogEntryType.Warning);
 
@@ -316,7 +316,7 @@ namespace vRPGEngine.Handlers.Spells
             if (!BeingUsed)                                                               return;
             if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(UserController)) return;
 
-            BeingUsed = OnUse(gameTime) == MeleeSpellState.Inactive;
+            BeingUsed = OnUse(gameTime) == MeleeSpellState.Active;
 
             if (!BeingUsed) Disable();
         }

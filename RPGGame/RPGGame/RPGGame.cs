@@ -14,6 +14,8 @@ using vRPGEngine.Input;
 using vRPGEngine.Maps;
 using vRPGEngine.Scenes;
 using System.Linq;
+using vRPGEngine.Handlers.NPC;
+using vRPGEngine.Handlers.Spells;
 
 namespace RPGGame
 {
@@ -44,7 +46,10 @@ namespace RPGGame
         protected override void Initialize()
         {
             Engine.Instance.Initialize(graphics);
-            
+
+            NPCHandlerFactory.Instance.HandlersNamespace    = "RPGGame.Handlers.NPC.";
+            SpellHandlerFactory.Instance.HandlersNamespace  = "RPGGame.Handlers.Spells.";
+
             SceneManager.Instance.ChangeScene(new GameplayTestingScene());
         }
 

@@ -11,8 +11,10 @@ using vRPGEngine.ECS;
 using vRPGEngine.Attributes.Spells;
 using vRPGEngine.Attributes.Enums;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Handlers.Spells;
+using vRPGEngine;
 
-namespace vRPGEngine.Handlers.Spells
+namespace RPGGame.Handlers.Spells
 {
     public sealed class BattleShout : SelfBuffSpellHandler
     {

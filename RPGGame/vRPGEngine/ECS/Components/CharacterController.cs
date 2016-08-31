@@ -175,9 +175,6 @@ namespace vRPGEngine.ECS.Components
 
                 if (handler != null) spells.Add(handler);
             }
-
-            // Add spells that everyone has.
-            spells.Add(new AutoAttack());
         }
 
         public void Update(GameTime gameTime)

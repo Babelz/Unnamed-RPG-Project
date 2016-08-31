@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine
 {
+    public sealed class EngineSettings
+    {
+        #region Properties
+
+        #endregion
+    }
+
     public sealed class HUDSettings
     {
         #region Properties

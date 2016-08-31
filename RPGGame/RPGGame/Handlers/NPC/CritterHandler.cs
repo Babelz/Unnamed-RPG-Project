@@ -12,8 +12,10 @@ using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.Combat;
 using vRPGEngine.Attributes;
 using vRPGEngine.Core;
+using vRPGEngine.Handlers.NPC;
+using vRPGEngine;
 
-namespace vRPGEngine.Handlers.NPC
+namespace RPGGame.Handlers.NPC
 {
     public sealed class CritterHandler : NPCHandler
     {

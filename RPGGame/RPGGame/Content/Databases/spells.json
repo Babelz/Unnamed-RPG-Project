@@ -161,7 +161,7 @@
 		{
 			"ID": 			9,
 			"Name": 		"Auto attack",
-			"Description":	"Deals weapon damage + 25% of your melee power",
+			"Description":	"Deals weapon damage + 5% of your melee power",
 			"IconName":		"AutoAttack",
 			"Element": 		0,
 			"HandlerName": 	"AutoAttack",
@@ -172,7 +172,7 @@
 		{
 			"ID": 			10,
 			"Name": 		"Focused strike",
-			"Description":	"Deals weapon damage + 15% of your melee power",
+			"Description":	"Deals weapon damage + 25% of your melee power",
 			"IconName":		"AutoAttack",
 			"Element": 		0,
 			"HandlerName": 	"FocusedStrike",
