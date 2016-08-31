@@ -10,6 +10,7 @@ using System.Diagnostics;
 using vRPGEngine.HUD.Elements;
 using vRPGEngine.HUD.Controls;
 using vRPGEngine.HUD.Interfaces;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.Graphics
 {
@@ -56,31 +57,41 @@ namespace vRPGEngine.Graphics
 
         private void UpdateHUD(GameTime gameTime)
         {
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
             if (Root != null) Root.Update(gameTime);
             
             for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
             
             elements.Clear();
+
+            spriteBatch.End();
         }
         private void UpdateCombatText(GameTime gameTime)
         {
             if (!GameSetting.CombatText.Visible) return;
 
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                              BlendState.AlphaBlend,
+                              null,
+                              null,
+                              null,
+                              null,
+                              Renderer.Instance.Views().First().Transform);
+
             combatText.Update(gameTime);
             combatText.Draw(spriteBatch);
+
+            spriteBatch.End();
         }
 
         protected override void OnUpdate(GameTime gameTime)
         {
             if (!GameSetting.HUD.Visible) return;
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-
+            
             UpdateCombatText(gameTime);
             UpdateHUD(gameTime);
-
-            spriteBatch.End();
-
+            
             // Always clear log so we don't get a spam if the player 
             // changes the visibility of the HUD during the gameplay.
             GameInfoLog.Instance.Clear();

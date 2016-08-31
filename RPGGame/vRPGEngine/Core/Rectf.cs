@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace vRPGEngine
+namespace vRPGEngine.Core
 {
     public struct Rectf : IEnumerable<Vector2>
     {

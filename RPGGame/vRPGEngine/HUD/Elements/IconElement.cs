@@ -209,7 +209,7 @@ namespace vRPGEngine.HUD.Elements
         {
             get
             {
-                return Handler.Spell.CostDisplayString();
+                return Handler.Spell.GetCostDisplayString();
             }
         }
         protected override string DisplayInfo

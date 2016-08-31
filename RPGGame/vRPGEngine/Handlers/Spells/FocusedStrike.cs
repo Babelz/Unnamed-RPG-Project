@@ -13,24 +13,24 @@ namespace vRPGEngine.Handlers.Spells
     public sealed class FocusedStrike : MeleeSpellHandler
     {
         public FocusedStrike() 
-            : base(SpellDatabase.Instance.Elements().First(p => p.ID == 10))
+            : base("focused strike")
         {
         }
 
         protected override MeleeSpellState OnUse(GameTime gameTime)
         {
             // TODO: fix.
-            if (!CanUse()) return MeleeSpellState.Used;
+            if (!CanUse()) return MeleeSpellState.Active;
 
             MeleeSwingResults swing = new MeleeSwingResults();
-            UserController.MeleeDamageController.GenerateMeleeAttackPowerBasedSwing(ref swing, 0.15f);
+            UserController.MeleeDamageController.GenerateSwing(ref swing, 0.15f);
 
             UserController.TargetFinder.TargetController.Statuses.Health -= swing.Damage;
 
             SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
             GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
 
-            return MeleeSpellState.Used;
+            return MeleeSpellState.Active;
         }
 
         public override object Clone()

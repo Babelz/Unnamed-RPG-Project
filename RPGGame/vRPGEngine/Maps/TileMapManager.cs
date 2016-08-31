@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TiledSharp;
+using vRPGEngine.Core;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;

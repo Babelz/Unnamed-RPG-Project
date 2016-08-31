@@ -9,6 +9,7 @@ using vRPGEngine.HUD.Controls;
 using vRPGEngine.HUD.Interfaces;
 using System.IO;
 using System.Diagnostics;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD.Elements
 {

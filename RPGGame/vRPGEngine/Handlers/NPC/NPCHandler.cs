@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Characters;
 using vRPGContent.Data.Spells;
+using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Handlers.Spells;

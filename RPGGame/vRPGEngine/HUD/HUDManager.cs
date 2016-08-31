@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Attributes;
 using vRPGEngine.Attributes.Spells;
+using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;

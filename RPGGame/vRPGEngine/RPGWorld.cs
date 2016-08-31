@@ -12,6 +12,7 @@ using vRPGEngine.ECS;
 using FarseerPhysics.Collision;
 using FarseerPhysics.Common;
 using vRPGEngine.Graphics;
+using vRPGEngine.Core;
 
 namespace vRPGEngine
 {

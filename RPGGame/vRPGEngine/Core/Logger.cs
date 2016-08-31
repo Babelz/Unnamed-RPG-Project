@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace vRPGEngine
+namespace vRPGEngine.Core
 {
     public enum LogLevel : int
     {

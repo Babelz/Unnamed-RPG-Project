@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using System.Runtime.CompilerServices;
 using vRPGEngine.ECS.Handlers;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.ECS.Components
 {

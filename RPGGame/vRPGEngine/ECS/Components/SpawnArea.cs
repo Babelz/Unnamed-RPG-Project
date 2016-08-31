@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Characters;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.ECS.Components
 {

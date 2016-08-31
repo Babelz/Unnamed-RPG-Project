@@ -20,7 +20,7 @@ namespace vRPGEngine.Handlers.Spells
         private sealed class BattleShoutBuff : Buff
         {
             #region Constants
-            private const float Value = 0.05f;
+            private const float BuffValue = 0.05f;
             #endregion
 
             public BattleShoutBuff() 
@@ -32,21 +32,21 @@ namespace vRPGEngine.Handlers.Spells
             {
                 var character = user.FirstComponentOfType<ICharacterController>();
 
-                character.Attributes.HealthPercentModifier      += Value;
-                character.Attributes.MeeleePowerPercentModifier += Value;
+                character.Attributes.HealthPercentModifier      += BuffValue;
+                character.Attributes.MeeleePowerPercentModifier += BuffValue;
             }   
             public override void Remove(Entity user)
             {
                 var character = user.FirstComponentOfType<ICharacterController>();
 
-                character.Attributes.HealthPercentModifier      -= Value;
-                character.Attributes.MeeleePowerPercentModifier -= Value;
+                character.Attributes.HealthPercentModifier      -= BuffValue;
+                character.Attributes.MeeleePowerPercentModifier -= BuffValue;
             }
         }
         #endregion
         
         public BattleShout()
-            : base(SpellDatabase.Instance.Elements().First(p => p.ID == 0), TimeConverter.ToMilliseconds(30.0f), null)
+            : base("battle shout", TimeConverter.ToMilliseconds(30.0f), null)
         {
         }
 

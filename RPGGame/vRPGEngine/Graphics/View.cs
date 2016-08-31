@@ -95,7 +95,7 @@ namespace vRPGEngine.Graphics
         public Matrix Transform
         {
             get;
-            set;
+            private set;
         }
 
         public Vector2 VisibleArea

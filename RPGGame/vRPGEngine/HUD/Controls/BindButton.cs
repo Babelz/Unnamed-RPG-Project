@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Commands;
+using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.Spells;

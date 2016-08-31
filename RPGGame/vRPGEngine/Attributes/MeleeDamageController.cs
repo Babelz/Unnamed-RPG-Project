@@ -79,11 +79,13 @@ namespace vRPGEngine.Attributes
             OnSwing?.Invoke(ref swing);
         }
 
-        public void GenerateMeleeAttackPowerBasedSwing(ref MeleeSwingResults swing, float percent, Hand hand = Hand.Main)
+        public void GenerateSwing(ref MeleeSwingResults swing, float attackPowerPercent, Hand hand = Hand.Main)
         {
             GenerateSilentSwing(ref swing, weapons[(int)hand]);
 
-            swing.Damage += (int)(specialization.TotalMeleePower() * percent);
+            var power = specialization.TotalMeleePower() * attackPowerPercent;
+
+            swing.Damage += swing.Critical ? (int)(power * specialization.CriticalDamagePercent()) : (int)power;
 
             OnSwing?.Invoke(ref swing);
         }

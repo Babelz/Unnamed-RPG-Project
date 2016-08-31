@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine
+namespace vRPGEngine.Core
 {
     public abstract class Allocator<T> where T : class
     {

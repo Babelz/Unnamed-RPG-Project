@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Core;
 
-namespace vRPGEngine
+namespace vRPGEngine.Core
 {
     public sealed class SystemManagers : Singleton<SystemManagers>
     {

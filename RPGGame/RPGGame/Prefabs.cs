@@ -21,6 +21,7 @@ using vRPGEngine.Handlers.NPC;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.HUD;
 using vRPGEngine.Input;
+using vRPGEngine.Maps;
 
 namespace RPGGame
 {
@@ -46,10 +47,12 @@ namespace RPGGame
             collider.CollidesWith    = CollisionCategories.World;
             collider.DisplayPosition = new Vector2(100.0f, 100.0f);
 
-            var behaviour = player.AddComponent<Behaviour>();
+            var camera              = player.AddComponent<Camera>();
+            var zoomStep            = 0.1f;
 
-            var view                 = new View(vRPGEngine.Engine.Instance.GraphicsDevice.Viewport);
-            var zoomStep             = 0.1f;
+            camera.Zoom             += zoomStep * 5.0f;
+
+            var behaviour = player.AddComponent<Behaviour>();
 
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
@@ -75,9 +78,14 @@ namespace RPGGame
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;
-                view.Position           = transform.Position;
 
-                view.FocuCenter();
+                Vector2 viewPosition;
+                Vector2 viewSize    = camera.VisibleArea;
+                viewPosition.X      = MathHelper.Clamp(collider.DisplayPosition.X, viewSize.X * 0.5f, TileEngine.TileWidth * TileEngine.MapWidth - viewSize.X * 0.5f);
+                viewPosition.Y      = MathHelper.Clamp(collider.DisplayPosition.Y, viewSize.Y * 0.5f, TileEngine.TileHeight * TileEngine.MapHeight - viewSize.Y * 0.5f);
+                camera.Position     = viewPosition;
+
+                camera.FocuCenter();
             });
 
             // Init input.
@@ -104,20 +112,18 @@ namespace RPGGame
                 collider.LinearVelocity = new Vector2(velo, collider.LinearVelocity.Y);
             });
 
-            kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => view.Zoom += zoomStep);
-            kip.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => view.Zoom -= zoomStep);
+            kip.Bind("zoom_in", Keys.Q, KeyTrigger.Pressed, () => camera.Zoom += zoomStep);
+            kip.Bind("zoom_out", Keys.E, KeyTrigger.Pressed, () => camera.Zoom -= zoomStep);
 
             var mip = InputManager.Instance.GetProvider<MouseInputProvider>();
 
             mip.Bind("click", MouseButton.LeftButton, MouseTrigger.Pressed, (ms) =>
             {
-                var position = view.ScreenToView(ms.Position);
+                var position = camera.ScreenToCamera(ms.Position);
                 var radius   = 2.5f;
 
                 controller.TargetFinder.FindTarget(position, radius);
             });
-            
-            Renderer.Instance.RegisterView(view);
 
             HUDManager.Instance.Initialize(player);
 

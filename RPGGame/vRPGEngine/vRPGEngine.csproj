@@ -50,10 +50,12 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Allocator.cs" />
+    <Compile Include="Core\Allocator.cs" />
     <Compile Include="Combat\GlobalCooldownManager.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="EnumExtensions.cs" />
+    <Compile Include="ECS\Components\Camera.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="GameData.cs" />
     <Compile Include="GameSetting.cs" />
     <Compile Include="Graphics\FloatingCombatText.cs" />
     <Compile Include="Handlers\Spells\FocusedStrike.cs" />
@@ -73,7 +75,7 @@
     <Compile Include="HUD\HUDManager.cs" />
     <Compile Include="HUD\TextHelper.cs" />
     <Compile Include="HUD\BackgroundTextureSplitter.cs" />
-    <Compile Include="Rectf.cs" />
+    <Compile Include="Core\Rectf.cs" />
     <Compile Include="Attributes\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
@@ -92,7 +94,7 @@
     <Compile Include="Databases\SpecializationDatabase.cs" />
     <Compile Include="Databases\SpellDatabase.cs" />
     <Compile Include="Databases\WeaponDatabase.cs" />
-    <Compile Include="DefaultValues.cs" />
+    <Compile Include="Core\DefaultValues.cs" />
     <Compile Include="ECS\Components\Collider.cs" />
     <Compile Include="ECS\Components\CharacterController.cs" />
     <Compile Include="ECS\Components\Component.cs" />
@@ -144,7 +146,7 @@
     <Compile Include="Readers\SpecPassiveBuffReader.cs" />
     <Compile Include="Readers\SpellReader.cs" />
     <Compile Include="RPGWorld.cs" />
-    <Compile Include="FrameCounter.cs" />
+    <Compile Include="Core\FrameCounter.cs" />
     <Compile Include="Graphics\DebugRenderer.cs" />
     <Compile Include="Graphics\Renderable.cs" />
     <Compile Include="Graphics\SpriteAnimation.cs" />
@@ -156,11 +158,11 @@
     <Compile Include="Attributes\Specializations\Specialization.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
-    <Compile Include="SystemManagers.cs" />
+    <Compile Include="Core\SystemManagers.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityBuilder.cs" />
     <Compile Include="ECS\EntityManager.cs" />
-    <Compile Include="Exceptions.cs" />
+    <Compile Include="Core\Exceptions.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Input\Enums.cs" />
@@ -170,19 +172,19 @@
     <Compile Include="Input\KeyboardInputProvider.cs" />
     <Compile Include="Maps\TileEngine.cs" />
     <Compile Include="TimeConverter.cs" />
-    <Compile Include="Timers.cs" />
-    <Compile Include="VectorExtensions.cs" />
+    <Compile Include="Core\Timers.cs" />
+    <Compile Include="Extensions\VectorExtensions.cs" />
     <Compile Include="Graphics\IRenderable.cs" />
     <Compile Include="Graphics\Layer.cs" />
     <Compile Include="Graphics\RenderCell.cs" />
     <Compile Include="Graphics\RenderGrid.cs" />
     <Compile Include="Graphics\View.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="PoolAllocator.cs" />
+    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Core\PoolAllocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterAllocator.cs" />
-    <Compile Include="Singleton.cs" />
-    <Compile Include="SystemManager.cs" />
+    <Compile Include="Core\RegisterAllocator.cs" />
+    <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Core\SystemManager.cs" />
     <Compile Include="vRPGEngine.cs" />
     <Compile Include="vRPGRandom.cs" />
     <Compile Include="vRPGSerializer.cs" />

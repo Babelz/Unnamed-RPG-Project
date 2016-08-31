@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.Graphics
 {
@@ -19,6 +20,8 @@ namespace vRPGEngine.Graphics
 
         private SpriteFont font;
         private Color color;
+
+        private bool visible;
         #endregion
 
         private DebugRenderer()
@@ -31,6 +34,11 @@ namespace vRPGEngine.Graphics
 
             font    = DefaultValues.DefaultFont;
             color   = Color.Red;
+        }
+
+        public void Toggle()
+        {
+            visible = !visible;
         }
 
         public void SetFont(SpriteFont font)
@@ -64,6 +72,8 @@ namespace vRPGEngine.Graphics
 
         public void Present(GameTime gameTime)
         {
+            if (!visible) return;
+
             spriteBatch.Begin();
 
             var position = Vector2.Zero;

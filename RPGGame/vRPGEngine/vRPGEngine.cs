@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Combat;
+using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.ECS.Handlers;
@@ -73,6 +74,7 @@ namespace vRPGEngine
 
         private void ActivateDebugRenderer()
         {
+            InputManager.Instance.GetProvider<KeyboardInputProvider>().Bind("toggle_dgb_rendering", Keys.F1, KeyTrigger.Pressed, () => DebugRenderer.Instance.Toggle());
             // Delta.
             DebugRenderer.Instance.AddString((gt) => string.Format("Delta time: {0}ms", gt.ElapsedGameTime.Milliseconds));
 

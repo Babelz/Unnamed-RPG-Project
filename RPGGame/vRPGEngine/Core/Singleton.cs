@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine
+namespace vRPGEngine.Core
 {
     /// <summary>
     /// Singleton base class. To use this inherit from this class

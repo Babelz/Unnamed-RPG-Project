@@ -11,6 +11,7 @@ using vRPGEngine.ECS;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.Combat;
 using vRPGEngine.Attributes;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.Handlers.NPC
 {

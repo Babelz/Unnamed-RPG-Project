@@ -8,8 +8,9 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using OpenTK.Input;
 
-using Mouse         = Microsoft.Xna.Framework.Input.Mouse;
-using MouseState    = Microsoft.Xna.Framework.Input.MouseState;
+using Mouse = Microsoft.Xna.Framework.Input.Mouse;
+using MouseState = Microsoft.Xna.Framework.Input.MouseState;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.Input
 {

@@ -97,7 +97,7 @@ namespace vRPGContent.Data.Spells
             return Name.GetHashCode();
         }
 
-        public string CostDisplayString()
+        public string GetCostDisplayString()
         {
             switch (CostType)
             {

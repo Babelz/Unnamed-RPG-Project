@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using vRPGContent.Data.Spells;
 using vRPGEngine.Attributes.Spells;
 using vRPGEngine.Combat;
+using vRPGEngine.Core;
+using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
@@ -45,11 +47,13 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected SpellHandler(Spell spell)
+        protected SpellHandler(string name)
         {
-            Debug.Assert(spell != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
             
-            Spell       = spell;
+            Spell       = SpellDatabase.Instance.Elements().FirstOrDefault(e => e.Name.ToLower() == name);
+
+            if (Spell == null) Logger.Instance.LogError(string.Format("could not load spell named \"{0}\"", name));
         }
         
         public abstract void Use(Entity user);
@@ -114,8 +118,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected MissileSpellHandler(Spell spell, float width, float height)
-            : base(spell)
+        protected MissileSpellHandler(string name, float width, float height)
+            : base(name)
         {
             Width   = width;
             Height  = height;
@@ -163,7 +167,7 @@ namespace vRPGEngine.Handlers.Spells
 
             elapsed         = 0;
             CooldownElapsed = 0;
-            BeingUsed         = true;
+            BeingUsed       = true;
 
             if (Spell.Cooldown != 0) OnCooldown = true;
         }
@@ -203,12 +207,12 @@ namespace vRPGEngine.Handlers.Spells
             /// <summary>
             /// The spell has been used, the handler should be disposed.
             /// </summary>
-            Used,
+            Active,
 
             /// <summary>
             /// The spell is still being used, the handler should not be disposed.
             /// </summary>
-            Using
+            Inactive
         }
         #endregion
 
@@ -225,8 +229,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        public MeleeSpellHandler(Spell spell)
-            : base(spell)
+        public MeleeSpellHandler(string name)
+            : base(name)
         {
         }
 
@@ -302,9 +306,8 @@ namespace vRPGEngine.Handlers.Spells
                 Enable(user, controller);
 
                 if (BeingUsed)
-                {
-                    if (Spell.GCD) GlobalCooldownManager.Instance.Trigger(user.FirstComponentOfType<ICharacterController>());
-                }
+                    if (Spell.GCD)
+                        GlobalCooldownManager.Instance.Trigger(user.FirstComponentOfType<ICharacterController>());
             }
         }
 
@@ -313,7 +316,7 @@ namespace vRPGEngine.Handlers.Spells
             if (!BeingUsed)                                                               return;
             if (Spell.GCD && GlobalCooldownManager.Instance.IsInCooldown(UserController)) return;
 
-            BeingUsed = OnUse(gameTime) == MeleeSpellState.Using;
+            BeingUsed = OnUse(gameTime) == MeleeSpellState.Inactive;
 
             if (!BeingUsed) Disable();
         }
@@ -346,8 +349,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        public AOESpellHandler(Spell spell, float radius)
-            : base(spell)
+        public AOESpellHandler(string name, float radius)
+            : base(name)
         {
         }
 
@@ -357,10 +360,10 @@ namespace vRPGEngine.Handlers.Spells
         {
             Debug.Assert(user != null);
 
-            User           = user;
-            BeingUsed         = true;
-            CooldownElapsed = 0;
-            Elapsed         = 0;
+            User                = user;
+            BeingUsed           = true;
+            CooldownElapsed     = 0;
+            Elapsed             = 0;
 
             if (Spell.Cooldown != 0) OnCooldown = true;
         }
@@ -430,8 +433,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         #endregion
 
-        protected SelfBuffSpellHandler(Spell spell, int decayTime, IRenderable renderable)
-                : base(spell)
+        protected SelfBuffSpellHandler(string name, int decayTime, IRenderable renderable)
+                : base(name)
         {
             DecayTime  = decayTime;
             Renderable = renderable;

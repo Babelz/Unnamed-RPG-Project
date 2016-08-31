@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vRPGEngine
+namespace vRPGEngine.Extensions
 {
     public static class EnumExtensions
     {

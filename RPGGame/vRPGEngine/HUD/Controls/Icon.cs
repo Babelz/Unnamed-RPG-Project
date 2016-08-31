@@ -8,6 +8,7 @@ using vRPGContent.Data.Spells;
 using vRPGEngine.HUD.Elements;
 using vRPGEngine.Graphics;
 using Microsoft.Xna.Framework.Graphics;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD.Controls
 {

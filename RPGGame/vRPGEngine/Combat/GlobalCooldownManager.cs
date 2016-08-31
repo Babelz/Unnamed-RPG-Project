@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.Combat
 {

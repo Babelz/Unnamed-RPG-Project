@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD
 {
@@ -128,13 +129,14 @@ namespace vRPGEngine.HUD
         }
         private void InitializeNewEntries()
         {
-            var position = Vector2.Zero;
+            var transform   = EntityManager.Instance.Entitites.First(e => e.Tagged("player")).FirstComponentOfType<Transform>();
+            var position    = transform.Position;
 
-            position.Y = HUDRenderer.Instance.CanvasSize.Y / 2.0f;
+            //position.Y += HUDRenderer.Instance.CanvasSize.Y / 2.0f;
 
             foreach (var newEntry in newEntries)
             {
-                position.X = HUDRenderer.Instance.CanvasSize.X / 2.0f;
+                //position.X += HUDRenderer.Instance.CanvasSize.X / 2.0f;
 
                 if (TextSideLeft()) { position.X -= Font.MeasureString(newEntry.Contents).X; newEntry.Side = -1; }
                 else                { position.X += Font.MeasureString(newEntry.Contents).X / 2.0f; newEntry.Side = 1;  }

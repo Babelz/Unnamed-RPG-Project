@@ -26,7 +26,7 @@ namespace vRPGContent.Data.Quests
             get;
             set;
         }
-        public string[] Description
+        public string Description
         {
             get;
             set;
@@ -47,6 +47,11 @@ namespace vRPGContent.Data.Quests
             set;
         }
         public int QuestItemID
+        {
+            get;
+            set;
+        }
+        public string[] Requires
         {
             get;
             set;

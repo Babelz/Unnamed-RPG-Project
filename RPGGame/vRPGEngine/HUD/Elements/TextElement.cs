@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using vRPGEngine.HUD.Controls;
 using System.Diagnostics;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD.Elements
 {

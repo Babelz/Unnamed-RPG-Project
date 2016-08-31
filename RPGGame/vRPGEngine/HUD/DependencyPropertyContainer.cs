@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD
 {
@@ -120,6 +121,11 @@ namespace vRPGEngine.HUD
             properties.TryGetValue(name, out property);
 
             return property;
+        }
+
+        public bool Contains(string name)
+        {
+            return properties.ContainsKey(name);
         }
     }
 }
