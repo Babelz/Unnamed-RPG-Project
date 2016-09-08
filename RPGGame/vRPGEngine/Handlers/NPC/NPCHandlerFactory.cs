@@ -9,7 +9,7 @@ namespace vRPGEngine.Handlers.NPC
 {
     public sealed class NPCHandlerFactory : HandlerFactory<NPCHandlerFactory, NPCHandler>
     {
-        public NPCHandlerFactory() 
+        private NPCHandlerFactory() 
             : base()
         {
         }

@@ -273,8 +273,6 @@ namespace vRPGEngine.HUD.Elements
 
         public void Invalidate(Control control)
         {
-            Debug.Assert(content != null);
-
             position = control.DisplayPosition;
             size     = control.DisplaySize;
 

@@ -18,20 +18,14 @@ namespace vRPGEngine.Handlers
         private readonly Dictionary<string, ICloneable> activators;
         #endregion
 
-        #region Properties
-        public string HandlersNamespace
-        {
-            get;
-            set;
-        }
-        #endregion
-
         static HandlerFactory()
         {
             var assemblies  = AppDomain.CurrentDomain.GetAssemblies();
             var types       = new List<Type>();
 
-            foreach (var assembly in assemblies) types.AddRange(assembly.GetTypes().Where(a => a.IsSubclassOf(typeof(TProduct))));
+            // TODO: get from settings...
+            foreach (var assembly in assemblies.Where(a => a.FullName.Contains("RPGGame") || a.FullName.Contains("vRPGEngine")))
+                types.AddRange(assembly.GetTypes().Where(a => a.IsSubclassOf(typeof(TProduct))));
 
             Types = types.ToArray();
         }
@@ -48,8 +42,7 @@ namespace vRPGEngine.Handlers
             if (activators.ContainsKey(handlerName)) return activators[handlerName].Clone() as TProduct;
 
             // Not created yet, use reflection.
-            var fullName    = HandlersNamespace + handlerName;
-            var type        = Types.FirstOrDefault(t => t.FullName == fullName);
+            var type        = Types.FirstOrDefault(t => t.Name == handlerName);
 
             if (type == null)
             {

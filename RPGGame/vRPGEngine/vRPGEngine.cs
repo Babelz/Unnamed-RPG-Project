@@ -65,6 +65,13 @@ namespace vRPGEngine
                 return game.Window;
             }
         }
+        public Game Game
+        {
+            get
+            {
+                return game;
+            }
+        }
         #endregion
 
         private Engine() 

@@ -9,10 +9,36 @@ namespace vRPGEngine
     public sealed class EngineSettings
     {
         #region Fields
+        private readonly IniFile ini;
         #endregion
 
         #region Properties
+        public int ResolutionWidth
+        {
+            get
+            {
+                return int.Parse(ini.Read("resolution_width", "graphics"));
+            }
+        }
+        public int ResolutionHeight
+        {
+            get
+            {
+                return int.Parse(ini.Read("resolution_height", "graphics"));
+            }
+        }
         #endregion
+
+        public EngineSettings()
+        {
+        }
+
+        public void Load()
+        {
+        }
+        public void Save()
+        {
+        }
     }
 
     public sealed class HUDSettings

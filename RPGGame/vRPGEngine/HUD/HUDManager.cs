@@ -57,12 +57,12 @@ namespace vRPGEngine.HUD
         public void Initialize(Entity player)
         {
             Debug.Assert(player != null);
+            
+            this.player = player;
+            controller  = player.FirstComponentOfType<PlayerCharacterController>();
+
             Debug.Assert(controller != null);
 
-            this.player = player;
-
-            controller  = player.FirstComponentOfType<PlayerCharacterController>();
-            
             controller.Buffs.BuffAdded   += Buffs_BuffAdded;
             controller.Buffs.BuffRemoved += Buffs_BuffRemoved;
 

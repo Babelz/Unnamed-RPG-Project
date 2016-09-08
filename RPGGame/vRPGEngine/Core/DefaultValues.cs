@@ -12,8 +12,8 @@ namespace vRPGEngine.Core
     public static class DefaultValues
     {
         #region Fields
-        public static readonly Texture2D EmptyTexture;
-        public static readonly Texture2D MissingTexture;
+        public static readonly Texture2D  EmptyTexture;
+        public static readonly Texture2D  MissingTexture;
         public static readonly SpriteFont DefaultFont;
         #endregion
 

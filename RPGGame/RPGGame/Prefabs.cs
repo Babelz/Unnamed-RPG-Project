@@ -3,6 +3,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,15 @@ namespace RPGGame
             statuses.Initialize(specialization);
             controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
 
+            var light = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
+            Renderer.Instance.AddLight(light);
+            light.Scale = new Vector2(400.0f);
+            light.Radius = 32.0f;
+            light.Intensity = 1.0f;
+            light.Color = Color.White;
+            light.Enabled = true;
+            light.CastsShadows = true;
+
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;
@@ -84,6 +94,10 @@ namespace RPGGame
                 viewPosition.X      = MathHelper.Clamp(collider.DisplayPosition.X, viewSize.X * 0.5f, TileEngine.TileWidth * TileEngine.MapWidth - viewSize.X * 0.5f);
                 viewPosition.Y      = MathHelper.Clamp(collider.DisplayPosition.Y, viewSize.Y * 0.5f, TileEngine.TileHeight * TileEngine.MapHeight - viewSize.Y * 0.5f);
                 camera.Position     = viewPosition;
+
+                light.Position      = collider.DisplayPosition;
+
+                light.Scale         = new Vector2(400.0f) * vRPGRandom.NextFloat(0.8f, 1.0f);
 
                 camera.FocuCenter();
             });
@@ -125,7 +139,10 @@ namespace RPGGame
                 controller.TargetFinder.FindTarget(position, radius);
             });
 
+            Renderer.Instance.RegisterLightsView(camera.View);
+
             HUDManager.Instance.Initialize(player);
+            
 
             return player;
         }

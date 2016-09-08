@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,10 +19,13 @@ namespace vRPGEngine.Graphics
         #endregion
 
         #region Fields
+        private readonly PenumbraComponent penumbra;
         private readonly SpriteBatch spriteBatch;
         private readonly List<View> views;
         private readonly List<int> reservedIndices;
         private readonly Stack<int> freeIndices;
+
+        private View lightsView;
 
         private Layer[] layers;
         private int ptr;
@@ -91,16 +95,26 @@ namespace vRPGEngine.Graphics
         private Renderer()
             : base()
         {
+            penumbra        = new PenumbraComponent(Engine.Instance.Game);
             spriteBatch     = new SpriteBatch(Engine.Instance.GraphicsDevice);
             views           = new List<View>();
             reservedIndices = new List<int>();
             freeIndices     = new Stack<int>();
             layers          = new Layer[InitialLayersCount];
             ClearColor      = Color.CornflowerBlue;
+
+            penumbra.Initialize();
+            penumbra.AmbientColor = Color.Black;
         }
         
         private void Present(GameTime gameTime)
         {
+            penumbra.BeginDraw();
+
+            penumbra.SpriteBatchTransformEnabled = lightsView != null;
+
+            if (penumbra.SpriteBatchTransformEnabled) penumbra.Transform = lightsView.Transform;
+
             visibleElements = 0;
 
             var device      = Engine.Instance.GraphicsDevice;
@@ -147,10 +161,14 @@ namespace vRPGEngine.Graphics
             }
 
             device.Viewport = viewport;
-        }
 
+            penumbra.Draw(gameTime);
+        }
+        
         protected override void OnUpdate(GameTime gameTime)
         {
+            penumbra.Update(gameTime);
+
             Present(gameTime);
         }
 
@@ -289,6 +307,19 @@ namespace vRPGEngine.Graphics
             for (var i = 0; i < views.Count; i++) yield return views[i];
         }
 
+        public void RegisterLightsView(View view)
+        {
+            RegisterView(view);
+
+            lightsView = view;
+        }
+        public void ClearLightsView()
+        {
+            if (lightsView != null) UnregisterView(lightsView);
+
+            lightsView = null;
+        }
+
         public void Invalidate(IRenderable element)
         {
             if (!element.Active) return;
@@ -299,6 +330,68 @@ namespace vRPGEngine.Graphics
         public bool HasLayers()
         {
             return layers.FirstOrDefault(l => l != null) != null;
+        }
+
+        public Hull CreateHull(Vector2 position, Vector2[] points)
+        {
+            Debug.Assert(points != null);
+
+            var hull = new Hull(points);
+
+            hull.Position = position;
+            hull.Enabled = true;
+
+            if (!hull.Valid)
+            {
+                Logger.Instance.LogError("invalid points for hull! could not create hull!");
+
+                return null;
+            }
+
+            return hull;
+        }
+        public void RemoveHull(Hull hull)
+        {
+            Debug.Assert(hull != null);
+            Debug.Assert(hull.Valid);
+
+            penumbra.Hulls.Remove(hull);
+        }
+        public void AddHull(Hull hull)
+        {
+            Debug.Assert(hull != null);
+            Debug.Assert(hull.Valid);
+
+            penumbra.Hulls.Add(hull);
+        }
+
+        public Spotlight CreateSpotLight(ShadowType shadowType)
+        {
+            var light = new Spotlight();
+
+            light.ShadowType = shadowType;
+
+            return light;
+        }
+        public PointLight CreatePointLight(ShadowType shadowType)
+        {
+            var light = new PointLight();
+
+            light.ShadowType = shadowType;
+
+            return light;
+        }
+        public void RemoveLight(Light light)
+        {
+            Debug.Assert(light != null);
+
+            penumbra.Lights.Remove(light);
+        }
+        public void AddLight(Light light)
+        {
+            Debug.Assert(light != null);
+
+            penumbra.Lights.Add(light);
         }
     }
 }

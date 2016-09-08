@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RPGGame.Scenes;
-using TiledSharp;
 using vRPGEngine;
 using vRPGEngine.Databases;
 using vRPGEngine.ECS;
@@ -46,9 +45,6 @@ namespace RPGGame
         protected override void Initialize()
         {
             Engine.Instance.Initialize(graphics);
-
-            NPCHandlerFactory.Instance.HandlersNamespace    = "RPGGame.Handlers.NPC.";
-            SpellHandlerFactory.Instance.HandlersNamespace  = "RPGGame.Handlers.Spells.";
 
             SceneManager.Instance.ChangeScene(new GameplayTestingScene());
         }
