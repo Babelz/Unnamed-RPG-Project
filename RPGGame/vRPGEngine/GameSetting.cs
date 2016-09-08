@@ -8,8 +8,10 @@ namespace vRPGEngine
 {
     public sealed class EngineSettings
     {
-        #region Properties
+        #region Fields
+        #endregion
 
+        #region Properties
         #endregion
     }
 

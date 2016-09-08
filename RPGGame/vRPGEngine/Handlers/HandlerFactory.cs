@@ -31,7 +31,7 @@ namespace vRPGEngine.Handlers
             var assemblies  = AppDomain.CurrentDomain.GetAssemblies();
             var types       = new List<Type>();
 
-            foreach (var assembly in assemblies) types.AddRange(assembly.GetTypes());
+            foreach (var assembly in assemblies) types.AddRange(assembly.GetTypes().Where(a => a.IsSubclassOf(typeof(TProduct))));
 
             Types = types.ToArray();
         }

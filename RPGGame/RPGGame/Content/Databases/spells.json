@@ -29,7 +29,7 @@
 
 		// Warrior spec spells.
 		{
-			"ID": 			0,
+			"ID":			0,
 			"Name": 		"Battle shout",
 			"Description": 	"Increases melee attack power by 5% and health by 5%, lasts 30s",
 			"DisplayInfo":  "Melee attack power +5% and health +5%",
@@ -43,7 +43,7 @@
 			"Range":		0.5
 		},
 		{
-			"ID": 			1,
+			"ID":			1,
 			"Name": 		"Taste for blood",
 			"Description": 	"Next 3 melee attacks regenerate 3% of your total health and deal 75% of your 
 							 weapon damage + 10% of your total melee power",
@@ -57,7 +57,7 @@
 			"Cooldown":		45
 		},
 		{
-			"ID": 			2,
+			"ID":			2,
 			"Name": 		"Shield slam",
 			"Description": 	"Deals damage equal to 10% of your shields armor value + 25% of your
 							 melee power, has 50% chance to stun the target for 3s",
@@ -73,7 +73,7 @@
 
 		// Mage spec spells.
 		{
-			"ID": 			3,
+			"ID":			3,
 			"Name": 		"Pyro blast",
 			"Description": 	"Deals 125% of your spell power as fire damage, causes the target 
 						     to burn for 10% of the damage over 3s",
@@ -87,7 +87,7 @@
 			"CastTime":		500
 		},
 		{
-			"ID": 			4,
+			"ID":			4,
 			"Name": 		"Frost blast",
 			"Description": 	"Deals 50% of your spell power as frost damage, causes the target
 							 to slow down by 50% for 3s",
@@ -101,7 +101,7 @@
 			"CastTime":		300
 		},
 		{
-			"ID": 			5,
+			"ID":			5,
 			"Name": 		"Blink",
 			"Description": 	"Teleport 3 meters to wanted direction",
 			"Element": 		0,
@@ -114,7 +114,7 @@
 			"CastTime":		0
 		},
 		{
-			"ID": 			6,
+			"ID":			6,
 			"Name": 		"Mana blast",
 			"Description": 	"Deals 40% of your spell power as magical damage, grants mana blast
 							 debuff that increases the total cost of the spell by 3% and increases the
@@ -130,7 +130,7 @@
 			"CastTime":		200
 		},
 		{
-			"ID": 			7,
+			"ID":			7,
 			"Name": 		"Magic missile",
 			"Description": 	"Shoot a magical missile towards your target, deals 30% of your spell power
 							 as magical damage",
@@ -144,7 +144,7 @@
 			"CastTime":		0
 		},
 		{
-			"ID": 			8,
+			"ID":			8,
 			"Name": 		"Frost nova",
 			"Description": 	"Root all enemies in 3 meter radius for 5 seconds, deals 10% of your spell
 							 power as frost damage",
@@ -159,7 +159,7 @@
 		},
 
 		{
-			"ID": 			9,
+			"ID":			9,
 			"Name": 		"Auto attack",
 			"Description":	"Deals weapon damage + 5% of your melee power",
 			"IconName":		"AutoAttack",
@@ -170,7 +170,7 @@
 		},
 
 		{
-			"ID": 			10,
+			"ID":			10,
 			"Name": 		"Focused strike",
 			"Description":	"Deals weapon damage + 25% of your melee power",
 			"IconName":		"AutoAttack",

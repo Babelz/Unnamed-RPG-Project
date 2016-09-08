@@ -183,15 +183,6 @@ namespace vRPGEngine.ECS.Components
 
             MeleeDamageController?.Update(gameTime);
         }
-
-        public void BeginCast(int id)
-        {
-            if (casting != null)
-            {
-            }
-
-            casting = Spells.FirstOrDefault(h => h.Spell.ID == id);
-        }
         
         public void EnterCombat()
         {
