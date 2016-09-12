@@ -20,11 +20,11 @@ namespace vRPGEngine.Handlers
 
         static HandlerFactory()
         {
-            var assemblies  = AppDomain.CurrentDomain.GetAssemblies();
-            var types       = new List<Type>();
-
-            // TODO: get from settings...
-            foreach (var assembly in assemblies.Where(a => a.FullName.Contains("RPGGame") || a.FullName.Contains("vRPGEngine")))
+            var assemblies          = AppDomain.CurrentDomain.GetAssemblies();
+            var types               = new List<Type>();
+            var definedAssemblies   = GameSetting.Engine.HandlerAssemblies;
+            
+            foreach (var assembly in assemblies.Where(a => definedAssemblies.Contains(a.FullName.Split(new char[] { ',' }).First().Trim())))
                 types.AddRange(assembly.GetTypes().Where(a => a.IsSubclassOf(typeof(TProduct))));
 
             Types = types.ToArray();

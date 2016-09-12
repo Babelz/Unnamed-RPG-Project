@@ -21,7 +21,7 @@ using vRPGEngine.Scenes;
 
 namespace vRPGEngine
 {
-    public sealed class Engine : Singleton<Engine>
+    public class Engine : Singleton<Engine> 
     {
         #region Fields
         private GraphicsDeviceManager graphics;
@@ -190,6 +190,13 @@ namespace vRPGEngine
 
             try
             {
+                GameSetting.Load();
+
+                graphics.PreferredBackBufferWidth   = GameSetting.Engine.ResolutionWidth;
+                graphics.PreferredBackBufferHeight  = GameSetting.Engine.ResolutionHeight;
+                graphics.PreferMultiSampling        = GameSetting.Engine.UseMultisampling;
+                graphics.ApplyChanges();
+
                 // TODO: wrap.
                 // Init managers.
                 GlobalCooldownManager.Instance.Activate();
@@ -258,8 +265,10 @@ namespace vRPGEngine
             Debug.Assert(!game.IsActive);
 
             Logger.Instance.LogFunctionMessage("activating engine systems...");
-            
+
             game.Run();
+
+            GameSetting.Save();
         }
 
         public void Update(GameTime gameTime)

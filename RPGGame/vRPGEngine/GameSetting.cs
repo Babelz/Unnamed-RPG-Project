@@ -8,8 +8,15 @@ namespace vRPGEngine
 {
     public sealed class EngineSettings
     {
+        #region Static fields
+        private static readonly string Path             = "engine.ini";
+
+        private static readonly string SectionGraphics  = "graphics";
+        private static readonly string SectionEngine    = "engine";
+        #endregion
+
         #region Fields
-        private readonly IniFile ini;
+        private IniFile ini;
         #endregion
 
         #region Properties
@@ -17,14 +24,32 @@ namespace vRPGEngine
         {
             get
             {
-                return int.Parse(ini.Read("resolution_width", "graphics"));
+                return int.Parse(ini.Read("resolution_width", SectionGraphics));
             }
         }
         public int ResolutionHeight
         {
             get
             {
-                return int.Parse(ini.Read("resolution_height", "graphics"));
+                return int.Parse(ini.Read("resolution_height", SectionGraphics));
+            }
+        }
+        public bool UseMultisampling
+        {
+            get
+            {
+                return int.Parse(ini.Read("use_multisampling", SectionGraphics)) != 0;
+            }
+        }
+        public string[] HandlerAssemblies
+        {
+            get
+            {
+                return ini.Read("handler_assemblies", "engine")
+                          .Split(new[] { ',' })
+                          .Where(s => !string.IsNullOrEmpty(s))
+                          .Select(s => s.Trim())
+                          .ToArray();
             }
         }
         #endregion
@@ -35,9 +60,13 @@ namespace vRPGEngine
 
         public void Load()
         {
+            ini = new IniFile(Path);
         }
         public void Save()
         {
+            ini.Write("resolution_width", ResolutionWidth.ToString(), SectionGraphics);
+            ini.Write("resolution_height", ResolutionHeight.ToString(), SectionGraphics);
+            ini.Write("use_multisampling", (UseMultisampling ? 1 : 0).ToString(), SectionGraphics);
         }
     }
 
@@ -142,6 +171,11 @@ namespace vRPGEngine
             get;
             private set;
         }
+        public static EngineSettings Engine
+        {
+            get;
+            private set;
+        }
         #endregion
 
         static GameSetting()
@@ -162,17 +196,21 @@ namespace vRPGEngine
                 Visible                 = true,
                 FloatingBehaviour       = CombatTextSettings.FloatingTextBehaviour.FromBottomToTop
             };
+            
+            Engine = new EngineSettings();
         }
 
         public static void Load()
         {
             HUD.Load();
             CombatText.Load();
+            Engine.Load();
         }
         public static void Save()
         {
             HUD.Save();
             CombatText.Save();
+            Engine.Save();
         }
     }
 }

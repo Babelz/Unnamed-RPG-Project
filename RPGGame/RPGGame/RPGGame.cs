@@ -21,29 +21,23 @@ namespace RPGGame
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class RPGGame : Game
+    public sealed class RPGGame : Game
     {
         #region Fields
-        private readonly GraphicsDeviceManager graphics;
+        private GraphicsDeviceManager graphics;
         #endregion
 
         public RPGGame()
             : base()
         {
-            graphics                                = new GraphicsDeviceManager(this);
-            graphics.SynchronizeWithVerticalRetrace = true;
-            graphics.PreferMultiSampling            = false;
-            graphics.PreferredBackBufferWidth       = 1280;
-            graphics.PreferredBackBufferHeight      = 720;
-
-            graphics.ApplyChanges();
-            
-            Content.RootDirectory   = "Content";
-            IsMouseVisible          = true;
+            graphics = new GraphicsDeviceManager(this);
         }
 
         protected override void Initialize()
         {
+            Content.RootDirectory   = "Content";
+            IsMouseVisible          = true;
+
             Engine.Instance.Initialize(graphics);
 
             SceneManager.Instance.ChangeScene(new GameplayTestingScene());
