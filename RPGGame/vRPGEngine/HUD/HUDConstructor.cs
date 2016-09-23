@@ -42,11 +42,13 @@ namespace vRPGEngine.HUD
         /// <summary>
         /// Construct HUD and add it to the manager.
         /// </summary>
-        public abstract void Construct(HUDManager manager);
+        public abstract void Construct();
 
         /// <summary>
         /// Deconstruct this HUD and remove it from the manager.
         /// </summary>
-        public abstract void Deconstruct(HUDManager manager);
+        public virtual void Deconstruct()
+        {
+        }
     }
 }

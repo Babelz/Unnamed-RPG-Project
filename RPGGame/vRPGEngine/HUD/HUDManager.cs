@@ -15,43 +15,77 @@ using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.Spells;
 using vRPGEngine.HUD.Controls;
 using vRPGEngine.HUD.Elements;
+using vRPGEngine.HUD.Interfaces;
 
 namespace vRPGEngine.HUD
 {
     public sealed class HUDManager : SystemManager<HUDManager>
     {
-        #region Constants
-        private static readonly Vector2 IconSizeInPixels = new Vector2(32.0f);
-        private static readonly Vector2 IconSize         = IconSizeInPixels / HUDRenderer.Instance.CanvasSize;
-        private const int BuffIconColumns                = 10;
-        private const int BuffIconRows                   = 3;
+        #region Fields
+        private HUDConstructor constructor;
         #endregion
 
-        #region Fields
-        private readonly List<Icon> buffIcons;
-
-        private Panel root;
-
-        private PlayerCharacterController controller;
-        private Entity player;
+        #region Properties
+        public View View
+        {
+            get
+            {
+                return constructor?.View;
+            }
+        }
+        public IContentControl Root
+        {
+            get
+            {
+                return constructor?.Root;
+            }
+        }
+        public IEnumerable<HUDSubsystem> Subsystems
+        {
+            get
+            {
+                return constructor?.Subsystems;
+            }
+        }
         #endregion
 
         private HUDManager()
             : base()
         {
-            buffIcons = new List<Icon>();
         }
 
-        protected override void OnActivate()
-        {
-            root            = new Panel();
-            root.Element    = null;
-
-            HUDRenderer.Instance.Root = root;
-        }
         protected override void OnSuspend()
         {
-            HUDRenderer.Instance.Root = null;
+            if (constructor != null) constructor.Deconstruct();
+        }
+
+        public void ConstructFrom(HUDConstructor constructor)
+        {
+            if (this.constructor != null) this.constructor.Deconstruct();
+
+            this.constructor = constructor;
+
+            this.constructor.Construct();
+
+            var valid = this.constructor.Root != null && this.constructor.View != null;
+
+            if (this.constructor.Root == null) Logger.Instance.LogError("root can't be null!");
+            if (this.constructor.View == null) Logger.Instance.LogError("view can't be null!");
+
+            if (!valid)
+            {
+                this.constructor.Deconstruct();
+
+                this.constructor = null;
+            }
+        }
+        public void Deconstruct()
+        {
+            if (constructor == null) return;
+
+            constructor.Deconstruct();
+
+            constructor = null;
         }
     }
 }

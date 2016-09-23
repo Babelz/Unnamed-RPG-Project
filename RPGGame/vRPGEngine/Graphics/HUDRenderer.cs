@@ -40,11 +40,6 @@ namespace vRPGEngine.Graphics
                                    Engine.Instance.GraphicsDeviceManager.PreferredBackBufferHeight);
             }
         }
-        public IContentControl Root
-        {
-            get;
-            set;
-        }
         #endregion
 
         private HUDRenderer()
@@ -59,7 +54,7 @@ namespace vRPGEngine.Graphics
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            if (Root != null) Root.Update(gameTime);
+            if (HUDManager.Instance.Root != null) HUDManager.Instance.Root.Update(gameTime);
             
             for (int i = elements.Count - 1; i >= 0; i--) elements[i].Show(gameTime, spriteBatch);
             
@@ -67,9 +62,16 @@ namespace vRPGEngine.Graphics
 
             spriteBatch.End();
         }
-        private void UpdateCombatText(GameTime gameTime)
+        private void UpdateSubsystems(GameTime gameTime)
         {
-            if (!GameSetting.CombatText.Visible) return;
+            if (HUDManager.Instance.Subsystems == null) return;
+
+            var widgets = HUDManager.Instance.Subsystems;
+
+            // Update first as some widgets might need to use 
+            // the spritebatch in some different way that the 
+            // rendering pipeline uses it.
+            foreach (var widget in widgets) widget.Update(gameTime, spriteBatch);
 
             spriteBatch.Begin(SpriteSortMode.Deferred,
                               BlendState.AlphaBlend,
@@ -77,10 +79,10 @@ namespace vRPGEngine.Graphics
                               null,
                               null,
                               null,
-                              Renderer.Instance.Views().First().Transform);
-
-            combatText.Update(gameTime);
-            combatText.Draw(spriteBatch);
+                              HUDManager.Instance.View.Transform);
+            
+            // Render all widgets after updates are done.
+            foreach (var widget in widgets) widget.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
         }
@@ -89,7 +91,7 @@ namespace vRPGEngine.Graphics
         {
             if (!GameSetting.HUD.Visible) return;
             
-            UpdateCombatText(gameTime);
+            UpdateSubsystems(gameTime);
             UpdateHUD(gameTime);
             
             // Always clear log so we don't get a spam if the player 

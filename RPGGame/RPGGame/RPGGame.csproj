@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CollisionCategories.cs" />
     <Compile Include="GUI\GameplayHUDConstructor.cs" />
+    <Compile Include="GUI\HUDConstants.cs" />
     <Compile Include="Handlers\NPC\CritterHandler.cs" />
     <Compile Include="Handlers\Spells\AutoAttack.cs" />
     <Compile Include="Handlers\Spells\FocusedStrike.cs" />
