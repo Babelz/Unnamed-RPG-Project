@@ -12,7 +12,7 @@ using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD
 {
-    public sealed class CombatTextManager
+    public sealed class CombatTextManager : HUDSubsystem
     {
         #region Combat text entry class
         private sealed class CombatTextEntry
@@ -104,6 +104,9 @@ namespace vRPGEngine.HUD
 
             newEntries = new List<CombatTextEntry>();
             allEntries = new List<CombatTextEntry>();
+
+            Enable();
+            Show();
         }
         
         private bool TextSideLeft()
@@ -155,7 +158,7 @@ namespace vRPGEngine.HUD
 
             newEntries.Clear();
         }
-
+        
         private void UpdatEntries(GameTime gameTime)
         {
             var dt       = gameTime.ElapsedGameTime.Milliseconds * 0.1f;
@@ -193,7 +196,7 @@ namespace vRPGEngine.HUD
             }
         }
 
-        public void Update(GameTime gameTime)
+        protected override void OnUpdate(GameTime gameTime, SpriteBatch spriteBatch)
         {
             CreateNewEntries();
 
@@ -201,7 +204,7 @@ namespace vRPGEngine.HUD
 
             UpdatEntries(gameTime);
         }
-        public void Draw(SpriteBatch spriteBatch)
+        protected override void OnDraw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (var entry in allEntries)
             {

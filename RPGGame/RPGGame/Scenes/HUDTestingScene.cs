@@ -57,7 +57,8 @@ namespace RPGGame.Scenes
             root.Add(label);
             root.Add(textView);
 
-            HUDRenderer.Instance.Root = root;
+            // TODO: fix..
+            // HUDRenderer.Instance.Root = root;
         }
         public override void Deinitialize()
         {

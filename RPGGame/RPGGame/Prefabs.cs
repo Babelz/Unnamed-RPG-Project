@@ -138,12 +138,7 @@ namespace RPGGame
 
                 controller.TargetFinder.FindTarget(position, radius);
             });
-
-            Renderer.Instance.RegisterLightsView(camera.View);
-
-            HUDManager.Instance.Initialize(player);
             
-
             return player;
         }
 

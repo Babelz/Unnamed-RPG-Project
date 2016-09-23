@@ -132,7 +132,10 @@ namespace RPGGame.GUI
         }
         private void ConstructSubsystems()
         {
-            // TODO: add combat text.
+            Subsystems = new List<HUDSubsystem>()
+            {
+                new CombatTextManager()
+            };
         }
 
         private void AddIcon(Buff buff)

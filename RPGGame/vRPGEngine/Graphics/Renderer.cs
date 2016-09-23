@@ -24,9 +24,7 @@ namespace vRPGEngine.Graphics
         private readonly List<View> views;
         private readonly List<int> reservedIndices;
         private readonly Stack<int> freeIndices;
-
-        private View lightsView;
-
+        
         private Layer[] layers;
         private int ptr;
 
@@ -104,17 +102,14 @@ namespace vRPGEngine.Graphics
             ClearColor      = Color.CornflowerBlue;
 
             penumbra.Initialize();
-            penumbra.AmbientColor = Color.Black;
+            penumbra.AmbientColor                   = Color.Black;
+            penumbra.SpriteBatchTransformEnabled    = true;
         }
         
         private void Present(GameTime gameTime)
         {
             penumbra.BeginDraw();
-
-            penumbra.SpriteBatchTransformEnabled = lightsView != null;
-
-            if (penumbra.SpriteBatchTransformEnabled) penumbra.Transform = lightsView.Transform;
-
+            
             visibleElements = 0;
 
             var device      = Engine.Instance.GraphicsDevice;
@@ -124,7 +119,8 @@ namespace vRPGEngine.Graphics
 
             foreach (var view in views)
             {
-                device.Viewport = view.Viewport;
+                penumbra.Transform  = view.Transform;
+                device.Viewport     = view.Viewport;
                 
                 var viewPosition    = view.Position;
                 var viewSize        = view.VisibleArea;
@@ -158,11 +154,11 @@ namespace vRPGEngine.Graphics
 
                     spriteBatch.End();
                 }
+                
+                penumbra.Draw(gameTime);
             }
 
             device.Viewport = viewport;
-
-            penumbra.Draw(gameTime);
         }
         
         protected override void OnUpdate(GameTime gameTime)
@@ -306,20 +302,7 @@ namespace vRPGEngine.Graphics
         {
             for (var i = 0; i < views.Count; i++) yield return views[i];
         }
-
-        public void RegisterLightsView(View view)
-        {
-            RegisterView(view);
-
-            lightsView = view;
-        }
-        public void ClearLightsView()
-        {
-            if (lightsView != null) UnregisterView(lightsView);
-
-            lightsView = null;
-        }
-
+        
         public void Invalidate(IRenderable element)
         {
             if (!element.Active) return;
