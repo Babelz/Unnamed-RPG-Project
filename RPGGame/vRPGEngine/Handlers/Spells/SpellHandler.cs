@@ -17,10 +17,11 @@ using vRPGEngine.Databases;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
+using vRPGEngine.Interfaces;
 
 namespace vRPGEngine.Handlers.Spells
 {
-    public abstract class SpellHandler : ICloneable
+    public abstract class SpellHandler : IGenericCloneable<SpellHandler>
     {
         #region Properties
         public Spell Spell
@@ -65,7 +66,7 @@ namespace vRPGEngine.Handlers.Spells
         {
         }
 
-        public abstract object Clone();
+        public abstract SpellHandler Clone();
     }
 
     public abstract class MissileSpellHandler : SpellHandler

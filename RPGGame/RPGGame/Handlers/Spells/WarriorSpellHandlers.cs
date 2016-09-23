@@ -77,7 +77,7 @@ namespace RPGGame.Handlers.Spells
             return buff;
         }
         
-        public override object Clone()
+        public override SpellHandler Clone()
         {
             return new BattleShout();
         }

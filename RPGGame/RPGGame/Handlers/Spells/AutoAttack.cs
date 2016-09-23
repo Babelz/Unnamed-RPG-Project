@@ -40,7 +40,7 @@ namespace RPGGame.Handlers.Spells
             return MeleeSpellState.Active;
         }
 
-        public override object Clone()
+        public override SpellHandler Clone()
         {
             return new AutoAttack();
         }

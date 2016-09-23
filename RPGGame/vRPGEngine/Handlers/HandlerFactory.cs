@@ -5,17 +5,18 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Core;
+using vRPGEngine.Interfaces;
 
 namespace vRPGEngine.Handlers
 {
-    public abstract class HandlerFactory<TFactory, TProduct> : Singleton<TFactory> where TFactory : HandlerFactory<TFactory, TProduct> where TProduct : class, ICloneable
+    public abstract class HandlerFactory<TFactory, TProduct> : Singleton<TFactory> where TFactory : HandlerFactory<TFactory, TProduct> where TProduct : class, IGenericCloneable<TProduct>
     {
         #region Static fields
         private static readonly Type[] Types;
         #endregion
 
         #region Fields
-        private readonly Dictionary<string, ICloneable> activators;
+        private readonly Dictionary<string, IGenericCloneable<TProduct>> activators;
         #endregion
 
         static HandlerFactory()
@@ -32,14 +33,14 @@ namespace vRPGEngine.Handlers
 
         protected HandlerFactory()
         {
-            activators = new Dictionary<string, ICloneable>();
+            activators = new Dictionary<string, IGenericCloneable<TProduct>>();
         }
 
         public TProduct Create(string handlerName)
         {
             if (string.IsNullOrEmpty(handlerName)) return null;
 
-            if (activators.ContainsKey(handlerName)) return activators[handlerName].Clone() as TProduct;
+            if (activators.ContainsKey(handlerName)) return activators[handlerName].Clone();
 
             // Not created yet, use reflection.
             var type        = Types.FirstOrDefault(t => t.Name == handlerName);

@@ -136,6 +136,7 @@
     <Compile Include="HUD\Controls\Panel.cs" />
     <Compile Include="HUD\Elements\TextElement.cs" />
     <Compile Include="IniFile.cs" />
+    <Compile Include="Interfaces\IGenericCloneable.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />

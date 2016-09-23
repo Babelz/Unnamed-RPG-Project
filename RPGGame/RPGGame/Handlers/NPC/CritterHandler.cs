@@ -121,7 +121,7 @@ namespace RPGGame.Handlers.NPC
             CombatManager.Instance.UnregisterHostile(Owner.FirstComponentOfType<ICharacterController>());
         }
 
-        public override object Clone()
+        public override NPCHandler Clone()
         {
             return new CritterHandler();
         }

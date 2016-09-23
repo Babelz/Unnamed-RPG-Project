@@ -39,8 +39,6 @@ namespace vRPGEngine.HUD.Controls
 
         public event ButtonMouseEventHandler ButtonPressed;
         public event ButtonMouseEventHandler ButtonReleased;
-
-        // TODO: impl keyboard.
         #endregion
 
         #region Properties

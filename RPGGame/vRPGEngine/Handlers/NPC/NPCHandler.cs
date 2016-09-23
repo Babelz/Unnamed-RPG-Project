@@ -11,10 +11,11 @@ using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Handlers.Spells;
+using vRPGEngine.Interfaces;
 
 namespace vRPGEngine.Handlers.NPC
 {
-    public abstract class NPCHandler : ICloneable
+    public abstract class NPCHandler : IGenericCloneable<NPCHandler>
     {
         #region Properties
         public NPCData Data
@@ -72,8 +73,7 @@ namespace vRPGEngine.Handlers.NPC
             if (data.Level != level)
             { 
                 var currentLevel = Data.Level;
-
-                // TODO: fill rest
+                
                 var staminaPerLevel                 = Data.Stamina / currentLevel;
                 var intellectPerLevel               = Data.Intellect / currentLevel;
                 var endurancePerLevel               = Data.Endurance / currentLevel;
@@ -144,6 +144,6 @@ namespace vRPGEngine.Handlers.NPC
         {
         }
 
-        public abstract object Clone();
+        public abstract NPCHandler Clone();
     }
 }

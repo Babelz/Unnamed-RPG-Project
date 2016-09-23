@@ -36,7 +36,7 @@ namespace RPGGame.Handlers.Spells
             return MeleeSpellState.Inactive;
         }
 
-        public override object Clone()
+        public override SpellHandler Clone()
         {
             return new FocusedStrike();
         }
