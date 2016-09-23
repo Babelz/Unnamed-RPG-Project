@@ -64,8 +64,8 @@ namespace vRPGEngine.ECS.Components
     {
         #region Fields
         private readonly List<SpellHandler> spells;
-
-        private SpellHandler casting;
+        
+        private RegenManager regen;
         #endregion
 
         #region Properties
@@ -157,6 +157,7 @@ namespace vRPGEngine.ECS.Components
 
             Buffs           = new BuffContainer();
             TargetFinder    = new TargetFinder();
+            regen           = new PlayerRegenManager(this);
 
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
@@ -179,6 +180,8 @@ namespace vRPGEngine.ECS.Components
 
         public void Update(GameTime gameTime)
         {
+            regen.Update(gameTime);
+
             foreach (var spell in Spells) spell.Update(gameTime);
 
             MeleeDamageController?.Update(gameTime);
@@ -212,6 +215,8 @@ namespace vRPGEngine.ECS.Components
 
         #region Fields
         private readonly List<SpellHandler> spells;
+
+        private RegenManager regen;
         #endregion
 
         #region Events
@@ -311,10 +316,12 @@ namespace vRPGEngine.ECS.Components
         {
             Debug.Assert(Handler != null);
             
+            regen = new RegenManager(this);
+
             if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {
-                var specialization = new DefaultNPCSpecialization(Attributes, Statuses);
-                Statuses.Initialize(specialization);
+                Specialization  = new DefaultNPCSpecialization(Attributes, Statuses);
+                Statuses.Initialize(Specialization);
             }
             else
             {
@@ -358,6 +365,8 @@ namespace vRPGEngine.ECS.Components
 
         public void Update(GameTime gameTime)
         {
+            regen.Update(gameTime);
+
             // Death/decay update.
             if (!Statuses.Alive)
             {

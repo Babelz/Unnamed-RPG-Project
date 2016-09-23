@@ -37,7 +37,9 @@ namespace vRPGEngine.Attributes
 
                 health = value < 0 ? 0 : value;
 
-                if (oldValue != health) HealthChanged?.Invoke(this, health, oldValue);
+                if (oldValue == health) return; 
+
+                HealthChanged?.Invoke(this, health, oldValue);
 
                 StatusChanged?.Invoke(this, "Health");
             }
@@ -54,7 +56,9 @@ namespace vRPGEngine.Attributes
 
                 mana = value < 0 ? 0 : value;
 
-                if (oldValue != mana) ManaChanged?.Invoke(this, mana, oldValue);
+                if (oldValue == mana) return;
+
+                ManaChanged?.Invoke(this, mana, oldValue);
 
                 StatusChanged?.Invoke(this, "Mana");
             }
@@ -71,7 +75,9 @@ namespace vRPGEngine.Attributes
 
                 focus = value < 0 ? 0 : value;
 
-                if (oldValue != focus) FocusChanged?.Invoke(this, focus, oldValue);
+                if (oldValue == focus) return;
+
+                FocusChanged?.Invoke(this, focus, oldValue);
 
                 StatusChanged?.Invoke(this, "Focus");
             }

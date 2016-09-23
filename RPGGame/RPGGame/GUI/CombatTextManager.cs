@@ -9,8 +9,10 @@ using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
 using vRPGEngine.Core;
+using vRPGEngine.HUD;
+using vRPGEngine;
 
-namespace vRPGEngine.HUD
+namespace RPGGame.GUI
 {
     public sealed class CombatTextManager : HUDSubsystem
     {

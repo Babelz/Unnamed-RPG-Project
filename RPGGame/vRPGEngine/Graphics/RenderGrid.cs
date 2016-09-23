@@ -121,7 +121,8 @@ namespace vRPGEngine.Graphics
         public void Remove(IRenderable renderable)
         {
             Debug.Assert(renderable != null);
-            Debug.Assert(renderable.Active);
+
+            if (!renderable.Active) return;
 
             var location = renderable.Cell;
 

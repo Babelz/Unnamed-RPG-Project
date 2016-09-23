@@ -39,16 +39,16 @@ namespace vRPGEngine.HUD
         {
         }
 
-        protected virtual void OnShow(ref bool show)
+        protected virtual void OnShow()
         {
         }
-        protected virtual void OnHide(ref bool hide)
+        protected virtual void OnHide()
         {
         }
-        protected virtual void OnEnable(ref bool enable)
+        protected virtual void OnEnable()
         {
         }
-        protected virtual void OnDisable(ref bool disable)
+        protected virtual void OnDisable()
         {
         }
 
@@ -56,50 +56,34 @@ namespace vRPGEngine.HUD
         {
             if (Visible) return;
 
-            var results = false;
+            OnShow();
 
-            OnShow(ref results);
-
-            if (!results) Logger.Instance.LogWarning("could not show HUD subsystem!");
-
-            Visible = results;
+            Visible = true;
         }
         public void Hide()
         {
             if (!Visible) return;
 
-            var results = false;
+            OnHide();
 
-            OnHide(ref results);
-
-            if (!results) Logger.Instance.LogWarning("could not hide HUD subsystem!");
-
-            Visible = results;
+            Visible = false;
         }
 
         public void Enable()
         {
             if (Enabled) return;
 
-            var results = false;
+            OnEnable();
 
-            OnEnable(ref results);
-
-            if (!results) Logger.Instance.LogWarning("could not enable HUD subsystem!");
-
-            Enabled = results;
+            Enabled = true;
         }
         public void Disable()
         {
             if (!Enabled) return;
 
-            var results = false;
+            OnDisable();
 
-            OnDisable(ref results);
-
-            if (!results) Logger.Instance.LogWarning("could not disable HUD subsystem!");
-
-            Enabled = results;
+            Enabled = false;
         }
 
         public void Update(GameTime gameTime, SpriteBatch spriteBatch)

@@ -50,6 +50,7 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Attributes\RegenManager.cs" />
     <Compile Include="Core\Allocator.cs" />
     <Compile Include="Combat\GlobalCooldownManager.cs" />
     <Compile Include="Commands\ICommand.cs" />

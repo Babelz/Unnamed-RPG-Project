@@ -60,7 +60,8 @@ namespace RPGGame
             var controller            = player.AddComponent<PlayerCharacterController>();
             var attributes            = new AttributesData()
             {
-                Level = 10
+                Level = 10,
+                Fp5 = 50,
             };
 
             var equipments            = new EquipmentContainer()
@@ -71,19 +72,19 @@ namespace RPGGame
             var meleeDamageController = new MeleeDamageController();
             var statuses              = new Statuses();
             var specialization        = new Warrior(attributes, equipments, statuses, meleeDamageController);
-
+            
             meleeDamageController.Initialize(equipments, specialization);
             statuses.Initialize(specialization);
             controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
 
-            var light = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
+            var light           = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
             Renderer.Instance.AddLight(light);
-            light.Scale = new Vector2(400.0f);
-            light.Radius = 32.0f;
-            light.Intensity = 1.0f;
-            light.Color = Color.White;
-            light.Enabled = true;
-            light.CastsShadows = true;
+            light.Scale         = new Vector2(400.0f);
+            light.Radius        = 32.0f;
+            light.Intensity     = 1.0f;
+            light.Color         = Color.White;
+            light.Enabled       = true;
+            light.CastsShadows  = true;
 
             behaviour.Behave = new Action<GameTime>((gameTime) =>
             {

@@ -12,6 +12,11 @@ namespace vRPGEngine
         {
             return (int)seconds * 1000;
         }
+        public static int ToMilliseconds(int seconds)
+        {
+            return seconds * 1000;
+        }
+
         public static float ToSeconds(int millis)
         {
             return millis / 1000.0f;
