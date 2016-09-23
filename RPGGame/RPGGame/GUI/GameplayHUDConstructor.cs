@@ -85,17 +85,26 @@ namespace RPGGame.GUI
         private void ConstructHUD()
         {
             player      = EntityManager.Instance.Entitites.First(e => e.Tagged("player"));
-            
+
             Debug.Assert(player != null);
 
             controller  = player.FirstComponentOfType<PlayerCharacterController>();
-            View        = player.FirstComponentOfType<Camera>().View;
+            View        = player.FirstComponentOfType<Camera>()?.View;
 
             Debug.Assert(controller != null);
             Debug.Assert(View != null);
 
-            controller.Buffs.BuffAdded   += Buffs_BuffAdded;
-            controller.Buffs.BuffRemoved += Buffs_BuffRemoved;
+            CreateActionbars();
+
+            CreatePlayerStatusWindow();
+
+            CreateTargetStatusWindow();
+        }
+
+        private void CreateActionbars()
+        {
+            controller.Buffs.BuffAdded      += Buffs_BuffAdded;
+            controller.Buffs.BuffRemoved    += Buffs_BuffRemoved;
 
             Root = new Panel()
             {
@@ -115,14 +124,14 @@ namespace RPGGame.GUI
                 bindButton.Keys = (Keys)key++;
                 bindButton.Size = HUDConstants.IconSize;
 
-                var position = bindingsPosition;
-                position.X   += bindButton.DisplaySize.X;
-                position.Y   -= bindButton.DisplaySize.Y;
+                var position    = bindingsPosition;
+                position.X      += bindButton.DisplaySize.X;
+                position.Y      -= bindButton.DisplaySize.Y;
 
                 bindButton.Position = position;
                 bindButton.Element  = new IconElement(new SpellIconHandler());
 
-                bindingsPosition.X  += bindButton.DisplaySize.X;
+                bindingsPosition.X += bindButton.DisplaySize.X;
 
                 bottomLeftActionBarButtons.Add(bindButton);
             }
@@ -133,6 +142,15 @@ namespace RPGGame.GUI
 
             foreach (var button in bottomLeftActionBarButtons) Root.Add(button);
         }
+      
+        private void CreatePlayerStatusWindow()
+        {
+        }
+
+        private void CreateTargetStatusWindow()
+        {
+        }
+        
         private void ConstructSubsystems()
         {
             Subsystems = new List<HUDSubsystem>()

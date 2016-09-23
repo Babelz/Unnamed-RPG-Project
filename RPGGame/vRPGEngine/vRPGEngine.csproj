@@ -65,9 +65,11 @@
     <Compile Include="HUD\Controls\Icon.cs" />
     <Compile Include="HUD\Controls\MouseControlBase.cs" />
     <Compile Include="HUD\Controls\ScrollView.cs" />
+    <Compile Include="HUD\Controls\StatusBar.cs" />
     <Compile Include="HUD\Elements\DefaultButtonElement.cs" />
     <Compile Include="HUD\Elements\IconElement.cs" />
     <Compile Include="HUD\Elements\IContentDisplayElement.cs" />
+    <Compile Include="HUD\Elements\StatusBarElement.cs" />
     <Compile Include="HUD\Elements\TextScrollViewElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
     <Compile Include="HUD\HUDConstructor.cs" />
