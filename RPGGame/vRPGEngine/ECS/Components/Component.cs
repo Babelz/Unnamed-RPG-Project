@@ -51,10 +51,7 @@ namespace vRPGEngine.ECS.Components
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            // TODO: do performance tests. As vs (T) syntax.
-            //       (T) syntax can be compile time and i am
-            //       pretty sure it will be with generics.
-            ComponentManager<T>.Instance.Destroy(this as T);
+            ComponentManager<T>.Instance.Destroy((T)this);
 
             Deinitialize();
             

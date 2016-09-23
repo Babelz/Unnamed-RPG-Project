@@ -74,22 +74,36 @@ namespace vRPGEngine.Handlers.NPC
                 var currentLevel = Data.Level;
 
                 // TODO: fill rest
-                var staminaPerLevel     = Data.Stamina / currentLevel;
-                var intellectPerLevel   = Data.Intellect / currentLevel;
-                var endurancePerLevel   = Data.Endurance / currentLevel;
-                var strenghtPerLevel    = Data.Strength / currentLevel;
-                var agilityPerLevel     = data.Agility / currentLevel;
-                var meleePowerPerLevel  = Data.PureMeleePower / currentLevel;
-                var spellPowerPerLevel  = Data.PureSpellPower / currentLevel;
-                var critChancePerLevel  = Data.CriticalHitPercent / currentLevel;
-
-                Data.Level              = level;
-                Data.Stamina            += staminaPerLevel * level;
-                Data.Intellect          += intellectPerLevel * level;
-                Data.Endurance          += endurancePerLevel * level;
-                Data.PureMeleePower     += meleePowerPerLevel * level;
-                Data.PureSpellPower     += spellPowerPerLevel * level;
-                Data.CriticalHitPercent += critChancePerLevel * level;
+                var staminaPerLevel                 = Data.Stamina / currentLevel;
+                var intellectPerLevel               = Data.Intellect / currentLevel;
+                var endurancePerLevel               = Data.Endurance / currentLevel;
+                var strenghtPerLevel                = Data.Strength / currentLevel;
+                var agilityPerLevel                 = Data.Agility / currentLevel;
+                var meleePowerPerLevel              = Data.PureMeleePower / currentLevel;
+                var spellPowerPerLevel              = Data.PureSpellPower / currentLevel;
+                var critChancePerLevel              = Data.CriticalHitPercent / currentLevel;
+                var defenceRatingPerLevel           = Data.DefenceRatingPercent / currentLevel;
+                var blockRatingPerLevel             = Data.BlockRatingPercent / currentLevel;
+                var dodgeRatingPerLevel             = Data.DodgeRatingPercent / currentLevel;
+                var parryRatingPerLevel             = Data.ParryRatingPercent / currentLevel;
+                var movementSpeedPercentPerLevel    = Data.MovementSpeedPercent / currentLevel;
+                var pureMeleePowerPerLevel          = Data.PureMeleePower / currentLevel;
+                var pureSpellPowerPerLevel          = Data.PureSpellPower / currentLevel;
+                
+                Data.Level                  = level;
+                Data.Stamina                += staminaPerLevel * level;
+                Data.Intellect              += intellectPerLevel * level;
+                Data.Endurance              += endurancePerLevel * level;
+                Data.PureMeleePower         += meleePowerPerLevel * level;
+                Data.PureSpellPower         += spellPowerPerLevel * level;
+                Data.CriticalHitPercent     += critChancePerLevel * level;
+                Data.DefenceRatingPercent   += defenceRatingPerLevel * level;
+                Data.BlockRatingPercent     += blockRatingPerLevel * level;
+                Data.DodgeRatingPercent     += dodgeRatingPerLevel * level;
+                Data.ParryRatingPercent     += parryRatingPerLevel * level;
+                Data.MovementSpeedPercent   += movementSpeedPercentPerLevel * level;
+                Data.PureMeleePower         += meleePowerPerLevel * level;
+                Data.PureSpellPower         += spellPowerPerLevel * level;
             }
         }
 
