@@ -69,6 +69,8 @@
     <Compile Include="HUD\Elements\IContentDisplayElement.cs" />
     <Compile Include="HUD\Elements\TextScrollViewElement.cs" />
     <Compile Include="HUD\HUDInputManager.cs" />
+    <Compile Include="HUD\HUDConstructor.cs" />
+    <Compile Include="HUD\HUDSubsystem.cs" />
     <Compile Include="HUD\Interfaces\IMouseControl.cs" />
     <Compile Include="HUD\Interfaces\IScrollViewElement.cs" />
     <Compile Include="HUD\HUDManager.cs" />

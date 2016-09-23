@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using vRPGEngine.HUD;
+
+namespace RPGGame.GUI
+{
+    public sealed class GameplayHUDConstructor : HUDConstructor
+    {
+        #region Fields
+        #endregion
+
+        public GameplayHUDConstructor()
+        {
+        }
+
+        //public void Initialize(Entity player)
+        //{
+        //    Debug.Assert(player != null);
+
+        //    this.player = player;
+        //    controller = player.FirstComponentOfType<PlayerCharacterController>();
+
+        //    Debug.Assert(controller != null);
+
+        //    controller.Buffs.BuffAdded += Buffs_BuffAdded;
+        //    controller.Buffs.BuffRemoved += Buffs_BuffRemoved;
+
+        //    // Create bottom left action bar.
+        //    var bottomLeftActionBarButtons = new List<BindButton>();
+
+        //    var startPosition = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
+        //    var bindingsPosition = new Vector2(startPosition.X, HUDRenderer.Instance.CanvasSize.Y - startPosition.Y);
+        //    var key = (int)Keys.D1;
+
+        //    for (int i = 0; i < 8; i++)
+        //    {
+        //        var bindButton = new BindButton();
+        //        bindButton.Keys = (Keys)key++;
+        //        bindButton.Size = IconSize;
+
+        //        var position = bindingsPosition;
+        //        position.X += bindButton.DisplaySize.X;
+        //        position.Y -= bindButton.DisplaySize.Y;
+
+        //        bindButton.Position = position;
+        //        bindButton.Element = new IconElement(new SpellIconHandler());
+
+        //        bindingsPosition.X += bindButton.DisplaySize.X;
+
+        //        bottomLeftActionBarButtons.Add(bindButton);
+        //    }
+
+        //    var buttonIndex = 0;
+
+        //    foreach (var spell in controller.Spells) bottomLeftActionBarButtons[buttonIndex++].Content = spell;
+
+        //    foreach (var button in bottomLeftActionBarButtons) root.Add(button);
+        //}
+
+        //#region Event handlers
+        //private void Buffs_BuffRemoved(BuffContainer sender, Buff buff)
+        //{
+        //    RemoveIcon(buff);
+
+        //    SortIcons();
+        //}
+        //private void Buffs_BuffAdded(BuffContainer sender, Buff buff)
+        //{
+        //    AddIcon(buff);
+
+        //    SortIcons();
+        //}
+        //#endregion
+
+        //private SelfBuffSpellHandler GetHandler(Buff buff)
+        //{
+        //    return player.FirstComponentOfType<PlayerCharacterController>().Spells.FirstOrDefault(h => h.Spell.ID == buff.FromSpell.ID) as SelfBuffSpellHandler;
+        //}
+
+        //private void SortIcons()
+        //{
+        //    if (buffIcons.Count == 0) return;
+
+        //    var offset = HUDRenderer.Instance.CanvasSize * IconSize * 0.25f;
+
+        //    Vector2 positon = HUDRenderer.Instance.CanvasSize - (HUDRenderer.Instance.CanvasSize * IconSize);
+        //    positon.X -= offset.X;
+        //    positon.Y = offset.Y;
+
+        //    var iconIndex = 0;
+
+        //    for (int i = 0; i < BuffIconRows; i++)
+        //    {
+        //        for (int j = 0; j < BuffIconColumns; j++)
+        //        {
+        //            var icon = buffIcons[iconIndex++];
+
+        //            icon.Position = new Vector2(positon.X - offset.X, positon.Y + offset.Y);
+
+        //            if (iconIndex == buffIcons.Count) return;
+
+        //            positon.X -= offset.X - icon.DisplaySize.X;
+        //        }
+
+        //        positon.Y += offset.Y + HUDRenderer.Instance.CanvasSize.Y * IconSize.Y;
+        //    }
+        //}
+
+        //private void AddIcon(Buff buff)
+        //{
+        //    var icon = new Icon();
+        //    icon.Size = IconSize;
+        //    icon.Element = new IconElement(new BuffIconHandler());
+        //    icon.Content = GetHandler(buff);
+
+        //    HUDRenderer.Instance.Root.Add(icon);
+
+        //    buffIcons.Add(icon);
+        //}
+        //private void RemoveIcon(Buff buff)
+        //{
+        //    var icon = buffIcons.First(i => ReferenceEquals(i.Content, GetHandler(buff)));
+
+        //    HUDRenderer.Instance.Root.Remove(icon);
+
+        //    buffIcons.Remove(icon);
+        //}
+
+        public void Construct(HUDManager manager)
+        {
+        }
+        public void Deconstruct(HUDManager manager)
+        {
+        }
+    }
+}
