@@ -12,128 +12,311 @@ namespace vRPGContent.Data.Attributes
     [Serializable()]
     public class AttributesData 
     {
+        #region Fields
+        private int level;
+        private int xp;
+
+        private int armor;
+
+        private int stamina;
+        private int intellect;
+        private int endurance;
+        private int strength;
+        private int agility;
+
+        private int mp5;
+        private int fp5;
+        private int hp5;
+
+        private int haste;
+
+        private float criticalHitPercent;
+        private float defenceRatingPercent;
+        private float blockRatingPercent;
+        private float dodgeRatingPercent;
+        private float parryRatingPercent;
+        private float movementSpeedPercent;
+
+        private int pureMeleePower;
+        private int pureSpellPower;
+
+        private float healthPercentModifier;
+        private float meleePowerPercentModifier;
+        private float focusPercentModifier;
+        #endregion
+
+        #region Events
+        // TODO: impl to properties.
+        public event AttributeChangedEventHandler AttributeChanged;
+        #endregion
+
         #region Properties
         public int Level
         {
-            get;
-            set;
+            get
+            {
+                return level;
+            }
+            set
+            {
+                level = value;
+            }
         }
-        public int XP
+        public int Xp
         {
-            get;
-            set;
+            get
+            {
+                return xp;
+            }
+            set
+            {
+                xp = value;
+            }
         }
 
         public int Armor
         {
-            get;
-            set;
+            get
+            {
+                return armor;
+            }
+            set
+            {
+                armor = value;
+            }
         }
+
         public int Stamina
         {
-            get;
-            set;
+            get
+            {
+                return stamina;
+            }
+            set
+            {
+                stamina = value;
+            }
         }
         public int Intellect
         {
-            get;
-            set;
+            get
+            {
+                return intellect;
+            }
+            set
+            {
+                intellect = value;
+            }
         }
         public int Endurance
         {
-            get;
-            set;
+            get
+            {
+                return endurance;
+            }
+            set
+            {
+                endurance = value;
+            }
         }
         public int Strength
         {
-            get;
-            set;
+            get
+            {
+                return strength;
+            }
+            set
+            {
+                strength = value;
+            }
         }
         public int Agility
         {
-            get;
-            set;
+            get
+            {
+                return agility;
+            }
+            set
+            {
+                agility = value;
+            }
         }
+
         public int Mp5
         {
-            get;
-            set;
+            get
+            {
+                return mp5;
+            }
+            set
+            {
+                mp5 = value;
+            }
         }
         public int Fp5
         {
-            get;
-            set;
+            get
+            {
+                return fp5;
+            }
+            set
+            {
+                fp5 = value;
+            }
         }
         public int Hp5
         {
-            get;
-            set;
+            get
+            {
+                return hp5;
+            }
+            set
+            {
+                hp5 = value;
+            }
         }
+
         public int Haste
         {
-            get;
-            set;
+            get
+            {
+                return haste;
+            }
+            set
+            {
+                haste = value;
+            }
         }
+
         public float CriticalHitPercent
         {
-            get;
-            set;
+            get
+            {
+                return criticalHitPercent;
+            }
+            set
+            {
+                criticalHitPercent = value;
+            }
         }
         public float DefenceRatingPercent
         {
-            get;
-            set;
+            get
+            {
+                return defenceRatingPercent;
+            }
+            set
+            {
+                defenceRatingPercent = value;
+            }
         }
         public float BlockRatingPercent
         {
-            get;
-            set;
+            get
+            {
+                return blockRatingPercent;
+            }
+            set
+            {
+                blockRatingPercent = value;
+            }
         }
         public float DodgeRatingPercent
         {
-            get;
-            set;
+            get
+            {
+                return dodgeRatingPercent;
+            }
+            set
+            {
+                dodgeRatingPercent = value;
+            }
         }
         public float ParryRatingPercent
         {
-            get;
-            set;
+            get
+            {
+                return parryRatingPercent;
+            }
+            set
+            {
+                parryRatingPercent = value;
+            }
         }
         public float MovementSpeedPercent
         {
-            get;
-            set;
+            get
+            {
+                return movementSpeedPercent;
+            }
+            set
+            {
+                movementSpeedPercent = value;
+            }
         }
+
         public int PureMeleePower
         {
-            get;
-            set;
+            get
+            {
+                return pureMeleePower;
+            }
+            set
+            {
+                pureMeleePower = value;
+            }
         }
         public int PureSpellPower
         {
-            get;
-            set;
+            get
+            {
+                return pureSpellPower;
+            }
+            set
+            {
+                pureSpellPower = value;
+            }
         }
 
         public float HealthPercentModifier
         {
-            get;
-            set;
+            get
+            {
+                return healthPercentModifier;
+            }
+            set
+            {
+                healthPercentModifier = value;
+            }
         }
-        public float MeeleePowerPercentModifier
+        public float MeleePowerPercentModifier
         {
-            get;
-            set;
+            get
+            {
+                return meleePowerPercentModifier;
+            }
+            set
+            {
+                meleePowerPercentModifier = value;
+            }
         }
         public float FocusPercentModifier
         {
-            get;
-            set;
+            get
+            {
+                return focusPercentModifier;
+            }
+            set
+            {
+                focusPercentModifier = value;
+            }
         }
         #endregion
-
+        
         public AttributesData()
         {
         }
     }
+
+    public delegate void AttributeChangedEventHandler(string name, object value);
 }

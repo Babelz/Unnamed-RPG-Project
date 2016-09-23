@@ -78,7 +78,7 @@ namespace vRPGEngine.Attributes.Specializations
             // 2ap per 
             var pwr = (int)(base.TotalStrength() * 2.0f);
 
-            return pwr + (int)(pwr * Attributes.MeeleePowerPercentModifier) + Attributes.PureMeleePower;
+            return pwr + (int)(pwr * Attributes.MeleePowerPercentModifier) + Attributes.PureMeleePower;
         }
         public override int TotalHealth()
         {

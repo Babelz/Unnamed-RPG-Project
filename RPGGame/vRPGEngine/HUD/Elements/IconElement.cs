@@ -33,7 +33,7 @@ namespace vRPGEngine.HUD.Elements
 
         public IconElementHandler()
         {
-            Background = Engine.Instance.Content.Load<Texture2D>("info background");
+            Background = Engine.Instance.Content.Load<Texture2D>("HUD\\info background");
         }
 
         public abstract void SetContent(object content);

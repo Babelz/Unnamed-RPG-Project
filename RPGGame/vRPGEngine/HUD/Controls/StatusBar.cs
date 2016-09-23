@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Core;
+using vRPGEngine.Graphics;
 using vRPGEngine.HUD.Elements;
 
 namespace vRPGEngine.HUD.Controls
@@ -14,15 +17,13 @@ namespace vRPGEngine.HUD.Controls
         None                = 0,
         Value               = 1,
         Percentage          = 2,
-        OutOfMaxValue       = 4,
-        OutOfMaxPercentage  = 8,
         Both                = Value | Percentage
     }
 
     public sealed class StatusBar : Control
     {
         #region Fields
-        private IStatusBarElement element;
+        private IDisplayElement element;
 
         private int min;
         private int max;
@@ -31,6 +32,8 @@ namespace vRPGEngine.HUD.Controls
         private bool showText;
 
         private TextType textType;
+
+        private SpriteFont font;
         #endregion
 
         #region Properties
@@ -112,16 +115,34 @@ namespace vRPGEngine.HUD.Controls
                 return element;
             }
         }
+
+        public SpriteFont Font
+        {
+            get
+            {
+                return font;
+            }
+            set
+            {
+                font = value;
+
+                NotifyPropertyChanged("Font");
+            }
+        }
         #endregion
 
         public StatusBar()
                 : base()
         {
+            font    = DefaultValues.DefaultFont;
+            element = new StatusBarElement();
+
             RegisterProperty("Min", () => Min, (o) => Min = (int)o);
             RegisterProperty("Max", () => Max, (o) => Max = (int)o);
             RegisterProperty("Value", () => Value, (o) => Value = (int)o);
             RegisterProperty("ShowText", () => ShowText, (o) => ShowText = (bool)o);
             RegisterProperty("TextType", () => TextType, (o) => TextType = (TextType)o);
+            RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
 
             PropertyChanged += StatusBar_PropertyChanged;
         }
@@ -134,6 +155,18 @@ namespace vRPGEngine.HUD.Controls
         protected override void OnInvalidate()
         {
             if (Element != null) Element.Invalidate(this);
+        }
+
+        protected override void OnDraw(GameTime gameTime)
+        {
+            if (Element != null) HUDRenderer.Instance.Show(Element);
+        }
+
+        public void SetPresentationData(string name, StatusBarTextureSources sources)
+        {
+            var statusBarDisplayElement = Element as IStatusBarElement;
+
+            statusBarDisplayElement?.SetPresentationData(name, sources);
         }
     }
 }

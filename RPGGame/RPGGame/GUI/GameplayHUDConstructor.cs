@@ -141,8 +141,31 @@ namespace RPGGame.GUI
             foreach (var spell in controller.Spells) bottomLeftActionBarButtons[buttonIndex++].Content = spell;
 
             foreach (var button in bottomLeftActionBarButtons) Root.Add(button);
+
+            // Add status bars.
+            var statusWindow = new Panel();
+            statusWindow.Sizing = Sizing.Percents;
+            statusWindow.Size = new Vector2(0.1f);
+            statusWindow.Element = null;
+            statusWindow.Position = Vector2.Zero;
+
+            var focusBar = new StatusBar();
+            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 0, 32, 32, 5, 1));
+            focusBar.Min = 0;
+            focusBar.Max = 110;
+            focusBar.ShowText = true;
+            focusBar.TextType = TextType.Both;
+
+            controller.Statuses.FocusChanged += delegate
+            {
+                focusBar.Value = controller.Statuses.Focus;
+            };
+
+            statusWindow.Add(focusBar);
+
+            Root.Add(statusWindow);
         }
-      
+
         private void CreatePlayerStatusWindow()
         {
         }
