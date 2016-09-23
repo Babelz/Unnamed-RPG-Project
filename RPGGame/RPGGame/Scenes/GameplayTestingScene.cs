@@ -1,10 +1,12 @@
-﻿using System;
+﻿using RPGGame.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.ECS;
 using vRPGEngine.Graphics;
+using vRPGEngine.HUD;
 using vRPGEngine.Maps;
 using vRPGEngine.Scenes;
 
@@ -40,6 +42,8 @@ namespace RPGGame.Scenes
             TileMapManager.Instance.Load("demo");
 
             var player = EntityBuilder.Instance.Create("player");
+            
+            HUDManager.Instance.ConstructFrom(new GameplayHUDConstructor());
         }
         public override void Deinitialize()
         {

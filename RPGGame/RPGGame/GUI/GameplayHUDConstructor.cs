@@ -97,7 +97,10 @@ namespace RPGGame.GUI
             controller.Buffs.BuffAdded   += Buffs_BuffAdded;
             controller.Buffs.BuffRemoved += Buffs_BuffRemoved;
 
-            Root = new Panel();
+            Root = new Panel()
+            {
+                Element = null
+            };
 
             // Create bottom left action bar.
             var bottomLeftActionBarButtons = new List<BindButton>();
