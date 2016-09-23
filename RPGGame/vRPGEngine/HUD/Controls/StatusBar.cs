@@ -22,7 +22,7 @@ namespace vRPGEngine.HUD.Controls
     public sealed class StatusBar : Control
     {
         #region Fields
-        private IDisplayElement element;
+        private IStatusBarElement element;
 
         private int min;
         private int max;
@@ -104,9 +104,17 @@ namespace vRPGEngine.HUD.Controls
                 NotifyPropertyChanged("TextType");
             }
         }
+
+        public IDisplayElement Element
+        {
+            get
+            {
+                return element;
+            }
+        }
         #endregion
 
-        public StatusBar(int min, int max, int initial = 0)
+        public StatusBar()
                 : base()
         {
             RegisterProperty("Min", () => Min, (o) => Min = (int)o);
@@ -114,6 +122,18 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Value", () => Value, (o) => Value = (int)o);
             RegisterProperty("ShowText", () => ShowText, (o) => ShowText = (bool)o);
             RegisterProperty("TextType", () => TextType, (o) => TextType = (TextType)o);
+
+            PropertyChanged += StatusBar_PropertyChanged;
+        }
+
+        private void StatusBar_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            Invalidate();
+        }
+
+        protected override void OnInvalidate()
+        {
+            if (Element != null) Element.Invalidate(this);
         }
     }
 }

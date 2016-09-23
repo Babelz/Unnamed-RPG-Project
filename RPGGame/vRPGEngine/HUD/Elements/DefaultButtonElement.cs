@@ -11,11 +11,6 @@ using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD.Elements
 {
-    public sealed class AutonOsat
-    {
-        public string Nimi;
-        public int Hinta;
-    }
     public sealed class DefaultButtonElement : IDisplayElement
     {
         #region Fields
