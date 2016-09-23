@@ -28,6 +28,11 @@ namespace vRPGEngine.HUD
             get;
             protected set;
         }
+        public IEnumerable<HUDSubsystem> Subsystems
+        {
+            get;
+            protected set;
+        }
         #endregion
 
         public HUDConstructor()

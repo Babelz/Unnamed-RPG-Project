@@ -129,11 +129,13 @@ namespace RPGGame.GUI
         //    buffIcons.Remove(icon);
         //}
 
-        public void Construct(HUDManager manager)
+        public override void Construct(HUDManager manager)
         {
+            throw new NotImplementedException();
         }
-        public void Deconstruct(HUDManager manager)
+        public override void Deconstruct(HUDManager manager)
         {
+            throw new NotImplementedException();
         }
     }
 }
