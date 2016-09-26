@@ -38,11 +38,12 @@ namespace vRPGEngine.Combat
             Target           = null;
             TargetController = null;
 
-            TargetChanged?.Invoke();
+            TargetChanged?.Invoke(this);
         }
 
         public void FindTarget(Vector2 position, float radius)
         {
+            //return;
             var entitites   = RPGWorld.Instance.QueryArea(ConvertUnits.ToSimUnits(position), ConvertUnits.ToSimUnits(radius));
 
             if (entitites.Count() == 0)
@@ -76,9 +77,7 @@ namespace vRPGEngine.Combat
                 return;
             }
             
-            TargetChanged?.Invoke();
+            TargetChanged?.Invoke(this);
         }
-
-        public delegate void TargetFinderEventHandler();
     }
 }

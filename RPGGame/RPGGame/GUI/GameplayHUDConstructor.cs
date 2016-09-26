@@ -95,6 +95,11 @@ namespace RPGGame.GUI
             Debug.Assert(controller != null);
             Debug.Assert(View != null);
 
+            Root = new Panel()
+            {
+                Element = null
+            };
+
             CreateActionbars();
 
             CreatePlayerStatusWindow();
@@ -106,11 +111,6 @@ namespace RPGGame.GUI
         {
             controller.Buffs.BuffAdded      += Buffs_BuffAdded;
             controller.Buffs.BuffRemoved    += Buffs_BuffRemoved;
-
-            Root = new Panel()
-            {
-                Element = null
-            };
 
             // Create bottom left action bar.
             var bottomLeftActionBarButtons = new List<BindButton>();
@@ -150,8 +150,8 @@ namespace RPGGame.GUI
             var statusWindow      = new Panel();
             statusWindow.Sizing   = Sizing.Percents;
             statusWindow.Size     = new Vector2(0.15f);
+            statusWindow.Position = HUDRenderer.Instance.CanvasSize * 0.015f;
             statusWindow.Element  = null;
-            statusWindow.Position = Vector2.Zero;
 
             // Health bar init.
             var healthBar       = new StatusBar();
@@ -197,11 +197,77 @@ namespace RPGGame.GUI
         private void CreateTargetStatusWindow()
         {
             // Target status window init.
-            var statusWindow      = new Panel();
-            statusWindow.Sizing   = Sizing.Percents;
-            statusWindow.Size     = new Vector2(0.15f);
-            statusWindow.Element  = null;
-            statusWindow.Position = Vector2.Zero;
+            var statusWindow        = new Panel();
+            statusWindow.Sizing     = Sizing.Percents;
+            statusWindow.Size       = new Vector2(0.15f);
+            statusWindow.Position   = new Vector2(HUDRenderer.Instance.CanvasSize.X * 0.5f, HUDRenderer.Instance.CanvasSize.Y * 0.015f);
+            statusWindow.Element    = null;
+
+            // Target name label.
+            var targetHeader        = new Label();
+            statusWindow.Add(targetHeader);
+            
+            // Target health bar init.
+            var healthBar       = new StatusBar();
+            healthBar.SetPresentationData("HUD\\parts",
+                                          StatusBarTextureSources.Compute(0, 0, 32, 32, 4, 1),
+                                          StatusBarBindingsSource.Create(() => 0,
+                                                                         () => controller.TargetFinder.TargetController.Specialization.TotalHealth(),
+                                                                         () => controller.TargetFinder.TargetController.Statuses.Health));
+            healthBar.ShowText  = true;
+            healthBar.Size      = new Vector2(0.8f, 0.33f);
+            healthBar.TextType  = TextType.Both;
+            healthBar.Position  = new Vector2(targetHeader.Position.X, targetHeader.DisplayBounds.Bottom);
+            statusWindow.Add(healthBar);
+
+            // Target mana bar init.
+            var manaBar         = new StatusBar();
+            manaBar.SetPresentationData("HUD\\parts",
+                                        StatusBarTextureSources.Compute(0, 32, 32, 32, 4, 1),
+                                        StatusBarBindingsSource.Create(() => 0,
+                                                                       () => controller.TargetFinder.TargetController.Specialization.TotalMana(),
+                                                                       () => controller.TargetFinder.TargetController.Statuses.Mana));
+            manaBar.ShowText    = true;
+            manaBar.Size        = new Vector2(0.8f, 0.33f);
+            manaBar.TextType    = TextType.Both;
+            manaBar.Position    = new Vector2(healthBar.Position.X, healthBar.DisplayBounds.Bottom);
+            statusWindow.Add(manaBar);
+
+            // Target focus bar init.
+            var focusBar        = new StatusBar();
+            focusBar.SetPresentationData("HUD\\parts",
+                                         StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1),
+                                         StatusBarBindingsSource.Create(() => 0,
+                                                                        () => controller.TargetFinder.TargetController.Specialization.TotalFocus(),
+                                                                        () => controller.TargetFinder.TargetController.Statuses.Focus));
+            focusBar.ShowText   = true;
+            focusBar.Size       = new Vector2(0.8f, 0.33f);
+            focusBar.TextType   = TextType.Both;
+            focusBar.Position   = new Vector2(healthBar.Position.X, manaBar.DisplayBounds.Bottom);
+            statusWindow.Add(focusBar);
+
+            statusWindow.Disable();
+            statusWindow.Hide();
+
+            controller.TargetFinder.TargetChanged += (sender) =>
+            {
+                if (sender.Target != null)
+                {
+                    targetHeader.Text = sender.TargetController.Name;
+
+                    statusWindow.Enable();
+                    statusWindow.Show();
+
+                    statusWindow.Invalidate();
+                }
+                else
+                {
+                    statusWindow.Disable();
+                    statusWindow.Hide();
+                }
+            };
+
+            Root.Add(statusWindow);
         }
         
         private void ConstructSubsystems()

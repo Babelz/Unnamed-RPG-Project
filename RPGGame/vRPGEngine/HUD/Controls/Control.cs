@@ -320,7 +320,7 @@ namespace vRPGEngine.HUD.Controls
         }
         public void Enable()
         {
-            if (!Enabled) return;
+            if (Enabled) return;
 
             Enabled = true;
 

@@ -11,7 +11,7 @@ namespace vRPGEngine.Combat
 {
     public interface ITargetFinder
     {
-        #region Fields
+        #region Properties
         Entity Target
         {
             get;
@@ -22,8 +22,14 @@ namespace vRPGEngine.Combat
         }
         #endregion
 
+        #region Events
+        event TargetFinderEventHandler TargetChanged;
+        #endregion
+
         void ClearTarget();
 
         void FindTarget(Vector2 position, float radius);
     }
+    
+    public delegate void TargetFinderEventHandler(ITargetFinder sender);
 }
