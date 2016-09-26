@@ -42,8 +42,6 @@ namespace vRPGEngine.HUD.Controls
             HoverState = MouseHoverState.Enter;
 
             RegisterProperty("HoverState", () => HoverState, (o) => HoverState = (MouseHoverState)o);
-
-            ValidateProperties(GetType());
         }
 
         private void UpdateHoverState()

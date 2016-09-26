@@ -69,8 +69,6 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Overlap", () => Overlap);
             RegisterProperty("Scroll", () => Scroll, (o) => Scroll = (Vector2)o);
 
-            ValidateProperties(GetType());
-
             PropertyChanged += ScrollView_PropertyChanged;
         }
 

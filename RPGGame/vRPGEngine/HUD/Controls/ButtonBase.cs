@@ -79,8 +79,6 @@ namespace vRPGEngine.HUD.Controls
 
             RegisterProperty("ButtonState", () => ButtonState, (o) => ButtonState = (ButtonControlState)o);
             RegisterProperty("Trigger", () => Trigger, (o) => Trigger = (MouseButton)o);
-
-            ValidateProperties(GetType());
         }
 
         private void UpdateButtonState()

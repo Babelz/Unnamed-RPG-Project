@@ -133,8 +133,6 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("TextType", () => TextType, (o) => TextType = (TextType)o);
             RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
 
-            ValidateProperties(GetType());
-
             PropertyChanged += StatusBar_PropertyChanged;
         }
 

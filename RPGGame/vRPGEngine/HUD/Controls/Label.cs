@@ -114,8 +114,6 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("TextColor", () => TextColor, (o) => TextColor = (Color)o);
             RegisterProperty("AdjustTextSize", () => AdjustTextSize, (o) => AdjustTextSize = (bool)o);
 
-            ValidateProperties(GetType());
-
             PropertyChanged += Label_PropertyChanged;
         }
 

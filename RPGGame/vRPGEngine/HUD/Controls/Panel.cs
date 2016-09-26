@@ -71,8 +71,6 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
             RegisterProperty("Fill", () => Fill, (o) => Fill = (Color)o);
 
-            ValidateProperties(GetType());
-
             element.Invalidate(this);
 
             PropertyChanged += View_PropertyChanged;
