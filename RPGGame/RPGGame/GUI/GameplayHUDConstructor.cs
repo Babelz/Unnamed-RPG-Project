@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGEngine.Attributes;
 using vRPGEngine.Attributes.Spells;
+using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
 using vRPGEngine.Graphics;
@@ -150,9 +151,10 @@ namespace RPGGame.GUI
             statusWindow.Position = Vector2.Zero;
 
             var focusBar = new StatusBar();
-            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 0, 32, 32, 5, 1));
+            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 0, 32, 32, 4, 1));
             focusBar.Min = 0;
             focusBar.Max = 110;
+            focusBar.Value = 110;
             focusBar.ShowText = true;
             focusBar.TextType = TextType.Both;
 

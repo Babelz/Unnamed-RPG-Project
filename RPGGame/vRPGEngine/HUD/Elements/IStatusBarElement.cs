@@ -21,7 +21,7 @@ namespace vRPGEngine.HUD.Elements
             {
                 Left    = new Rectangle(x, y, unitWidth, unitHeight),
                 Middle  = new Rectangle(x + unitWidth, y, unitWidth * unitX, unitHeight * unitY),
-                Right   = new Rectangle(x + unitWidth * unitX, y, unitWidth, unitHeight)
+                Right   = new Rectangle(x + unitWidth * (unitX + 1), y, unitWidth, unitHeight)
             };
         }
     }

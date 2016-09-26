@@ -59,6 +59,7 @@
     <Compile Include="GameData.cs" />
     <Compile Include="GameSetting.cs" />
     <Compile Include="Graphics\FloatingCombatText.cs" />
+    <Compile Include="Graphics\SourceCollection.cs" />
     <Compile Include="HUD\CombatTextManager.cs" />
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />

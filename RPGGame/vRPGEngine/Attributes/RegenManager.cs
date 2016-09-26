@@ -17,7 +17,7 @@ namespace vRPGEngine.Attributes
 
         private const int TimersCount   = 3;
 
-        private const int TickTime      = 5000;
+        private const int TickTime      = 33;
         #endregion
 
         #region Fields
@@ -66,14 +66,16 @@ namespace vRPGEngine.Attributes
                 
                 if (elapsed >= TickTime)
                 {
-                    elapsed -= TickTime;
+                    var delta = (elapsed - TickTime) * 0.01f;
 
+                    elapsed -= TickTime;
+                    
                     switch (i)
                     {
-                        case Hp5Timer: RegenHP(Controller.Specialization.TotalHp5(), "Hp5");        break;
-                        case Mp5Timer: RegenMana(Controller.Specialization.TotalMp5(), "Mp5");      break;
-                        case Fp5Timer: RegenFocus(Controller.Specialization.TotalFp5(), "Fp5");     break;
-                        default:                                                                    break;
+                        case Hp5Timer: RegenHP((int)(Controller.Specialization.TotalHp5() * delta), "Hp5");        break;
+                        case Mp5Timer: RegenMana((int)(Controller.Specialization.TotalMp5() * delta), "Mp5");      break;
+                        case Fp5Timer: RegenFocus((int)(Controller.Specialization.TotalFp5() * delta), "Fp5");     break;
+                        default:                                                                                             break;
                     }
                 }
 

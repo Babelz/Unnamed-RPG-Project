@@ -83,7 +83,7 @@ namespace vRPGEngine.HUD.Elements
             middle.Position.X   = left.Position.X + (left.Source.Width * left.Scale.X);
             middle.Position.Y   = left.Position.Y;
             middle.Source       = sources.Middle;
-            middle.Scale        = new Vector2(size.Y / 4.0f / sources.Middle.Width, size.Y / sources.Middle.Height);
+            middle.Scale        = new Vector2(size.Y / sources.Middle.Width, size.Y / sources.Middle.Height);
 
             // Compute left part position.
             right.Position.X    = middle.Position.X + middle.Source.Width * middle.Scale.X;
@@ -96,19 +96,24 @@ namespace vRPGEngine.HUD.Elements
                 // Format text.
                 switch (textType)
                 {
-                    case TextType.Value:        text = string.Format("{0} / {1}", value, max);                                  break;
-                    case TextType.Percentage:   text = string.Format("{0}%", Math.Round(max / value * 100.0f, 0));              break;
-                    case TextType.Both:         text = string.Format("{0} / {1}%", value, Math.Round(max / value * 100.0f, 0)); break;
-                    case TextType.None: default:                                                                                break;
+                    case TextType.Value:        text = string.Format("{0} / {1}", value, max);                                          break;
+                    case TextType.Percentage:   text = string.Format("{0}%", Math.Round(value / (float)max * 100.0f, 0));               break;
+                    case TextType.Both:         text = string.Format("{0} / {1}%", value, Math.Round(value / (float)max * 100.0f, 0));  break;
+                    case TextType.None: default:                                                                                        break;
                 }
 
                 // Compute position and scale.
                 var textSize    = font.MeasureString(text);
+                textScale       = Vector2.One;
+                textScale       -= new Vector2(0.25f);
 
-                textScale       = size / textSize;
                 textPosition    = middle.Position;
-                textPosition    += textSize * textScale;
-            } 
+                textPosition.X  += (middle.Source.Width * middle.Scale.X) / 2.0f - (textSize.X * textScale.X) / 2.0f;
+                textPosition.Y  += (middle.Source.Height * middle.Scale.Y) / 2.0f - (textSize.Y * textScale.Y) / 2.0f;
+
+                var middleStep  = middle.Scale.X / max;
+                middle.Scale.X  = middleStep * value;
+            }
         }
         public void Show(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -131,7 +136,7 @@ namespace vRPGEngine.HUD.Elements
                              middle.Source,
                              Vector2.Zero,
                              0.0f,
-                             left.Scale,
+                             middle.Scale,
                              Color.White,
                              SpriteEffects.None,
                              0.0f);
@@ -143,7 +148,7 @@ namespace vRPGEngine.HUD.Elements
                              right.Source,
                              Vector2.Zero,
                              0.0f,
-                             left.Scale,
+                             right.Scale,
                              Color.White,
                              SpriteEffects.None,
                              0.0f);
