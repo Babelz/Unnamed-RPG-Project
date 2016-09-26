@@ -26,10 +26,6 @@ namespace vRPGEngine.HUD.Controls
         #region Fields
         private IDisplayElement element;
 
-        private int min;
-        private int max;
-        private int value;
-
         private bool showText;
 
         private TextType textType;
@@ -38,20 +34,39 @@ namespace vRPGEngine.HUD.Controls
         #endregion
 
         #region Properties
+        public int Min
+        {
+            get
+            {
+                var results = 0;
+
+                ReadProperty("Min", ref results);
+
+                return results;
+            }
+        }
+        public int Max
+        {
+            get
+            {
+                var results = 0;
+
+                ReadProperty("Max", ref results);
+
+                return results;
+            }
+        }
         public int Value
         {
             get
             {
-                return value;
-            }
-            set
-            {
-                this.value = MathHelper.Clamp(value, min, max);
+                var results = 0;
 
-                NotifyPropertyChanged("Value");
+                ReadProperty("Value", ref results);
+
+                return results;
             }
         }
-
         public bool ShowText
         {
             get
@@ -108,7 +123,6 @@ namespace vRPGEngine.HUD.Controls
             font    = DefaultValues.DefaultFont;
             element = new StatusBarElement();
 
-            RegisterProperty("Value", () => Value, (o) => Value = (int)o);
             RegisterProperty("ShowText", () => ShowText, (o) => ShowText = (bool)o);
             RegisterProperty("TextType", () => TextType, (o) => TextType = (TextType)o);
             RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
@@ -136,6 +150,17 @@ namespace vRPGEngine.HUD.Controls
             var statusBarDisplayElement = Element as IStatusBarElement;
 
             statusBarDisplayElement?.SetPresentationData(name, sources, bindings);
+
+            if (bindings.Bound())
+            {
+                UnregisterProperty("Min");
+                UnregisterProperty("Max");
+                UnregisterProperty("Value");
+
+                RegisterProperty("Min", () => bindings.Min());
+                RegisterProperty("Max", () => bindings.Max());
+                RegisterProperty("Value", () => bindings.Value());
+            }
         }
     }
 }

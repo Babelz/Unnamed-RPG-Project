@@ -151,10 +151,11 @@ namespace RPGGame.GUI
             statusWindow.Position = Vector2.Zero;
 
             var healthBar = new StatusBar();
-            healthBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
-            healthBar.Min = 0;
-            healthBar.Max = 110;
-            healthBar.Value = 110;
+            healthBar.SetPresentationData("HUD\\parts", 
+                                          StatusBarTextureSources.Compute(0, 0, 32, 32, 4, 1),
+                                          StatusBarBindingsSource.Create(() => 0,
+                                                                         () => controller.Specialization.TotalHealth(),
+                                                                         () => controller.Statuses.Health));
             healthBar.ShowText = true;
             healthBar.Size = new Vector2(0.8f, 0.33f);
             healthBar.TextType = TextType.Both;
@@ -176,19 +177,6 @@ namespace RPGGame.GUI
             focusBar.ShowText = true;
             focusBar.Size = new Vector2(0.8f, 0.33f);
             focusBar.TextType = TextType.Both;
-
-            controller.Statuses.HealthChanged += delegate
-            {
-                healthBar.Value = controller.Statuses.Health;
-            };
-            controller.Statuses.ManaChanged += delegate
-            {
-                focusBar.Value = controller.Statuses.Focus;
-            };
-            controller.Statuses.FocusChanged += delegate
-            {
-                focusBar.Value = controller.Statuses.Focus;
-            };
 
             statusWindow.Add(focusBar);
 

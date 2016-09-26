@@ -56,6 +56,10 @@ namespace vRPGEngine.HUD
 
             properties.Add(name, new DependencyProperty(get, set));
         }
+        protected void UnregisterProperty(string name)
+        {
+            if (properties.ContainsKey(name)) properties.Remove(name);
+        }
 
         public bool ReadProperty(string name, ref object results)
         {
