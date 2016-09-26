@@ -63,7 +63,9 @@ namespace vRPGEngine.HUD.Elements
             size        = control.DisplaySize;
             positon     = control.DisplayPosition;
             text        = string.Empty;
-
+        }
+        public void Show(GameTime gameTime, SpriteBatch spriteBatch)
+        {
             var width   = sources.Left.Width + sources.Middle.Width + sources.Right.Width;
             var height  = Math.Max(sources.Left.Height, Math.Max(sources.Middle.Height, sources.Left.Height));
 
@@ -83,9 +85,7 @@ namespace vRPGEngine.HUD.Elements
             right.Position.Y    = middle.Position.Y;
             right.Source        = sources.Right;
             right.Scale         = left.Scale;
-        }
-        public void Show(GameTime gameTime, SpriteBatch spriteBatch)
-        {
+
             if (showText && font != null && bindings.Bound())
             {
                 // Format text.

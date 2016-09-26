@@ -146,10 +146,11 @@ namespace RPGGame.GUI
             // Add status bars.
             var statusWindow = new Panel();
             statusWindow.Sizing = Sizing.Percents;
-            statusWindow.Size = new Vector2(0.25f);
+            statusWindow.Size = new Vector2(0.15f);
             statusWindow.Element = null;
             statusWindow.Position = Vector2.Zero;
 
+            // Health bar init.
             var healthBar = new StatusBar();
             healthBar.SetPresentationData("HUD\\parts", 
                                           StatusBarTextureSources.Compute(0, 0, 32, 32, 4, 1),
@@ -159,25 +160,32 @@ namespace RPGGame.GUI
             healthBar.ShowText = true;
             healthBar.Size = new Vector2(0.8f, 0.33f);
             healthBar.TextType = TextType.Both;
+            statusWindow.Add(healthBar);
 
+            // Mana bar init.
             var manaBar = new StatusBar();
-            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
-            focusBar.Min = 0;
-            focusBar.Max = 110;
-            focusBar.Value = 110;
-            focusBar.ShowText = true;
-            focusBar.Size = new Vector2(0.8f, 0.33f);
-            focusBar.TextType = TextType.Both;
+            manaBar.SetPresentationData("HUD\\parts", 
+                                        StatusBarTextureSources.Compute(0, 32, 32, 32, 4, 1),
+                                        StatusBarBindingsSource.Create(() => 0,
+                                                                       () => controller.Specialization.TotalMana(),
+                                                                       () => controller.Statuses.Mana));
+            manaBar.ShowText = true;
+            manaBar.Size = new Vector2(0.8f, 0.33f);
+            manaBar.TextType = TextType.Both;
+            manaBar.Position = new Vector2(0.0f, healthBar.DisplayBounds.Bottom);
+            statusWindow.Add(manaBar);
 
+            // Focus bar init.
             var focusBar = new StatusBar();
-            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
-            focusBar.Min = 0;
-            focusBar.Max = 110;
-            focusBar.Value = 110;
+            focusBar.SetPresentationData("HUD\\parts", 
+                                         StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1),
+                                         StatusBarBindingsSource.Create(() => 0,
+                                                                        () => controller.Specialization.TotalFocus(),
+                                                                        () => controller.Statuses.Focus));
             focusBar.ShowText = true;
             focusBar.Size = new Vector2(0.8f, 0.33f);
             focusBar.TextType = TextType.Both;
-
+            focusBar.Position = new Vector2(0.0f, manaBar.DisplayBounds.Bottom);
             statusWindow.Add(focusBar);
 
             Root.Add(statusWindow);
