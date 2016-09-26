@@ -17,7 +17,7 @@ namespace vRPGEngine.Attributes
 
         private const int TimersCount   = 3;
 
-        private const int TickTime      = 33;
+        private const int TickTime      = 5000;
         #endregion
 
         #region Fields
