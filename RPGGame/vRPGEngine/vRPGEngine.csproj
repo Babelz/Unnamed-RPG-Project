@@ -71,6 +71,7 @@
     <Compile Include="HUD\Elements\IconElement.cs" />
     <Compile Include="HUD\Elements\IContentDisplayElement.cs" />
     <Compile Include="HUD\Controls\Image.cs" />
+    <Compile Include="HUD\Elements\ImageElement.cs" />
     <Compile Include="HUD\Elements\IStatusBarElement.cs" />
     <Compile Include="HUD\Elements\StatusBarElement.cs" />
     <Compile Include="HUD\Elements\TextScrollViewElement.cs" />

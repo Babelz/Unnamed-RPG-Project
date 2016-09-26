@@ -5,12 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vRPGEngine.Core;
+using vRPGEngine.Graphics;
+using vRPGEngine.HUD.Elements;
 
 namespace vRPGEngine.HUD.Controls
 {
     [Flags()]
     public enum ImagePresentationFlags : int
     {
+        None = 0,
         FlipVertical,
         FlipHorizontal,
     }
@@ -19,6 +23,7 @@ namespace vRPGEngine.HUD.Controls
     {
         #region Fields
         private ImagePresentationFlags presentationFlags;
+        private IDisplayElement element;
 
         private Texture2D texture;
 
@@ -123,12 +128,74 @@ namespace vRPGEngine.HUD.Controls
                 NotifyPropertyChanged("Scale");
             }
         }
+        
+        public IDisplayElement Element
+        {
+            get
+            {
+                return element;
+            }
+            set
+            {
+                element = value;
+
+                NotifyPropertyChanged("Element");
+            }
+        }
         #endregion
 
         public Image()
             : base()
         {
+            element = new ImageElement();
+
             RegisterProperty("PresentationFlags", () => PresentationFlags, (o) => presentationFlags = (ImagePresentationFlags)o);
+            RegisterProperty("Texture", () => Texture, (o) => Texture = (Texture2D)o);
+            RegisterProperty("Source", () => Source, (o) => Source = (Rectangle)o);
+            RegisterProperty("Rotation", () => Rotation, (o) => Rotation = (float)o);
+            RegisterProperty("Color", () => Color, (o) => Color = (Color)o);
+            RegisterProperty("ImageOrigin", () => ImageOrigin, (o) => ImageOrigin = (Vector2)o);
+            RegisterProperty("ImageScale", () => ImageScale, (o) => ImageScale = (Vector2)o);
+            RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
+
+            PropertyChanged += Image_PropertyChanged;
+        }
+
+        /*
+                TODO: check all control invalidations as they are not optimized!
+         */
+
+        #region Properties
+        private void Image_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            Invalidate();
+        }
+        #endregion
+
+        protected override void OnInvalidate()
+        {
+            if (Element != null) element.Invalidate(this);
+        }
+
+        protected override void OnDraw(GameTime gameTime)
+        {
+            if (Element != null) HUDRenderer.Instance.Show(element);
+        }
+
+        public void SetOriginCenter()
+        {
+            if (Texture == null)
+            {
+                Logger.Instance.LogWarning("SetOriginCenter had no effect, texture can't be null");
+
+                return;
+            }
+
+            ImageOrigin = new Vector2(texture.Bounds.Width / 2.0f, texture.Bounds.Height / 2.0f);
+        }
+        public void SetOriginTopLeft()
+        {
+            ImageOrigin = Vector2.Zero;
         }
     }
 }
