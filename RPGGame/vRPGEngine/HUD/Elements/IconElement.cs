@@ -44,7 +44,9 @@ namespace vRPGEngine.HUD.Elements
     public abstract class SpellIconHandler<T> : IconElementHandler where T : class
     {
         #region Fields
-        private readonly BackgroundTextureSplitter splitter;
+        private readonly BackgroundTextureSplitter backgroundSplitter;
+
+        private readonly BackgroundTextureSplitter iconSplitter;
         #endregion
 
         #region Properties
@@ -70,7 +72,14 @@ namespace vRPGEngine.HUD.Elements
         public SpellIconHandler()
             : base()
         {
-            splitter = new BackgroundTextureSplitter(3);
+            // TODO: fix this shit...
+            //       the background does not get
+            //       drawn correctly, it is too 
+            //       stretched from the sides
+            //       and too small from top and bottom...
+            backgroundSplitter = new BackgroundTextureSplitter(4);
+
+            iconSplitter       = new BackgroundTextureSplitter(3);
         }
 
         private void DrawInfo(SpriteFont font, SpriteBatch spriteBatch)
@@ -108,7 +117,7 @@ namespace vRPGEngine.HUD.Elements
             backgroundScale.X /= Background.Width;
             backgroundScale.Y /= Background.Height;
 
-            foreach (var part in splitter.Split(Background))
+            foreach (var part in backgroundSplitter.Split(Background))
             {
                 var partPosition = new Vector2(part.X * backgroundScale.X, part.Y * backgroundScale.Y) + position;
                 var partSize = new Vector2(part.Width * backgroundScale.X, part.Height * backgroundScale.Y);
@@ -123,7 +132,7 @@ namespace vRPGEngine.HUD.Elements
             iconScale.X /= Icon.Width;
             iconScale.Y /= Icon.Height;
 
-            foreach (var part in splitter.Split(Icon))
+            foreach (var part in iconSplitter.Split(Icon))
             {
                 var partPosition = new Vector2(part.X * iconScale.X, part.Y * iconScale.Y) + position;
                 var partSize = new Vector2(part.Width * iconScale.X, part.Height * iconScale.Y);

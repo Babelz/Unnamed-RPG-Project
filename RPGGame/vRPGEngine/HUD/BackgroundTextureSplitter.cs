@@ -32,27 +32,27 @@ namespace vRPGEngine.HUD
 
         public IEnumerable<Rectangle> Split(Texture2D texture)
         {
-            var topLeftCorner       = new Rectangle(0, 0, left, top);
-            var topRightCorner      = new Rectangle(texture.Width - right, 0, right, top);
-            var bottomLeftCorner    = new Rectangle(0, texture.Height - bottom, left, bottom);
-            var bottomRightCorner   = new Rectangle(texture.Width - right, texture.Height - bottom, right, bottom);
+            var x               = 0;
+            var y               = 0;
+            var w               = texture.Width;
+            var h               = texture.Height;
 
-            var topPart             = new Rectangle(left, 0, texture.Width - left - right, top);
-            var bottomPart          = new Rectangle(left, texture.Height - bottom, topPart.Width, bottom);
-            var leftPart            = new Rectangle(0, top, left, texture.Height - bottom);
-            var rightPart           = new Rectangle(texture.Width - right, top, right, texture.Height - bottom);
-            var centerPart          = new Rectangle(left, top, texture.Width - left - right, texture.Height - top - bottom);
+            var middleWidth     = w - left - right;
+            var middleHeight    = h - top - bottom;
+            var bottomY         = y + h - bottom;
+            var rightX          = x + w - right;
+            var leftX           = x + left;
+            var topY            = y + top;
 
-            yield return topLeftCorner;
-            yield return topRightCorner;
-            yield return bottomLeftCorner;
-            yield return bottomRightCorner;
-
-            yield return topPart;
-            yield return bottomPart;
-            yield return leftPart;
-            yield return rightPart;
-            yield return centerPart;
+            yield return new Rectangle(x,      y,       left,  top);                    // top left
+            yield return new Rectangle(leftX,  y,       middleWidth,  top);             // top middle
+            yield return new Rectangle(rightX, y,       right, top);                    // top right
+            yield return new Rectangle(x,      topY,    left,  middleHeight);           // left middle
+            yield return new Rectangle(leftX,  topY,    middleWidth,  middleHeight);    // middle
+            yield return new Rectangle(rightX, topY,    right, middleHeight);           // right middle
+            yield return new Rectangle(x,      bottomY, left,  bottom);                 // bottom left
+            yield return new Rectangle(leftX,  bottomY, middleWidth,  bottom);          // bottom middle
+            yield return new Rectangle(rightX, bottomY, right, bottom);                 // bottom right
         }
     }
 }

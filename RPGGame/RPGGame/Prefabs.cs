@@ -61,7 +61,7 @@ namespace RPGGame
             var attributes            = new AttributesData()
             {
                 Level = 10,
-                Fp5 = 100,
+                Fp5 = 25,
             };
 
             var equipments            = new EquipmentContainer()
