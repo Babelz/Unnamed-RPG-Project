@@ -105,7 +105,7 @@ namespace vRPGEngine.Attributes.Specializations
         public override int TotalFp5()
         {
             // As of the 75% reduction.
-            return (int)(Attributes.Fp5 * 0.25f);
+            return (int)Math.Round(Attributes.Fp5 * 0.25f, 0);
         }
         public override int TotalEndurance()
         {

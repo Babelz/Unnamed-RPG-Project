@@ -137,12 +137,8 @@ namespace RPGGame.GUI
             var transform   = EntityManager.Instance.Entitites.First(e => e.Tagged("player")).FirstComponentOfType<Transform>();
             var position    = transform.Position;
 
-            //position.Y += HUDRenderer.Instance.CanvasSize.Y / 2.0f;
-
             foreach (var newEntry in newEntries)
             {
-                //position.X += HUDRenderer.Instance.CanvasSize.X / 2.0f;
-
                 if (TextSideLeft()) { position.X -= Font.MeasureString(newEntry.Contents).X; newEntry.Side = -1; }
                 else                { position.X += Font.MeasureString(newEntry.Contents).X / 2.0f; newEntry.Side = 1;  }
 
