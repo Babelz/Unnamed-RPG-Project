@@ -196,6 +196,12 @@ namespace RPGGame.GUI
 
         private void CreateTargetStatusWindow()
         {
+            // Target status window init.
+            var statusWindow      = new Panel();
+            statusWindow.Sizing   = Sizing.Percents;
+            statusWindow.Size     = new Vector2(0.15f);
+            statusWindow.Element  = null;
+            statusWindow.Position = Vector2.Zero;
         }
         
         private void ConstructSubsystems()
