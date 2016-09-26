@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,36 +38,6 @@ namespace vRPGEngine.HUD.Controls
         #endregion
 
         #region Properties
-        public int Min
-        {
-            get
-            {
-                return min;
-            }
-            set
-            {
-                min = value;
-
-                NotifyPropertyChanged("Min");
-
-                if (this.value < min) Value = min;
-            }
-        }
-        public int Max
-        {
-            get
-            {
-                return max;
-            }
-            set
-            {
-                max = value;
-
-                NotifyPropertyChanged("Max");
-
-                if (this.value > max) Value = max;
-            }
-        }
         public int Value
         {
             get
@@ -137,8 +108,6 @@ namespace vRPGEngine.HUD.Controls
             font    = DefaultValues.DefaultFont;
             element = new StatusBarElement();
 
-            RegisterProperty("Min", () => Min, (o) => Min = (int)o);
-            RegisterProperty("Max", () => Max, (o) => Max = (int)o);
             RegisterProperty("Value", () => Value, (o) => Value = (int)o);
             RegisterProperty("ShowText", () => ShowText, (o) => ShowText = (bool)o);
             RegisterProperty("TextType", () => TextType, (o) => TextType = (TextType)o);
@@ -162,11 +131,11 @@ namespace vRPGEngine.HUD.Controls
             if (Element != null) HUDRenderer.Instance.Show(Element);
         }
 
-        public void SetPresentationData(string name, StatusBarTextureSources sources)
+        public void SetPresentationData(string name, StatusBarTextureSources sources, StatusBarBindingsSource bindings)
         {
             var statusBarDisplayElement = Element as IStatusBarElement;
 
-            statusBarDisplayElement?.SetPresentationData(name, sources);
+            statusBarDisplayElement?.SetPresentationData(name, sources, bindings);
         }
     }
 }

@@ -8,19 +8,23 @@ using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD
 {
-    public delegate object GetterDelegate();
+    public delegate object WeakGetterDelegate();
+    public delegate void WeakSetterDelegate(object value);
 
-    public delegate void SetterDelegate(object value);
-    
+    public delegate T StrongGetterDelegate<T>();
+    public delegate void StrongSetterDelegatw<T>(T value);
+
     public sealed class DependencyProperty 
     {
+        #region Fields
         public readonly bool CanRead;
         public readonly bool CanWrite;
         
-        public readonly GetterDelegate Read;
-        public readonly SetterDelegate Write;
+        public readonly WeakGetterDelegate Read;
+        public readonly WeakSetterDelegate Write;
+        #endregion
 
-        public DependencyProperty(GetterDelegate get = null, SetterDelegate set = null)
+        public DependencyProperty(WeakGetterDelegate get = null, WeakSetterDelegate set = null)
         {
             Read  = get;
             Write = set;
@@ -29,7 +33,7 @@ namespace vRPGEngine.HUD
             CanWrite = set != null;
         }
     }
-
+    
     public abstract class DependencyPropertyContainer
     {
         #region Fields
@@ -41,7 +45,7 @@ namespace vRPGEngine.HUD
             properties = new Dictionary<string, DependencyProperty>();
         }
 
-        protected void RegisterProperty(string name, GetterDelegate get = null, SetterDelegate set = null)
+        protected void RegisterProperty(string name, WeakGetterDelegate get = null, WeakSetterDelegate set = null)
         {
             if (properties.ContainsKey(name))
             {

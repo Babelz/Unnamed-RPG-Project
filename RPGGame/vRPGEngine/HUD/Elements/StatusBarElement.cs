@@ -20,20 +20,16 @@ namespace vRPGEngine.HUD.Elements
     {
         #region Fields
         private StatusBarTextureSources sources;
+        private StatusBarBindingsSource bindings;
 
         private SpriteFont font;
         private Texture2D texture;
-
-        private int min;
-        private int max;
-        private int value;
 
         private bool showText;
 
         private TextType textType;
 
         private Vector2 size;
-        private Vector2 scale;
         private Vector2 positon;
 
         private PartData left;
@@ -49,19 +45,16 @@ namespace vRPGEngine.HUD.Elements
         public StatusBarElement()
         {
         }
-
-        public void SetPresentationData(string texture, StatusBarTextureSources sources)
+        
+        public void SetPresentationData(string texture, StatusBarTextureSources sources, StatusBarBindingsSource bindings)
         {
-            this.texture = Engine.Instance.Content.Load<Texture2D>(texture);
-            this.sources = sources;
+            this.texture  = Engine.Instance.Content.Load<Texture2D>(texture);
+            this.sources  = sources;
+            this.bindings = bindings;
         }
 
         public void Invalidate(Control control)
         {
-            if (!control.ReadProperty("Min", ref min))      return;
-            if (!control.ReadProperty("Max", ref max))      return;
-            if (!control.ReadProperty("Value", ref value))  return;
-
             if (!control.ReadProperty("ShowText", ref showText)) showText = false;
             if (!control.ReadProperty("TextType", ref textType)) textType = TextType.None;
             
@@ -91,15 +84,15 @@ namespace vRPGEngine.HUD.Elements
             right.Source        = sources.Right;
             right.Scale         = left.Scale;
             
-            if (showText && font != null && value != 0)
+            if (showText && font != null && bindings.Bound())
             {
                 // Format text.
                 switch (textType)
                 {
-                    case TextType.Value:        text = string.Format("{0} / {1}", value, max);                                          break;
-                    case TextType.Percentage:   text = string.Format("{0}%", Math.Round(value / (float)max * 100.0f, 0));               break;
-                    case TextType.Both:         text = string.Format("{0} / {1}%", value, Math.Round(value / (float)max * 100.0f, 0));  break;
-                    case TextType.None: default:                                                                                        break;
+                    case TextType.Value:        text = string.Format("{0} / {1}", bindings.Value(), bindings.Max());                                                     break;
+                    case TextType.Percentage:   text = string.Format("{0}%", Math.Round((bindings.Value() / (float)bindings.Max() * 100.0f), 0));                        break;
+                    case TextType.Both:         text = string.Format("{0} / {1}%", bindings.Value(), Math.Round(bindings.Value() / (float)bindings.Max() * 100.0f, 0));  break;
+                    case TextType.None: default:                                                                                                                         break;
                 }
 
                 // Compute position and scale.

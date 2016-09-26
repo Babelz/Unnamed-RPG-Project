@@ -26,8 +26,32 @@ namespace vRPGEngine.HUD.Elements
         }
     }
 
+    public struct StatusBarBindingsSource
+    {
+        #region Fields
+        public StrongGetterDelegate<int> Min;
+        public StrongGetterDelegate<int> Max;
+        public StrongGetterDelegate<int> Value;
+        #endregion
+
+        public bool Bound()
+        {
+            return Min != null && Max != null && Value != null;
+        }
+
+        public static StatusBarBindingsSource Create(StrongGetterDelegate<int> min, StrongGetterDelegate<int> max, StrongGetterDelegate<int> value)
+        {
+            return new StatusBarBindingsSource()
+            {
+                Min     = min,
+                Max     = max,
+                Value   = value
+            };
+        }
+    }
+
     public interface IStatusBarElement : IDisplayElement
     {
-        void SetPresentationData(string texture, StatusBarTextureSources sources);
+        void SetPresentationData(string texture, StatusBarTextureSources sources, StatusBarBindingsSource bindings);
     }
 }
