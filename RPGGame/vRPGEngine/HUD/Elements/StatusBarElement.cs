@@ -83,7 +83,7 @@ namespace vRPGEngine.HUD.Elements
             middle.Position.X   = left.Position.X + (left.Source.Width * left.Scale.X);
             middle.Position.Y   = left.Position.Y;
             middle.Source       = sources.Middle;
-            middle.Scale        = new Vector2(size.Y / sources.Middle.Width, size.Y / sources.Middle.Height);
+            middle.Scale        = new Vector2(size.X / (sources.Middle.Width + left.Scale.X * left.Source.Width), size.Y / sources.Middle.Height);
 
             // Compute left part position.
             right.Position.X    = middle.Position.X + middle.Source.Width * middle.Scale.X;
@@ -105,7 +105,7 @@ namespace vRPGEngine.HUD.Elements
                 // Compute position and scale.
                 var textSize    = font.MeasureString(text);
                 textScale       = Vector2.One;
-                textScale       -= new Vector2(0.25f);
+                textScale       -= new Vector2(0.50f);
 
                 textPosition    = middle.Position;
                 textPosition.X  += (middle.Source.Width * middle.Scale.X) / 2.0f - (textSize.X * textScale.X) / 2.0f;

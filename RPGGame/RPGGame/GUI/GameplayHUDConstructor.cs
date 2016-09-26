@@ -146,18 +146,45 @@ namespace RPGGame.GUI
             // Add status bars.
             var statusWindow = new Panel();
             statusWindow.Sizing = Sizing.Percents;
-            statusWindow.Size = new Vector2(0.1f);
+            statusWindow.Size = new Vector2(0.25f);
             statusWindow.Element = null;
             statusWindow.Position = Vector2.Zero;
 
-            var focusBar = new StatusBar();
-            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 0, 32, 32, 4, 1));
+            var healthBar = new StatusBar();
+            healthBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
+            healthBar.Min = 0;
+            healthBar.Max = 110;
+            healthBar.Value = 110;
+            healthBar.ShowText = true;
+            healthBar.Size = new Vector2(0.8f, 0.33f);
+            healthBar.TextType = TextType.Both;
+
+            var manaBar = new StatusBar();
+            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
             focusBar.Min = 0;
             focusBar.Max = 110;
             focusBar.Value = 110;
             focusBar.ShowText = true;
+            focusBar.Size = new Vector2(0.8f, 0.33f);
             focusBar.TextType = TextType.Both;
 
+            var focusBar = new StatusBar();
+            focusBar.SetPresentationData("HUD\\parts", StatusBarTextureSources.Compute(0, 64, 32, 32, 4, 1));
+            focusBar.Min = 0;
+            focusBar.Max = 110;
+            focusBar.Value = 110;
+            focusBar.ShowText = true;
+            focusBar.Size = new Vector2(0.8f, 0.33f);
+            focusBar.TextType = TextType.Both;
+
+            controller.Statuses.HealthChanged += delegate
+            {
+                healthBar.Value = controller.Statuses.Health;
+            };
+            controller.Statuses.ManaChanged += delegate
+            {
+                focusBar.Value = controller.Statuses.Focus;
+            };
             controller.Statuses.FocusChanged += delegate
             {
                 focusBar.Value = controller.Statuses.Focus;
