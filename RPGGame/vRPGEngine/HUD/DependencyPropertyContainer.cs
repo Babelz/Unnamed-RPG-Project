@@ -12,7 +12,7 @@ namespace vRPGEngine.HUD
     public delegate void WeakSetterDelegate(object value);
 
     public delegate T StrongGetterDelegate<T>();
-    public delegate void StrongSetterDelegatw<T>(T value);
+    public delegate void StrongSetterDelegate<T>(T value);
 
     public sealed class DependencyProperty 
     {
@@ -131,7 +131,7 @@ namespace vRPGEngine.HUD
             return property;
         }
 
-        public bool Contains(string name)
+        public bool HasProperty(string name)
         {
             return properties.ContainsKey(name);
         }

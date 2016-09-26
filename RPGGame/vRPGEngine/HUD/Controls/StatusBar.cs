@@ -42,6 +42,8 @@ namespace vRPGEngine.HUD.Controls
 
                 ReadProperty("Min", ref results);
 
+                if (!HasProperty("Min")) Logger.Instance.LogWarning("status bar has no binding for min, will alwasy return 0");
+
                 return results;
             }
         }
@@ -53,6 +55,8 @@ namespace vRPGEngine.HUD.Controls
 
                 ReadProperty("Max", ref results);
 
+                if (!HasProperty("Max")) Logger.Instance.LogWarning("status bar has no binding for max, will alwasy return 0");
+
                 return results;
             }
         }
@@ -63,6 +67,8 @@ namespace vRPGEngine.HUD.Controls
                 var results = 0;
 
                 ReadProperty("Value", ref results);
+
+                if (!HasProperty("Value")) Logger.Instance.LogWarning("status bar has no binding for value, will alwasy return 0");
 
                 return results;
             }
