@@ -126,6 +126,8 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Content", () => Content, (o) => Content = o);
             RegisterProperty("Font", () => Font, (o) => Font = (SpriteFont)o);
 
+            ValidateProperties(GetType());
+
             PropertyChanged += BindButton_PropertyChanged;
             ButtonPressed   += BindButton_ButtonPressed;
         }

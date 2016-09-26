@@ -128,7 +128,7 @@ namespace vRPGEngine.HUD.Controls
         public Image()
             : base()
         {
-            
+            RegisterProperty("PresentationFlags", 
         }
     }
 }

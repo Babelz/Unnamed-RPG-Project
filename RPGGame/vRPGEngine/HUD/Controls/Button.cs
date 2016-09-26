@@ -56,6 +56,8 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Text", () => Text, (o) => Text = (string)o);
             RegisterProperty("Element", () => Element, (o) => Element = (IDisplayElement)o);
 
+            ValidateProperties(GetType());
+
             PropertyChanged += Button_PropertyChanged;
         }
 

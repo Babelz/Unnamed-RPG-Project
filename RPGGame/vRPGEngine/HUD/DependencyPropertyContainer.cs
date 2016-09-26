@@ -45,6 +45,19 @@ namespace vRPGEngine.HUD
             properties = new Dictionary<string, DependencyProperty>();
         }
 
+        protected void ValidateProperties(Type type)
+        {
+#if DEBUG
+            var typeProperties = type.GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (typeProperties.FirstOrDefault(p => p.Name == property.Key) == null)
+                    Logger.Instance.LogError("property not found, typo or forgot to register? pname: " + property.Key);
+            }
+#endif
+        }
+
         protected void RegisterProperty(string name, WeakGetterDelegate get = null, WeakSetterDelegate set = null)
         {
             if (properties.ContainsKey(name))

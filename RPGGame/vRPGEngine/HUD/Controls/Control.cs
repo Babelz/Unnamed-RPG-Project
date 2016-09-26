@@ -243,7 +243,9 @@ namespace vRPGEngine.HUD.Controls
             RegisterProperty("Parent", () => Parent, (o) => Parent = (Control)o);
 
             RegisterProperty("Sizing", () => Sizing, (o) => Sizing = (Sizing)o);
-            
+
+            ValidateProperties(GetType());
+
             PropertyChanged += Control_PropertyChanged;
         }
 
