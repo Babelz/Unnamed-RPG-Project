@@ -11,6 +11,7 @@ namespace RPGGame.GUI
     public static class HUDConstants
     {
         #region Constant fields
+        public static readonly string SampleTextLine    = "sample text line";
         public static readonly Vector2 IconSizeInPixels = new Vector2(32.0f);
         public static readonly Vector2 IconSize         = IconSizeInPixels / HUDRenderer.Instance.CanvasSize;
 

@@ -147,20 +147,20 @@ namespace RPGGame.GUI
         private void CreatePlayerStatusWindow()
         {
             // Player status window init.
-            var statusWindow      = new Panel();
-            statusWindow.Sizing   = Sizing.Percents;
-            statusWindow.Size     = new Vector2(0.15f);
-            statusWindow.Position = new Vector2(HUDRenderer.Instance.CanvasSize.X * 0.015f, HUDRenderer.Instance.CanvasSize.Y * 0.015f);
-            statusWindow.Element  = null;
+            var statusWindow        = new Panel();
+            statusWindow.Sizing     = Sizing.Percents;
+            statusWindow.Size       = new Vector2(0.15f);
+            statusWindow.Position   = new Vector2(HUDRenderer.Instance.CanvasSize.X * 0.015f, HUDRenderer.Instance.CanvasSize.Y * 0.015f);
+            statusWindow.Element    = null;
 
-            var statusesHeader      = new Label();
-            statusesHeader.Position = Vector2.Zero;
-            statusesHeader.Text     = "Statuses";
-
-            statusWindow.Position = new Vector2(statusWindow.Position.X, statusWindow.Position.Y + statusesHeader.DisplayBounds.Height);
-
+            // Target name label.
+            var statusesHeader  = new Label();
+            statusesHeader.Text = "Statuses";
             statusWindow.Add(statusesHeader);
-            
+
+            statusWindow.Position = new Vector2(statusWindow.Position.X, statusesHeader.DisplayBounds.Bottom);
+            statusesHeader.Position = new Vector2(statusesHeader.Position.X, -statusesHeader.DisplayBounds.Height);
+
             // Health bar init.
             var healthBar       = new StatusBar();
             healthBar.SetPresentationData("HUD\\parts",
@@ -214,7 +214,10 @@ namespace RPGGame.GUI
             // Target name label.
             var targetHeader        = new Label();
             statusWindow.Add(targetHeader);
-            
+
+            statusWindow.Position = new Vector2(statusWindow.Position.X, targetHeader.ComputeBounds(HUDConstants.SampleTextLine).Bottom);
+            targetHeader.Position = new Vector2(targetHeader.Position.X, -targetHeader.ComputeBounds(HUDConstants.SampleTextLine).Height);
+
             // Target health bar init.
             var healthBar       = new StatusBar();
             healthBar.SetPresentationData("HUD\\parts",
@@ -260,9 +263,9 @@ namespace RPGGame.GUI
             controller.TargetFinder.TargetChanged += (sender) =>
             {
                 if (sender.Target != null)
-                {
+                { 
                     targetHeader.Text = sender.TargetController.Name;
-
+                    
                     statusWindow.Enable();
                     statusWindow.Show();
 

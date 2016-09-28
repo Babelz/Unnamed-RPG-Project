@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,6 +138,21 @@ namespace vRPGEngine.HUD.Controls
             }
         }
 
+        private Rectf ComputeBounds(string text, Vector2 position)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(text));
+
+            switch (Sizing)
+            {
+                case Sizing.Percents:
+                    return new Rectf(position, (font.MeasureString(text) * Scale) / GetContainerSize());
+                case Sizing.Pixels:
+                    return new Rectf(position, font.MeasureString(text) * Scale);
+            }
+
+            return new Rectf(position, Vector2.Zero);
+        } 
+
         protected override void OnDraw(GameTime gameTime)
         {
             if (element != null) HUDRenderer.Instance.Show(element);
@@ -147,6 +163,15 @@ namespace vRPGEngine.HUD.Controls
             if (AdjustTextSize) AdjustText();
 
             if (element != null) element.Invalidate(this);
+        }
+
+        public Rectf ComputeDisplayBounds(string text)
+        {
+            return ComputeBounds(text, DisplayPosition);
+        }
+        public Rectf ComputeBounds(string text)
+        {
+            return ComputeBounds(text, Position);
         }
     }
 }
