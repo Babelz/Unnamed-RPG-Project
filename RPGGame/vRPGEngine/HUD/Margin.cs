@@ -32,10 +32,10 @@ namespace vRPGEngine.HUD
         {
             Margin margin;
 
-            margin.Top      = top * bounds.H;
-            margin.Bottom   = bottom * bounds.H;
-            margin.Left     = left * bounds.W;
-            margin.Right    = right * bounds.W;
+            margin.Top      = top * bounds.Height;
+            margin.Bottom   = bottom * bounds.Height;
+            margin.Left     = left * bounds.Width;
+            margin.Right    = right * bounds.Width;
 
             return margin;
         }

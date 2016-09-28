@@ -88,14 +88,14 @@ namespace vRPGEngine.Core
                 return Position.Y;
             }
         }
-        public float W
+        public float Width
         {
             get
             {
                 return Size.X;
             }
         }
-        public float H
+        public float Height
         {
             get
             {
@@ -108,6 +108,18 @@ namespace vRPGEngine.Core
         {
             Position    = position;
             Size        = size;
+        }
+        public Rectf(float x, float y, float width, float height)
+            : this(new Vector2(x, y), new Vector2(width, height))
+        {
+        }
+        public Rectf(float x, float y, float bounds)
+            : this(new Vector2(x, y), new Vector2(bounds))
+        {
+        }
+        public Rectf(float xy, float bounds)
+            : this(new Vector2(xy), new Vector2(bounds))
+        {
         }
         
         public bool Intersects(Rectf other)

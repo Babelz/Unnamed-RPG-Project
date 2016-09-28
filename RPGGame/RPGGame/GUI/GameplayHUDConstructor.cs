@@ -150,9 +150,17 @@ namespace RPGGame.GUI
             var statusWindow      = new Panel();
             statusWindow.Sizing   = Sizing.Percents;
             statusWindow.Size     = new Vector2(0.15f);
-            statusWindow.Position = HUDRenderer.Instance.CanvasSize * 0.015f;
+            statusWindow.Position = new Vector2(HUDRenderer.Instance.CanvasSize.X * 0.015f, HUDRenderer.Instance.CanvasSize.Y * 0.015f);
             statusWindow.Element  = null;
 
+            var statusesHeader      = new Label();
+            statusesHeader.Position = Vector2.Zero;
+            statusesHeader.Text     = "Statuses";
+
+            statusWindow.Position = new Vector2(statusWindow.Position.X, statusWindow.Position.Y + statusesHeader.DisplayBounds.Height);
+
+            statusWindow.Add(statusesHeader);
+            
             // Health bar init.
             var healthBar       = new StatusBar();
             healthBar.SetPresentationData("HUD\\parts",

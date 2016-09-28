@@ -32,10 +32,10 @@ namespace vRPGEngine.HUD
         {
             Padding padding;
 
-            padding.Top     = top * bounds.H;
-            padding.Bottom  = bottom * bounds.H;
-            padding.Left    = left * bounds.W;
-            padding.Right   = right * bounds.W;
+            padding.Top     = top * bounds.Height;
+            padding.Bottom  = bottom * bounds.Height;
+            padding.Left    = left * bounds.Width;
+            padding.Right   = right * bounds.Width;
             
             return padding;
         }
