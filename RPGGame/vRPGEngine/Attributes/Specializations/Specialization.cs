@@ -16,14 +16,24 @@ namespace vRPGEngine.Specializations
     /// <summary>
     /// Runtime specific computations regarding the attributes.
     /// </summary>
-    public class Specialization
+    public abstract class Specialization
     {
+        #region Constant fields
+        public const int DefaultStaminaToHealthRation   = 10;
+        public const int DefaultIntellectToManaRation   = 10;
+        public const int DefaultEnduranceToFocusRation  = 10;
+        #endregion
+
         #region Fields
         private readonly SpecializationData specialization;
 
         private readonly AttributesData attributes;
 
         private readonly Statuses statuses;
+
+        private readonly int staminaToHealthRation;
+        private readonly int intellectToManaRation;
+        private readonly int enduranceToFocusRation;
         #endregion
 
         #region Properties
@@ -59,18 +69,24 @@ namespace vRPGEngine.Specializations
 
         protected int IntellectToManaRation
         {
-            get;
-            set;
+            get
+            {
+                return intellectToManaRation;
+            }
         }
         protected int StaminaToHealthRation
         {
-            get;
-            set;
+            get
+            {
+                return staminaToHealthRation;
+            }
         }
         protected int EnduranceToFocusRation
         {
-            get;
-            set;
+            get
+            {
+                return enduranceToFocusRation;
+            }
         }
 
         /// <summary>
@@ -104,10 +120,14 @@ namespace vRPGEngine.Specializations
             this.attributes      = attributes;
             this.statuses        = statuses;
 
-            StaminaToHealthRation  = 10;
-            IntellectToManaRation  = 10;
-            EnduranceToFocusRation = 10;
+            SetRations(ref staminaToHealthRation, ref intellectToManaRation, ref enduranceToFocusRation);
+
+            Debug.Assert(staminaToHealthRation != 0);
+            Debug.Assert(intellectToManaRation != 0);
+            Debug.Assert(enduranceToFocusRation != 0);
         }
+
+        protected abstract void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation);
 
         public virtual float CriticalDamagePercent()
         {

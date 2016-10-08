@@ -56,6 +56,8 @@
     <Compile Include="RPGGame.cs" />
     <Compile Include="Scenes\GameplayTestingScene.cs" />
     <Compile Include="Scenes\HUDTestingScene.cs" />
+    <Compile Include="Specializations\Mage.cs" />
+    <Compile Include="Specializations\Warrior.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">

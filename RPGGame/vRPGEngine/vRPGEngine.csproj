@@ -89,7 +89,6 @@
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\MeleeDamageController.cs" />
     <Compile Include="Attributes\Specializations\DefaultNPCSpecialization.cs" />
-    <Compile Include="Attributes\Specializations\Warrior.cs" />
     <Compile Include="Attributes\Spells\Buff.cs" />
     <Compile Include="Attributes\Statuses.cs" />
     <Compile Include="Combat\CombatLog.cs" />

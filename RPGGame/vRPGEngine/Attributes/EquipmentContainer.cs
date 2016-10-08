@@ -337,6 +337,14 @@ namespace vRPGEngine.Attributes
                 return 2;
             }
         }
+
+        public int EquipedArmorsCount
+        {
+            get
+            {
+                return Armors.Count();
+            }
+        }
         #endregion
 
         #region Events

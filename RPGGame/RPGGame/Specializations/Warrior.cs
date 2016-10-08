@@ -5,31 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using vRPGContent.Data.Attributes;
 using vRPGContent.Data.Items.Enums;
+using vRPGEngine;
+using vRPGEngine.Attributes;
 using vRPGEngine.Databases;
 using vRPGEngine.Specializations;
 
-namespace vRPGEngine.Attributes.Specializations
+namespace RPGGame.Specializations
 {
     public sealed class Warrior : Specialization
     {
         #region Fields
         private MeleeDamageController damageController;
-        #endregion
 
-        #region Properties
-        private EquipmentContainer Equipments
-        {
-            get;
-            set;
-        }
+        private EquipmentContainer equipments;
         #endregion
 
         public Warrior(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
             : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior"), attributes, statuses)
         {
-            Equipments               = equipments;
+            this.equipments          = equipments;
             this.damageController    = damageController;
-            EnduranceToFocusRation   = 1;
             
             damageController.OnSwing += DamageController_OnSwing;
         }
@@ -52,13 +47,20 @@ namespace vRPGEngine.Attributes.Specializations
         }
         #endregion
 
+        protected override void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation)
+        {
+            staminaToHealthRation  = DefaultStaminaToHealthRation;
+            intellectToManaRation  = DefaultIntellectToManaRation;
+            enduranceToFocusRation = 1;
+        }
+
         private bool IsWearingFullPlate()
         {
-            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate) == Equipments.ArmorSlotsCount;
+            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate);
         }
         public bool IsWearingFullMail()
         {
-            return Equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail) == Equipments.ArmorSlotsCount;
+            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail);
         }
         public override int TotalStrength()
         {
