@@ -12,6 +12,7 @@ using vRPGEngine.Handlers.Spells;
 using System.Diagnostics;
 using vRPGEngine.Graphics;
 using vRPGEngine.Attributes.Spells;
+using vRPGEngine.Core;
 
 namespace vRPGEngine.HUD.Elements
 {
@@ -246,7 +247,11 @@ namespace vRPGEngine.HUD.Elements
         {
             base.SetContent(content);
 
-            if (Handler != null) Icon = Engine.Instance.Content.Load<Texture2D>(Handler.Spell.IconName);
+            if (Handler != null)
+            {
+                if (string.IsNullOrEmpty(Handler.Spell.IconName)) Icon = DefaultValues.MissingTexture;
+                else                                              Icon = Engine.Instance.Content.Load<Texture2D>(Handler.Spell.IconName);
+            }
         }
 
         public override void Show(SpriteFont font, SpriteBatch spriteBatch, Vector2 position, Vector2 size, MouseHoverState hoverState)

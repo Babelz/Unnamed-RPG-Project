@@ -72,11 +72,8 @@ namespace vRPGEngine.Handlers.Spells
     public abstract class MissileSpellHandler : SpellHandler
     {
         #region Constants
-        public const int MissileDecayTime = 3000;
-        #endregion
-
-        #region Fields
-        private int elapsed;
+        public const float MissileVelocity  = 0.5f;
+        public const int MissileDecayTime   = 3000;
         #endregion
 
         #region Properties
@@ -91,16 +88,6 @@ namespace vRPGEngine.Handlers.Spells
             protected set;
         }
 
-        public Vector2 Direction
-        {
-            get;
-            set;
-        }
-        public Vector2 Velocity
-        {
-            get;
-            set;
-        }
         public Entity Target
         {
             get;
@@ -125,6 +112,12 @@ namespace vRPGEngine.Handlers.Spells
             Width   = width;
             Height  = height;
         }
+        protected MissileSpellHandler(string name)
+            : this(name, 32.0f, 32.0f)
+        {
+        }
+        
+        // TODO: add spell decaying...
 
         #region Event handlers
         private bool Collider_OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
@@ -152,25 +145,28 @@ namespace vRPGEngine.Handlers.Spells
 
             Sensor = null;
         }
-        
+
         protected abstract void OnHit();
+        protected abstract void OnUse();
 
         public override void Use(Entity owner)
         {
+            if (OnCooldown) return;
+
             Debug.Assert(owner != null);
             Debug.Assert(Target != null);
-
+            
             Owner = owner;
 
             Sensor                  = RPGWorld.Instance.CreateBoxSensor(Owner, Width, Height);
-            Sensor.LinearVelocity   = Velocity;
             Sensor.OnCollision      += Collider_OnCollision;
 
-            elapsed         = 0;
             CooldownElapsed = 0;
             BeingUsed       = true;
-
+            
             if (Spell.Cooldown != 0) OnCooldown = true;
+
+            OnUse();
         }
 
         public override void Update(GameTime gameTime)
@@ -183,18 +179,6 @@ namespace vRPGEngine.Handlers.Spells
                 {
                     OnCooldown      = false;
                     CooldownElapsed = 0;
-                }
-            }
-
-            if (BeingUsed)
-            {
-                elapsed += gameTime.ElapsedGameTime.Milliseconds;
-
-                if (elapsed > MissileDecayTime)
-                {
-                    DisposeSensor();
-
-                    BeingUsed = false;
                 }
             }
         }

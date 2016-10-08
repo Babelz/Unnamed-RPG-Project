@@ -51,6 +51,9 @@ namespace vRPGEngine.Attributes
         #endregion
 
         #region Fields
+        private float percentageOfSource;
+        private int baseDamage;
+
         private Specialization specialization;
 
         /// <summary>
@@ -83,9 +86,12 @@ namespace vRPGEngine.Attributes
         #endregion
 
         #region Events
-        public event RangedDamageControllerEventHandler CastSuccessful;
+        public event RangedDamageControllerCastEventHandler CastSuccessful;
+
+        public event RangedDamageControllerBeginCastEventHandler OnBeginCast;
+        public event RangedDamageControllerEndCastEventHandler OnEndCast;
         #endregion
-        
+
         public RangedDamageController()
         {
         }
@@ -102,34 +108,52 @@ namespace vRPGEngine.Attributes
             }
         }
 
-        public void BeginCast(Specialization specialization, Spell spell, PowerSource source)
+        private void EndCast(bool interrupted)
+        {
+            specialization  = null;
+            spell           = null;
+
+            OnEndCast?.Invoke(interrupted);
+        }
+
+        public void Initialize(Specialization specialization)
+        {
+            this.specialization = specialization;
+        }
+
+        public void BeginCast(Spell spell, PowerSource source, float percentageOfSource, int baseDamage)
         {
             Debug.Assert(specialization != null);
             Debug.Assert(spell != null);
 
-            this.specialization = specialization;
+            this.percentageOfSource = percentageOfSource;
+            this.baseDamage         = baseDamage;
+
+            EndCast();
+            
             this.spell          = spell;
             this.source         = source;
 
             castTimer = 0;
+
+            OnBeginCast?.Invoke();
         }
         public void EndCast()
         {
-            specialization = null;
-            spell          = null;
+            EndCast(Casting);
         }
 
-        public void GenerateCast(Specialization specialization, ref RangedDamageResults results, PowerSource source)
+        public void GenerateCast(ref RangedDamageResults results, PowerSource source, float percentageOfSource, int baseDamage)
         {
-            var critical        = specialization.TotalCriticalHitPercent() >= vRPGRandom.NextFloat();
-            var power           = GetPower(source, specialization);
-            var powerVariance   = (int)(power * Variance);
-            var damage          = vRPGRandom.NextInt(power - powerVariance, power + powerVariance);
+            var critical            = specialization.TotalCriticalHitPercent() >= vRPGRandom.NextFloat();
+            var power               = (int)(GetPower(source, specialization) * percentageOfSource);
+            var powerVariance       = (int)(power * Variance);
+            var damage              = baseDamage + vRPGRandom.NextInt(power - powerVariance, power + powerVariance);
 
-            damage              = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
+            damage                  = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
 
-            results.Damage      = damage;
-            results.Critical    = critical;
+            results.Damage          = damage;
+            results.Critical        = critical;
         }
 
         public void Update(GameTime gameTime)
@@ -142,14 +166,17 @@ namespace vRPGEngine.Attributes
             {
                 results = RangedDamageResults.Empty;
 
-                GenerateCast(specialization, ref results, source);
-
+                GenerateCast(ref results, source, percentageOfSource, baseDamage);
+                
                 CastSuccessful?.Invoke(ref results);
-
-                EndCast();
+                
+                EndCast(false);
             } 
         }
 
-        public delegate void RangedDamageControllerEventHandler(ref RangedDamageResults results);
+        public delegate void RangedDamageControllerCastEventHandler(ref RangedDamageResults results);
+        public delegate void RangedDamageControllerBeginCastEventHandler();
+        public delegate void RangedDamageControllerEndCastEventHandler(bool interrupted);
+
     }
 }

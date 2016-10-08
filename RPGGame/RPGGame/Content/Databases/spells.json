@@ -75,8 +75,7 @@
 		{
 			"ID":			3,
 			"Name": 		"Pyro blast",
-			"Description": 	"Deals 125% of your spell power as fire damage, causes the target 
-						     to burn for 10% of the damage over 3s",
+			"Description": 	"Deals 125% of your spell power as fire damage and causes the target to burn for 10% of the damage over 3s",
 			"Element": 		8,
 			"HandlerName": 	"PyroBlast",
 			"IconName": 	"",
@@ -89,11 +88,10 @@
 		{
 			"ID":			4,
 			"Name": 		"Frost blast",
-			"Description": 	"Deals 50% of your spell power as frost damage, causes the target
-							 to slow down by 50% for 3s",
+			"Description": 	"Deals 50% of your spell power as frost damage, causes the target to slow down by 50% for 3s",
 			"Element": 		32,
 			"HandlerName": 	"FrostBlast",
-			"IconName": 	"",
+			"IconName": 	"AutoAttack",
 			"Cost":			10,
 			"CostType":		1,
 			"Consumes":		1,
@@ -116,10 +114,7 @@
 		{
 			"ID":			6,
 			"Name": 		"Mana blast",
-			"Description": 	"Deals 40% of your spell power as magical damage, grants mana blast
-							 debuff that increases the total cost of the spell by 3% and increases the
-							 damage dealt by mana blast or your next spell by 100%, stacks up to
-							 5 times, lasts 4s",
+			"Description": 	"Deals 40% of your spell power as magical damage, grants mana blast debuff that increases the total cost of the spell by 3% and increases the damage dealt by mana blast or your next spell by 100%, stacks up to 5 times, lasts 4s",
 			"Element": 		256,
 			"HandlerName": 	"ManaBlast",
 			"IconName": 	"",
@@ -132,8 +127,7 @@
 		{
 			"ID":			7,
 			"Name": 		"Magic missile",
-			"Description": 	"Shoot a magical missile towards your target, deals 30% of your spell power
-							 as magical damage",
+			"Description": 	"Shoot a magical missile towards your target, deals 30% of your spell power as magical damage",
 			"Element": 		256,
 			"HandlerName": 	"",
 			"IconName": 	"",
@@ -146,8 +140,7 @@
 		{
 			"ID":			8,
 			"Name": 		"Frost nova",
-			"Description": 	"Root all enemies in 3 meter radius for 5 seconds, deals 10% of your spell
-							 power as frost damage",
+			"Description": 	"Root all enemies in 3 meter radius for 5 seconds, deals 10% of your spell power as frost damage",
 			"Element": 		32,
 			"HandlerName": 	"",
 			"IconName": 	"",
