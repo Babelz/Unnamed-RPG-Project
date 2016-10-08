@@ -34,14 +34,20 @@ namespace RPGGame.Specializations
 
         public override float TotalCriticalHitPercent()
         {
-            return base.TotalCriticalHitPercent();
+            // Critical thinking.
+            var critFromIntellect = TotalIntellect() / (float)Attributes.Level;
+
+            return base.TotalCriticalHitPercent() + critFromIntellect;
         }
         
         public override int TotalSpellPower()
         {
-            if (IsWearingFullCloth()) return (int)(base.TotalSpellPower() * 1.1f);
+            // Focused mind.
+            var spellPowerFromIntellect = TotalIntellect() / 10;
 
-            return base.TotalSpellPower();
+            if (IsWearingFullCloth()) return (int)((base.TotalSpellPower() + spellPowerFromIntellect) * 1.1f);
+
+            return base.TotalSpellPower() + spellPowerFromIntellect;
         }
         public override int TotalIntellect()
         {
