@@ -28,7 +28,7 @@ namespace RPGGame.Handlers.Spells
 
             foreach (var swing in UserController.MeleeDamageController.Results())
             {
-                var damage = (int)(swing.Damage + UserController.Specialization.TotalMeleePower() * 0.25f);
+                var damage = (int)(swing.Damage + UserController.Specialization.TotalAttackPower() * 0.25f);
 
                 UserController.TargetFinder.TargetController.Statuses.Health -= damage;
 

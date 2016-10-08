@@ -35,14 +35,14 @@ namespace RPGGame.Handlers.Spells
                 var character = user.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      += BuffValue;
-                character.Attributes.MeleePowerPercentModifier  += BuffValue;
+                character.Attributes.AttackPowerPercentModifier += BuffValue;
             }   
             public override void Remove(Entity user)
             {
                 var character = user.FirstComponentOfType<ICharacterController>();
 
                 character.Attributes.HealthPercentModifier      -= BuffValue;
-                character.Attributes.MeleePowerPercentModifier  -= BuffValue;
+                character.Attributes.AttackPowerPercentModifier -= BuffValue;
             }
         }
         #endregion

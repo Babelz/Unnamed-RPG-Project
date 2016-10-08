@@ -75,12 +75,12 @@ namespace RPGGame.Specializations
             return base.TotalStamina();
         }
 
-        public override int TotalMeleePower()
+        public override int TotalAttackPower()
         {
             // 2ap per 
             var pwr = (int)(base.TotalStrength() * 2.0f);
 
-            return pwr + (int)(pwr * Attributes.MeleePowerPercentModifier) + Attributes.PureMeleePower;
+            return pwr + (int)(pwr * Attributes.AttackPowerPercentModifier) + Attributes.PureAttackPower;
         }
         public override int TotalHealth()
         {

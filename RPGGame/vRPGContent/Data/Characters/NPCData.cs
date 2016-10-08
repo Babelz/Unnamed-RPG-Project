@@ -101,10 +101,10 @@ namespace vRPGContent.Data.Characters
             DodgeRatingPercent          = other.DodgeRatingPercent;
             ParryRatingPercent          = other.ParryRatingPercent;
             MovementSpeedPercent        = other.MovementSpeedPercent;
-            PureMeleePower              = other.PureMeleePower;
+            PureAttackPower             = other.PureAttackPower;
             PureSpellPower              = other.PureSpellPower;
             HealthPercentModifier       = other.HealthPercentModifier;
-            MeleePowerPercentModifier  = other.MeleePowerPercentModifier;
+            AttackPowerPercentModifier  = other.AttackPowerPercentModifier;
             Level                       = other.Level;
         }
     }

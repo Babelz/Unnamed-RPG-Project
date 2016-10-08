@@ -255,7 +255,7 @@ namespace vRPGContent.Data.Attributes
             }
         }
 
-        public int PureMeleePower
+        public int PureAttackPower
         {
             get
             {
@@ -289,7 +289,7 @@ namespace vRPGContent.Data.Attributes
                 healthPercentModifier = value;
             }
         }
-        public float MeleePowerPercentModifier
+        public float AttackPowerPercentModifier
         {
             get
             {

@@ -83,7 +83,7 @@ namespace vRPGEngine.Attributes
         {
             GenerateSilentSwing(ref swing, weapons[(int)hand]);
 
-            var power = specialization.TotalMeleePower() * attackPowerPercent;
+            var power = specialization.TotalAttackPower() * attackPowerPercent;
 
             swing.Damage += swing.Critical ? (int)(power * specialization.CriticalDamagePercent()) : (int)power;
 

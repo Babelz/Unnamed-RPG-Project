@@ -168,7 +168,7 @@ namespace vRPGEngine
 
                 var controller = player.FirstComponentOfType<ICharacterController>();
 
-                return "Melee power: " + controller.Specialization.TotalMeleePower();
+                return "Attack power: " + controller.Specialization.TotalAttackPower();
             });
 
             DebugRenderer.Instance.AddString((gt) =>

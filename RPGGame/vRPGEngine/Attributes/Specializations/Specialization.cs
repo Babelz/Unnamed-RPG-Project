@@ -215,9 +215,9 @@ namespace vRPGEngine.Specializations
         {
             return TotalStamina() * StaminaToHealthRation;
         }
-        public virtual int TotalMeleePower()
+        public virtual int TotalAttackPower()
         {
-            return attributes.PureMeleePower;
+            return attributes.PureAttackPower;
         }
         public virtual int TotalSpellPower()
         {

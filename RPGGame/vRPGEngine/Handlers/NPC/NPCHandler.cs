@@ -79,7 +79,7 @@ namespace vRPGEngine.Handlers.NPC
                 var endurancePerLevel               = Data.Endurance / currentLevel;
                 var strenghtPerLevel                = Data.Strength / currentLevel;
                 var agilityPerLevel                 = Data.Agility / currentLevel;
-                var meleePowerPerLevel              = Data.PureMeleePower / currentLevel;
+                var attackPower                     = Data.PureAttackPower / currentLevel;
                 var spellPowerPerLevel              = Data.PureSpellPower / currentLevel;
                 var critChancePerLevel              = Data.CriticalHitPercent / currentLevel;
                 var defenceRatingPerLevel           = Data.DefenceRatingPercent / currentLevel;
@@ -87,14 +87,14 @@ namespace vRPGEngine.Handlers.NPC
                 var dodgeRatingPerLevel             = Data.DodgeRatingPercent / currentLevel;
                 var parryRatingPerLevel             = Data.ParryRatingPercent / currentLevel;
                 var movementSpeedPercentPerLevel    = Data.MovementSpeedPercent / currentLevel;
-                var pureMeleePowerPerLevel          = Data.PureMeleePower / currentLevel;
+                var pureMeleePowerPerLevel          = Data.PureAttackPower / currentLevel;
                 var pureSpellPowerPerLevel          = Data.PureSpellPower / currentLevel;
                 
                 Data.Level                  = level;
                 Data.Stamina                += staminaPerLevel * level;
                 Data.Intellect              += intellectPerLevel * level;
                 Data.Endurance              += endurancePerLevel * level;
-                Data.PureMeleePower         += meleePowerPerLevel * level;
+                Data.PureAttackPower         += attackPower * level;
                 Data.PureSpellPower         += spellPowerPerLevel * level;
                 Data.CriticalHitPercent     += critChancePerLevel * level;
                 Data.DefenceRatingPercent   += defenceRatingPerLevel * level;
@@ -102,7 +102,7 @@ namespace vRPGEngine.Handlers.NPC
                 Data.DodgeRatingPercent     += dodgeRatingPerLevel * level;
                 Data.ParryRatingPercent     += parryRatingPerLevel * level;
                 Data.MovementSpeedPercent   += movementSpeedPercentPerLevel * level;
-                Data.PureMeleePower         += meleePowerPerLevel * level;
+                Data.PureAttackPower         += attackPower * level;
                 Data.PureSpellPower         += spellPowerPerLevel * level;
             }
         }
