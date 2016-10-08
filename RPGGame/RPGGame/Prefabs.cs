@@ -37,11 +37,11 @@ namespace RPGGame
 
             var transform = player.AddComponent<Transform>();
 
-            var rendrer   = player.AddComponent<SpriteRenderer>();
-            rendrer.Flags = RenderFlags.Anchored | RenderFlags.AutomaticDepth;
+            var renderer   = player.AddComponent<SpriteRenderer>();
+            renderer.Flags = RenderFlags.Anchored | RenderFlags.AutomaticDepth;
 
-            rendrer.Sprite.Layer = Layers.Middle;
-            rendrer.Sprite.ScaleTo(new Vector2(32.0f), rendrer.Sprite.Texture);
+            renderer.Sprite.Layer = Layers.Middle;
+            renderer.Sprite.ScaleTo(new Vector2(32.0f), renderer.Sprite.Texture);
 
             var collider             = player.AddComponent<Collider>();
             collider.MakeDynamicBox(32.0f, 32.0f);
@@ -76,6 +76,7 @@ namespace RPGGame
             var specialization          = new Mage(attributes, equipments, statuses, rangedDamageController);
             
             meleeDamageController.Initialize(equipments, specialization);
+            rangedDamageController.Initialize(specialization);
             statuses.Initialize(specialization);
             controller.Initialize(specialization, attributes, equipments, statuses, meleeDamageController, rangedDamageController);
 

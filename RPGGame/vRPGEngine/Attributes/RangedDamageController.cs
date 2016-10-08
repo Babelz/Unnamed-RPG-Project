@@ -110,7 +110,6 @@ namespace vRPGEngine.Attributes
 
         private void EndCast(bool interrupted)
         {
-            specialization  = null;
             spell           = null;
 
             OnEndCast?.Invoke(interrupted);
@@ -160,7 +159,7 @@ namespace vRPGEngine.Attributes
         {
             if (!Casting) return;
 
-            castTimer -= gameTime.ElapsedGameTime.Milliseconds;
+            castTimer += gameTime.ElapsedGameTime.Milliseconds;
             
             if (castTimer >= spell.CastTime)
             {

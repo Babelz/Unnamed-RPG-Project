@@ -17,6 +17,7 @@ namespace RPGGame.Handlers.Spells
     public sealed class PyroBlast : MissileSpellHandler
     {
         #region Fields
+        private Transform target;
         private SpriteRenderer renderer;
         private RangedDamageResults results;
         #endregion
@@ -29,12 +30,18 @@ namespace RPGGame.Handlers.Spells
         #region Event handlers
         private void Controller_CastSuccessful(ref RangedDamageResults results)
         {
+            Send();
+
             this.results = results;
+
+            target                  = Target.FirstComponentOfType<Transform>();
 
             renderer                = Owner.AddComponent<SpriteRenderer>();
             renderer.Flags          = RenderFlags.AutomaticDepth;
+            renderer.Sprite.Layer   = Layers.Middle;
             renderer.Sprite.Texture = DefaultValues.MissingTexture;
             renderer.Sprite.ScaleTo(new Vector2(32.0f));
+
         }
         private void Controller_OnEndCast(bool interrupted)
         {
@@ -47,6 +54,8 @@ namespace RPGGame.Handlers.Spells
 
             controller.CastSuccessful   += Controller_CastSuccessful;
             controller.OnEndCast        += Controller_OnEndCast;
+
+            controller.BeginCast(Spell, PowerSource.SpellPower, 1.25f, 10);
         }
         
         protected override void OnHit()
@@ -58,11 +67,13 @@ namespace RPGGame.Handlers.Spells
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (Sensor != null)
             {
                 renderer.Sprite.Position = ConvertUnits.ToDisplayUnits(Sensor.Position);
 
-                var dir = (Target.FirstComponentOfType<Transform>().Position - ConvertUnits.ToDisplayUnits(Sensor.Position));
+                var dir = (target.Position - ConvertUnits.ToDisplayUnits(Sensor.Position));
                 dir.Normalize();
 
                 Sensor.LinearVelocity = dir * MissileVelocity;

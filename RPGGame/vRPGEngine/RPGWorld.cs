@@ -117,6 +117,19 @@ namespace vRPGEngine
 
             return body;
         }
+        public Body CreateBoxSensor(Entity owner, float x, float y, float width, float height)
+        {
+            var body = CreateBoxSensor(owner, width, height);
+
+            body.Position = ConvertUnits.ToSimUnits(x, y);
+
+            return body;
+        }
+
+        public Body CreateBoxSensor(Entity owner, Vector2 position, float width, float height)
+        {
+            return CreateBoxSensor(owner, position.X, position.Y, width, height);
+        }
 
         public void DestroyBody(Body body)
         {

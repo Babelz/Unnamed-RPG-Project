@@ -149,18 +149,25 @@ namespace vRPGEngine.Handlers.Spells
         protected abstract void OnHit();
         protected abstract void OnUse();
 
+        protected void Send()
+        {
+            var position        = Owner.FirstComponentOfType<Transform>().Position;
+
+            Sensor              = RPGWorld.Instance.CreateBoxSensor(Owner, position, Width, Height);
+            
+            Sensor.OnCollision  += Collider_OnCollision;
+        }
+
         public override void Use(Entity owner)
         {
             if (OnCooldown) return;
 
+            Owner = owner;
             Debug.Assert(owner != null);
+
+            Target = owner.FirstComponentOfType<ICharacterController>().TargetFinder.Target;
             Debug.Assert(Target != null);
             
-            Owner = owner;
-
-            Sensor                  = RPGWorld.Instance.CreateBoxSensor(Owner, Width, Height);
-            Sensor.OnCollision      += Collider_OnCollision;
-
             CooldownElapsed = 0;
             BeingUsed       = true;
             
