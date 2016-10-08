@@ -43,7 +43,16 @@ namespace vRPGEngine.Attributes
     /// </summary>
     public sealed class RangedDamageController
     {
+        #region Constant fields
+        /// <summary>
+        /// To make spell damage have a small variance.
+        /// </summary>
+        public const float Variance = 0.1f;
+        #endregion
+
         #region Fields
+        private Specialization specialization;
+
         /// <summary>
         /// Holds the spell casting results of the last
         /// successful cast.
@@ -93,22 +102,34 @@ namespace vRPGEngine.Attributes
             }
         }
 
-        public void BeginCast(Spell spell, PowerSource source)
+        public void BeginCast(Specialization specialization, Spell spell, PowerSource source)
         {
+            Debug.Assert(specialization != null);
             Debug.Assert(spell != null);
 
-            this.spell  = spell;
-            this.source = source;
+            this.specialization = specialization;
+            this.spell          = spell;
+            this.source         = source;
 
-            castTimer   = 0;
+            castTimer = 0;
         }
         public void EndCast()
         {
-            spell = null;
+            specialization = null;
+            spell          = null;
         }
 
-        public void GenerateCast(ref RangedDamageResults results, PowerSource source)
+        public void GenerateCast(Specialization specialization, ref RangedDamageResults results, PowerSource source)
         {
+            var critical        = specialization.TotalCriticalHitPercent() >= vRPGRandom.NextFloat();
+            var power           = GetPower(source, specialization);
+            var powerVariance   = (int)(power * Variance);
+            var damage          = vRPGRandom.NextInt(power - powerVariance, power + powerVariance);
+
+            damage              = critical ? (int)(damage * specialization.CriticalDamagePercent()) : damage;
+
+            results.Damage      = damage;
+            results.Critical    = critical;
         }
 
         public void Update(GameTime gameTime)
@@ -121,7 +142,7 @@ namespace vRPGEngine.Attributes
             {
                 results = RangedDamageResults.Empty;
 
-                GenerateCast(ref results, source);
+                GenerateCast(specialization, ref results, source);
 
                 CastSuccessful?.Invoke(ref results);
 
