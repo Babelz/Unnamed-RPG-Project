@@ -94,7 +94,7 @@ namespace vRPGEngine.Handlers.NPC
                 Data.Stamina                += staminaPerLevel * level;
                 Data.Intellect              += intellectPerLevel * level;
                 Data.Endurance              += endurancePerLevel * level;
-                Data.PureAttackPower         += attackPower * level;
+                Data.PureAttackPower        += attackPower * level;
                 Data.PureSpellPower         += spellPowerPerLevel * level;
                 Data.CriticalHitPercent     += critChancePerLevel * level;
                 Data.DefenceRatingPercent   += defenceRatingPerLevel * level;
@@ -102,7 +102,7 @@ namespace vRPGEngine.Handlers.NPC
                 Data.DodgeRatingPercent     += dodgeRatingPerLevel * level;
                 Data.ParryRatingPercent     += parryRatingPerLevel * level;
                 Data.MovementSpeedPercent   += movementSpeedPercentPerLevel * level;
-                Data.PureAttackPower         += attackPower * level;
+                Data.PureAttackPower        += attackPower * level;
                 Data.PureSpellPower         += spellPowerPerLevel * level;
             }
         }

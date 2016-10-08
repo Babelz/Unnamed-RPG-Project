@@ -76,7 +76,7 @@ namespace RPGGame
             
             meleeDamageController.Initialize(equipments, specialization);
             statuses.Initialize(specialization);
-            controller.Initialize(specialization, attributes, equipments, meleeDamageController, statuses);
+            controller.Initialize(specialization, attributes, equipments, statuses);
 
             var light           = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
             Renderer.Instance.AddLight(light);

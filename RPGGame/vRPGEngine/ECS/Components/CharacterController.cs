@@ -50,6 +50,11 @@ namespace vRPGEngine.ECS.Components
         {
             get;
         }
+        RangedDamageController RangedDamageController
+        {
+            get;
+        }
+
         ITargetFinder TargetFinder
         {
             get;
@@ -65,7 +70,7 @@ namespace vRPGEngine.ECS.Components
         #region Fields
         private readonly List<SpellHandler> spells;
         
-        private RegenManager regen;
+        private readonly RegenManager regen;
         #endregion
 
         #region Properties
@@ -117,6 +122,11 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+        public RangedDamageController RangedDamageController
+        {
+            get;
+            private set;
+        }
         public ITargetFinder TargetFinder
         {
             get;
@@ -133,8 +143,13 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
-            spells   = new List<SpellHandler>();
-            InCombat = false;
+            Buffs           = new BuffContainer();
+            TargetFinder    = new TargetFinder();
+
+            spells          = new List<SpellHandler>();
+            regen           = new PlayerRegenManager(this);
+
+            InCombat        = false;
         }
         
         #region Event handlers
@@ -148,16 +163,14 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, MeleeDamageController meleeDamageController, Statuses statuses)
+        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses)
         {
             Debug.Assert(specialization != null);
             Debug.Assert(attributes != null);
             Debug.Assert(equipments != null);
-            Debug.Assert(meleeDamageController != null);
 
-            Buffs           = new BuffContainer();
-            TargetFinder    = new TargetFinder();
-            regen           = new PlayerRegenManager(this);
+            MeleeDamageController   = new MeleeDamageController();
+            RangedDamageController  = new RangedDamageController();
 
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
@@ -165,7 +178,6 @@ namespace vRPGEngine.ECS.Components
             Specialization          = specialization;
             Attributes              = attributes;
             Equipments              = equipments;
-            MeleeDamageController   = meleeDamageController;
             Statuses                = statuses;
 
             Statuses.Initialize(specialization);
@@ -216,7 +228,7 @@ namespace vRPGEngine.ECS.Components
         #region Fields
         private readonly List<SpellHandler> spells;
 
-        private RegenManager regen;
+        private readonly RegenManager regen;
         #endregion
 
         #region Events
@@ -297,6 +309,12 @@ namespace vRPGEngine.ECS.Components
             get;
             private set;
         }
+        public RangedDamageController RangedDamageController
+        {
+            get;
+            private set;
+        }
+
         public ITargetFinder TargetFinder
         {
             get;
@@ -307,16 +325,19 @@ namespace vRPGEngine.ECS.Components
         public NPCController()
             : base()
         {
-            Statuses = new Statuses();
-            Buffs    = new BuffContainer();
-            spells   = new List<SpellHandler>();
+            Statuses                = new Statuses();
+            Buffs                   = new BuffContainer();
+
+            spells                  = new List<SpellHandler>();
+            regen                   = new RegenManager(this);
         }
 
         public new void Initialize()
         {
             Debug.Assert(Handler != null);
             
-            regen = new RegenManager(this);
+            MeleeDamageController   = new MeleeDamageController();
+            RangedDamageController  = new RangedDamageController();
 
             if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {
