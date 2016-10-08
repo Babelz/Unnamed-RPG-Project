@@ -20,73 +20,31 @@ namespace vRPGEngine.HUD
     public sealed class DependencyProperty 
     {
         #region Fields
-        private readonly string name;
+        public readonly WeakGetterDelegate Get;
+        public readonly WeakSetterDelegate Set;
+        #endregion
         
-        private readonly WeakGetterDelegate get;
-        private readonly WeakSetterDelegate set;
-        #endregion
-
-        #region Properties
-        public string Name
+        public DependencyProperty(WeakGetterDelegate get = null, WeakSetterDelegate set = null)
         {
-            get
-            {
-                return name;
-            }
-        }
-        public bool HasGetter
-        {
-            get
-            {
-                return get != null;
-            }
-        }
-        public bool HasSetter
-        {
-            get
-            {
-                return set != null;
-            }
-        }
-        #endregion
-
-        #region Events
-        public event ValueChangedEventHandler ValueChanged;
-        #endregion
-
-        public DependencyProperty(string name, WeakGetterDelegate get = null, WeakSetterDelegate set = null)
-        {
-            this.name   = name;
-            this.get    = get;
-            this.set    = set;
-        }
-
-        public void Set(object value)
-        {
-            set(value);
-
-            ValueChanged?.Invoke(this);
-        }
-        public object Get()
-        {
-            return get();
+            Get    = get;
+            Set    = set;
         }
     }
     
     public abstract class DependencyPropertyContainer
     {
         #region Fields
-        private readonly List<DependencyProperty> properties;
+        private readonly Dictionary<string, DependencyProperty> properties;
         #endregion
 
         public DependencyPropertyContainer()
         {
-            properties = new List<DependencyProperty>();
+            properties = new Dictionary<string, DependencyProperty>();
         }
 
         protected void RegisterProperty(string name, WeakGetterDelegate get = null, WeakSetterDelegate set = null)
         {
-            if (properties.FirstOrDefault(p => p.Name == name) != null)
+            if (properties.ContainsKey(name))
             {
                 Logger.Instance.LogFunctionWarning("duplicated property " + name);
 
@@ -98,22 +56,22 @@ namespace vRPGEngine.HUD
                 Logger.Instance.LogError("property not found, pname: " + name);
 #endif
 
-            properties.Add(new DependencyProperty(name, get, set));
+            properties.Add(name, new DependencyProperty(get, set));
         }
         protected void UnregisterProperty(string name)
         {
-            var property = properties.FirstOrDefault(p.Name == name);
-
-            properties.Remove(property);
+            properties.Remove(name);
         }
 
         public bool ReadProperty(string name, ref object results)
         {
-            DependencyProperty property = properties.FirstOrDefault(p => p.Name == name);
+            DependencyProperty property = null;
 
+            properties.TryGetValue(name, out property);
+            
             if (property != null)
             {
-                if (property.HasGetter) results = property.Get();
+                if (property.Get != null) results = property.Get();
 
                 return true;
             }
@@ -122,13 +80,15 @@ namespace vRPGEngine.HUD
         }
         public bool WriteProperty(string name, object value)
         {
-            DependencyProperty property = properties.FirstOrDefault(p => p.Name == name);
+            DependencyProperty property = null;
+
+            properties.TryGetValue(name, out property);
 
             try
             {
                 if (property != null)
                 {
-                    if (property.HasSetter) property.Set(value);
+                    if (property.Set != null) property.Set(value);
 
                     return true;
                 }
@@ -170,14 +130,16 @@ namespace vRPGEngine.HUD
 
         public DependencyProperty GetProperty(string name)
         {
-            DependencyProperty property = properties.FirstOrDefault(p => p.Name == name);
-            
+            DependencyProperty property = null;
+
+            properties.TryGetValue(name, out property);
+
             return property;
         }
 
         public bool HasProperty(string name)
         {
-            return properties.FirstOrDefault(p => p.Name == name) != null;
+            return GetProperty(name) != null;
         }
     }
 }

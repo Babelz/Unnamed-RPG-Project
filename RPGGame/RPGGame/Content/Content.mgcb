@@ -167,12 +167,6 @@
 /processorParam:TextureFormat=Color
 /build:AutoAttack.png
 
-#begin default font.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:TextureFormat=Compressed
-/build:default font.spritefont
-
 #begin HUD/parts.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -237,4 +231,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tiles.png
+
+#begin default font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:default font.spritefont
 

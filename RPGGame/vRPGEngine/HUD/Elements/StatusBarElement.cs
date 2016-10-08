@@ -57,8 +57,8 @@ namespace vRPGEngine.HUD.Elements
         {
             if (!control.ReadProperty("ShowText", ref showText)) showText = false;
             if (!control.ReadProperty("TextType", ref textType)) textType = TextType.None;
-            
-            control.ReadProperty("Font", ref font);
+
+            if (!control.ReadProperty("Font", ref font)) font = Engine.Instance.Content.Load<SpriteFont>("default font");
 
             size        = control.DisplaySize;
             positon     = control.DisplayPosition;
