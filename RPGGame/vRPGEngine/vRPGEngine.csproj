@@ -50,7 +50,7 @@
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Attributes\RangedSpellController.cs" />
+    <Compile Include="Attributes\RangedDamageController.cs" />
     <Compile Include="Attributes\RegenManager.cs" />
     <Compile Include="Core\Allocator.cs" />
     <Compile Include="Combat\GlobalCooldownManager.cs" />

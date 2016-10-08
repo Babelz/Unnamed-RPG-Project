@@ -15,17 +15,19 @@ namespace vRPGEngine.Attributes
 {  
     public struct MeleeSwingResults
     {
+        #region Fields
         public int Damage;
 
         public bool Critical;
 
         public Weapon Weapon;
+        #endregion
     }
-    
+
     public enum Hand
     {
         Main    = 0,
-        Off     = 1
+        Off     = 1,
     }
 
     public sealed class MeleeDamageController
