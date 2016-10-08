@@ -23,7 +23,14 @@ namespace RPGGame.Specializations
             this.equipments = equipments;
         }
 
-         private bool IsWearingFullCloth()
+        protected override void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation)
+        {
+            staminaToHealthRation   = DefaultStaminaToHealthRation;
+            intellectToManaRation   = DefaultIntellectToManaRation;
+            enduranceToFocusRation  = DefaultEnduranceToFocusRation;
+        }
+
+        private bool IsWearingFullCloth()
         {
             return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Cloth);
         }
