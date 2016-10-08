@@ -208,7 +208,7 @@ namespace vRPGEngine.Specializations
         }
         public virtual int TotalStrength()
         {
-            return attributes.Level * specialization.BaseStrenght + attributes.Strength;
+            return attributes.Level * specialization.BaseStrength + attributes.Strength;
         }
 
         public virtual int TotalHealth()

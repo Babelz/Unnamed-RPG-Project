@@ -14,13 +14,15 @@ namespace RPGGame.Specializations
     public sealed class Mage : Specialization
     {
         #region Fields
-        private EquipmentContainer equipments;
+        private readonly RangedDamageController damageController;
+        private readonly EquipmentContainer equipments;
         #endregion
 
-        public Mage(EquipmentContainer equipments, AttributesData attributes, Statuses statuses) 
-            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name == "mage"), attributes, statuses)
+        public Mage(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, RangedDamageController damageController) 
+            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name == "Mage"), attributes, statuses)
         {
-            this.equipments = equipments;
+            this.equipments         = equipments;
+            this.damageController   = damageController;
         }
 
         protected override void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation)

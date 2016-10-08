@@ -163,14 +163,17 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses)
+        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses,
+                               MeleeDamageController meleeDamageController, RangedDamageController rangedDamageController)
         {
             Debug.Assert(specialization != null);
             Debug.Assert(attributes != null);
             Debug.Assert(equipments != null);
+            Debug.Assert(meleeDamageController != null);
+            Debug.Assert(rangedDamageController != null);
 
-            MeleeDamageController   = new MeleeDamageController();
-            RangedDamageController  = new RangedDamageController();
+            MeleeDamageController   = meleeDamageController;
+            RangedDamageController  = rangedDamageController;
 
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
@@ -197,6 +200,7 @@ namespace vRPGEngine.ECS.Components
             foreach (var spell in Spells) spell.Update(gameTime);
 
             MeleeDamageController?.Update(gameTime);
+            RangedDamageController?.Update(gameTime);
         }
         
         public void EnterCombat()

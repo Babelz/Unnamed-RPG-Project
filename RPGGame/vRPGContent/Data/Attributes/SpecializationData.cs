@@ -57,7 +57,7 @@ namespace vRPGContent.Data.Attributes
             get;
             set;
         }
-        public int BaseStrenght
+        public int BaseStrength
         {
             get;
             set;

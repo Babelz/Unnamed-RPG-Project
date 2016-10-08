@@ -70,13 +70,14 @@ namespace RPGGame
                 MainHand = WeaponDatabase.Instance.Elements().First()
             };
 
-            var meleeDamageController = new MeleeDamageController();
-            var statuses              = new Statuses();
-            var specialization        = new Warrior(attributes, equipments, statuses, meleeDamageController);
+            var meleeDamageController   = new MeleeDamageController();
+            var rangedDamageController  = new RangedDamageController();
+            var statuses                = new Statuses();
+            var specialization          = new Mage(attributes, equipments, statuses, rangedDamageController);
             
             meleeDamageController.Initialize(equipments, specialization);
             statuses.Initialize(specialization);
-            controller.Initialize(specialization, attributes, equipments, statuses);
+            controller.Initialize(specialization, attributes, equipments, statuses, meleeDamageController, rangedDamageController);
 
             var light           = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
             Renderer.Instance.AddLight(light);

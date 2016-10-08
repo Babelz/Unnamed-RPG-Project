@@ -88,13 +88,21 @@ namespace vRPGEngine.HUD.Elements
 
             if (showText && font != null && bindings.Bound())
             {
+                var value       = bindings.Value();
+                var min         = bindings.Min();
+                var max         = bindings.Max();
+
+                var percentage  = (float)(Math.Round((bindings.Value() / (float)bindings.Max() * 100.0f)));
+
+                if (float.IsNaN(percentage)) percentage = 0.0f;
+
                 // Format text.
                 switch (textType)
                 {
-                    case TextType.Value:        text = string.Format("{0} / {1}", bindings.Value(), bindings.Max());                                                     break;
-                    case TextType.Percentage:   text = string.Format("{0}%", Math.Round((bindings.Value() / (float)bindings.Max() * 100.0f), 0));                        break;
-                    case TextType.Both:         text = string.Format("{0} / {1}%", bindings.Value(), Math.Round(bindings.Value() / (float)bindings.Max() * 100.0f, 0));  break;
-                    case TextType.None: default:                                                                                                                         break;
+                    case TextType.Value:        text = string.Format("{0} / {1}", value, max);                          break;
+                    case TextType.Percentage:   text = string.Format("{0}%", percentage);                               break;
+                    case TextType.Both:         text = string.Format("{0} / {1}%", bindings.Value(), percentage);       break;
+                    case TextType.None: default:                                                                        break;
                 }
 
                 // Compute position and scale.
