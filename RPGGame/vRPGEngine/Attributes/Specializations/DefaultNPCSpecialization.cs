@@ -12,8 +12,8 @@ namespace vRPGEngine.Attributes.Specializations
 {
     public sealed class DefaultNPCSpecialization : Specialization
     {
-        public DefaultNPCSpecialization(AttributesData attributes, Statuses statuses)
-            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "npc default"), attributes, statuses)
+        public DefaultNPCSpecialization()
+            : base("npc default")
         {
         }
 

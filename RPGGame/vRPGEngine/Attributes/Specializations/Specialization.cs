@@ -149,6 +149,10 @@ namespace vRPGEngine.Specializations
             MeleeDamageController   = meleeDamageController;
             RangedDamageController  = rangedDamageController;
         }
+        public virtual void Initialize(AttributesData attributes, Statuses statuses, MeleeDamageController meleeDamageController, RangedDamageController rangedDamageController)
+        {
+            Initialize(attributes, statuses, new EquipmentContainer(), meleeDamageController, rangedDamageController);
+        }
 
         public virtual float CriticalDamagePercent()
         {

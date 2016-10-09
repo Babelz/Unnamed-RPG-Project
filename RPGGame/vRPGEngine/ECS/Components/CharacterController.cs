@@ -163,6 +163,7 @@ namespace vRPGEngine.ECS.Components
         public void Initialize(Specialization specialization)
         {
             Specialization          = specialization;
+
             MeleeDamageController   = new MeleeDamageController();
             RangedDamageController  = new RangedDamageController();
             
@@ -176,6 +177,7 @@ namespace vRPGEngine.ECS.Components
             Equipments              = new EquipmentContainer();
             Statuses                = new Statuses();
 
+            Specialization.Initialize(Attributes, Statuses, Equipments, MeleeDamageController, RangedDamageController);
             Statuses.Initialize(specialization);
             MeleeDamageController.Initialize(Equipments, specialization);
             RangedDamageController.Initialize(specialization);
@@ -337,11 +339,14 @@ namespace vRPGEngine.ECS.Components
             
             MeleeDamageController   = new MeleeDamageController();
             RangedDamageController  = new RangedDamageController();
-
+            
             if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {
-                Specialization  = new DefaultNPCSpecialization(Attributes, Statuses);
+                Specialization  = new DefaultNPCSpecialization();
+                
                 Statuses.Initialize(Specialization);
+
+                Specialization.Initialize(Attributes, Statuses, MeleeDamageController, RangedDamageController);
             }
             else
             {

@@ -59,7 +59,7 @@ namespace RPGGame
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
-            var specialization        = new Mage(attributes, equipments, statuses, rangedDamageController);
+            var specialization        = new Mage();
             
             controller.Initialize(specialization);
 

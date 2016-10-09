@@ -22,9 +22,11 @@ namespace vRPGEngine.Databases
 
                 return data.ToList();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Logger.Instance.LogFunctionWarning("could not load weapon database!");
+
+                Logger.Instance.LogError("exception message: " + e.Message);
 
                 return null;
             }
