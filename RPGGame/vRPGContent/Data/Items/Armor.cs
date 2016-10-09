@@ -11,6 +11,11 @@ namespace vRPGContent.Data.Items
     public sealed class Armor : Equipment
     {
         #region Properties
+        public int ArmorValue
+        {
+            get;
+            set;
+        }
         public EquipmentSlot Slot
         {
             get;

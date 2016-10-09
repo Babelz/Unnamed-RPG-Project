@@ -85,7 +85,7 @@
     <Compile Include="HUD\TextHelper.cs" />
     <Compile Include="HUD\BackgroundTextureSplitter.cs" />
     <Compile Include="Core\Rectf.cs" />
-    <Compile Include="Attributes\BuffContainer.cs" />
+    <Compile Include="ECS\Components\BuffContainer.cs" />
     <Compile Include="Attributes\Enums\BuffType.cs" />
     <Compile Include="Attributes\EquipmentContainer.cs" />
     <Compile Include="Attributes\MeleeDamageController.cs" />

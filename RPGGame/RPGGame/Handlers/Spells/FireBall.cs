@@ -14,7 +14,7 @@ using vRPGEngine.Handlers.Spells;
 
 namespace RPGGame.Handlers.Spells
 {
-    public sealed class PyroBlast : MissileSpellHandler
+    public sealed class Fireball : MissileSpellHandler
     {
         #region Fields
         private Transform target;
@@ -22,8 +22,8 @@ namespace RPGGame.Handlers.Spells
         private RangedDamageResults results;
         #endregion
 
-        public PyroBlast() 
-            : base("pyro blast")
+        public Fireball() 
+            : base("fireball")
         {
         }
 
@@ -82,7 +82,7 @@ namespace RPGGame.Handlers.Spells
 
         public override SpellHandler Clone()
         {
-            return new PyroBlast();
+            return new Fireball();
         }
     }
 }

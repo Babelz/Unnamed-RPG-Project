@@ -345,6 +345,126 @@ namespace vRPGEngine.Attributes
                 return Armors.Count();
             }
         }
+
+        public int Armor
+        {
+            get
+            {
+                return Armors.Sum(a => a.ArmorValue);
+            }
+        }
+        public int Stamina
+        {
+            get
+            {
+                return Armors.Sum(a => a.Stamina);
+            }
+        }
+        public int Intellect
+        {
+            get
+            {
+                return Armors.Sum(a => a.Intellect);
+            }
+        }
+        public int Endurance
+        {
+            get
+            {
+                return Armors.Sum(a => a.Endurance);
+            }
+        }
+        public int Strength
+        {
+            get
+            {
+                return Armors.Sum(a => a.Strength);
+            }
+        }
+        public int Agility
+        {
+            get
+            {
+                return Armors.Sum(a => a.Agility);
+            }
+        }
+        public int Mp5
+        {
+            get
+            {
+                return Armors.Sum(a => a.MP5);
+            }
+        }
+        public int Fp5
+        {
+            get
+            {
+                return Armors.Sum(a => a.FP5);
+            }
+        }
+        public int Hp5
+        {
+            get
+            {
+                return Armors.Sum(a => a.HP5);
+            }
+        }
+        public int Haste
+        {
+            get
+            {
+                return Armors.Sum(a => a.Haste);
+            }
+        }
+        public float CriticalHitPercent
+        {
+            get
+            {
+                return Armors.Sum(a => a.CritPercent);
+            }
+        }
+        public float DefenceRatingPercent
+        {
+            get
+            {
+                return Armors.Sum(a => a.DefencePercent);
+            }
+        }
+        public float BlockRatingPercent
+        {
+            get
+            {
+                return Armors.Sum(a => a.BlockPercent);
+            }
+        }
+        public float DodgeRatingPercent
+        {
+            get
+            {
+                return Armors.Sum(a => a.DodgePercent);
+            }
+        }
+        public float ParryRatingPercent
+        {
+            get
+            {
+                return Armors.Sum(a => a.ParryPercent);
+            }
+        }
+        public int PureAttackPower
+        {
+            get
+            {
+                return Armors.Sum(a => a.MeleePower);
+            }
+        }
+        public int PureSpellPower
+        {
+            get
+            {
+                return Armors.Sum(a => a.SpellPower);
+            }
+        }
         #endregion
 
         #region Events

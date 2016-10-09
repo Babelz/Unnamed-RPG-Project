@@ -143,13 +143,10 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
-            Buffs           = new BuffContainer();
-            TargetFinder    = new TargetFinder();
-
-            spells          = new List<SpellHandler>();
-            regen           = new PlayerRegenManager(this);
-
-            InCombat        = false;
+            spells  = new List<SpellHandler>();
+            regen   = new PlayerRegenManager(this);
+            
+            InCombat = false;
         }
         
         #region Event handlers
@@ -163,28 +160,26 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
-        public void Initialize(Specialization specialization, AttributesData attributes, EquipmentContainer equipments, Statuses statuses,
-                               MeleeDamageController meleeDamageController, RangedDamageController rangedDamageController)
+        public void Initialize(Specialization specialization)
         {
-            Debug.Assert(specialization != null);
-            Debug.Assert(attributes != null);
-            Debug.Assert(equipments != null);
-            Debug.Assert(meleeDamageController != null);
-            Debug.Assert(rangedDamageController != null);
-
-            MeleeDamageController   = meleeDamageController;
-            RangedDamageController  = rangedDamageController;
-
+            Specialization          = specialization;
+            MeleeDamageController   = new MeleeDamageController();
+            RangedDamageController  = new RangedDamageController();
+            
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
-        
-            Specialization          = specialization;
-            Attributes              = attributes;
-            Equipments              = equipments;
-            Statuses                = statuses;
+
+            Buffs                   = new BuffContainer();
+            TargetFinder            = new TargetFinder();
+            
+            Attributes              = new AttributesData();
+            Equipments              = new EquipmentContainer();
+            Statuses                = new Statuses();
 
             Statuses.Initialize(specialization);
-            
+            MeleeDamageController.Initialize(Equipments, specialization);
+            RangedDamageController.Initialize(specialization);
+
             foreach (var spell in specialization.Spells)
             {
                 var handler = SpellHandlerFactory.Instance.Create(spell.HandlerName);

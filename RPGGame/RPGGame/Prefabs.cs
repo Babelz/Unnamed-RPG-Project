@@ -59,26 +59,9 @@ namespace RPGGame
             // TODO: load from game data.
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
-            var attributes            = new AttributesData()
-            {
-                Level = 10,
-                Fp5 = 25,
-            };
-
-            var equipments            = new EquipmentContainer()
-            {
-                MainHand = WeaponDatabase.Instance.Elements().First()
-            };
-
-            var meleeDamageController   = new MeleeDamageController();
-            var rangedDamageController  = new RangedDamageController();
-            var statuses                = new Statuses();
-            var specialization          = new Mage(attributes, equipments, statuses, rangedDamageController);
+            var specialization        = new Mage(attributes, equipments, statuses, rangedDamageController);
             
-            meleeDamageController.Initialize(equipments, specialization);
-            rangedDamageController.Initialize(specialization);
-            statuses.Initialize(specialization);
-            controller.Initialize(specialization, attributes, equipments, statuses, meleeDamageController, rangedDamageController);
+            controller.Initialize(specialization);
 
             var light           = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
             Renderer.Instance.AddLight(light);

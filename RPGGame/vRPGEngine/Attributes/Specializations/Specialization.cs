@@ -25,11 +25,7 @@ namespace vRPGEngine.Specializations
         #endregion
 
         #region Fields
-        private readonly SpecializationData specialization;
-
-        private readonly AttributesData attributes;
-
-        private readonly Statuses statuses;
+        private readonly SpecializationData data;
 
         private readonly int staminaToHealthRation;
         private readonly int intellectToManaRation;
@@ -39,31 +35,42 @@ namespace vRPGEngine.Specializations
         #region Properties
         protected AttributesData Attributes
         {
-            get
-            {
-                return attributes;
-            }
+            get;
+            private set;
         }
         protected Statuses Statuses
         {
-            get
-            {
-                return statuses;
-            }
+            get;
+            private set;
+        }
+        protected MeleeDamageController MeleeDamageController
+        {
+            get;
+            private set;
+        }
+        protected RangedDamageController RangedDamageController
+        {
+            get;
+            private set;
+        }
+        protected EquipmentContainer Equipments
+        {
+            get;
+            private set;
         }
 
         public string Name
         {
             get
             {
-                return specialization.Name;
+                return data.Name;
             }
         }
         public string Description
         {
             get
             {
-                return specialization.Description;
+                return data.Description;
             }
         }
 
@@ -96,7 +103,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return SpellDatabase.Instance.Elements().Where(e => specialization.Spells.Contains(e.ID));
+                return SpellDatabase.Instance.Elements().Where(e => data.Spells.Contains(e.ID));
             }
         }
         /// <summary>
@@ -106,28 +113,42 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => specialization.Buffs.Contains(e.ID));
+                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => data.Buffs.Contains(e.ID));
             }
         }
         #endregion
 
-        protected Specialization(SpecializationData specialization, AttributesData attributes, Statuses statuses)
+        protected Specialization(string name)
         {
-            Debug.Assert(specialization != null);
-            Debug.Assert(attributes != null);
+            Debug.Assert(!string.IsNullOrEmpty(name));
 
-            this.specialization  = specialization;
-            this.attributes      = attributes;
-            this.statuses        = statuses;
+            data = SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == name.ToLower());
+
+            Debug.Assert(data != null);
 
             SetRations(ref staminaToHealthRation, ref intellectToManaRation, ref enduranceToFocusRation);
-
+            
             Debug.Assert(staminaToHealthRation != 0);
             Debug.Assert(intellectToManaRation != 0);
             Debug.Assert(enduranceToFocusRation != 0);
         }
 
         protected abstract void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation);
+
+        public virtual void Initialize(AttributesData attributes, Statuses statuses, EquipmentContainer equipments, MeleeDamageController meleeDamageController, RangedDamageController rangedDamageController)
+        {
+            Debug.Assert(attributes != null);
+            Debug.Assert(statuses != null);
+            Debug.Assert(equipments != null);
+            Debug.Assert(meleeDamageController != null);
+            Debug.Assert(rangedDamageController != null);
+
+            Attributes              = attributes;
+            Statuses                = statuses;
+            Equipments              = equipments;
+            MeleeDamageController   = meleeDamageController;
+            RangedDamageController  = rangedDamageController;
+        }
 
         public virtual float CriticalDamagePercent()
         {
@@ -142,73 +163,73 @@ namespace vRPGEngine.Specializations
 
         public virtual int TotalAgility()
         {
-            return attributes.Level * specialization.BaseAgility + attributes.Agility;
+            return Attributes.Level * data.BaseAgility + Attributes.Agility;
         }
         public virtual int TotalArmor()
         {
-            return attributes.Armor;
+            return Attributes.Armor;
         }
 
         public virtual float TotalBlockRatingPercent()
         {
-            return attributes.BlockRatingPercent;
+            return Attributes.BlockRatingPercent;
         }
         public virtual float TotalCriticalHitPercent()
         {
-            return attributes.CriticalHitPercent;
+            return Attributes.CriticalHitPercent;
         }
         public virtual float TotalDefenceRatingPercent()
         {
-            return attributes.DefenceRatingPercent;
+            return Attributes.DefenceRatingPercent;
         }
         public virtual float TotalDodgeRatingPercent()
         {
-            return attributes.DodgeRatingPercent;
+            return Attributes.DodgeRatingPercent;
         }
 
         public virtual int TotalEndurance()
         {
-            return attributes.Level * specialization.BaseEndurance + attributes.Endurance;
+            return Attributes.Level * data.BaseEndurance + Attributes.Endurance;
         }
 
         public virtual int TotalFp5()
         {
-            return attributes.Fp5;
+            return Attributes.Fp5;
         }
         public virtual int TotalHp5()
         {
-            return attributes.Hp5;
+            return Attributes.Hp5;
         }
         public virtual int TotalMp5()
         {
-            return attributes.Mp5;
+            return Attributes.Mp5;
         }
 
         public virtual float TotalMovementSpeedPercent()
         {
-            return attributes.MovementSpeedPercent;
+            return Attributes.MovementSpeedPercent;
         }
         public virtual int TotalHaste()
         {
-            return attributes.Haste;
+            return Attributes.Haste;
         }
 
         public virtual float TotalParryRatingPercent()
         {
-            return attributes.ParryRatingPercent;
+            return Attributes.ParryRatingPercent;
         }
 
         public virtual int TotalIntellect()
         {
-            return attributes.Level * specialization.BaseIntellect + attributes.Intellect;
+            return Attributes.Level * data.BaseIntellect + Attributes.Intellect;
         }
         public virtual int TotalStamina()
         {
-            return attributes.Level * specialization.BaseStamina + attributes.Stamina;
+            return Attributes.Level * data.BaseStamina + Attributes.Stamina;
         }
         public virtual int TotalStrength()
         {
-            return attributes.Level * specialization.BaseStrength + attributes.Strength;
+            return Attributes.Level * data.BaseStrength + Attributes.Strength;
         }
 
         public virtual int TotalHealth()
@@ -217,15 +238,15 @@ namespace vRPGEngine.Specializations
         }
         public virtual int TotalAttackPower()
         {
-            return attributes.PureAttackPower;
+            return Attributes.PureAttackPower;
         }
         public virtual int TotalSpellPower()
         {
-            return attributes.PureSpellPower;
+            return Attributes.PureSpellPower;
         }
         public virtual int TotalFocus()
         {
-            return attributes.Endurance * EnduranceToFocusRation;
+            return Attributes.Endurance * EnduranceToFocusRation;
         }
 
         public virtual float MeleeDamageModifierPercent()
@@ -243,15 +264,15 @@ namespace vRPGEngine.Specializations
 
         public virtual int BaseHealth()
         {
-            return specialization.BaseStamina * StaminaToHealthRation * attributes.Level;
+            return data.BaseStamina * StaminaToHealthRation * Attributes.Level;
         }
         public virtual int BaseMana()
         {
-            return specialization.BaseIntellect * IntellectToManaRation * attributes.Level;
+            return data.BaseIntellect * IntellectToManaRation * Attributes.Level;
         }
         public virtual int BaseFocus()
         {
-            return specialization.BaseEndurance * EnduranceToFocusRation * attributes.Level;
+            return data.BaseEndurance * EnduranceToFocusRation * Attributes.Level;
         }
     }
 }

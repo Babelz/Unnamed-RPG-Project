@@ -14,19 +14,9 @@ namespace RPGGame.Specializations
 {
     public sealed class Warrior : Specialization
     {
-        #region Fields
-        private MeleeDamageController damageController;
-
-        private EquipmentContainer equipments;
-        #endregion
-
-        public Warrior(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, MeleeDamageController damageController) 
-            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == "warrior"), attributes, statuses)
+        public Warrior() 
+            : base("warrior")
         {
-            this.equipments          = equipments;
-            this.damageController    = damageController;
-            
-            damageController.OnSwing += DamageController_OnSwing;
         }
 
         #region Event handlers
@@ -56,11 +46,19 @@ namespace RPGGame.Specializations
 
         private bool IsWearingFullPlate()
         {
-            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate);
+            return Equipments.EquipedArmorsCount == Equipments.Armors.Count(a => a.ArmorType == ArmorType.Plate);
         }
+
+        public override void Initialize(AttributesData attributes, Statuses statuses, EquipmentContainer equipments, MeleeDamageController meleeDamageController, RangedDamageController rangedDamageController)
+        {
+            base.Initialize(attributes, statuses, equipments, meleeDamageController, rangedDamageController);
+
+            MeleeDamageController.OnSwing += DamageController_OnSwing;
+        }
+
         public bool IsWearingFullMail()
         {
-            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail);
+            return Equipments.EquipedArmorsCount == Equipments.Armors.Count(a => a.ArmorType == ArmorType.Mail);
         }
         public override int TotalStrength()
         {

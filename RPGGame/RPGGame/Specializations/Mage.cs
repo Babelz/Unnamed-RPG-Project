@@ -13,16 +13,9 @@ namespace RPGGame.Specializations
 {
     public sealed class Mage : Specialization
     {
-        #region Fields
-        private readonly RangedDamageController damageController;
-        private readonly EquipmentContainer equipments;
-        #endregion
-
-        public Mage(AttributesData attributes, EquipmentContainer equipments, Statuses statuses, RangedDamageController damageController) 
-            : base(SpecializationDatabase.Instance.Elements().First(e => e.Name == "Mage"), attributes, statuses)
+        public Mage() 
+            : base("mage")
         {
-            this.equipments         = equipments;
-            this.damageController   = damageController;
         }
 
         protected override void SetRations(ref int staminaToHealthRation, ref int intellectToManaRation, ref int enduranceToFocusRation)
@@ -34,11 +27,11 @@ namespace RPGGame.Specializations
 
         private bool IsWearingFullCloth()
         {
-            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Cloth);
+            return Equipments.EquipedArmorsCount == Equipments.Armors.Count(a => a.ArmorType == ArmorType.Cloth);
         }
         private bool IsWearingFullLeather()
         {
-            return equipments.EquipedArmorsCount == equipments.Armors.Count(a => a.ArmorType == ArmorType.Leather);
+            return Equipments.EquipedArmorsCount == Equipments.Armors.Count(a => a.ArmorType == ArmorType.Leather);
         }
 
         public override float TotalCriticalHitPercent()

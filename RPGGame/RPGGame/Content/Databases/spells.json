@@ -83,7 +83,7 @@
 			"CostType":		1,
 			"Consumes":		1,
 			"Cooldown":		0,
-			"CastTime":		500
+			"CastTime":		5000
 		},
 		{
 			"ID":			4,
@@ -96,7 +96,7 @@
 			"CostType":		1,
 			"Consumes":		1,
 			"Cooldown":		0,
-			"CastTime":		300
+			"CastTime":		3000
 		},
 		{
 			"ID":			5,
@@ -108,7 +108,7 @@
 			"Cost":			3,
 			"CostType":		1,
 			"Consumes":		1,
-			"Cooldown":		800,
+			"Cooldown":		8000,
 			"CastTime":		0
 		},
 		{
@@ -122,7 +122,7 @@
 			"CostType":		1,
 			"Consumes":		1,
 			"Cooldown":		0,
-			"CastTime":		200
+			"CastTime":		2000
 		},
 		{
 			"ID":			7,
@@ -134,7 +134,7 @@
 			"Cost":			5,
 			"CostType":		1,
 			"Consumes":		1,
-			"Cooldown":		300,
+			"Cooldown":		3000,
 			"CastTime":		0
 		},
 		{
@@ -147,7 +147,7 @@
 			"Cost":			10,
 			"CostType":		1,
 			"Consumes":		1,
-			"Cooldown":		1000,
+			"Cooldown":		10000,
 			"CastTime":		0
 		},
 
@@ -173,6 +173,21 @@
 			"Cost":			15,
 			"CostType":		4,
 			"Consumes":		2
+		},
+
+		{
+			"ID":			11,
+			"Name": 		"Fireball",
+			"Description":	"Deals 100% of your spell power as fire damage, has a 5% increased critical chance",
+			"IconName":		"AutoAttack",
+			"Element": 		8,
+			"HandlerName": 	"Fireball",
+			"IconName": 	"",
+			"Cost":			5,
+			"CostType":		1,
+			"Consumes":		1,
+			"Cooldown":		0,
+			"CastTime":		2500
 		}
 	]
 }

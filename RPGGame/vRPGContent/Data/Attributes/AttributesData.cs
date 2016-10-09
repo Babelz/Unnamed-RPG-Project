@@ -37,7 +37,7 @@ namespace vRPGContent.Data.Attributes
         private float parryRatingPercent;
         private float movementSpeedPercent;
 
-        private int pureMeleePower;
+        private int pureAttackPower;
         private int pureSpellPower;
 
         private float healthPercentModifier;
@@ -259,11 +259,11 @@ namespace vRPGContent.Data.Attributes
         {
             get
             {
-                return pureMeleePower;
+                return pureAttackPower;
             }
             set
             {
-                pureMeleePower = value;
+                pureAttackPower = value;
             }
         }
         public int PureSpellPower
