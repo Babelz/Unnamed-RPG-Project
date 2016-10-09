@@ -76,7 +76,7 @@ namespace RPGGame
             light.Enabled       = true;
             light.CastsShadows  = true;
 
-            behaviour.Behave = new Action<GameTime>((gameTime) =>
+            behaviour.Behave = (gameTime) =>
             {
                 collider.LinearVelocity = Vector2.Zero;
 
@@ -91,7 +91,7 @@ namespace RPGGame
                 light.Scale         = new Vector2(400.0f) * vRPGRandom.NextFloat(0.8f, 1.0f);
 
                 camera.FocuCenter();
-            });
+            };
 
             // Init input.
             var kip = InputManager.Instance.GetProvider<KeyboardInputProvider>();
