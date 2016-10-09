@@ -60,9 +60,13 @@ namespace RPGGame
             var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
             var specialization        = new Mage();
-            
-            controller.Initialize(specialization);
+            var attirubtes            = controller.Attributes;
+            attirubtes.Stamina        = 12;
+            attirubtes.Intellect      = 25;
+            attirubtes.Endurance      = 5;
 
+            controller.Initialize(specialization);
+            
             var light           = Renderer.Instance.CreatePointLight(ShadowType.Illuminated);
             Renderer.Instance.AddLight(light);
             light.Scale         = new Vector2(400.0f);

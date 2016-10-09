@@ -143,10 +143,21 @@ namespace vRPGEngine.ECS.Components
         public PlayerCharacterController()
             : base()
         {
-            spells  = new List<SpellHandler>();
-            regen   = new PlayerRegenManager(this);
+            MeleeDamageController   = new MeleeDamageController();
+            RangedDamageController  = new RangedDamageController();
+
+
+            Buffs                   = new BuffContainer();
+            TargetFinder            = new TargetFinder();
+
+            Attributes              = new AttributesData();
+            Equipments              = new EquipmentContainer();
+            Statuses                = new Statuses();
             
-            InCombat = false;
+            spells                  = new List<SpellHandler>();
+            regen                   = new PlayerRegenManager(this);
+            
+            InCombat =               false;
         }
         
         #region Event handlers
@@ -162,23 +173,16 @@ namespace vRPGEngine.ECS.Components
 
         public void Initialize(Specialization specialization)
         {
-            Specialization          = specialization;
+            Debug.Assert(specialization != null);
 
-            MeleeDamageController   = new MeleeDamageController();
-            RangedDamageController  = new RangedDamageController();
-            
+            Specialization = specialization;
+
             CombatManager.Instance.HostileRegistered += Instance_HostileRegistered;
             CombatManager.Instance.HostilesEmpty     += Instance_HostilesEmpty;
-
-            Buffs                   = new BuffContainer();
-            TargetFinder            = new TargetFinder();
             
-            Attributes              = new AttributesData();
-            Equipments              = new EquipmentContainer();
-            Statuses                = new Statuses();
-
             Specialization.Initialize(Attributes, Statuses, Equipments, MeleeDamageController, RangedDamageController);
-            Statuses.Initialize(specialization);
+            Statuses.Initialize(Specialization);
+
             MeleeDamageController.Initialize(Equipments, specialization);
             RangedDamageController.Initialize(specialization);
 
@@ -326,6 +330,9 @@ namespace vRPGEngine.ECS.Components
         public NPCController()
             : base()
         {
+            MeleeDamageController   = new MeleeDamageController();
+            RangedDamageController  = new RangedDamageController();
+
             Statuses                = new Statuses();
             Buffs                   = new BuffContainer();
 
@@ -337,16 +344,13 @@ namespace vRPGEngine.ECS.Components
         {
             Debug.Assert(Handler != null);
             
-            MeleeDamageController   = new MeleeDamageController();
-            RangedDamageController  = new RangedDamageController();
-            
             if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {
                 Specialization  = new DefaultNPCSpecialization();
                 
-                Statuses.Initialize(Specialization);
-
                 Specialization.Initialize(Attributes, Statuses, MeleeDamageController, RangedDamageController);
+                
+                Statuses.Initialize(Specialization);
             }
             else
             {

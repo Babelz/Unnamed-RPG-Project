@@ -77,7 +77,24 @@ namespace vRPGEngine
         private Engine() 
             : base()
         {
+            Process.GetCurrentProcess().Exited          += Engine_Exited;
+            AppDomain.CurrentDomain.UnhandledException  += CurrentDomain_UnhandledException;
         }
+
+        #region Event handlers
+        private void Engine_Exited(object sender, EventArgs e)
+        {
+            Logger.Instance.Flush();
+
+            Exit();
+        }
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Instance.Flush();
+
+            Exit();
+        }
+        #endregion
 
         private void ActivateDebugRenderer()
         {

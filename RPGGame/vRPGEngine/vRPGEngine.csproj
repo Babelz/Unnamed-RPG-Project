@@ -148,6 +148,7 @@
     <Compile Include="Interfaces\IGenericCloneable.cs" />
     <Compile Include="Readers\GenericElementReader.cs" />
     <Compile Include="Readers\ItemReader.cs" />
+    <Compile Include="Readers\NPCReader.cs" />
     <Compile Include="Readers\SpecializationDataReader.cs" />
     <Compile Include="Readers\SpecPassiveBuffReader.cs" />
     <Compile Include="Readers\SpellReader.cs" />

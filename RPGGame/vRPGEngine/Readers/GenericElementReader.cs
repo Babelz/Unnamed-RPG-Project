@@ -12,7 +12,7 @@ namespace vRPGEngine.Readers
         protected override T[] Read(ContentReader input, T[] existingInstance)
         {
             var length = input.ReadInt32();
-            var bytes = input.ReadBytes(length);
+            var bytes  = input.ReadBytes(length);
 
             return vRPGSerializer.GetObject(bytes) as T[];
         }

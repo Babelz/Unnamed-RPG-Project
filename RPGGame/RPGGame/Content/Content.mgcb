@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\vRPGContent\bin\Debug\vRPGContent.dll
+/reference:..\bin\Windows\x86\Debug\vRPGContent.dll
 
 #---------------------------------- Content ---------------------------------#
 

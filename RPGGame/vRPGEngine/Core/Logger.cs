@@ -225,7 +225,7 @@ namespace vRPGEngine.Core
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            foreach (var logger in loggers.Where(l => l.InUse && l.HasMessages)) logger.Flush();
+            Flush();
         }
 
         public void LogFunctionMessage(string messge, [CallerLineNumber] int line = 0, [CallerMemberName] string fnc = null)
@@ -252,6 +252,11 @@ namespace vRPGEngine.Core
         public void LogError(string message)
         {
             foreach (var logger in loggers.Where(l => l.InUse)) logger.Log(message, LogLevel.Error);
+        }
+
+        public void Flush()
+        {
+            foreach (var logger in loggers.Where(l => l.InUse && l.HasMessages)) logger.Flush();
         }
     }
 }
