@@ -17,7 +17,7 @@
 			"Name":			"Mage",
 			"Description":	"Powerful but vulnerable spell caster",
 		 	"Buffs:": 		[ 6, 7, 8, 9 ],
-		 	"Spells":		[ 3, 4, 5, 6, 7, 8 ],
+		 	"Spells":		[ 3, 4, 5, 6, 7, 8, 11 ],
 			"BaseStamina": 5,
 		 	"BaseIntellect": 1,
 		 	"BaseEndurance": 0

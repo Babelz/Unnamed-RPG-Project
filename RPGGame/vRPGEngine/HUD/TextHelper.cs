@@ -39,11 +39,11 @@ namespace vRPGEngine.HUD
 
                     TextLine line;
 
-                    line.Position = new Vector2(0.0f, row + rowOffset);
+                    line.Position = new Vector2(0.0f, row);
                     line.Contents = buffer.ToString();
                     line.Size     = font.MeasureString(line.Contents);
 
-                    row += line.Size.Y;
+                    row += line.Size.Y + rowOffset;
 
                     buffer.Clear();
 
@@ -56,8 +56,8 @@ namespace vRPGEngine.HUD
             }
 
             TextLine lastLine;
-            lastLine.Position = new Vector2(0.0f, row + rowOffset);
             lastLine.Contents = buffer.ToString();
+            lastLine.Position = new Vector2(0.0f, row - font.MeasureString(lastLine.Contents).Y);
             lastLine.Size     = font.MeasureString(lastLine.Contents);
 
             if (!string.IsNullOrEmpty(lastLine.Contents)) yield return lastLine;
