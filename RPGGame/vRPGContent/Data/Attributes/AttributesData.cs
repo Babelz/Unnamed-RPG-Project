@@ -43,6 +43,10 @@ namespace vRPGContent.Data.Attributes
         private float healthPercentModifier;
         private float meleePowerPercentModifier;
         private float focusPercentModifier;
+
+        private float meleeDamageModifierPercent;
+        private float spellDamageModifierPercent;
+        private float damageModifierPercent;
         #endregion
 
         #region Events
@@ -311,8 +315,42 @@ namespace vRPGContent.Data.Attributes
                 focusPercentModifier = value;
             }
         }
+
+        public float MeleeDamageModifierPercent
+        {
+            get
+            {
+                return meleeDamageModifierPercent;
+            }
+            set
+            {
+                meleeDamageModifierPercent = value;
+            }
+        }
+        public virtual float SpellDamageModifierPercent
+        {
+            get
+            {
+                return spellDamageModifierPercent;
+            }
+            set
+            {
+                spellDamageModifierPercent = value;
+            }
+        }
+        public virtual float DamageModifierPercent
+        {
+            get
+            {
+                return damageModifierPercent;
+            }
+            set
+            {
+                damageModifierPercent = value;
+            }
+        }
         #endregion
-        
+
         public AttributesData()
         {
         }

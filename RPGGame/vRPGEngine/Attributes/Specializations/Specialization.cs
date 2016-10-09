@@ -251,15 +251,15 @@ namespace vRPGEngine.Specializations
 
         public virtual float MeleeDamageModifierPercent()
         {
-            return 0.0f;
+            return Attributes.MeleeDamageModifierPercent;
         }
         public virtual float SpellDamageModifierPercent()
         {
-            return 0.0f;
+            return Attributes.SpellDamageModifierPercent;
         }
         public virtual float DamageModifierPercent()
         {
-            return 0.0f;
+            return Attributes.DamageModifierPercent;
         }
 
         public virtual int BaseHealth()
