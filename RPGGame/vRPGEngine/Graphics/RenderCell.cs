@@ -82,7 +82,7 @@ namespace vRPGEngine.Graphics
             // Reserve.
             reservedIndices.Add(index);
         }
-        public void Remove(IRenderable renderable)
+        public bool Remove(IRenderable renderable)
         {
             Debug.Assert(renderable != null);
 
@@ -92,7 +92,7 @@ namespace vRPGEngine.Graphics
             {
                 Logger.Instance.LogFunctionWarning("cell access violation - element not found");
 
-                return;
+                return false;
             }
 
             // "remove" element.
@@ -102,6 +102,8 @@ namespace vRPGEngine.Graphics
             freeIndices.Push(index);
             // Remove reservation.
             reservedIndices.Remove(index);
+
+            return true;
         }
         
         public bool Contains(IRenderable renderable)

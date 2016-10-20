@@ -204,18 +204,14 @@ namespace vRPGEngine.Graphics
         public void Remove(IRenderable element)
         {
             Debug.Assert(element != null);
-
-            totalElements--;
-
-            layers[element.Layer].Remove(element);
+            
+            if (layers[element.Layer].Remove(element)) totalElements--;
         }
         public void Remove(IEnumerable<IRenderable> elements)
         {
             Debug.Assert(elements != null);
-
-            totalElements -= elements.Count();
-
-            foreach (var element in elements) layers[element.Layer].Remove(element);
+            
+            foreach (var element in elements) if(layers[element.Layer].Remove(element)) totalElements--;
         }
 
         public int CreateLayer()
@@ -375,6 +371,19 @@ namespace vRPGEngine.Graphics
             Debug.Assert(light != null);
 
             penumbra.Lights.Add(light);
+        }
+
+        public IEnumerable<T> Query<T>(Func<IRenderable, T> selector) where T : class
+        {
+            foreach (var layer in layers.Where(l => l != null))
+            {
+                foreach (var element in layer.Elements)
+                {
+                    var results = selector(element);
+
+                    if (results != null) yield return results;
+                }
+            }
         }
     }
 }

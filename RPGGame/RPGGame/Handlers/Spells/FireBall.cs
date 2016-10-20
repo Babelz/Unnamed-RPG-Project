@@ -11,6 +11,7 @@ using vRPGEngine.Attributes;
 using vRPGEngine.Core;
 using vRPGEngine.ECS;
 using vRPGEngine.ECS.Components;
+using vRPGEngine.Graphics;
 using vRPGEngine.Handlers.Spells;
 
 namespace RPGGame.Handlers.Spells
@@ -44,11 +45,22 @@ namespace RPGGame.Handlers.Spells
 
             renderer.Sprite.CenterOrigin();
             renderer.Sprite.SourceFill();
+
+            Cleanup();
         }
         private void Controller_OnEndCast(bool interrupted)
         {
+            if (interrupted) Cleanup();
         }
         #endregion
+
+        private void Cleanup()
+        {
+            var controller              = Owner.FirstComponentOfType<ICharacterController>().RangedDamageController;
+
+            controller.CastSuccessful   -= Controller_CastSuccessful;
+            controller.OnEndCast        -= Controller_OnEndCast;
+        }
 
         protected override void OnUse()
         {

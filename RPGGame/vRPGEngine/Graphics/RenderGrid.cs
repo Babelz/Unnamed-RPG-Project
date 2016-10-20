@@ -18,6 +18,22 @@ namespace vRPGEngine.Graphics
         private Point gridSize;
         #endregion
 
+        #region Properties
+        public IEnumerable<IRenderable> Elements
+        {
+            get
+            {
+                for (int i = 0; i < gridSize.Y; i++)
+                {
+                    for (int j = 0; j < gridSize.X; j++)
+                    {
+                        foreach (var element in grid[i][j].Elements) yield return element;
+                    }
+                }
+            }
+        }
+        #endregion
+
         public RenderGrid()
         {
         }
@@ -118,21 +134,31 @@ namespace vRPGEngine.Graphics
             foreach (var element in elements) Add(element);
         }
         
-        public void Remove(IRenderable renderable)
+        public bool Remove(IRenderable renderable)
         {
             Debug.Assert(renderable != null);
 
-            if (!renderable.Active) return;
+            if (!renderable.Active) return false;
 
             var location = renderable.Cell;
 
-            grid[location.Y][location.X].Remove(renderable);
+            if (grid[location.Y][location.X].Remove(renderable))
+            {
 
-            renderable.Active = false;
+                renderable.Active = false;
+
+                return true;
+            }
+
+            return false;
         }
-        public void Remove(IEnumerable<IRenderable> elements)
+        public int Remove(IEnumerable<IRenderable> elements)
         {
-            foreach (var element in elements) Remove(element);
+            var count = 0;
+
+            foreach (var element in elements) if (Remove(element)) count++;
+
+            return count;
         } 
 
         public void Invalidate(IRenderable renderable)

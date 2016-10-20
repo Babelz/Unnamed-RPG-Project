@@ -26,6 +26,14 @@ namespace vRPGEngine.Graphics
             get;
             set;
         }
+
+        public IEnumerable<IRenderable> Elements
+        {
+            get
+            {
+                return grid.Elements;
+            }
+        }
         #endregion
 
         public Layer(int cellWidth, int cellHeight, int areaWidth, int areaHeight)
@@ -48,17 +56,17 @@ namespace vRPGEngine.Graphics
             grid.Add(elements);
         }
 
-        public void Remove(IRenderable element)
+        public bool Remove(IRenderable element)
         {
             Debug.Assert(element != null);
 
-            grid.Remove(element);
+            return grid.Remove(element);
         }
-        public void Remove(IEnumerable<IRenderable> elements)
+        public int Remove(IEnumerable<IRenderable> elements)
         {
             Debug.Assert(elements != null);
 
-            grid.Remove(elements);
+            return grid.Remove(elements);
         }
 
         public IEnumerable<IRenderable> VisibleElements(Vector2 viewPosition, int columnsPadding, int rowsPadding)
