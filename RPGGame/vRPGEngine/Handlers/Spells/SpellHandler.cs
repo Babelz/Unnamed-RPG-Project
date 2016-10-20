@@ -173,12 +173,15 @@ namespace vRPGEngine.Handlers.Spells
         
         /// <summary>
         /// Called in every update call if the spell is in active state.
+        /// Not all spells requires a tick function but some do.
         /// </summary>
         protected virtual void Tick(GameTime gameTime)
         {
         }
         /// <summary>
         /// Called when the use method gets called.
+        /// Used to initialize different types of spells and
+        /// do spell specific initialization logic.
         /// </summary>
         protected virtual void Use()
         {
@@ -186,6 +189,8 @@ namespace vRPGEngine.Handlers.Spells
         /// <summary>
         /// Should be called when the spell gets sent/used and 
         /// a cooldown should be triggered.
+        /// This method is the last called function in the spells
+        /// function call tree. It should deal damage to the target.
         /// </summary>
         protected virtual void Send()
         {
@@ -296,6 +301,8 @@ namespace vRPGEngine.Handlers.Spells
         private void Controller_CastSuccessful(ref RangedDamageResults results)
         {
             CreateSensor();
+
+            Cast();
         }
         private bool Sensor_OnCollision(Fixture fixtureA, Fixture fixtureB, Contact contact)
         {
@@ -365,7 +372,16 @@ namespace vRPGEngine.Handlers.Spells
 
             Controller.RangedDamageController.BeginCast(Spell, Source, PercentageOfSource, BaseDamage);
         }
+
+        protected virtual void Cast()
+        {
+        }
     }
+
+    public abstract class MissileSpellHandler : RangedSpellHandler
+    {
+
+    } 
     
     public abstract class BuffSpellHandler
     {

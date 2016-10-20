@@ -18,20 +18,29 @@ namespace RPGGame.Handlers.Spells
 {
     public sealed class Fireball : RangedSpellHandler
     {
+        #region Fields
+        private SpriteRenderer renderer;
+        
+        private Transform target;
+        #endregion
+
         public Fireball() 
             : base("fireball", PowerSource.SpellPower, 0.75f, 12)
         {
         }
 
-        protected override void Use()
-        {
-            base.Use();
-        }
         protected override void Send()
         {
             base.Send();
+
+            renderer.Destroy();
         }
 
+        protected override void Cast()
+        {
+            renderer = new SpriteRenderer();
+            renderer.Sprite.
+        }
         protected override void Tick(GameTime gameTime)
         {
         }
