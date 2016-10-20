@@ -34,9 +34,21 @@ namespace vRPGEngine.Databases
         {
         }
 
-        public IEnumerable<TElements> Elements()
+        public TElements First(Func<TElements, bool> predicate)
         {
-            return elements;
+            var result = elements.FirstOrDefault(predicate);
+
+            if (result == null) Logger.Instance.LogWarning("query failed, no results found!");
+
+            return result;
+        }
+        public IEnumerable<TElements> Select(Func<TElements, bool> predicate)
+        {
+            var results = elements.Where(predicate);
+
+            if (results.Count() == 0) Logger.Instance.LogWarning("query returned 0 results!");
+
+            return results;
         }
 
         public void Sync()

@@ -54,7 +54,7 @@ namespace vRPGEngine.Handlers.Spells
             }
         }
 
-        public static bool CanUse(Specialization specialization, Statuses statuses, Spell spell)
+        public static bool CanAfford(Specialization specialization, Statuses statuses, Spell spell)
         {
             var cost = ComputeCost(specialization, spell);
 
