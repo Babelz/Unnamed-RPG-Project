@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Attributes\RangedDamageController.cs" />
     <Compile Include="Attributes\RegenManager.cs" />
+    <Compile Include="CollisionCategories.cs" />
     <Compile Include="Core\Allocator.cs" />
     <Compile Include="Combat\GlobalCooldownManager.cs" />
     <Compile Include="Commands\ICommand.cs" />

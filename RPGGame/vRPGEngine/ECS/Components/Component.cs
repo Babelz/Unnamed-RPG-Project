@@ -23,6 +23,10 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
 
+        #region Events 
+        public event ComponentEventHandler Destroyed;
+        #endregion
+
         public Component()
         {
         }
@@ -52,6 +56,8 @@ namespace vRPGEngine.ECS.Components
         public void Destroy()
         {
             ComponentManager<T>.Instance.Destroy((T)this);
+
+            Destroyed?.Invoke(this);
 
             Deinitialize();
             

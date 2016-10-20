@@ -1,5 +1,6 @@
 ﻿using FarseerPhysics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,10 @@ namespace RPGGame.Handlers.Spells
             renderer                = Owner.AddComponent<SpriteRenderer>();
             renderer.Flags          = RenderFlags.AutomaticDepth;
             renderer.Sprite.Layer   = Layers.Middle;
-            renderer.Sprite.Texture = DefaultValues.MissingTexture;
-            renderer.Sprite.ScaleTo(new Vector2(32.0f));
+            renderer.Sprite.Texture = Engine.Instance.Content.Load<Texture2D>("fireball");
 
+            renderer.Sprite.CenterOrigin();
+            renderer.Sprite.SourceFill();
         }
         private void Controller_OnEndCast(bool interrupted)
         {
@@ -50,7 +52,7 @@ namespace RPGGame.Handlers.Spells
 
         protected override void OnUse()
         {
-            var controller      = Owner.FirstComponentOfType<ICharacterController>().RangedDamageController;
+            var controller              = Owner.FirstComponentOfType<ICharacterController>().RangedDamageController;
 
             controller.CastSuccessful   += Controller_CastSuccessful;
             controller.OnEndCast        += Controller_OnEndCast;
@@ -60,9 +62,9 @@ namespace RPGGame.Handlers.Spells
         
         protected override void OnHit()
         {
-            // Deal damage.
+            renderer.Destroy();
 
-            // Add debuff.
+            renderer = null;
         }
 
         public override void Update(GameTime gameTime)
@@ -71,12 +73,14 @@ namespace RPGGame.Handlers.Spells
 
             if (Sensor != null)
             {
-                renderer.Sprite.Position = ConvertUnits.ToDisplayUnits(Sensor.Position);
+                var rot = (float)Math.Atan2(target.Position.Y - renderer.Sprite.Position.Y, target.Position.X - renderer.Sprite.Position.X);
 
                 var dir = (target.Position - ConvertUnits.ToDisplayUnits(Sensor.Position));
                 dir.Normalize();
 
-                Sensor.LinearVelocity = dir * MissileVelocity;
+                renderer.Sprite.Rotation    = rot;
+                Sensor.LinearVelocity       = dir * MissileVelocity;
+                renderer.Sprite.Position    = ConvertUnits.ToDisplayUnits(Sensor.Position);
             }
         }
 

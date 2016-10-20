@@ -17,6 +17,12 @@ namespace vRPGEngine.ECS.Components
         }
         #endregion
         
+        #region Events
+        event ComponentEventHandler Destroyed;
+        #endregion
+
         void Destroy();
     }
+
+    public delegate void ComponentEventHandler(IComponent instance);
 }

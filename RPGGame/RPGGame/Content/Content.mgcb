@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\bin\Windows\x86\Debug\vRPGContent.dll
+/reference:..\..\vRPGContent\bin\Debug\vRPGContent.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -237,4 +237,16 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:default font.spritefont
+
+#begin fireball.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fireball.png
 

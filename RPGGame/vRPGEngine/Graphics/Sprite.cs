@@ -75,6 +75,15 @@ namespace vRPGEngine.Graphics
             Depth       = 1.0f; 
         }
 
+        public void CenterOrigin()
+        {
+            Origin = new Vector2(texture.Width / 2.0f, texture.Height / 2.0f);
+        }
+        public void SourceFill()
+        {
+            Source = new Rectangle(0, 0, texture.Width, texture.Height);
+        }
+
         public void ScaleTo(Vector2 to)
         {
             ScaleTo(to, texture);

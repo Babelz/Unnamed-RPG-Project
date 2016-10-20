@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPGGame
+namespace vRPGEngine
 {
     public static class CollisionCategories
     {

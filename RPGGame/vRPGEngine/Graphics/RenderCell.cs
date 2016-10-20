@@ -106,7 +106,7 @@ namespace vRPGEngine.Graphics
         
         public bool Contains(IRenderable renderable)
         {
-            if (renderable.Index >= elements.Length || elements[renderable.Index] != null) return false;
+            if (renderable.Index >= elements.Length || elements[renderable.Index] == null) return false;
 
             return VectorExtensions.Intersects(position,
                                                size,

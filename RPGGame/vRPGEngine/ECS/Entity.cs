@@ -35,12 +35,21 @@ namespace vRPGEngine.ECS
         }
         #endregion
 
-        internal Entity()
+        public Entity()
         {
             components  = new List<IComponent>();
             children    = new List<Entity>();
             tags        = new List<int>();
         }
+        
+        #region Event handlers
+        private void Component_Destroyed(IComponent instance)
+        {
+            components.Remove(instance);
+
+            instance.Destroyed -= Component_Destroyed;
+        }
+        #endregion
 
         public void AddChildren(Entity child)
         {
@@ -59,11 +68,13 @@ namespace vRPGEngine.ECS
         {
             T component = Component<T>.Create(this) as T;
 
+            component.Destroyed += Component_Destroyed;
+
             components.Add(component);
 
             return component;
         }
-
+        
         public IEnumerable<IComponent> Components()
         {
             return components;

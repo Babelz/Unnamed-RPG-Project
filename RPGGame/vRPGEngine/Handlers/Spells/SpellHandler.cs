@@ -151,11 +151,13 @@ namespace vRPGEngine.Handlers.Spells
 
         protected void Send()
         {
-            var position        = Owner.FirstComponentOfType<Transform>().Position;
+            var position                = Owner.FirstComponentOfType<Transform>().Position;
 
-            Sensor              = RPGWorld.Instance.CreateBoxSensor(Owner, position, Width, Height);
+            Sensor                      = RPGWorld.Instance.CreateBoxSensor(Owner, position, Width, Height);
+            Sensor.CollidesWith         = Category.All;
+            Sensor.CollisionCategories  = Category.All;
             
-            Sensor.OnCollision  += Collider_OnCollision;
+            Sensor.OnCollision          += Collider_OnCollision;
         }
 
         public override void Use(Entity owner)
