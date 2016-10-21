@@ -132,6 +132,10 @@ namespace vRPGEngine.Handlers.Spells
 
             return Target != null;
         }
+        private bool TargetIsDead()
+        {
+            return Target.FirstComponentOfType<ICharacterController>().Statuses.Alive;
+        }
 
         private bool IsBeingUsed()
         {
@@ -154,6 +158,13 @@ namespace vRPGEngine.Handlers.Spells
                 return false;
             }
 
+            if (!HasValidTarget())
+            {
+                if (UserIsPlayer) GameInfoLog.Instance.LogWarning("no target to attack!");
+
+                return false;
+            }
+
             if (!InRange())
             {
                 if (UserIsPlayer) GameInfoLog.Instance.LogWarning("out of range!");
@@ -161,9 +172,9 @@ namespace vRPGEngine.Handlers.Spells
                 return false;
             }
 
-            if (!HasValidTarget())
+            if (!TargetIsDead())
             {
-                if (UserIsPlayer) GameInfoLog.Instance.LogWarning("no target to attack!");
+                if (UserIsPlayer) GameInfoLog.Instance.LogWarning("target is dead");
 
                 return false;
             }
@@ -387,7 +398,7 @@ namespace vRPGEngine.Handlers.Spells
     public abstract class BasicMissileSpellHandler : RangedSpellHandler
     {
         #region Constant fields
-        private const float MissileVelocity = 0.32f;
+        private const float MissileVelocity = 1.32f;
         #endregion
 
         #region Fields
@@ -408,6 +419,8 @@ namespace vRPGEngine.Handlers.Spells
             var controller = Target.FirstComponentOfType<ICharacterController>();
 
             controller.Statuses.Health -= LastResults.Damage;
+
+            SpellHelper.ConsumeCurrencies(Controller.Specialization, Controller.Statuses, Spell);
 
             if (UserIsPlayer) GameInfoLog.Instance.LogDealDamage(LastResults.Damage, LastResults.Critical, Spell.Name, controller.Name);
 

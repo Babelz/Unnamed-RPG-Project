@@ -65,7 +65,7 @@ namespace vRPGEngine
         }
         public void LogWarning(string warning)
         {
-            entries.Add(CreateEntry(warning, InfoLogEntryType.Message));
+            entries.Add(CreateEntry(warning, InfoLogEntryType.Warning));
         }
         public void LogTakeDamage(int amount, bool critical, string fromSpell, string fromEntity)
         {

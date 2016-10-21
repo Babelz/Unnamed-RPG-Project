@@ -59,7 +59,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GUI\CombatTextManager.cs" />
+    <Compile Include="GUI\FloatingHUDTextManager.cs" />
     <Compile Include="GUI\GameplayHUDConstructor.cs" />
     <Compile Include="GUI\HUDConstants.cs" />
     <Compile Include="Handlers\NPC\CritterHandler.cs" />

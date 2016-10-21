@@ -19,7 +19,7 @@ namespace RPGGame.Handlers.Spells
     public sealed class Fireball : BasicMissileSpellHandler
     {
         public Fireball() 
-            : base("fireball", PowerSource.SpellPower, 0.75f, 12)
+            : base("fireball", PowerSource.SpellPower, 1.0f, 12)
         {
         }
 

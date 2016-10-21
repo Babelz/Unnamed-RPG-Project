@@ -37,7 +37,7 @@ namespace RPGGame.Specializations
         public override float TotalCriticalHitPercent()
         {
             // Critical thinking.
-            var critFromIntellect = TotalIntellect() / (float)Attributes.Level;
+            var critFromIntellect = (TotalIntellect() / (float)Attributes.Level) * 0.01f;
 
             return base.TotalCriticalHitPercent() + critFromIntellect;
         }

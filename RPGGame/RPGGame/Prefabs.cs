@@ -129,7 +129,10 @@ namespace RPGGame
 
                 controller.TargetFinder.FindTarget(position, radius);
             });
-            
+
+            controller.Attributes.PureSpellPower = 500;
+            controller.Attributes.Level          = 1;
+
             return player;
         }
 

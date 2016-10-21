@@ -14,10 +14,10 @@ using vRPGEngine;
 
 namespace RPGGame.GUI
 {
-    public sealed class CombatTextManager : HUDSubsystem
+    public sealed class FloatingHUDTextManager : HUDSubsystem
     {
         #region Combat text entry class
-        private sealed class CombatTextEntry
+        private sealed class FloatingHUDTextEntry
         {
             public string  Contents;
             public bool    Bold;
@@ -27,7 +27,7 @@ namespace RPGGame.GUI
             public Vector2 Position;
             public int     Side;
             
-            public CombatTextEntry(string contents, Color color, bool bold = false)
+            public FloatingHUDTextEntry(string contents, Color color, bool bold = false)
             {
                 Contents    = contents;
                 Color       = color;
@@ -40,10 +40,10 @@ namespace RPGGame.GUI
         #endregion
         
         #region Fields
-        private readonly Func<InfoLogEntry, CombatTextEntry>[] formatters;
+        private readonly Func<InfoLogEntry, FloatingHUDTextEntry>[] formatters;
 
-        private readonly List<CombatTextEntry> newEntries;
-        private readonly List<CombatTextEntry> allEntries;
+        private readonly List<FloatingHUDTextEntry> newEntries;
+        private readonly List<FloatingHUDTextEntry> allEntries;
         
         private int side;
         #endregion
@@ -56,56 +56,56 @@ namespace RPGGame.GUI
         }
         #endregion
 
-        public CombatTextManager()
+        public FloatingHUDTextManager()
         {
             Font            = DefaultValues.DefaultFont;
 
             var critical    = "(critical)";
 
-            formatters = new Func<InfoLogEntry, CombatTextEntry>[]
+            formatters = new Func<InfoLogEntry, FloatingHUDTextEntry>[]
             {
                 // Message
                 null,
                
                 // Warning
-                null,
+                (e) => new FloatingHUDTextEntry(e.Contents, Color.Yellow, false),
 
                 // TakeDamage
-                (e) => new CombatTextEntry(e.Data, Color.Red, e.Contents.Contains(critical)),
+                (e) => new FloatingHUDTextEntry(e.Data, Color.Red, e.Contents.Contains(critical)),
                 
                 // DealDamage
-                (e) => new CombatTextEntry(e.Data, Color.White, e.Contents.Contains(critical)),
+                (e) => new FloatingHUDTextEntry(e.Data, Color.White, e.Contents.Contains(critical)),
                 
                 // GainHealth
-                (e) => new CombatTextEntry("Health +" + e.Data, Color.Green),
+                (e) => new FloatingHUDTextEntry("Health +" + e.Data, Color.Green),
                 
                 // GainMana
-                (e) => new CombatTextEntry("Mana +" + e.Data, Color.Blue),
+                (e) => new FloatingHUDTextEntry("Mana +" + e.Data, Color.Blue),
                 
                 // GainFocus
-                (e) => new CombatTextEntry("Focus +" + e.Data, Color.Yellow),
+                (e) => new FloatingHUDTextEntry("Focus +" + e.Data, Color.Yellow),
                
                 // GainReputateon
-                (e) => new CombatTextEntry("Reputation " + e.Data, Color.BlueViolet),
+                (e) => new FloatingHUDTextEntry("Reputation " + e.Data, Color.BlueViolet),
                 
                 // UseSpell
-                (e) => new CombatTextEntry("Spell: " + e.Data, Color.Green),
+                (e) => new FloatingHUDTextEntry("Spell: " + e.Data, Color.Green),
                 
                 // GainBuff
-                (e) => new CombatTextEntry("Gain buff: " + e.Data, Color.Green),
+                (e) => new FloatingHUDTextEntry("Gain buff: " + e.Data, Color.Green),
                 
                 // LoseBuff
-                (e) => new CombatTextEntry("Lose buff: " + e.Data, Color.Red),
+                (e) => new FloatingHUDTextEntry("Lose buff: " + e.Data, Color.Red),
                 
                 // GainDebuff
-                (e) => new CombatTextEntry("Gain debuff: " + e.Data, Color.Red),
+                (e) => new FloatingHUDTextEntry("Gain debuff: " + e.Data, Color.Red),
                 
                 // LoseDebuff
-                (e) => new CombatTextEntry("Lose debuff: " + e.Data, Color.Green),
+                (e) => new FloatingHUDTextEntry("Lose debuff: " + e.Data, Color.Green),
             };
 
-            newEntries = new List<CombatTextEntry>();
-            allEntries = new List<CombatTextEntry>();
+            newEntries = new List<FloatingHUDTextEntry>();
+            allEntries = new List<FloatingHUDTextEntry>();
 
             Enable();
             Show();

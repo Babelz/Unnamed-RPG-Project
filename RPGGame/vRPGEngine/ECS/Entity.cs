@@ -143,7 +143,9 @@ namespace vRPGEngine.ECS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            foreach (var component in components) component.Destroy();
+            for (var i = 0; i < components.Count; i++) components[i].Destroy();
+
+            components.Clear();
 
             EntityManager.Instance.Destroy(this);
 

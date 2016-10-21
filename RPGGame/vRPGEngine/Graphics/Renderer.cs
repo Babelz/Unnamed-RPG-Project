@@ -104,6 +104,7 @@ namespace vRPGEngine.Graphics
             penumbra.Initialize();
             penumbra.AmbientColor                   = Color.Black;
             penumbra.SpriteBatchTransformEnabled    = true;
+            penumbra.AmbientColor                   = Color.White;
         }
         
         private void Present(GameTime gameTime)

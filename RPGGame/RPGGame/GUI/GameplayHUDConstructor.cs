@@ -285,7 +285,7 @@ namespace RPGGame.GUI
         {
             Subsystems = new List<HUDSubsystem>()
             {
-                new CombatTextManager()
+                new FloatingHUDTextManager()
             };
         }
 
