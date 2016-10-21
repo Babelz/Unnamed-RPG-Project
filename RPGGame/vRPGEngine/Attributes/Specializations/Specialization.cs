@@ -103,7 +103,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return SpellDatabase.Instance.Elements().Where(e => data.Spells.Contains(e.ID));
+                return SpellDatabase.Instance.Select(e => data.Spells.Contains(e.ID));
             }
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace vRPGEngine.Specializations
         {
             get
             {
-                return PassiveSpecializationBuffDatabase.Instance.Elements().Where(e => data.Buffs.Contains(e.ID));
+                return PassiveSpecializationBuffDatabase.Instance.Select(e => data.Buffs.Contains(e.ID));
             }
         }
         #endregion
@@ -122,7 +122,7 @@ namespace vRPGEngine.Specializations
         {
             Debug.Assert(!string.IsNullOrEmpty(name));
 
-            data = SpecializationDatabase.Instance.Elements().First(e => e.Name.ToLower() == name.ToLower());
+            data = SpecializationDatabase.Instance.First(e => e.Name.ToLower() == name.ToLower());
 
             Debug.Assert(data != null);
 

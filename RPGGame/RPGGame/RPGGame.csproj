@@ -67,7 +67,6 @@
     <Compile Include="Handlers\Spells\FocusedStrike.cs" />
     <Compile Include="Handlers\Spells\Fireball.cs" />
     <Compile Include="Handlers\Spells\WarriorSpellHandlers.cs" />
-    <Compile Include="Layers.cs" />
     <Compile Include="Prefabs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

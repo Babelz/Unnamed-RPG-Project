@@ -158,7 +158,7 @@ namespace vRPGEngine.HUD.Elements
         }
     }
 
-    public sealed class BuffIconHandler : SpellIconHandler<SelfBuffSpellHandler>
+    public sealed class BuffIconHandler : SpellIconHandler<BuffSpellHandler>
     {
         #region Properties
         protected override string AdditionalDisplayInfo

@@ -16,32 +16,10 @@ using vRPGEngine.Handlers.Spells;
 
 namespace RPGGame.Handlers.Spells
 {
-    public sealed class Fireball : RangedSpellHandler
+    public sealed class Fireball : BasicMissileSpellHandler
     {
-        #region Fields
-        private SpriteRenderer renderer;
-        
-        private Transform target;
-        #endregion
-
         public Fireball() 
             : base("fireball", PowerSource.SpellPower, 0.75f, 12)
-        {
-        }
-
-        protected override void Send()
-        {
-            base.Send();
-
-            renderer.Destroy();
-        }
-
-        protected override void Cast()
-        {
-            renderer = new SpriteRenderer();
-            renderer.Sprite.
-        }
-        protected override void Tick(GameTime gameTime)
         {
         }
 

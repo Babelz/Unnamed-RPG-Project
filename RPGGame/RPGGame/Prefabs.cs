@@ -57,7 +57,7 @@ namespace RPGGame
             var behaviour = player.AddComponent<Behaviour>();
 
             // TODO: load from game data.
-            var data                  = SpecializationDatabase.Instance.Elements().First(s => s.Name.ToLower() == "warrior");
+            var data                  = SpecializationDatabase.Instance.First(s => s.Name.ToLower() == "warrior");
             var controller            = player.AddComponent<PlayerCharacterController>();
             var specialization        = new Mage();
             var attirubtes            = controller.Attributes;

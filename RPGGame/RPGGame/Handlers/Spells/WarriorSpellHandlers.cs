@@ -16,70 +16,70 @@ using vRPGEngine;
 
 namespace RPGGame.Handlers.Spells
 {
-    public sealed class BattleShout : SelfBuffSpellHandler
-    {
-        #region Private buff class
-        private sealed class BattleShoutBuff : Buff
-        {
-            #region Constants
-            private const float BuffValue = 0.05f;
-            #endregion
+    //public sealed class BattleShout : SelfBuffSpellHandler
+    //{
+    //    #region Private buff class
+    //    private sealed class BattleShoutBuff : Buff
+    //    {
+    //        #region Constants
+    //        private const float BuffValue = 0.05f;
+    //        #endregion
 
-            public BattleShoutBuff() 
-                : base(0, false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
-            {
-            }
+    //        public BattleShoutBuff() 
+    //            : base(0, false, false, SpellDatabase.Instance.Elements().First(p => p.ID == 0), BuffType.Buff)
+    //        {
+    //        }
 
-            public override void Apply(Entity user)
-            {
-                var character = user.FirstComponentOfType<ICharacterController>();
+    //        public override void Apply(Entity user)
+    //        {
+    //            var character = user.FirstComponentOfType<ICharacterController>();
 
-                character.Attributes.HealthPercentModifier      += BuffValue;
-                character.Attributes.AttackPowerPercentModifier += BuffValue;
-            }   
-            public override void Remove(Entity user)
-            {
-                var character = user.FirstComponentOfType<ICharacterController>();
+    //            character.Attributes.HealthPercentModifier      += BuffValue;
+    //            character.Attributes.AttackPowerPercentModifier += BuffValue;
+    //        }   
+    //        public override void Remove(Entity user)
+    //        {
+    //            var character = user.FirstComponentOfType<ICharacterController>();
 
-                character.Attributes.HealthPercentModifier      -= BuffValue;
-                character.Attributes.AttackPowerPercentModifier -= BuffValue;
-            }
-        }
-        #endregion
+    //            character.Attributes.HealthPercentModifier      -= BuffValue;
+    //            character.Attributes.AttackPowerPercentModifier -= BuffValue;
+    //        }
+    //    }
+    //    #endregion
         
-        public BattleShout()
-            : base("battle shout", TimeConverter.ToMilliseconds(30.0f), null)
-        {
-        }
+    //    public BattleShout()
+    //        : base("battle shout", TimeConverter.ToMilliseconds(30.0f), null)
+    //    {
+    //    }
 
-        protected override bool RefreshIfCan(Buff buff)
-        {
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
+    //    protected override bool RefreshIfCan(Buff buff)
+    //    {
+    //        if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return false;
 
-            buff.Refresh();
+    //        buff.Refresh();
 
-            SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
+    //        SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
 
-            return true;
-        }
-        protected override Buff UseIfCan()
-        {
-            if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return null;
+    //        return true;
+    //    }
+    //    protected override Buff UseIfCan()
+    //    {
+    //        if (!SpellHelper.CanUse(UserController.Specialization, UserController.Statuses, Spell)) return null;
 
-            var buff = new BattleShoutBuff();
+    //        var buff = new BattleShoutBuff();
 
-            buff.Apply(User);
+    //        buff.Apply(User);
 
-            UserController.Buffs.Add(buff);
+    //        UserController.Buffs.Add(buff);
 
-            SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
+    //        SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
 
-            return buff;
-        }
+    //        return buff;
+    //    }
         
-        public override SpellHandler Clone()
-        {
-            return new BattleShout();
-        }
-    }
+    //    public override SpellHandler Clone()
+    //    {
+    //        return new BattleShout();
+    //    }
+    //}
 }

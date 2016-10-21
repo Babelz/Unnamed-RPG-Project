@@ -359,7 +359,7 @@ namespace vRPGEngine.ECS.Components
 
             if (Handler.Data.SpellList != null)
             {
-                var spells = SpellDatabase.Instance.Elements().Where(p => Handler.Data.SpellList.Contains(p.ID));
+                var spells = SpellDatabase.Instance.Select(p => Handler.Data.SpellList.Contains(p.ID));
 
                 // Load spells.
                 foreach (var spell in spells)

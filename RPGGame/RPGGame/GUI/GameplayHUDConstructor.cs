@@ -48,10 +48,10 @@ namespace RPGGame.GUI
         }
         #endregion
 
-        private SelfBuffSpellHandler GetHandler(Buff buff)
+        private BuffSpellHandler GetHandler(Buff buff)
         {
             return player.FirstComponentOfType<PlayerCharacterController>().Spells
-                         .FirstOrDefault(h => h.Spell.ID == buff.FromSpell.ID) as SelfBuffSpellHandler;
+                         .FirstOrDefault(h => h.Spell.ID == buff.FromSpell.ID) as BuffSpellHandler;
         }
 
         private void SortIcons()

@@ -125,7 +125,7 @@ namespace vRPGEngine.Maps
 
             var controller = area.FirstComponentOfType<SpawnArea>();
 
-            var data = NPCDatabase.Instance.Elements().First(n => n.ID == id);
+            var data = NPCDatabase.Instance.First(n => n.ID == id);
 
             if (data == null)
             {

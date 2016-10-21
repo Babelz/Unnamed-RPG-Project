@@ -186,7 +186,8 @@
 			"CostType":		1,
 			"Consumes":		1,
 			"Cooldown":		0,
-			"CastTime":		2500
+			"CastTime":		2500,
+			"Range":		5.0
 		}
 	]
 }
