@@ -62,6 +62,8 @@
     <Compile Include="GameSetting.cs" />
     <Compile Include="Graphics\Layers.cs" />
     <Compile Include="Graphics\SourceCollection.cs" />
+    <Compile Include="Handlers\Spells\MeleeSpellHandler.cs" />
+    <Compile Include="Handlers\Spells\RangedSpellHandler.cs" />
     <Compile Include="HUD\CombatTextManager.cs" />
     <Compile Include="HUD\Controls\BindButton.cs" />
     <Compile Include="HUD\Controls\Button.cs" />
