@@ -166,6 +166,7 @@
     <Compile Include="Readers\TmxReader.cs" />
     <Compile Include="Maps\TileMapManager.cs" />
     <Compile Include="Attributes\Specializations\Specialization.cs" />
+    <Compile Include="SampleList.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneManager.cs" />
     <Compile Include="Core\SystemManagers.cs" />

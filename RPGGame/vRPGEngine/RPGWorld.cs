@@ -55,6 +55,7 @@ namespace vRPGEngine
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Dynamic;
             body.FixedRotation  = true;
+            body.UserData       = owner;
 
             return body;
         }
@@ -71,6 +72,7 @@ namespace vRPGEngine
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Kinematic;
             body.FixedRotation  = true;
+            body.UserData       = owner;
 
             return body;
         }
@@ -89,6 +91,7 @@ namespace vRPGEngine
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Static;
             body.FixedRotation  = true;
+            body.UserData       = owner;
 
             return body;
         }
@@ -105,6 +108,8 @@ namespace vRPGEngine
             body.Restitution    = 0.2f;
             body.BodyType       = BodyType.Static;
             body.FixedRotation  = true;
+            body.UserData       = owner;
+            body.UserData       = owner;
 
             return body;
         }

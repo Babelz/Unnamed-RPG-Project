@@ -169,9 +169,7 @@ namespace vRPGEngine.Handlers.Spells
             var controller = Target.FirstComponentOfType<ICharacterController>();
 
             controller.Statuses.Health -= LastResults.Damage;
-
-            SpellHelper.ConsumeCurrencies(Controller.Specialization, Controller.Statuses, Spell);
-
+            
             if (UserIsPlayer) GameInfoLog.Instance.LogDealDamage(LastResults.Damage, LastResults.Critical, Spell.Name, controller.Name);
 
             renderer.Destroy();
@@ -185,6 +183,8 @@ namespace vRPGEngine.Handlers.Spells
             renderer.Sprite.Layer   = Layers.Middle;
 
             transform               = Target.FirstComponentOfType<Transform>();
+            
+            SpellHelper.ConsumeCurrencies(Controller.Specialization, Controller.Statuses, Spell);
         }
         protected override void Tick(GameTime gameTime)
         {

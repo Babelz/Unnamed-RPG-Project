@@ -18,6 +18,7 @@ namespace vRPGEngine.ECS.Components
 
         private IComponentUpdateHanlder<T> handler;
 
+        private List<int> indices;
         private T[] components;
         #endregion
 
@@ -26,7 +27,7 @@ namespace vRPGEngine.ECS.Components
         {
             get
             {
-                foreach (var component in components) if (component != null) yield return component;
+                for (var i = 0; i < indices.Count; i++) yield return components[indices[i]];
             }
         }
         #endregion
@@ -38,6 +39,7 @@ namespace vRPGEngine.ECS.Components
 
             allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];
+            indices    = new List<int>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,6 +71,7 @@ namespace vRPGEngine.ECS.Components
             }
 
             components[component.Location] = component;
+            indices.Add(component.Location);
 
             return component;
         }
@@ -76,6 +79,7 @@ namespace vRPGEngine.ECS.Components
         {
             Debug.Assert(component != null);
 
+            indices.Remove(component.Location);
             allocator.Deallocate(component);
 
             components[component.Location] = null;

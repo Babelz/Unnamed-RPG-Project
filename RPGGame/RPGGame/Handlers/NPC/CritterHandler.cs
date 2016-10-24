@@ -14,11 +14,19 @@ using vRPGEngine.Attributes;
 using vRPGEngine.Core;
 using vRPGEngine.Handlers.NPC;
 using vRPGEngine;
+using vRPGEngine.Extensions;
 
 namespace RPGGame.Handlers.NPC
 {
     public sealed class CritterHandler : NPCHandler
     {
+        #region Constants
+        private static readonly Vector2 Velocity = new Vector2(0.45f);
+
+        private const int IdleMin = 150;
+        private const int IdleMax = 350;
+        #endregion
+
         #region Fields
         private Vector2 goal;
 
@@ -27,16 +35,14 @@ namespace RPGGame.Handlers.NPC
 
         private Vector2 min;
         private Vector2 max;
+
+        private readonly SampleList<Vector2> positionSamples;
         #endregion
 
         public CritterHandler() 
             : base()
         {
-        }
-
-        private void SharedUpdate(GameTime gameTime)
-        {
-            Owner.FirstComponentOfType<Collider>().LinearVelocity = Vector2.Zero;
+            positionSamples = new SampleList<Vector2>(8);
         }
 
         public override void Initialize(Entity owner, NPCData data, int level, float maxDist, Vector2? position = null, Rectf? area = null)
@@ -47,7 +53,7 @@ namespace RPGGame.Handlers.NPC
             max          = area.Value.BottomRight;
 
             goal         = vRPGRandom.NextVector2(min, max);
-            nextIdleTime = vRPGRandom.NextInt(1500, 10000);
+            nextIdleTime = vRPGRandom.NextInt(IdleMin, IdleMax);
 
             owner.FirstComponentOfType<ICharacterController>().Statuses.HealthChanged += Statuses_HealthChanged;
         }
@@ -59,38 +65,31 @@ namespace RPGGame.Handlers.NPC
         }
         #endregion
 
+        private void ChangeDirection()
+        {
+            goal         = vRPGRandom.NextVector2(min, max);
+            nextIdleTime = vRPGRandom.NextInt(IdleMin, IdleMax);
+            idleElapsed  = 0;
+        }
+
         public override void IdleUpdate(GameTime gameTime)
         {
-            SharedUpdate(gameTime);
+            var renderer    = Owner.FirstComponentOfType<SpriteRenderer>();
+            var collider    = Owner.FirstComponentOfType<Collider>();
 
-            var collider = Owner.FirstComponentOfType<Collider>();
-            var position = collider.DisplayPosition;
+            var dir = goal - collider.DisplayPosition;
+            dir.Normalize();
 
-            if (Vector2.Distance(position, goal) <= 15)
-            {
-                if (idleElapsed >= nextIdleTime)
-                {
-                    goal         = vRPGRandom.NextVector2(min, max);
-                    nextIdleTime = vRPGRandom.NextInt(1500, 10000);
-                    idleElapsed  = 0;
+            collider.LinearVelocity = dir * Velocity;
 
-                    return;
-                }
-
-                idleElapsed += gameTime.ElapsedGameTime.Milliseconds;
-
-                return;
-            }
-            
-            var dir = goal - position;
-            dir     = Vector2.Normalize(dir);
-
-            collider.LinearVelocity = 0.45f * dir;
-
-            var renderer = Owner.FirstComponentOfType<SpriteRenderer>();
+            if (Vector2.Distance(goal, collider.DisplayPosition) <= 15.0f) ChangeDirection();
 
             if (dir.X > 0) renderer.Sprite.Effects = SpriteEffects.FlipHorizontally;
             else           renderer.Sprite.Effects = SpriteEffects.None;
+
+            if (positionSamples.Values.Count(p => VectorExtensions.AlmostEqual(p, positionSamples.First())) == positionSamples.MaxSamples) ChangeDirection();
+
+            positionSamples.Add(collider.DisplayPosition);
         }
 
         public override void Die()
@@ -103,7 +102,7 @@ namespace RPGGame.Handlers.NPC
 
         public override bool CombatUpdate(GameTime gameTime, List<SpellHandler> spells)
         {
-            SharedUpdate(gameTime);
+            Owner.FirstComponentOfType<Collider>().LinearVelocity = Vector2.Zero;
 
             idleElapsed += gameTime.ElapsedGameTime.Milliseconds;
 
