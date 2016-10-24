@@ -23,8 +23,8 @@ namespace RPGGame.Handlers.NPC
         #region Constants
         private static readonly Vector2 Velocity = new Vector2(0.45f);
 
-        private const int IdleMin = 150;
-        private const int IdleMax = 350;
+        private const int IdleMin = 4500;
+        private const int IdleMax = 12500;
         #endregion
 
         #region Fields
@@ -79,10 +79,21 @@ namespace RPGGame.Handlers.NPC
 
             var dir = goal - collider.DisplayPosition;
             dir.Normalize();
+            
+            if (Vector2.Distance(goal, collider.DisplayPosition) <= 15.0f)
+            {
+                idleElapsed += gameTime.ElapsedGameTime.Milliseconds;
+                
+                collider.LinearVelocity = Vector2.Zero;
 
-            collider.LinearVelocity = dir * Velocity;
+                if (idleElapsed >= nextIdleTime) ChangeDirection();
 
-            if (Vector2.Distance(goal, collider.DisplayPosition) <= 15.0f) ChangeDirection();
+                return;
+            }
+            else
+            {
+                collider.LinearVelocity = dir * Velocity;
+            }
 
             if (dir.X > 0) renderer.Sprite.Effects = SpriteEffects.FlipHorizontally;
             else           renderer.Sprite.Effects = SpriteEffects.None;
@@ -94,8 +105,11 @@ namespace RPGGame.Handlers.NPC
 
         public override void Die()
         {
-            var renderer           = Owner.FirstComponentOfType<SpriteRenderer>();
-            renderer.Sprite.Source = new Rectangle(64, 0, 32, 32);
+            var renderer            = Owner.FirstComponentOfType<SpriteRenderer>();
+            renderer.Sprite.Source  = new Rectangle(64, 0, 32, 32);
+
+            var collider            = Owner.FirstComponentOfType<Collider>();
+            collider.LinearVelocity = Vector2.Zero;
 
             LeaveCombat();
         }

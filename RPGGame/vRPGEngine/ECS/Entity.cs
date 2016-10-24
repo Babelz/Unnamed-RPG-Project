@@ -33,6 +33,12 @@ namespace vRPGEngine.ECS
                 return children;
             }
         }
+
+        public bool Destroyed
+        {
+            get;
+            private set;
+        }
         #endregion
 
         public Entity()
@@ -136,14 +142,15 @@ namespace vRPGEngine.ECS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Entity Create()
         {
-            var entity = EntityManager.Instance.Create();
-            
+            var entity       = EntityManager.Instance.Create();
+            entity.Destroyed = false;
+
             return entity;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            for (var i = 0; i < components.Count; i++) components[i].Destroy();
+            while (components.Count != 0) components[0].Destroy();
 
             components.Clear();
 
@@ -152,6 +159,8 @@ namespace vRPGEngine.ECS
             foreach (var child in children) child.Destroy();
 
             children.Clear();
+
+            Destroyed = true;
         }
     }
 }

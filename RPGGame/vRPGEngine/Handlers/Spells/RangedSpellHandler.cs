@@ -173,6 +173,8 @@ namespace vRPGEngine.Handlers.Spells
             if (UserIsPlayer) GameInfoLog.Instance.LogDealDamage(LastResults.Damage, LastResults.Critical, Spell.Name, controller.Name);
 
             renderer.Destroy();
+
+            renderer = null;
         }
         protected override void SendMissile()
         {
@@ -188,7 +190,8 @@ namespace vRPGEngine.Handlers.Spells
         }
         protected override void Tick(GameTime gameTime)
         {
-            if (Sensor == null) return;
+            if (Sensor == null)     return;
+            if (renderer == null)   return;
 
             var dir = transform.Position - renderer.Sprite.Position;
             var rot = (float)Math.Atan2(transform.Position.Y - renderer.Sprite.Position.Y, transform.Position.X - renderer.Sprite.Position.X);

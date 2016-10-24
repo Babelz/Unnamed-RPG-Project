@@ -202,6 +202,8 @@ namespace vRPGEngine.ECS.Components
 
             MeleeDamageController?.Update(gameTime);
             RangedDamageController?.Update(gameTime);
+
+            if (TargetFinder.Target != null && TargetFinder.Target.Destroyed) TargetFinder.ClearTarget();
         }
         
         public void EnterCombat()
@@ -338,6 +340,13 @@ namespace vRPGEngine.ECS.Components
 
             spells                  = new List<SpellHandler>();
             regen                   = new RegenManager(this);
+        }
+
+        protected override void Deinitialize()
+        {
+            CombatElapsed   = 0;
+            DecayElapsed    = 0;
+            InCombat        = false;
         }
 
         public new void Initialize()
