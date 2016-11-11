@@ -33,6 +33,11 @@ namespace vRPGEngine.ECS
                 return children;
             }
         }
+        public bool Destroyed
+        {
+            get;
+            private set;
+        }
         #endregion
 
         public Entity()
@@ -40,6 +45,8 @@ namespace vRPGEngine.ECS
             components  = new List<IComponent>();
             children    = new List<Entity>();
             tags        = new List<int>();
+
+            Destroyed   = false; 
         }
         
         #region Event handlers
@@ -136,13 +143,16 @@ namespace vRPGEngine.ECS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Entity Create()
         {
-            var entity = EntityManager.Instance.Create();
+            var entity       = EntityManager.Instance.Create();
+            entity.Destroyed = false;
             
             return entity;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
+            if (Destroyed) return;
+
             while (components.Count != 0) components[0].Destroy();
             
             EntityManager.Instance.Destroy(this);
@@ -150,6 +160,8 @@ namespace vRPGEngine.ECS
             foreach (var child in children) child.Destroy();
 
             children.Clear();
+
+            Destroyed = true;
         }
     }
 }
