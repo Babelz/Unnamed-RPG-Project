@@ -146,7 +146,7 @@ namespace vRPGEngine.ECS.Components
             if (body != null) RPGWorld.Instance.DestroyBody(body);
 
             body = RPGWorld.Instance.CreateDynamicBoxCollider(Owner, width, height);
-
+            
             Type = ColliderType.Box;
         }
 

@@ -128,8 +128,9 @@ namespace vRPGEngine.Handlers.Spells
         }
         private bool HasValidTarget()
         {
-            if (Target == null)                          return false;
-            if (UserIsPlayer && Target.Tagged("player")) return false;
+            if (Target == null)                             return false;
+            if (Target.Destroyed)                           return false;
+            if (UserIsPlayer && Target.Tagged("player"))    return false;
 
             return true;
         }

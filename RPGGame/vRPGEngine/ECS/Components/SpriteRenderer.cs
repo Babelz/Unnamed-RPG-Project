@@ -51,6 +51,13 @@ namespace vRPGEngine.ECS.Components
         protected override void Deinitialize()
         {
             Renderer.Instance.Remove(sprite);
+            
+            sprite.Position     = Vector2.Zero;
+            sprite.Scale        = Vector2.One;
+            sprite.Origin       = Vector2.Zero;
+            sprite.Visible      = true;
+            sprite.Depth        = 0.0f;
+            sprite.Rotation     = 0.0f;
         }
     }
 }

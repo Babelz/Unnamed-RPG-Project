@@ -9,6 +9,17 @@ namespace vRPGEngine.Extensions
 {
     public static class VectorExtensions
     {
+        public static bool AlmostEqual(Vector2 a, Vector2 b)
+        {
+            var ax = (int)a.X;
+            var ay = (int)a.Y;
+
+            var bx = (int)b.X;
+            var by = (int)b.Y;
+
+            return ax == bx && ay == by;
+        }
+
         public static bool Intersects(Vector2 aPosition, Vector2 aSize, Vector2 bPosition, Vector2 bSize)
         {
             var aLeft       = aPosition.X;
@@ -30,7 +41,7 @@ namespace vRPGEngine.Extensions
         public static Vector2 Abs(this Vector2 vector)
         {
             Vector2 results;
-
+            
             results.X = Math.Abs(vector.X);
             results.Y = Math.Abs(vector.Y);
 

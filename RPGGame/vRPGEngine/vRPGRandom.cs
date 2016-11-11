@@ -16,7 +16,7 @@ namespace vRPGEngine
 
         static vRPGRandom()
         {
-            random = new Random();
+            random = new Random(DateTime.Now.Millisecond);
         }
 
         public static int NextInt(int min, int max)

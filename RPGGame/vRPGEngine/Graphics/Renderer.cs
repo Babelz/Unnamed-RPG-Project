@@ -185,6 +185,13 @@ namespace vRPGEngine.Graphics
         {
             Debug.Assert(element != null);
 
+            if (layers.Where(l => l != null).FirstOrDefault(l => l.Elements.Contains(element)) != null)
+            {
+                Logger.Instance.LogError("element is already being used by the renderer!");
+
+                return;
+            }
+
             totalElements++;
 
             layers[layer].Add(element);
@@ -199,7 +206,19 @@ namespace vRPGEngine.Graphics
 
             layers[layer].Add(elements);
 
-            foreach (var element in elements) element.Layer = layer;
+            foreach (var element in elements)
+            {
+                if (layers.Where(l => l != null).FirstOrDefault(l => l.Elements.Contains(element)) != null)
+                {
+                    Logger.Instance.LogError("element is already being used by the renderer!");
+
+                    continue;
+                }
+
+                layers[layer].Add(element);
+
+                element.Layer = layer;
+            }
         }
 
         public void Remove(IRenderable element)
