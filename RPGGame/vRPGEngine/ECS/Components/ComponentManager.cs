@@ -14,7 +14,7 @@ namespace vRPGEngine.ECS.Components
     public class ComponentManager<T> : SystemManager<ComponentManager<T>> where T : class, IComponent, new()
     {
         #region Fields
-        private readonly RegisterAllocator<T> allocator;
+        private readonly FreeList<T> allocator;
 
         private IComponentUpdateHanlder<T> handler;
 
@@ -36,7 +36,7 @@ namespace vRPGEngine.ECS.Components
         {
             const int InitialCapacity = 1;
 
-            allocator  = new RegisterAllocator<T>(InitialCapacity, () => { return new T(); });
+            allocator  = new FreeList<T>(InitialCapacity, () => { return new T(); });
             components = new T[InitialCapacity];
         }
 
@@ -57,7 +57,7 @@ namespace vRPGEngine.ECS.Components
 
         public T Create()
         {
-            var component = allocator.Allocate();
+            var component = allocator.Create();
 
             if (allocator.Size > components.Length)
             {
@@ -76,7 +76,7 @@ namespace vRPGEngine.ECS.Components
         {
             Debug.Assert(component != null);
 
-            allocator.Deallocate(component);
+            allocator.Release(component);
 
             components[component.Location] = null;
         }

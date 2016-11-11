@@ -11,7 +11,7 @@ namespace vRPGEngine.ECS
     public sealed class EntityManager : SystemManager<EntityManager>
     {
         #region Fields
-        private readonly RegisterAllocator<Entity> allocator;
+        private readonly FreeList<Entity> allocator;
 
         private Entity[] entitites;
         #endregion
@@ -45,13 +45,13 @@ namespace vRPGEngine.ECS
         {
             const int InitialCapacity = 32768;
 
-            allocator = new RegisterAllocator<Entity>(InitialCapacity, () => { return new Entity(); });
+            allocator = new FreeList<Entity>(InitialCapacity, () => { return new Entity(); });
             entitites = new Entity[InitialCapacity];
         }
 
         public Entity Create()
         {
-            var entity = allocator.Allocate();
+            var entity = allocator.Create();
 
             if (allocator.Size > entitites.Length)
             {
@@ -70,7 +70,7 @@ namespace vRPGEngine.ECS
         {
             Debug.Assert(entity != null);
 
-            allocator.Deallocate(entity);
+            allocator.Release(entity);
 
             entitites[entity.Location] = null;
         }
@@ -83,7 +83,7 @@ namespace vRPGEngine.ECS
 
                 if (entity != null)
                 {
-                    allocator.Deallocate(entity);
+                    allocator.Release(entity);
 
                     entitites[i] = null;
                 }

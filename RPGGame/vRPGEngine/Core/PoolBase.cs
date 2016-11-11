@@ -8,33 +8,33 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.Core
 {
-    public abstract class Allocator<T> where T : class
+    public abstract class PoolBase<T> where T : class
     {
         #region Fields
-        private readonly Func<T> alloc;
+        private readonly Func<T> newFunction;
         #endregion
         
-        public Allocator(Func<T> alloc)
+        public PoolBase(Func<T> newFunction)
         {
-            Debug.Assert(alloc != null);
+            Debug.Assert(newFunction != null);
 
-            this.alloc = alloc;
+            this.newFunction = newFunction;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected T AllocateSingle()
+        protected T CreateSingle()
         {
-            return alloc();
+            return newFunction();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected T[] AllocateArray(int length)
+        protected T[] CreateArray(int length)
         {
             Debug.Assert(length != 0);
 
             var array = new T[length];
 
-            for (var i = 0; i < array.Length; i++) array[i] = AllocateSingle();
+            for (var i = 0; i < array.Length; i++) array[i] = CreateSingle();
 
             return array;
         }

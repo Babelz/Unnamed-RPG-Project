@@ -202,6 +202,11 @@ namespace vRPGEngine.ECS.Components
 
             MeleeDamageController?.Update(gameTime);
             RangedDamageController?.Update(gameTime);
+
+            if (TargetFinder.Target != null)
+            {
+                Console.WriteLine("asd");
+            }
         }
         
         public void EnterCombat()
@@ -343,6 +348,10 @@ namespace vRPGEngine.ECS.Components
         public new void Initialize()
         {
             Debug.Assert(Handler != null);
+
+            CombatElapsed   = 0;
+            DecayElapsed    = 0;
+            InCombat        = false;
             
             if (string.IsNullOrEmpty(Handler.Data.SpecializationName))
             {

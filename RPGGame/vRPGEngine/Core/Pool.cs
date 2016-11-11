@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.Core
 {
-    public sealed class PoolAllocator<T> : Allocator<T> where T : class
+    public sealed class Pool<T> : PoolBase<T> where T : class
     {
         #region Fields
         private Stack<T> released;
@@ -40,20 +40,20 @@ namespace vRPGEngine.Core
         }
         #endregion
 
-        public PoolAllocator(int initialPoolSize, Func<T> objectAllocator)
-            : base(objectAllocator)
+        public Pool(int initialPoolSize, Func<T> newFunction)
+            : base(newFunction)
         {
             Debug.Assert(initialPoolSize != 0);
 
             released    = new Stack<T>();
-            pool        = AllocateArray(initialPoolSize);
+            pool        = CreateArray(initialPoolSize);
         }
-        public PoolAllocator(Func<T> objectAllocator)
+        public Pool(Func<T> objectAllocator)
             : this(8, objectAllocator)
         {
         }
 
-        private void ReallocatePool()
+        private void ResizePool()
         {
             // Create new pool.
             var oldLength   = pool.Length;
@@ -62,26 +62,28 @@ namespace vRPGEngine.Core
             // Copy old pool contents to new.
             Array.Copy(pool, newPool, pool.Length);
             
-            for (var i = oldLength; i < newPool.Length; i++) newPool[i] = AllocateSingle();
+            for (var i = oldLength; i < newPool.Length; i++) newPool[i] = CreateSingle();
 
             pool = newPool;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Allocate()
+        public T Create()
         {
+            return CreateSingle();
+
             // Allocate from released.
             if (released.Count != 0)    return released.Pop();
             // Allocate from pool.
             if (ptr + 1 < pool.Length)  return pool[ptr++];
 
             // Realloc and alloc from pool.
-            ReallocatePool();
+            ResizePool();
 
             return pool[ptr++];
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Deallocate(T element)
+        public void Release(T element)
         {
             Debug.Assert(pool.Contains(element));
 

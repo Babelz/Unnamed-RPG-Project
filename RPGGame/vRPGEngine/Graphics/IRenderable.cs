@@ -55,6 +55,8 @@ namespace vRPGEngine.Graphics
         }
         #endregion
 
+        void ClearState();
+
         void Present(SpriteBatch spriteBatch, GameTime gameTime);
     }
 }

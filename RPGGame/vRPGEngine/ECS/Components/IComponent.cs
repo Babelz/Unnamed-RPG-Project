@@ -7,7 +7,7 @@ using vRPGEngine.Core;
 
 namespace vRPGEngine.ECS.Components
 {
-    public interface IComponent : IRegisterEntry
+    public interface IComponent : IFreeListEntry
     {
         #region Properties
         Entity Owner

@@ -28,6 +28,8 @@ namespace vRPGEngine.Graphics
                 texture = value;
 
                 if (texture == null) texture = DefaultValues.MissingTexture;
+
+                if (texture != null && Source.IsEmpty) Source = new Rectangle(0, 0, texture.Width, texture.Height);
             }
         }
         public override Vector2 Size
@@ -73,6 +75,16 @@ namespace vRPGEngine.Graphics
             Rotation    = 0.0f;
             Effects     = SpriteEffects.None;
             Depth       = 1.0f; 
+        }
+
+        public override void ClearState()
+        {
+            Source      = new Rectangle(0, 0, texture?.Width ?? 0, texture?.Height ?? 0);
+            Color       = Color.White;
+            Rotation    = 0.0f;
+            Effects     = SpriteEffects.None;
+
+            base.ClearState();
         }
 
         public void CenterOrigin()

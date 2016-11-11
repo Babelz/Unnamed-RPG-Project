@@ -10,7 +10,7 @@ using vRPGEngine.ECS.Components;
 
 namespace vRPGEngine.ECS
 {
-    public sealed class Entity : IRegisterEntry
+    public sealed class Entity : IFreeListEntry
     {
         #region Fields
         private readonly List<int> tags;
@@ -143,10 +143,8 @@ namespace vRPGEngine.ECS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Destroy()
         {
-            for (var i = 0; i < components.Count; i++) components[i].Destroy();
-
-            components.Clear();
-
+            while (components.Count != 0) components[0].Destroy();
+            
             EntityManager.Instance.Destroy(this);
 
             foreach (var child in children) child.Destroy();

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace vRPGEngine.Core
 {
-    public interface IRegisterEntry
+    public interface IFreeListEntry
     {
         #region Properties
         int Location
@@ -19,7 +19,7 @@ namespace vRPGEngine.Core
         #endregion
     }
 
-    public sealed class RegisterAllocator<T> : Allocator<T> where T : class, IRegisterEntry
+    public sealed class FreeList<T> : PoolBase<T> where T : class, IFreeListEntry
     {
         #region Fields
         private Stack<int> released;
@@ -38,22 +38,22 @@ namespace vRPGEngine.Core
         }
         #endregion
 
-        public RegisterAllocator(int initialCapacity, Func<T> objectAllocator)
+        public FreeList(int initialCapacity, Func<T> objectAllocator)
             : base(objectAllocator)
         {
             Debug.Assert(initialCapacity != 0);
 
             released    = new Stack<int>();
-            pool        = AllocateArray(initialCapacity);
+            pool        = CreateArray(initialCapacity);
 
             for (var i = 0; i < pool.Length; i++) pool[i].Location = i;
         }
-        public RegisterAllocator(Func<T> objectAllocator)
+        public FreeList(Func<T> objectAllocator)
             : this(8, objectAllocator)
         {
         }
 
-        private void ReallocatePool()
+        private void ResizePool()
         {
             var oldLength   = pool.Length;
             var newPool     = new T[oldLength * 2];
@@ -64,7 +64,7 @@ namespace vRPGEngine.Core
             for (var i = oldLength; i < newPool.Length; i++)
             {
                 // Create, store location.
-                var element         = AllocateSingle();
+                var element         = CreateSingle();
                 element.Location    = i;
 
                 // Store reference.
@@ -75,18 +75,18 @@ namespace vRPGEngine.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Allocate()
+        public T Create()
         {
             if (released.Count != 0)    return pool[released.Pop()];
             
             if (ptr + 1 < pool.Length)  return pool[ptr++];
 
-            ReallocatePool();
+            ResizePool();
 
             return pool[ptr++];
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Deallocate(T entry)
+        public void Release(T entry)
         {
             Debug.Assert(entry != null);
 

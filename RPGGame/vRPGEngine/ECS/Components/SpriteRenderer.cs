@@ -12,7 +12,7 @@ namespace vRPGEngine.ECS.Components
     public class SpriteRenderer : Component<SpriteRenderer>
     {
         #region Fields
-        private readonly Sprite sprite;
+        private Sprite sprite;
         #endregion
 
         #region Properties

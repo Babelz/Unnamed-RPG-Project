@@ -13,32 +13,32 @@ using vRPGEngine.Handlers.Spells;
 
 namespace RPGGame.Handlers.Spells
 {
-    public sealed class FocusedStrike : MeleeSpellHandler
+    public sealed class FocusedStrike //: MeleeSpellHandler
     {
-        public FocusedStrike()
-            : base("focused strike")
-        {
-        }
+        //public FocusedStrike()
+        //    : base("focused strike")
+        //{
+        //}
 
-        protected override MeleeSpellState OnUse(GameTime gameTime)
-        {
-            // TODO: fix.
-            if (!CanUse()) return MeleeSpellState.Inactive;
+        //protected override MeleeSpellState OnUse(GameTime gameTime)
+        //{
+        //    // TODO: fix.
+        //    if (!CanUse()) return MeleeSpellState.Inactive;
 
-            MeleeSwingResults swing = new MeleeSwingResults();
-            UserController.MeleeDamageController.GenerateSwing(ref swing, 0.15f);
+        //    MeleeSwingResults swing = new MeleeSwingResults();
+        //    UserController.MeleeDamageController.GenerateSwing(ref swing, 0.15f);
 
-            UserController.TargetFinder.TargetController.Statuses.Health -= swing.Damage;
+        //    UserController.TargetFinder.TargetController.Statuses.Health -= swing.Damage;
 
-            SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
-            GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
+        //    SpellHelper.ConsumeCurrencies(UserController.Specialization, UserController.Statuses, Spell);
+        //    GameInfoLog.Instance.LogDealDamage(swing.Damage, swing.Critical, Spell.Name, UserController.TargetFinder.TargetController.Name);
 
-            return MeleeSpellState.Inactive;
-        }
+        //    return MeleeSpellState.Inactive;
+        //}
 
-        public override SpellHandler Clone()
-        {
-            return new FocusedStrike();
-        }
+        //public override SpellHandler Clone()
+        //{
+        //    return new FocusedStrike();
+        //}
     }
 }

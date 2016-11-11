@@ -117,6 +117,21 @@ namespace vRPGEngine.Graphics
             Visible     = true;
         }
 
+        public virtual void ClearState()
+        {
+            Cell     = Point.Zero;
+            Index    = 0;
+            Layer    = 0;
+
+            Position = Vector2.Zero;
+            Scale    = new Vector2(1.0f);
+
+            Origin   = Vector2.Zero;
+            Visible  = true;
+            Active   = false;
+            Depth    = 0.0f;
+        }
+
         public void ScaleTo(Vector2 to, Vector2 from)
         {
             var min = Vector2.Min(to, from);
